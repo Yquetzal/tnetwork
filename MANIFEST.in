@@ -1,1 +1,2 @@
 recursive-include *.csv *txt *.py
+include tnetwork/dyn_graph/toy_data/thiers_2012.csv

@@ -42,6 +42,7 @@ tnetwork/dyn_graph/dyn_graph.py
 tnetwork/dyn_graph/dyn_graph_sg.py
 tnetwork/dyn_graph/dyn_graph_sn.py
 tnetwork/dyn_graph/function.py
+tnetwork/dyn_graph/toy_data/thiers_2012.csv
 tnetwork/generator/CommunitiesScenarios.py
 tnetwork/generator/CommunitiesScenariosCLEAN.py
 tnetwork/generator/CommunitiesScenariosCLEANsave.py
