@@ -5,6 +5,18 @@ import networkx as nx
 
 class FunctionTestCase(unittest.TestCase):
 
+    def test_add_nodes(self):
+        dg = dn.DynGraphSN()
+        dg.add_node_presence(1,1)
+        dg.add_node_presence(2,1)
+        dg.add_nodes_presence_from(3,[1,2,3,4])
+        dg.remove_node_presence(2,1)
+
+        self.assertEqual(len(dg.snapshots()),4)
+        self.assertEqual(list(dg.snapshots()[1].nodes),[1,3])
+
+
+
     def test_add_functions(self):
         dg = dn.DynGraphSN()
         dg.add_interaction(1,2,4)
@@ -53,10 +65,7 @@ class FunctionTestCase(unittest.TestCase):
 
     def test_aggregation(self):
         dg =  dn.DynGraphSN.graph_socioPatterns2012()
-        print(len(dg.snapshots()))
-        print(dg.snapshots_timesteps()[:10])
         dg.aggregate_sliding_window(60*60*24)
-        print(len(dg.snapshots()))
 
 if __name__ == '__main__':
     unittest.main()
