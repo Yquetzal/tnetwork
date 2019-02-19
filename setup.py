@@ -71,4 +71,5 @@ setup(name='tnetwork',
       keywords='network-science temporal-networks community-detection',
       install_requires=get_requirements(),
       packages=find_packages(exclude=["*.test", "*.test.*", "test.*", "test"]),
+      include_package_data=True
       )
