@@ -60,7 +60,8 @@ class DynGraphSG(DynGraph):
 
     def add_node_presence(self, n, time):
         """
-        Add presence for node n between start and end
+        Add presence for a node for a period
+
         :param n: node
         :param time: a period, couple (start, stop)
         """
@@ -74,7 +75,7 @@ class DynGraphSG(DynGraph):
 
     def add_nodes_presence_from(self, nodes,times):
         """
-        Add interactions between provided pairs for the provided intervals
+        Add interactions between provided pairs for the provided periods
         :param nodes: list of nodes, or a single node
         :param times: list of times defined as couple (start, stop) , of same length as node, or a single time
         """

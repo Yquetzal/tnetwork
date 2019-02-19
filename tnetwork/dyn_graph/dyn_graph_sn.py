@@ -8,6 +8,7 @@ from tnetwork.utils.bidict import bidict
 import pkg_resources
 
 import tnetwork as dx
+import numbers
 from tnetwork.dyn_graph.dyn_graph import DynGraph
 
 
@@ -60,7 +61,46 @@ class DynGraphSN(DynGraph):
         return dg
 
 
+    def add_node_presence(self, n, time):
+        """
+        Add presence for a node at a time
 
+        :param n: node
+        :param time: a snapshot time
+        """
+
+        if not time in self.snapshots_timesteps():
+            self.add_snaphsot(time)
+        self._snapshots[time].add_node(n)
+
+    def add_nodes_presence_from(self, nodes,times):
+        """
+        Add interactions between nodes for times
+
+        :param nodes: list of nodes, or a single node
+        :param times: list of times of same length as node, or a single time
+        """
+        if not isinstance(nodes,list):
+            nodes = list([nodes])
+            if len(nodes)==1:
+                nodes=nodes*len(times)
+
+        if not isinstance(times[0], numbers.Number): #means it is a single time, not list of pairs
+            times = [times]*len(nodes)
+
+
+        for i,node in enumerate(nodes):
+            self.add_node_presence(node, times[i])
+
+    def remove_node_presence(self, n, time):
+        """
+        Remove presence for a node at a time
+
+        :param n: node
+        :param time: a snapshot time
+        """
+
+        self._snapshots[time].remove_node(n)
 
     def add_interaction(self,u_of_edge,v_of_edge,time):
         """
@@ -198,37 +238,6 @@ class DynGraphSN(DynGraph):
             to_return.append(answer)
 
         return to_return
-
-
-    def remove_node(self, u, t=None): #if only a node is given, removed from all instances
-        """
-        Remove a node from the provided in
-        :param u: a node
-        :param t: a time step, a set of time step, or None for all time step
-        :return:
-        """
-        if t==None:
-            t=self._snapshots.keys()
-        else:
-            if isinstance(t, str) or not isinstance(t, Iterable):
-                t=[t]
-        for aT in t:
-            if u in self._snapshots[aT]:
-                self._snapshots[aT].remove_node(u)
-
-    def remove_nodes_from(self, nbunch): #is list of (node,t), remove specifically. If list(node), remove all occurences
-        """
-
-        :param nbunch:
-        :return:
-        """
-        for nOcc in nbunch:
-            if isinstance(nOcc,tuple):
-                (u, t)=nOcc
-            else:
-                u=nOcc
-                t= None
-            self.remove_node(u,t)
 
     def to_DynGraphSG(self, convert_time_to_integer=False, last_SN_duration=1):
         """
