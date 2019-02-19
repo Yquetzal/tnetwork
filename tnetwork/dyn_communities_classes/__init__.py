@@ -1,2 +1,0 @@
-from tnetwork.dyn_communities_classes.communities_dyn_sn import DynamicCommunitiesSN
-from tnetwork.dyn_communities_classes.communities_dyn_sg import DynamicCommunitiesSG

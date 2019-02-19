@@ -1,0 +1,353 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Input-Output &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="tnetwork.readwrite.read_snapshots_dir" href="iof/tnetwork.readwrite.read_snapshots_dir.html" />
+    <link rel="prev" title="Installing tnetwork" href="../installing.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#who-uses-tnetwork">Who uses tnetwork?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#free-software">Free software</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installing tnetwork</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installing.html#quick-install">Quick install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installing.html#installing-from-source">Installing from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installing.html#github">GitHub</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../installing.html#requirements">Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installing.html#python">Python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Input-Output</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#manipulate-snapshot-graphs">Manipulate snapshot graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.read_snapshots_dir.html">tnetwork.readwrite.read_snapshots_dir</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.write_snapshots_dir.html">tnetwork.readwrite.write_snapshots_dir</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.read_graph_link_stream.html">tnetwork.readwrite.read_graph_link_stream</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#manipulate-stream-graphs">Manipulate stream graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.write_SG.html">tnetwork.readwrite.write_SG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.read_SG.html">tnetwork.readwrite.read_SG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#manipulate-snapshot-communities">Manipulate snapshot communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.read_static_coms_by_node.html">tnetwork.readwrite.read_static_coms_by_node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.read_SN_by_com.html">tnetwork.readwrite.read_SN_by_com</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.write_com_SN.html">tnetwork.readwrite.write_com_SN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#manipulate-stream-graph-communities">Manipulate stream graph communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.write_SGC.html">tnetwork.readwrite.write_SGC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.read_com_ordered_changes.html">tnetwork.readwrite.read_com_ordered_changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dyn_graph.html">Dynamic Network Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dyn_graph.html#methods">Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dyn_graph.html#adding-and-removing-nodes-and-edges">Adding and removing nodes and edges</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.__init__.html">tnetwork.DynGraphSN.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_interaction.html">tnetwork.DynGraphSN.add_interaction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Input-Output</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/reference/readwrite.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="input-output">
+<h1>Input-Output<a class="headerlink" href="#input-output" title="Permalink to this headline">¶</a></h1>
+<p>Functions to read and write dynamic graphs and communities</p>
+<span class="target" id="module-tnetwork.readwrite"></span><div class="section" id="manipulate-snapshot-graphs">
+<h2>Manipulate snapshot graphs<a class="headerlink" href="#manipulate-snapshot-graphs" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_snapshots_dir.html#tnetwork.readwrite.read_snapshots_dir" title="tnetwork.readwrite.read_snapshots_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_snapshots_dir</span></code></a>(inputDir[,&nbsp;format])</td>
+<td>Read a dynamic graph as a directory containing one file per snapshot.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_snapshots_dir.html#tnetwork.readwrite.write_snapshots_dir" title="tnetwork.readwrite.write_snapshots_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_snapshots_dir</span></code></a>(dynGraph,&nbsp;outputDir[,&nbsp;…])</td>
+<td>Write a dynamic graph as a directory containing one file for each snapshot.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_graph_link_stream.html#tnetwork.readwrite.read_graph_link_stream" title="tnetwork.readwrite.read_graph_link_stream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_graph_link_stream</span></code></a>(inputFile[,&nbsp;toSN])</td>
+<td>SOCIOPATTERN format this format is a variation of snapshots, in which all snapshots are in a single file, adapted for occasional observations at a high framerate (each SN is meaningless), Link stream</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="manipulate-stream-graphs">
+<h2>Manipulate stream graphs<a class="headerlink" href="#manipulate-stream-graphs" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_SG.html#tnetwork.readwrite.write_SG" title="tnetwork.readwrite.write_SG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_SG</span></code></a>(theDynGraph,&nbsp;fileOutput)</td>
+<td>Write a stream graph as a list of intervals, for the graph, the nodes, and the edges :param theDynGraph: a dynamic graph :param fileOutput: the address of the file to write</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_SG.html#tnetwork.readwrite.read_SG" title="tnetwork.readwrite.read_SG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_SG</span></code></a>(fileInput)</td>
+<td>Read a stream graph as a list of intervals, for the graph, the nodes, and the edges :param fileInput:</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_ordered_changes.html#tnetwork.readwrite.write_ordered_changes" title="tnetwork.readwrite.write_ordered_changes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_ordered_changes</span></code></a>(dynNet,&nbsp;fileOutput[,&nbsp;…])</td>
+<td>Write the dynamic network as a list of successive changes.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="manipulate-snapshot-communities">
+<h2>Manipulate snapshot communities<a class="headerlink" href="#manipulate-snapshot-communities" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_static_coms_by_node.html#tnetwork.readwrite.read_static_coms_by_node" title="tnetwork.readwrite.read_static_coms_by_node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_static_coms_by_node</span></code></a>(inputFile[,&nbsp;separator])</td>
+<td>Read a file containing communities such as each line is: node SEP com1 SEP com2 …</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_SN_by_com.html#tnetwork.readwrite.read_SN_by_com" title="tnetwork.readwrite.read_SN_by_com"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_SN_by_com</span></code></a>(inputDir[,&nbsp;nameFilter])</td>
+<td>Read directory in which each file correponds to a community list :param inputDir: directory :param nameFilter: a function that takes a file name and decript it into a :param kwargs: :return: a dynamic community object</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_com_SN.html#tnetwork.readwrite.write_com_SN" title="tnetwork.readwrite.write_com_SN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_com_SN</span></code></a>(dyn_communities,&nbsp;output_dir[,&nbsp;…])</td>
+<td>Write dynamic communities as a directory containing one file for each snapshot.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="manipulate-stream-graph-communities">
+<h2>Manipulate stream graph communities<a class="headerlink" href="#manipulate-stream-graph-communities" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_SGC.html#tnetwork.readwrite.write_SGC" title="tnetwork.readwrite.write_SGC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_SGC</span></code></a>(self,&nbsp;outputFile[,&nbsp;renumber])</td>
+<td>SG =&gt; stream graph.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_com_ordered_changes.html#tnetwork.readwrite.read_com_ordered_changes" title="tnetwork.readwrite.read_com_ordered_changes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_com_ordered_changes</span></code></a>(inputFile)</td>
+<td>Read a dynamic graph represented as a sequence of changes :param inputFile: :return:</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_ordered_changes.html#tnetwork.readwrite.write_ordered_changes" title="tnetwork.readwrite.write_ordered_changes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_ordered_changes</span></code></a>(dynNet,&nbsp;fileOutput[,&nbsp;…])</td>
+<td>Write the dynamic network as a list of successive changes.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="iof/tnetwork.readwrite.read_snapshots_dir.html" class="btn btn-neutral float-right" title="tnetwork.readwrite.read_snapshots_dir" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../installing.html" class="btn btn-neutral" title="Installing tnetwork" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -5,7 +5,7 @@ import tnetwork as dn
 from tnetwork.utils.bidict import *
 
 
-def detectAutomaticallyFormat(networkFile):
+def _detectAutomaticallyFormat(networkFile):
     format = networkFile.split(".")[1]
     return format
 
@@ -86,7 +86,7 @@ def read_snapshots_dir(inputDir, format=None):
     visibleFiles = [f for f in files if f[0] != "."]
 
     if format==None:
-        format=detectAutomaticallyFormat(visibleFiles[0])
+        format=_detectAutomaticallyFormat(visibleFiles[0])
 
     for f in visibleFiles:
         g = _read_network_file(inputDir + "/" + f, format)  # type:nx.Graph

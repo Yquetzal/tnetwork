@@ -1,5 +1,5 @@
 from tnetwork.DCD.pure_python.static_cd.louvain import *
-from tnetwork.dyn_communities_classes.communities_dyn_sn import DynamicCommunitiesSN
+from tnetwork.dyn_community.communities_dyn_sn import DynamicCommunitiesSN
 from tnetwork.utils.community_utils import *
 
 

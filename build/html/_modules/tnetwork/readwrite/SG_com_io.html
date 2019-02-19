@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tnetwork.readwrite.SG_com_io &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#who-uses-tnetwork">Who uses tnetwork?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#free-software">Free software</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installing tnetwork</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#quick-install">Quick install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-from-source">Installing from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#github">GitHub</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#requirements">Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#python">Python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/readwrite.html">Input-Output</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-snapshot-graphs">Manipulate snapshot graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_snapshots_dir.html">tnetwork.readwrite.read_snapshots_dir</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_snapshots_dir.html">tnetwork.readwrite.write_snapshots_dir</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_graph_link_stream.html">tnetwork.readwrite.read_graph_link_stream</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-stream-graphs">Manipulate stream graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_SG.html">tnetwork.readwrite.write_SG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_SG.html">tnetwork.readwrite.read_SG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-snapshot-communities">Manipulate snapshot communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_static_coms_by_node.html">tnetwork.readwrite.read_static_coms_by_node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_SN_by_com.html">tnetwork.readwrite.read_SN_by_com</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_com_SN.html">tnetwork.readwrite.write_com_SN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-stream-graph-communities">Manipulate stream graph communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_SGC.html">tnetwork.readwrite.write_SGC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_com_ordered_changes.html">tnetwork.readwrite.read_com_ordered_changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/dyn_graph.html">Dynamic Network Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/dyn_graph.html#methods">Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#adding-and-removing-nodes-and-edges">Adding and removing nodes and edges</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.__init__.html">tnetwork.DynGraphSN.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.add_interaction.html">tnetwork.DynGraphSN.add_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.add_interactions_from.html">tnetwork.DynGraphSN.add_interactions_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>tnetwork.readwrite.SG_com_io</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tnetwork.readwrite.SG_com_io</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<div class="viewcode-block" id="write_SGC"><a class="viewcode-back" href="../../../reference/iof/tnetwork.readwrite.write_SGC.html#tnetwork.readwrite.write_SGC">[docs]</a><span class="k">def</span> <span class="nf">write_SGC</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">,</span> <span class="n">renumber</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SG =&gt; stream graph. format I use for my visualisation</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param outputFile:</span>
+<span class="sd">    :param renumber:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">toWrite</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">comFloatIDs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">comIDs</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s2">&quot;_&quot;</span><span class="p">)]</span>
+        <span class="n">belongings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">com</span> <span class="ow">in</span> <span class="n">belongings</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">renumber</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">com</span> <span class="ow">in</span> <span class="n">comFloatIDs</span><span class="p">:</span>
+                    <span class="n">comFloatIDs</span><span class="p">[</span><span class="n">com</span><span class="p">]</span> <span class="o">=</span> <span class="n">comIDs</span>
+                    <span class="n">comIDs</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">comFloatIDs</span><span class="p">[</span><span class="n">com</span><span class="p">]</span><span class="o">=</span><span class="n">com</span>
+            <span class="k">for</span> <span class="n">boundaries</span> <span class="ow">in</span> <span class="n">belongings</span><span class="p">[</span><span class="n">com</span><span class="p">]</span><span class="o">.</span><span class="n">get_intervals</span><span class="p">():</span>
+
+                <span class="c1"># line.append(str(com.begin)+&quot;_&quot;+str(com.end-self.stepL)+&quot;:&quot;+str(comFloatIDs[com.data]))</span>
+                <span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">boundaries</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">comFloatIDs</span><span class="p">[</span><span class="n">com</span><span class="p">]))</span>
+        <span class="n">toWrite</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="n">pd_temp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">toWrite</span><span class="p">)</span>
+    <span class="n">pd_temp</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="read_com_ordered_changes"><a class="viewcode-back" href="../../../reference/iof/tnetwork.readwrite.read_com_ordered_changes.html#tnetwork.readwrite.read_com_ordered_changes">[docs]</a><span class="k">def</span> <span class="nf">read_com_ordered_changes</span><span class="p">(</span><span class="n">inputFile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read a dynamic graph represented as a sequence of changes</span>
+<span class="sd">    :param inputFile:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dynCom</span> <span class="o">=</span> <span class="n">dn</span><span class="o">.</span><span class="n">dynamicCommunitiesTN</span><span class="p">()</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;#&quot;</span> <span class="ow">in</span> <span class="n">action</span><span class="p">:</span>
+            <span class="n">date</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+        <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;+nc&quot;</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">com</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+            <span class="n">dynCom</span><span class="o">.</span><span class="n">add_belonging</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">com</span><span class="p">,</span> <span class="n">date</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;-nc&quot;</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">com</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">dynCom</span><span class="o">.</span><span class="n">removeBelonging</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">com</span><span class="p">,</span><span class="n">date</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;=&quot;</span><span class="p">:</span>
+            <span class="n">conserved</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">removed</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">dynCom</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">conserved</span> <span class="o">+</span> <span class="n">removed</span><span class="p">,</span> <span class="n">conserved</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="s2">&quot;merge&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dynCom</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../../',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

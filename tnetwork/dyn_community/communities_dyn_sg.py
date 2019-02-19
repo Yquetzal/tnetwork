@@ -1,4 +1,4 @@
-from tnetwork.dyn_communities_classes.communitiesEventsHandler import *
+from tnetwork.dyn_community.communitiesEventsHandler import *
 from tnetwork.utils.intervals import *
 import numpy as np
 import operator

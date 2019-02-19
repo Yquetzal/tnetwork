@@ -11,7 +11,7 @@ def read_static_coms_by_node(inputFile, separator="\t"):
     node SEP com1 SEP com2 ...
     :param inputFile:
     :param separator:
-    :return:
+
     """
     coms = dict()
     f = open(inputFile)
@@ -29,13 +29,14 @@ def read_static_coms_by_node(inputFile, separator="\t"):
 
 
 
-def readSNByCom(inputDir, nameFilter=None, **kwargs):
+def read_SN_by_com(inputDir, nameFilter=None, **kwargs):
     """
-
-    :param inputDir:
+    Read directory in which each file correponds to a community list
+    :param inputDir: directory
     :param nameFilter: a function that takes a file name and decript it into a
     :param kwargs:
-    :return:
+    :return: a dynamic community object
+
     """
     theDynCom = tn.dynamicCommunitiesSN()
     files = os.listdir(inputDir)
@@ -62,6 +63,7 @@ def write_com_SN(dyn_communities:tn.DynamicCommunitiesSN, output_dir,asNodeSet=T
     Write dynamic communities as a directory containing one file for each snapshot.
     :param dynGraph: a dynamic graph
     :param outputDir: address of the directory to write
+
     """
     os.makedirs(output_dir, exist_ok=True)
     all_partitions = dyn_communities.communities()

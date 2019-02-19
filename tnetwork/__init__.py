@@ -4,7 +4,7 @@ from tnetwork.dyn_graph import DynGraphSN
 from tnetwork.dyn_graph.function import *
 
 
-from tnetwork.dyn_communities_classes import *
+from tnetwork.dyn_community import *
 
 
 import tnetwork.readwrite

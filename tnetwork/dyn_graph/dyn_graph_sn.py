@@ -12,13 +12,21 @@ from tnetwork.dyn_graph.dyn_graph import DynGraph
 
 
 class DynGraphSN(DynGraph):
+    """
+    A class to represent dynamic graphs as snapshot sequence.
+
+    Each snapshot is represented as a networkx graph, and is associated to a time step identifier. The time step can be
+    an position in the sequence (1,2,3,...) or an arbitrary temporal indicator (year, timestamp...).
+
+    Snpashots are ordered according to their time step identifier using a sorted dictionary (SortedDict).
+
+    """
 
 
     def __init__(self, data=None):
         """
-        Instanciate a dynamic graph represented as sequence of snapshots.
-        each snapshot is represented by a networkx graph, and is associated to a time step identifier.
-        Snpashots are ordered according to their time step identifier, so it is better to use numbers, for instance index, dates or timestamps.
+        Instanciate a new graph, with or without initial data
+
         :param data: can be a dictionary {time step:graph} or a list of graph, in which sase time steps are integers starting at 0
         """
 
@@ -56,7 +64,8 @@ class DynGraphSN(DynGraph):
 
     def add_interaction(self,u_of_edge,v_of_edge,time):
         """
-        add a single interaction at a single time step
+        Add a single interaction at a single time step.
+
         :param u_of_edge: first node
         :param v_of_edge: second node
         :param time: time step identifier
@@ -66,11 +75,13 @@ class DynGraphSN(DynGraph):
 
     def add_interactions_from(self, nodePairs, times):
         """
-        Add interactions between the provided node pairs for the provided times. If of the two parameters is a single element,
+        Add interactions between the provided node pairs for the provided times.
+
+        If one the two parameters is a single element,
         will add the node pair at all provided time steps, or all the node pairs at the provided time step.
+
         :param nodePairs: list of pairs of nodes, or a single pair of nodes
         :param times: list of times for this node, or a single time
-        :return:
         """
         #note: could be optimized
 
@@ -90,7 +101,10 @@ class DynGraphSN(DynGraph):
 
     def remove_interaction(self,u_of_edge,v_of_edge,time):
         """
-        remove a single interaction at a single time step. Note: it does not remove the node
+        Remove a single interaction at a single time step.
+
+        Note: it does not remove the node
+
         :param u_of_edge: first node
         :param v_of_edge: second node
         :param time: time step identifier
@@ -100,8 +114,11 @@ class DynGraphSN(DynGraph):
 
     def remove_interactions_from(self, nodePairs, times):
         """
-        Remove interactions between the provided node pairs for the provided times. If of the two parameters is a single element,
+        Remove interactions between the provided node pairs for the provided times.
+
+        If of the two parameters is a single element,
         will remove the node pair at all provided time steps, or all the node pairs at the provided time step.
+
         :param nodePairs: list of pairs of nodes, or a single pair of nodes
         :param times: list of times for this node, or a single time
         :return:
@@ -122,6 +139,7 @@ class DynGraphSN(DynGraph):
     def graph_at_time(self,t):
         """
         return the graph as it is at time t
+
         :param t: a time step identifier
         :return: the graph as a networkx graph
         """
@@ -131,6 +149,7 @@ class DynGraphSN(DynGraph):
     def add_snaphsot(self, t, graphSN=None):
         """
         Add a snapshot for a time step t
+
         :param t: the time step identifier
         :param graphSN: the graph to add (networkx object
         """
@@ -145,6 +164,7 @@ class DynGraphSN(DynGraph):
     def snapshots_timesteps(self):
         """
         return the list of time steps
+
         :return: list of time steps
         """
         return list(self._snapshots.keys())
@@ -157,6 +177,7 @@ class DynGraphSN(DynGraph):
         >>> dg = DynGraphSN.graph_socioPatterns2012()
         >>> dg.apply_nx_function(nx.nodes)
         >>> dg.apply_nx_function(nx.Graph.add_node,node_for_adding="nodeTest")
+
         :param function: the networkx function
         :return: the list of results for each snapshot
         """

@@ -1,4 +1,3 @@
-
 import tnetwork as dn
 from sortedcontainers import *
 
@@ -7,9 +6,9 @@ from sortedcontainers import *
 def write_SG(theDynGraph:dn.DynGraphSG, fileOutput):
     """
     Write a stream graph as a list of intervals, for the graph, the nodes, and the edges
-    :param theDynGraph:
-    :param fileOutput:
-    :return:
+    :param theDynGraph: a dynamic graph
+    :param fileOutput: the address of the file to write
+
     """
     toWrite = []
     toWrite.append(["SG", str(theDynGraph._start)+":"+str(theDynGraph._end)])
@@ -31,6 +30,11 @@ def write_SG(theDynGraph:dn.DynGraphSG, fileOutput):
 
 
 def read_SG(fileInput):
+    """
+    Read a stream graph as a list of intervals, for the graph, the nodes, and the edges
+    :param fileInput:
+
+    """
     aDynGraph = dn.DynGraphSG()
     file = open(fileInput)
     for line in file:
@@ -65,20 +69,19 @@ def read_SG(fileInput):
 def write_ordered_changes(dynNet:dn.DynGraphSG, fileOutput, dateEveryLine=False, nodeModifications=False, separator="\t", edgeIdentifier="l"):
     """
     Write the dynamic network as a list of successive changes. There are several variants:
-    OML :ordered modif list with dates as #DATE and no nodes (Online Modification List)
-    OMLN : with nodes
-    OMLR : with repeated dates
-    OMLRN : nodes and repeated dates
+       * OML :ordered modif list with dates as #DATE and no nodes (Online Modification List)
+       * OMLN : with nodes
+       * OMLR : with repeated dates
+       * OMLRN : nodes and repeated dates
+
     :param dynNet: dynamic network
     :param fileOutput: address of file to write
-    :param dateEveryLine: if true, date is repeated for each modification (each line). If false, date modification is on its own line (#DATE)
-        before the modifications happening at this date
+    :param dateEveryLine: if true, date is repeated for each modification (each line). If false, date modification is on its own line (#DATE) before the modifications happening at this date
     :param nodeModifications: write not only edges but also nodes modifications
     :param separator: choose a separator
     :param edgeIdentifier: character to differenciate edges from nodes.
-    :return:
-    """
 
+    """
     if type(dynNet) is dn.DynGraphSN:
         dynNet = dynNet.toDynGraphTN(convertTimeToInteger=False)
 
