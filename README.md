@@ -7,7 +7,7 @@ To install the library just download (or clone) the current project and copy the
 
 Alternatively use pip:
 ```bash
-pip install git://github.com/Yquetzal/tnetwork.git
+pip install git+https://github.com/Yquetzal/tnetwork.git
 ```
 
 ## Collaborate with us!
