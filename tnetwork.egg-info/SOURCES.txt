@@ -79,5 +79,5 @@ tnetwork/utils/bidict/compat.py
 tnetwork/utils/bidict/metadata.py
 tnetwork/utils/bidict/util.py
 tnetwork/visualization/__init__.py
-tnetwork/visualization/graph_with_communities.py
+tnetwork/visualization/graphs.py
 tnetwork/visualization/palette.py

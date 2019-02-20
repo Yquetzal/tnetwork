@@ -1,6 +1,10 @@
-from .communities_dyn_sg import *
-from tnetwork.utils.bidict import *
+from sortedcontainers import SortedDict
+from tnetwork.dyn_community.communitiesEventsHandler import CommunitiesEvent
+from tnetwork.utils.bidict import bidict
 from collections import Iterable
+import networkx as nx
+import tnetwork as tn
+from tnetwork.utils.community_utils import nodesets2affiliations
 
 class DynamicCommunitiesSN:
     def __init__(self):
@@ -18,6 +22,18 @@ class DynamicCommunitiesSN:
         """
         if not t in self._communities:
             self._communities[t] = bidict()
+
+    def belongings_by_node(self,t):
+        """
+        return the belonging of a node a time
+
+        :param n: the node
+        :param t: the time
+        :return: a community ID
+        """
+        if not t in self.communities():
+            return None
+        return nodesets2affiliations(self.communities()[t])
 
     def add_belonging(self, n, t, cID): #be careful, if the n is a single node in the shape of a set, incorrect behavior
         """
@@ -221,37 +237,6 @@ class DynamicCommunitiesSN:
 
 
 
-                    # pred = self.events.in_degree([node_current])
-                    # if len(pred)>0 and pred[node_current] > 0:
-                    #     main_pred_match = -1
-                    #     main_pred = None
-                    #
-                    #     for merged in self.events.predecessors(node_current):
-                    #         self.events[merged][node_current]["type"] = "merge"
-                    #         print(self.events[merged][node_current]["fraction"])
-                    #         if self.events[merged][node_current]["fraction"]>main_pred_match:
-                    #             main_pred_match = self.events[merged][node_current]["fraction"]
-                    #             main_pred = merged
-                    #     self._change_com_id(main_pred[0], main_pred[1], cID)
-                    #     print("merge",node_current[0], node_current[1], main_pred[1])
-
-
-
-                    # if len(succ)>0 and succ[node_current]==1: #if only one successor
-                    #
-                    #     toMerge = list(self.events.successors(node_current))[0]
-                    #
-                    #     if len(list(self.events.predecessors(toMerge)))==1: #if this successor has only one pred
-                    #         #change label of event to continue:
-                    #         self.events[node_current][toMerge]["type"]= "continue"
-                    #
-                    #         self._change_com_id(toMerge[0],toMerge[1],cID)
-                    #         print("continue",toMerge[0],toMerge[1],cID)
-
-
-
-
-
 
 
 
@@ -261,7 +246,7 @@ class DynamicCommunitiesSN:
         :param convertTimeToInteger:
         :return:
         """
-        dynComTN= DynamicCommunitiesSG()
+        dynComTN= tn.DynamicCommunitiesSG()
         for i in range(len(self._communities)):
             if convertTimeToInteger:
                 t=i

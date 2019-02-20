@@ -66,8 +66,8 @@ class DynamicCommunitiesSG:
         :return:
         """
         node2Com = {}
-        for n in theDynCom.nodes:
-            belongings = theDynCom.belongingsT(n)  # for each community, belonging duration
+        for n in self.nodes:
+            belongings = self.belongingsT(n)  # for each community, belonging duration
             ordered = sorted(belongings.items(), key=operator.itemgetter(1))
             ordered.reverse()
             node2Com[n] = ordered[0][0]  # assign to each node its main com

@@ -1,17 +1,6 @@
-import tnetwork.dyn_graph
-from tnetwork.dyn_graph import DynGraphSG
-from tnetwork.dyn_graph import DynGraphSN
-from tnetwork.dyn_graph.function import *
-
-
-from tnetwork.dyn_community import *
-
-
-import tnetwork.readwrite
+from tnetwork.dyn_graph import DynGraphSN,DynGraphSG
+from tnetwork.dyn_community.communities_dyn_sn import DynamicCommunitiesSN
+from tnetwork.dyn_community.communities_dyn_sg import DynamicCommunitiesSG
 from tnetwork.readwrite import *
-
-import tnetwork.utils
-from tnetwork.utils import *
-
-import tnetwork.DCD
 from tnetwork.DCD import *
+from tnetwork.visualization.graphs import plot_as_graph, plot_longitudinal

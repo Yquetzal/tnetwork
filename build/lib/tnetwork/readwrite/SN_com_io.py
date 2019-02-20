@@ -4,6 +4,7 @@ import os
 import tnetwork as tn
 from tnetwork.utils.community_utils import *
 
+__all__ = ["read_static_coms_by_node", "read_SN_by_com","write_com_SN"]
 
 def read_static_coms_by_node(inputFile, separator="\t"):
     """
