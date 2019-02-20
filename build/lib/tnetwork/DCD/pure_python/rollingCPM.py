@@ -35,7 +35,7 @@ def rollingCPM(dynNetSN,k=3,runningTime=False):
         start = timer()
         communitiesAtT = list(_get_percolated_cliques(graph, k)) #get the percolated cliques (communities) as a list of set of nodes
         for c in communitiesAtT:
-            DynCom.addCommunity(date, c)
+            DynCom.add_community(date, c)
 
         if old_communities == None: #if first snapshot
             old_graph = graph

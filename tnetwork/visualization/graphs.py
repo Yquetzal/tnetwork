@@ -9,6 +9,7 @@ import networkx as nx
 from tnetwork.visualization.palette import myPalette
 import pandas as pd
 from datetime import datetime, timedelta
+import tnetwork as tn
 
 from bokeh.io import show, output_notebook
 
@@ -25,13 +26,12 @@ def _dyn_graph2CDS(dynamic_net, coms=None,to_datetime=False):
             duration = durations[i]
         else:
             duration = np.average(durations)
-        #(t,part) = coms.communities().peekitem(i)
         t = dates[i]
         if coms != None:
             belongings = coms.belongings_by_node(t)
         for n in dynamic_net.snapshots()[t].nodes:
             comName="no"
-            if coms!=None:
+            if coms!=None and belongings!=None:
                 comName = belongings[n][0]
 
             forData.append([t, n, comName,duration])
@@ -135,7 +135,7 @@ def _update_net(currentT, graph_plot, dynamic_net):
 
 
 
-def plot_as_graph(dynamic_graph, communities=None, t=None,to_datetime=False, width=800,height=600,auto_show=True):
+def plot_as_graph(dynamic_graph, communities=None, t=None,to_datetime=False, width=800,height=600,auto_show=False):
     """
     Interactive plot to see the static graph at each snapshot
 
@@ -158,22 +158,26 @@ def plot_as_graph(dynamic_graph, communities=None, t=None,to_datetime=False, wid
 
 
 
-    allTimes = dynamic_graph.snapshots_timesteps()
-    slider_Step = min([allTimes[i+1]-allTimes[i] for i in range(0,len(allTimes)-1)])
 
-    slider = Slider(start=dynamic_graph.snapshots_timesteps()[0], end=dynamic_graph.snapshots_timesteps()[-1], value=t,
-                    step=slider_Step, title="Plotted_step")
+    if t!=None:
+        allTimes = dynamic_graph.snapshots_timesteps()
+        slider_Step = min([allTimes[i+1]-allTimes[i] for i in range(0,len(allTimes)-1)])
 
-
-
-
-    def update_graph(a, oldt, newt):
-        _update_net(newt,a_graph_plot,dynamic_graph)
-
-    slider.on_change('value', update_graph)
+        slider = Slider(start=dynamic_graph.snapshots_timesteps()[0], end=dynamic_graph.snapshots_timesteps()[-1], value=t,
+                        step=slider_Step, title="Plotted_step")
 
 
-    layout = column(slider, a_figure)
+
+
+        def update_graph(a, oldt, newt):
+            _update_net(newt,a_graph_plot,dynamic_graph)
+
+        slider.on_change('value', update_graph)
+
+
+        layout = column(slider, a_figure)
+    else:
+        layout=a_figure
 
 
 
@@ -194,7 +198,7 @@ def plot_as_graph(dynamic_graph, communities=None, t=None,to_datetime=False, wid
 
 
 
-def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_datetime=False, width=800,height=600,auto_show=True):
+def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_datetime=False, width=800,height=600,auto_show=False):
     """
     Plot communities such as each node corresponds to an horizontal line and time corresponds to the horizontal axis
     :param dynamic_graph: a dynamic network
@@ -265,3 +269,24 @@ def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_dateti
         show(modify_doc)
     else:
         return (longi)
+
+def plot_longitudinal_sn_clusters(dynamic_graph,clusters,level=None, sn_duration=None,to_datetime=False,width=800,height=600,auto_show=False):
+    """
+    Plot clusters of snapshots
+
+    If clusters is a list of set, plot each node, otherwise plot the hierarchy of clusters. If levels is not None, plot this level as a single cluster.
+    :param dynamic_graph: a dynamic network
+    :param clusters: clusters.
+    :param sn_duration: the duration of a snapshot, as int or timedelta. If none, inferred automatically as lasting until next snpashot
+    :param to_datetime: one of True/False/function. If True, step IDs are converted to dates using datetime.utcfromtimestamp. If a function, should take a step ID and return a datetime object.
+    :param width: width of the figure
+    :param height: height of the figure
+    """
+    if level!=None: #single level
+        clusters = clusters[level]
+    coms = tn.DynamicCommunitiesSN()
+    for i,cl in enumerate(clusters): #cl: a cluster
+        for t in cl: #cn: a
+            coms.add_community(t, com=dynamic_graph.snapshots(t).nodes, id=i)
+
+    plot_longitudinal(dynamic_graph,communities=coms, sn_duration=sn_duration,to_datetime=to_datetime, width=width,height=height,auto_show=auto_show)

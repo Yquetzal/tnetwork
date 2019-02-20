@@ -16,7 +16,7 @@ def iterative_louvain(dynNetSN):
             partition = best_partition(dynNetSN.snapshots(SNt))
             asNodeSets = affiliations2nodesets(partition)
             for c in asNodeSets:
-                coms.addCommunity(SNt,asNodeSets[c])
+                coms.add_community(SNt, asNodeSets[c])
     return coms
 
 
@@ -53,7 +53,7 @@ def smoothed_louvain(dynNetSN):
             asNodeSets.setdefault(c,set()).add(n)
 
         for c in asNodeSets:
-            coms.addCommunity(SNt,asNodeSets[c])
+            coms.add_community(SNt, asNodeSets[c])
         previousPartition=partition
 
     return coms

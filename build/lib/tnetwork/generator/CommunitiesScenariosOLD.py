@@ -678,7 +678,7 @@ class comScenario():
                 if type(c) is community:
                     if (self.verbose):
                         print("list of current com: adding com ",self.currentT," ",c.getName())
-                    self.dynCom.addCommunity(self.currentT,c.getNodes(),c.getName())
+                    self.dynCom.add_community(self.currentT, c.getNodes(), c.getName())
 
 
             plt.show()

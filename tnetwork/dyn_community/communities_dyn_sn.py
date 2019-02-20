@@ -72,7 +72,7 @@ class DynamicCommunitiesSN:
 
         self._communities[t]=bidict(clusters)
 
-    def addCommunity(self,t,com,id=None):
+    def add_community(self, t, com, id=None):
         """
         add the community com at time t (with a random id if not provided)
         :param t: time
