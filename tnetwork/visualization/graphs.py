@@ -106,6 +106,13 @@ def _init_net(dynamic_net, communities, currentT, width,height,to_datetime):
     return(plot,graph_plot)
 
 def _update_net(currentT, graph_plot, dynamic_net):
+    """
+
+    :param currentT:
+    :param graph_plot:
+    :param dynamic_net:
+    :return:
+    """
     if currentT in dynamic_net.snapshots_timesteps():
         CDS = graph_plot.node_renderer.data_source
 
@@ -128,10 +135,9 @@ def _update_net(currentT, graph_plot, dynamic_net):
 
 
 
-def plot_as_graph(dynamic_graph, communities=None, t=None,to_datetime=False, width=800,height=600):
+def plot_as_graph(dynamic_graph, communities=None, t=None,to_datetime=False, width=800,height=600,auto_show=True):
     """
     Interactive plot to see the static graph at each snapshot
-
 
     :param dynamic_graph: a dynamic network
     :param communities: dynamic communities of the network
@@ -139,6 +145,7 @@ def plot_as_graph(dynamic_graph, communities=None, t=None,to_datetime=False, wid
     :param to_datetime: one of True/False/function. If True, step IDs are converted to dates using datetime.utcfromtimestamp. If a function, should take a step ID and return a datetime object.
     :param width: width of the figure
     :param height: height of the figure
+    :return: bokeh layout containing slider and plot
     """
 
     if to_datetime==True:
@@ -165,14 +172,18 @@ def plot_as_graph(dynamic_graph, communities=None, t=None,to_datetime=False, wid
 
     slider.on_change('value', update_graph)
 
-    output_notebook()
 
     layout = column(slider, a_figure)
 
-    def modify_doc(doc):
-        doc.add_root(layout)
 
-    show(modify_doc)
+
+    if auto_show:
+        def modify_doc(doc):
+            doc.add_root(layout)
+        output_notebook()
+        show(modify_doc)
+
+    return(layout)
 
 
 
