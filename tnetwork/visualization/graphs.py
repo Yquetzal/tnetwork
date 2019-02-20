@@ -289,4 +289,6 @@ def plot_longitudinal_sn_clusters(dynamic_graph,clusters,level=None, sn_duration
         for t in cl: #cn: a
             coms.add_community(t, com=dynamic_graph.snapshots(t).nodes, id=i)
 
-    plot_longitudinal(dynamic_graph,communities=coms, sn_duration=sn_duration,to_datetime=to_datetime, width=width,height=height,auto_show=auto_show)
+    return plot_longitudinal(dynamic_graph,communities=coms, sn_duration=sn_duration,to_datetime=to_datetime, width=width,height=height,auto_show=auto_show)
+
+
