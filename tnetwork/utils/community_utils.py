@@ -1,8 +1,9 @@
 from tnetwork.utils.read_write import write_list_of_list
 def nodesets2affiliations(communities):
     """
-    Transform community format to another
-    :param communities:
+    Transform commmunities as node sets to affiliation (dic node:community
+
+    :param communities: dictionary node_set:node_ID
     :return:
     """
     node2com = dict()

@@ -4,6 +4,7 @@ import tnetwork as dn
 
 from tnetwork.utils.bidict import *
 
+__all__ = ["read_snapshots_dir", "write_snapshots_dir","read_graph_link_stream"]
 
 def _detectAutomaticallyFormat(networkFile):
     format = networkFile.split(".")[1]

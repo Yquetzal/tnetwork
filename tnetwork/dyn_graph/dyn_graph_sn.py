@@ -3,14 +3,14 @@ from collections import Iterable
 
 import networkx as nx
 from copy import deepcopy
-from .dyn_graph_sg import DynGraphSG
 from tnetwork.utils.bidict import bidict
 import pkg_resources
 
-import tnetwork as dx
+import tnetwork as tn
 import numbers
 from tnetwork.dyn_graph.dyn_graph import DynGraph
 
+from datetime import datetime, timezone
 
 class DynGraphSN(DynGraph):
     """
@@ -57,7 +57,7 @@ class DynGraphSN(DynGraph):
         fileLocation = pkg_resources.resource_filename(resource_package, resource_path)
 
 
-        dg = dx.read_graph_link_stream(fileLocation)
+        dg = tn.read_graph_link_stream(fileLocation)
         return dg
 
 
@@ -85,7 +85,7 @@ class DynGraphSN(DynGraph):
             if len(nodes)==1:
                 nodes=nodes*len(times)
 
-        if not isinstance(times[0], numbers.Number): #means it is a single time, not list of pairs
+        if isinstance(times, numbers.Number): #means it is a single time, not list of times
             times = [times]*len(nodes)
 
 
@@ -125,9 +125,8 @@ class DynGraphSN(DynGraph):
         """
         #note: could be optimized
 
-        if len(nodePairs)==2 and not isinstance(nodePairs[0],Iterable):
+        if len(nodePairs)==2 and (isinstance(nodePairs[0],str) or not isinstance(nodePairs[0],Iterable)):
             nodePairs = [nodePairs]*len(times)
-
         if not isinstance(times,Iterable):
             times = [times]*len(nodePairs)
 
@@ -186,14 +185,15 @@ class DynGraphSN(DynGraph):
         return self.snapshots(t)
 
 
-    def add_snaphsot(self, t, graphSN=None):
+    def add_snaphsot(self, t=None, graphSN=None):
         """
         Add a snapshot for a time step t
 
-        :param t: the time step identifier
-        :param graphSN: the graph to add (networkx object
+        :param t: the time step identifier. If none, the last one + 1
+        :param graphSN: the graph to add (networkx object), if None, add an empty snapshot
         """
-
+        if t==None:
+            t=self.snapshots_timesteps()[-1]+1
         if graphSN==None:
             graphSN=nx.Graph()
         self._snapshots[t]=graphSN
@@ -248,7 +248,7 @@ class DynGraphSN(DynGraph):
         :param last_SN_duration: duration of the last SN
         :return:
         """
-        toReturn = DynGraphSG()
+        toReturn = tn.DynGraphSG()
 
 
 
@@ -347,6 +347,67 @@ class DynGraphSN(DynGraph):
                 toReturn.add_snaphsot(binStart)
         return toReturn
 
+    def get_monday_from_calendar_week(self,year, calendar_week):
+        monday = datetime.datetime.strptime(f'{year}-{calendar_week}-1', "%Y-%W-%w").date()
+        return monday
+
+    def _date_threasholded(self,date,period):
+        date = date.replace(second=0)
+        if period == "minute":
+            return date
+        date = date.replace(minute=0)
+        if period == "hour":
+            return date
+        date = date.replace(hour=0)
+        if period == "day":
+            return date
+
+
+        if period == "week":
+            week = date.isocalendar()[1]
+            temp = datetime.combine(self.get_monday_from_calendar_week(date.year,week), datetime.min.time())
+            return temp
+
+        date = date.replace(day=0)
+
+        if period == "month":
+            return date
+        date = date.replace(month=0)
+        if period == "year":
+            return date
+
+    def aggregate_time_period(self, period, step_to_datetime=datetime.utcfromtimestamp):
+        """
+        Aggregate graph by time period (day, year, ...)
+
+        Return a new dynamic graph without modifying the original one, aggregated such as all
+        Yielded graphs are weighted (weight: number of apparition of edges during the period)
+
+        :param period: either a string (minute,hour,day,week,month,year) or a function returning the timestamp truncated to the start of the desired period
+        :param step_to_datetime: function to convert time step to a datetime object, default is utfromtimestamp
+        :return: a DynGraph_SN object
+        """
+        to_return = tn.DynGraphSN()
+
+
+
+        if isinstance(period,str):
+            period_func = lambda x : self._date_threasholded(x,period)
+        else:
+            period_func = period
+
+        for t,g in self.snapshots().items():
+            t_date = step_to_datetime(t)
+
+            new_t = period_func(t_date)
+
+            #new_t = new_t.timestamp()
+            new_t = int(new_t.replace(tzinfo=timezone.utc).timestamp())
+            if not new_t in to_return.snapshots():
+                to_return.add_snaphsot(new_t,g)
+            to_return._snapshots[new_t]=self._combine_weighted_graphs([to_return.snapshots(new_t),self.snapshots(t)])
+
+        return to_return
 
     def snapshots(self, t=None):
         """
@@ -401,6 +462,14 @@ class DynGraphSN(DynGraph):
             GsMat.append(nx.to_numpy_matrix(g2, nodelist=nodeIdOrderedList).tolist())
             nodesPresent.append([nodeIDdict[name] for name in filteredOrderedNodes])
         return(GsMat,nodeIDdict,nodesPresent)
+
+    def last_snapshot(self):
+        """
+        Return the last snapshot
+
+        :return: the last snapshot as a networkx graph
+        """
+        return self.snapshots()[self.snapshots_timesteps()[-1]]
 
     def full_copy(self):
         return deepcopy(self)

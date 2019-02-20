@@ -1,9 +1,10 @@
-import tnetwork as dn
+import tnetwork as tn
 from sortedcontainers import *
 
+__all__ = ["write_SG", "read_SG","write_ordered_changes"]
 
 
-def write_SG(theDynGraph:dn.DynGraphSG, fileOutput):
+def write_SG(theDynGraph:tn.DynGraphSG, fileOutput):
     """
     Write a stream graph as a list of intervals, for the graph, the nodes, and the edges
     :param theDynGraph: a dynamic graph
@@ -26,7 +27,7 @@ def write_SG(theDynGraph:dn.DynGraphSG, fileOutput):
         toWrite.append(toAdd)
 
 
-    dn.write_list_of_list(toWrite,fileOutput,sep="\t")
+    tn.write_list_of_list(toWrite,fileOutput,sep="\t")
 
 
 def read_SG(fileInput):
@@ -35,7 +36,7 @@ def read_SG(fileInput):
     :param fileInput:
 
     """
-    aDynGraph = dn.DynGraphSG()
+    aDynGraph = tn.DynGraphSG()
     file = open(fileInput)
     for line in file:
         parts = line.split("\t")
@@ -66,7 +67,7 @@ def read_SG(fileInput):
                 aDynGraph.add_interaction(n1,n2, (start, end))
     return aDynGraph
 
-def write_ordered_changes(dynNet:dn.DynGraphSG, fileOutput, dateEveryLine=False, nodeModifications=False, separator="\t", edgeIdentifier="l"):
+def write_ordered_changes(dynNet:tn.DynGraphSG, fileOutput, dateEveryLine=False, nodeModifications=False, separator="\t", edgeIdentifier="l"):
     """
     Write the dynamic network as a list of successive changes. There are several variants:
        * OML :ordered modif list with dates as #DATE and no nodes (Online Modification List)
@@ -82,7 +83,7 @@ def write_ordered_changes(dynNet:dn.DynGraphSG, fileOutput, dateEveryLine=False,
     :param edgeIdentifier: character to differenciate edges from nodes.
 
     """
-    if type(dynNet) is dn.DynGraphSN:
+    if type(dynNet) is tn.DynGraphSN:
         dynNet = dynNet.toDynGraphTN(convertTimeToInteger=False)
 
     timeOfActions = SortedDict()
@@ -135,5 +136,5 @@ def write_ordered_changes(dynNet:dn.DynGraphSG, fileOutput, dateEveryLine=False,
                 val+=separator+str(k)
             toWrite.append([val])
 
-    dn.write_list_of_list(toWrite, fileOutput, separator="\t")
+    tn.write_list_of_list(toWrite, fileOutput, separator="\t")
 

@@ -1,5 +1,6 @@
 import pandas as pd
 
+__all__ = ["write_SGC", "read_com_ordered_changes"]
 def write_SGC(self, outputFile, renumber=False):
     """
     SG => stream graph. format I use for my visualisation

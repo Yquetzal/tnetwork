@@ -2,7 +2,7 @@ import unittest
 import tnetwork as tn
 
 from bokeh.server.server import Server
-from tnetwork.visualization.graph_with_communities import visuTest
+from tnetwork.visualization.graphs import visuTest
 
 class VisuTestCase(unittest.TestCase):
 
