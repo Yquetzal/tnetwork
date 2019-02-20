@@ -9,7 +9,7 @@ def nodesets2affiliations(communities):
     node2com = dict()
     for nodes,id in communities.items():
         for n in nodes:
-            node2com[n]=id
+            node2com[n]=[id]
     return node2com
 
 
