@@ -194,7 +194,7 @@ def plot_as_graph(dynamic_graph, communities=None, t=None,to_datetime=False, wid
 
 
 
-def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_datetime=False, width=800,height=600):
+def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_datetime=False, width=800,height=600,auto_show=True):
     """
     Plot communities such as each node corresponds to an horizontal line and time corresponds to the horizontal axis
     :param dynamic_graph: a dynamic network
@@ -226,7 +226,7 @@ def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_dateti
         tooltips=[
             ("name", "@node"),
             ("community", "@com"),
-            ("time", "@time{%F %H:%M}")
+            ("time", "@time")
         ])
     ht.point_policy="follow_mouse"
     nodeList = sorted(list(set(CDS.data["node"])))
@@ -237,7 +237,7 @@ def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_dateti
         x_axis_type="datetime"
         #CDS.data["time_f"] = [to_datetime(x) for x in CDS.data["time_shift"]]
         #x_column = "time_f"
-
+        ht.tooltips = ht.tooltips[:-1]+[ ("time", "@time{%F %H:%M}")]
         ht.formatters={
                 'time': 'datetime'
             }
@@ -255,9 +255,13 @@ def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_dateti
     longi.xgrid.grid_line_color = None
     longi.ygrid.grid_line_color = None
 
-    def modify_doc(doc):
-        doc.add_root(longi)
 
-    output_notebook()
 
-    show(modify_doc)
+    if auto_show:
+        def modify_doc(doc):
+            doc.add_root(longi)
+        output_notebook()
+
+        show(modify_doc)
+    else:
+        return (longi)
