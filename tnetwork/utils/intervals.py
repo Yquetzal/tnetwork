@@ -18,7 +18,6 @@ class intervals:
         iBefore = self.interv.bisect_right(t) - 1
         if iBefore >= 0:
             potentialInterval = self.interv.peekitem(iBefore)
-            print(potentialInterval)
             if potentialInterval[1][0] <= t < potentialInterval[1][1]:
                 return True
         return False

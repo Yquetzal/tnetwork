@@ -667,7 +667,7 @@ class comScenario():
                                         self.dynCom.add_event((lastCommunityPresence, before), (after), lastCommunityPresence, lastCommunityPresence, type=op.action, score=-1)
 
             g=self.generateCurrentNetwork()
-            self.dynGraph.add_snaphsot(self.currentT, g)
+            self.dynGraph.add_snapshot(self.currentT, g)
             #nx.draw_networkx(g,with_labels=True)#,labels={k:k.getName() for k in g.nodes})
 
             if self.verbose:

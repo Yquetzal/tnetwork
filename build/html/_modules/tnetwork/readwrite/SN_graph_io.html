@@ -288,7 +288,7 @@
 
     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">visibleFiles</span><span class="p">:</span>
         <span class="n">g</span> <span class="o">=</span> <span class="n">_read_network_file</span><span class="p">(</span><span class="n">inputDir</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">f</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>  <span class="c1"># type:nx.Graph</span>
-        <span class="n">anSnGraph</span><span class="o">.</span><span class="n">add_snaphsot</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">g</span><span class="p">)</span>
+        <span class="n">anSnGraph</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">g</span><span class="p">)</span>
 
 
     <span class="k">return</span> <span class="n">anSnGraph</span></div>

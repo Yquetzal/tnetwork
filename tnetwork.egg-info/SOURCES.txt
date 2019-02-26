@@ -7,7 +7,9 @@ tnetwork.egg-info/SOURCES.txt
 tnetwork.egg-info/dependency_links.txt
 tnetwork.egg-info/requires.txt
 tnetwork.egg-info/top_level.txt
+tnetwork/DCD/DCD_metrics.py
 tnetwork/DCD/__init__.py
+tnetwork/DCD/communities_scenarios.py
 tnetwork/DCD/computing_coms_by_sn.py
 tnetwork/DCD/analytics/NMIs.py
 tnetwork/DCD/analytics/__init__.py
@@ -43,12 +45,6 @@ tnetwork/dyn_graph/dyn_graph_sg.py
 tnetwork/dyn_graph/dyn_graph_sn.py
 tnetwork/dyn_graph/function.py
 tnetwork/dyn_graph/toy_data/thiers_2012.csv
-tnetwork/generator/CommunitiesScenarios.py
-tnetwork/generator/CommunitiesScenariosCLEAN.py
-tnetwork/generator/CommunitiesScenariosCLEANsave.py
-tnetwork/generator/CommunitiesScenariosOLD.py
-tnetwork/generator/DCDmetrics.py
-tnetwork/generator/__init__.py
 tnetwork/readwrite/SG_com_io.py
 tnetwork/readwrite/SG_graph_io.py
 tnetwork/readwrite/SN_com_io.py

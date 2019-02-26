@@ -778,7 +778,7 @@ class comScenario():
             g=self._generateCurrentNetwork()
 
             #memorize the current step of the graph in the dynamic network
-            self._dynGraph.add_snaphsot(self._currentT, g)
+            self._dynGraph.add_snapshot(self._currentT, g)
 
             if self._verbose:
                 print("communities end of step: ", self._currentCommunities.keys())

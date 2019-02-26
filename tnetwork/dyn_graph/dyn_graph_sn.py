@@ -70,7 +70,7 @@ class DynGraphSN(DynGraph):
         """
 
         if not time in self.snapshots_timesteps():
-            self.add_snaphsot(time)
+            self.add_snapshot(time)
         self._snapshots[time].add_node(n)
 
     def add_nodes_presence_from(self, nodes,times):
@@ -133,7 +133,7 @@ class DynGraphSN(DynGraph):
         for i,nodePair in enumerate(nodePairs):
             t = times[i]
             if not t in self._snapshots:
-                self.add_snaphsot(t)
+                self.add_snapshot(t)
             self.apply_nx_function(nx.Graph.add_edge,start=t,stop=t,u_of_edge=nodePair[0],v_of_edge=nodePair[1])
 
 
@@ -185,7 +185,7 @@ class DynGraphSN(DynGraph):
         return self.snapshots(t)
 
 
-    def add_snaphsot(self, t=None, graphSN=None):
+    def add_snapshot(self, t=None, graphSN=None):
         """
         Add a snapshot for a time step t
 
@@ -193,7 +193,10 @@ class DynGraphSN(DynGraph):
         :param graphSN: the graph to add (networkx object), if None, add an empty snapshot
         """
         if t==None:
-            t=self.snapshots_timesteps()[-1]+1
+            if len(self.snapshots_timesteps())==0:
+                t=0
+            else:
+                t=self.snapshots_timesteps()[-1]+1
         if graphSN==None:
             graphSN=nx.Graph()
         self._snapshots[t]=graphSN
@@ -342,9 +345,9 @@ class DynGraphSN(DynGraph):
             keys = self.snapshots().irange(binStart, binEnd, inclusive=(True, False))
             keys = list(keys)
             if len(keys)>0:
-                toReturn.add_snaphsot(binStart, self._combine_weighted_graphs([self._snapshots[k] for k in keys]))
+                toReturn.add_snapshot(binStart, self._combine_weighted_graphs([self._snapshots[k] for k in keys]))
             else:
-                toReturn.add_snaphsot(binStart)
+                toReturn.add_snapshot(binStart)
         return toReturn
 
     def get_monday_from_calendar_week(self,year, calendar_week):
@@ -404,7 +407,7 @@ class DynGraphSN(DynGraph):
             #new_t = new_t.timestamp()
             new_t = int(new_t.replace(tzinfo=timezone.utc).timestamp())
             if not new_t in to_return.snapshots():
-                to_return.add_snaphsot(new_t,g)
+                to_return.add_snapshot(new_t, g)
             to_return._snapshots[new_t]=self._combine_weighted_graphs([to_return.snapshots(new_t),self.snapshots(t)])
 
         return to_return

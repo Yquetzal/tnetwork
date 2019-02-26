@@ -91,7 +91,7 @@ def read_snapshots_dir(inputDir, format=None):
 
     for f in visibleFiles:
         g = _read_network_file(inputDir + "/" + f, format)  # type:nx.Graph
-        anSnGraph.add_snaphsot(int(os.path.splitext(f)[0]), g)
+        anSnGraph.add_snapshot(int(os.path.splitext(f)[0]), g)
 
 
     return anSnGraph

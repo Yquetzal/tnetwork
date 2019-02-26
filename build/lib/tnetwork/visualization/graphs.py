@@ -148,18 +148,20 @@ def plot_as_graph(dynamic_graph, communities=None, t=None,to_datetime=False, wid
     :return: bokeh layout containing slider and plot
     """
 
+    slider_bool=False
     if to_datetime==True:
         to_datetime=datetime.utcfromtimestamp
 
     if t == None:
         t = dynamic_graph.snapshots_timesteps()[0]
+        slider_bool=True
 
     (a_figure,a_graph_plot) = _init_net(dynamic_graph,communities,t,width,height,to_datetime)
 
 
 
 
-    if t==None:
+    if slider_bool:
         allTimes = dynamic_graph.snapshots_timesteps()
         slider_Step = min([allTimes[i+1]-allTimes[i] for i in range(0,len(allTimes)-1)])
 
@@ -241,7 +243,7 @@ def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_dateti
         x_axis_type="datetime"
         #CDS.data["time_f"] = [to_datetime(x) for x in CDS.data["time_shift"]]
         #x_column = "time_f"
-        ht.tooltips = ht.tooltips[:-1]+[ ("time", "@time{%F %H:%M}")]
+        ht.tooltips = ht.tooltips+[ ("time", "@time{%F %H:%M}")]
         ht.formatters={
                 'time': 'datetime'
             }
@@ -286,9 +288,8 @@ def plot_longitudinal_sn_clusters(dynamic_graph,clusters,level=None, sn_duration
         clusters = clusters[level]
     coms = tn.DynamicCommunitiesSN()
     for i,cl in enumerate(clusters): #cl: a cluster
-        for t in cl: #cn: a
+        for t in cl:
             coms.add_community(t, com=dynamic_graph.snapshots(t).nodes, id=i)
-
     return plot_longitudinal(dynamic_graph,communities=coms, sn_duration=sn_duration,to_datetime=to_datetime, width=width,height=height,auto_show=auto_show)
 
 
