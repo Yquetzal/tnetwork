@@ -151,9 +151,9 @@ def _readStaticSNByCom(inputFile, commentsChar="#", nodeSeparator=" ", nodeInBra
                 for n in nodesIDs.split(nodeSeparator):
                     currentCom.add(n)
                     # if asSN:
-                    #     theDynCom.addBelonging(n,startTime,comID)
+                    #     theDynCom.add_belonging(n,startTime,comID)
                     # if asTN:
-                    #     theDynCom.addBelonging(n,comID,startTime) #belongings without end
+                    #     theDynCom.add_belonging(n,comID,startTime) #belongings without end
                 coms[frozenset(currentCom)]=comID
     return coms
 

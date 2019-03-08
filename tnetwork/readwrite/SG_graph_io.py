@@ -1,38 +1,38 @@
 import tnetwork as tn
 from sortedcontainers import *
+from tnetwork.utils import write_list_of_list
 
 __all__ = ["write_SG", "read_SG","write_ordered_changes"]
 
 
 def write_SG(theDynGraph:tn.DynGraphSG, fileOutput):
     """
-    Write a stream graph as a list of intervals, for the graph, the nodes, and the edges
+    Write a stream graph as a list of periods, for the graph, the nodes, and the edges
     :param theDynGraph: a dynamic graph
     :param fileOutput: the address of the file to write
 
     """
     toWrite = []
-    toWrite.append(["SG", str(theDynGraph._start)+":"+str(theDynGraph._end)])
+    toWrite.append(["SG", str(theDynGraph.start) + ":" + str(theDynGraph.end)])
     for (n, intervs) in theDynGraph.node_presence().items():
         toAdd = ["N",n]
 
-        for interv in intervs.get_intervals():
+        for interv in intervs.periods():
             toAdd += [str(interv[0])+":"+str(interv[1])]
         toWrite.append(toAdd)
 
     for ((n1,n2),intervs) in theDynGraph.interactions().items():
         toAdd = ["E", n1, n2]
-        for interv in intervs.get_intervals():
+        for interv in intervs.periods():
             toAdd += [str(interv[0])+":"+str(interv[1])]
         toWrite.append(toAdd)
 
-
-    tn.write_list_of_list(toWrite,fileOutput,sep="\t")
+    write_list_of_list(toWrite,fileOutput,sep="\t")
 
 
 def read_SG(fileInput):
     """
-    Read a stream graph as a list of intervals, for the graph, the nodes, and the edges
+    Read a stream graph as a list of periods, for the graph, the nodes, and the edges
     :param fileInput:
 
     """
@@ -44,8 +44,8 @@ def read_SG(fileInput):
         if parts[0]=="SG":
             for period in parts[1:]:
                 times = period.split(":")
-                aDynGraph._start =int(times[0])
-                aDynGraph._end = int(times[1])
+                aDynGraph.start =int(times[0])
+                aDynGraph.end = int(times[1])
 
         if parts[0]=="N":
             nodeName = parts[1]
@@ -94,7 +94,7 @@ def write_ordered_changes(dynNet:tn.DynGraphSG, fileOutput, dateEveryLine=False,
 
         for (n,intervs) in dataDicNodes.items():
             #times = self.nodes[n]
-            for interv in intervs.get_intervals():
+            for interv in intervs.periods():
                 addDate = interv[0]
 
                 #delDate = maxInterval(interv)
@@ -105,7 +105,7 @@ def write_ordered_changes(dynNet:tn.DynGraphSG, fileOutput, dateEveryLine=False,
     for (e,intervs) in dataDicEdges.items():
         #print("e",e,intervs)
         #times = self.edges[e]
-        for interv in intervs.get_intervals():
+        for interv in intervs.periods():
             addDate = interv[0]
             delDate = interv[1]
             (node1, node2) = list(e)
@@ -119,7 +119,7 @@ def write_ordered_changes(dynNet:tn.DynGraphSG, fileOutput, dateEveryLine=False,
     if nodeModifications:  # note that we remove nodes after edges,...
         for (n,intervs) in dataDicNodes.items():
             #times = self.nodes[n]
-            for interv in intervs.get_intervals():
+            for interv in intervs.periods():
                 delDate = interv[1]
 
                 if not delDate in timeOfActions:

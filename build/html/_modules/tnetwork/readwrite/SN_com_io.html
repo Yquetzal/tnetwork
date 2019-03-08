@@ -105,13 +105,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-snapshot-communities">Manipulate snapshot communities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-snapshot-snapshots">Manipulate snapshot snapshots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_static_coms_by_node.html">tnetwork.readwrite.read_static_coms_by_node</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_SN_by_com.html">tnetwork.readwrite.read_SN_by_com</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_com_SN.html">tnetwork.readwrite.write_com_SN</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-stream-graph-communities">Manipulate stream graph communities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-stream-graph-snapshots">Manipulate stream graph snapshots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_SGC.html">tnetwork.readwrite.write_SGC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_com_ordered_changes.html">tnetwork.readwrite.read_com_ordered_changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
@@ -205,7 +205,7 @@
 
 <div class="viewcode-block" id="read_static_coms_by_node"><a class="viewcode-back" href="../../../reference/iof/tnetwork.readwrite.read_static_coms_by_node.html#tnetwork.readwrite.read_static_coms_by_node">[docs]</a><span class="k">def</span> <span class="nf">read_static_coms_by_node</span><span class="p">(</span><span class="n">inputFile</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Read a file containing communities such as each line is:</span>
+<span class="sd">    Read a file containing snapshots such as each line is:</span>
 <span class="sd">    node SEP com1 SEP com2 ...</span>
 <span class="sd">    :param inputFile:</span>
 <span class="sd">    :param separator:</span>
@@ -258,13 +258,13 @@
 
 <div class="viewcode-block" id="write_com_SN"><a class="viewcode-back" href="../../../reference/iof/tnetwork.readwrite.write_com_SN.html#tnetwork.readwrite.write_com_SN">[docs]</a><span class="k">def</span> <span class="nf">write_com_SN</span><span class="p">(</span><span class="n">dyn_communities</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynamicCommunitiesSN</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span><span class="n">asNodeSet</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Write dynamic communities as a directory containing one file for each snapshot.</span>
+<span class="sd">    Write dynamic snapshots as a directory containing one file for each snapshot.</span>
 <span class="sd">    :param dynGraph: a dynamic graph</span>
 <span class="sd">    :param outputDir: address of the directory to write</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">all_partitions</span> <span class="o">=</span> <span class="n">dyn_communities</span><span class="o">.</span><span class="n">communities</span><span class="p">()</span>
+    <span class="n">all_partitions</span> <span class="o">=</span> <span class="n">dyn_communities</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="n">all_partitions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">asNodeSet</span><span class="p">:</span>
             <span class="n">write_communities_as_nodeset</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>

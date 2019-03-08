@@ -242,39 +242,45 @@ class DynGraphSN(DynGraph):
 
         return to_return
 
-    def to_DynGraphSG(self, convert_time_to_integer=False, last_SN_duration=1):
+    def to_DynGraphSG(self, sn_duration=None,convert_time_to_integer=False):
         """
         Convert the graph into a DynGraph_SG, i.e. a representation as a Stream graph (edges have durations).
 
-        Be careful, for the last snaphsot, we cannot know his duration, therefore, if last_SN_duration is not provided, it has a default duration of 1.
+        By default, snapshots last from their time ID to the time ID of the next snapshot.
+        Be careful, for the last snaphsot, we cannot know his duration, therefore, if sn_duration is not provided, it has a default duration equal to the min
+        of all durations
+
+        :param sn_duration: duration of sns
         :param convert_time_to_integer: if True, use the snapshot order in the list of SN rather than its time step
-        :param last_SN_duration: duration of the last SN
         :return:
         """
         toReturn = tn.DynGraphSG()
 
 
-
         for i in range(len(self._snapshots)):
             if convert_time_to_integer:
-                t=i
+                current_t=i
                 tNext=i+1
             else:
-                t = self._snapshots.peekitem(i)[0]
-                if i<len(self._snapshots)-1:
-                    tNext=self._snapshots.peekitem(i + 1)[0]
+                current_t = self._snapshots.peekitem(i)[0]
+
+                if sn_duration!=None:
+                    tNext = current_t+sn_duration
+
                 else:
-                    #tNext = self._snapshots.peekitem("END")[1]
-                    if type(t) is str:
-                        tNext="END"
+                    if i<len(self._snapshots)-1:
+                        tNext=self._snapshots.peekitem(i + 1)[0]
                     else:
-                        tNext = t+last_SN_duration ####### BE CAREFUL we could choose inf or.....
+                        #computing the min duration to choose as duration of the last period
+                        dates = self.snapshots_timesteps()
+                        minDuration = min([dates[i + 1] - dates[i] for i in range(len(dates) - 1)])
+                        tNext = current_t+minDuration
 
             if (len(self._snapshots.peekitem(i)[1].nodes()))>0:
-                toReturn.add_nodes_presence_from(self._snapshots.peekitem(i)[1].nodes(), (t, tNext))
+                toReturn.add_nodes_presence_from(self._snapshots.peekitem(i)[1].nodes(), (current_t, tNext))
 
                 if len(list(self._snapshots.peekitem(i)[1].edges()))>0:
-                    toReturn.add_interactions_from(list(self._snapshots.peekitem(i)[1].edges()), (t, tNext) )
+                    toReturn.add_interactions_from(list(self._snapshots.peekitem(i)[1].edges()), (current_t, tNext) )
 
 
         return toReturn

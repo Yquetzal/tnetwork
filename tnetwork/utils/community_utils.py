@@ -31,7 +31,7 @@ def _jaccard(com1, com2):
 def write_communities_as_nodeset(partition,file,community_name=True):
     """
 
-    :param community: communities as dict (setofnodes:name), or set of set of nodes
+    :param community: snapshots as dict (setofnodes:name), or set of set of nodes
     :param type:
     :return:
     """
@@ -52,7 +52,7 @@ def write_communities_as_nodeset(partition,file,community_name=True):
 def write_communities_as_affiliations(partition,file):
     """
 
-    :param community: communities as dict (setofnodes:name), or set of set of nodes
+    :param community: snapshots as dict (setofnodes:name), or set of set of nodes
     :param type:
     :return:
     """

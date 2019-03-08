@@ -15,7 +15,7 @@ def _communities2CDS(coms):
 
     # construct the dataset
     forData = []
-    dates = list(coms.communities().keys())
+    dates = list(coms.snapshots().keys())
     durations = [dates[i+1]-dates[i] for i in range(len(dates)-1)]
 
 
@@ -24,7 +24,7 @@ def _communities2CDS(coms):
             duration = durations[i]
         else:
             duration = np.average(durations)
-        (t,part) = coms.communities().peekitem(i)
+        (t,part) = coms.snapshots().peekitem(i)
         for nodes, comName in part.items():
             for n in nodes:
                 forData.append([t, n, comName,duration])
@@ -96,7 +96,7 @@ def plot_as_graph(dynamic_graph, communities, t=None, width=800,height=600):
     """
     Plot an interactive network allowing to see the topology of the network at time t.
     :param dynamic_graph: a dynamic network
-    :param communities: dynamic communities of the network
+    :param communities: dynamic snapshots of the network
     :param t: time of the first snapshot to display
     :param width: width of the figure
     :param height: height of the figure
@@ -140,8 +140,8 @@ def plot_as_graph(dynamic_graph, communities, t=None, width=800,height=600):
 
 def plot_longitudinal(communities, width=800,height=600):
     """
-    Plot communities such as each node corresponds to an horizontal line and time corresponds to the horizontal axis
-    :param communities: dynamic communities
+    Plot snapshots such as each node corresponds to an horizontal line and time corresponds to the horizontal axis
+    :param communities: dynamic snapshots
     :param width: width of the figure
     :param height: height of the figure
     """

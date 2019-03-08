@@ -8,7 +8,7 @@ __all__ = ["read_static_coms_by_node", "read_SN_by_com","write_com_SN"]
 
 def read_static_coms_by_node(inputFile, separator="\t"):
     """
-    Read a file containing communities such as each line is:
+    Read a file containing snapshots such as each line is:
     node SEP com1 SEP com2 ...
     :param inputFile:
     :param separator:
@@ -61,7 +61,7 @@ def read_SN_by_com(inputDir, nameFilter=None, **kwargs):
 
 def write_com_SN(dyn_communities:tn.DynamicCommunitiesSN, output_dir,asNodeSet=True):
     """
-    Write dynamic communities as a directory containing one file for each snapshot.
+    Write dynamic snapshots as a directory containing one file for each snapshot.
     :param dynGraph: a dynamic graph
     :param outputDir: address of the directory to write
 

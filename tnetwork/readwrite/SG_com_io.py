@@ -23,7 +23,7 @@ def write_SGC(self, outputFile, renumber=False):
                     comIDs += 1
             else:
                 comFloatIDs[com]=com
-            for boundaries in belongings[com].get_intervals():
+            for boundaries in belongings[com].periods():
 
                 # line.append(str(com.begin)+"_"+str(com.end-self.stepL)+":"+str(comFloatIDs[com.data]))
                 line.append(str(boundaries[0]) + "_" + str(boundaries[1]) + ":" + str(comFloatIDs[com]))
@@ -55,7 +55,7 @@ def read_com_ordered_changes(inputFile):
         if action == "-nc":
             node = l[1]
             com = l[2]
-            dynCom.removeBelonging(node, com,date)
+            dynCom.remove_belonging(node, com, date)
 
         if action == "=":
             conserved = l[1]

@@ -105,13 +105,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-snapshot-communities">Manipulate snapshot communities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-snapshot-snapshots">Manipulate snapshot snapshots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_static_coms_by_node.html">tnetwork.readwrite.read_static_coms_by_node</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_SN_by_com.html">tnetwork.readwrite.read_SN_by_com</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_com_SN.html">tnetwork.readwrite.write_com_SN</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-stream-graph-communities">Manipulate stream graph communities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-stream-graph-snapshots">Manipulate stream graph snapshots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_SGC.html">tnetwork.readwrite.write_SGC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_com_ordered_changes.html">tnetwork.readwrite.read_com_ordered_changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
@@ -220,7 +220,7 @@
                     <span class="n">comIDs</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">comFloatIDs</span><span class="p">[</span><span class="n">com</span><span class="p">]</span><span class="o">=</span><span class="n">com</span>
-            <span class="k">for</span> <span class="n">boundaries</span> <span class="ow">in</span> <span class="n">belongings</span><span class="p">[</span><span class="n">com</span><span class="p">]</span><span class="o">.</span><span class="n">get_intervals</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">boundaries</span> <span class="ow">in</span> <span class="n">belongings</span><span class="p">[</span><span class="n">com</span><span class="p">]</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
 
                 <span class="c1"># line.append(str(com.begin)+&quot;_&quot;+str(com.end-self.stepL)+&quot;:&quot;+str(comFloatIDs[com.data]))</span>
                 <span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">boundaries</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">comFloatIDs</span><span class="p">[</span><span class="n">com</span><span class="p">]))</span>
@@ -252,7 +252,7 @@
         <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;-nc&quot;</span><span class="p">:</span>
             <span class="n">node</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">com</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-            <span class="n">dynCom</span><span class="o">.</span><span class="n">removeBelonging</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">com</span><span class="p">,</span><span class="n">date</span><span class="p">)</span>
+            <span class="n">dynCom</span><span class="o">.</span><span class="n">remove_belonging</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">com</span><span class="p">,</span><span class="n">date</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;=&quot;</span><span class="p">:</span>
             <span class="n">conserved</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>

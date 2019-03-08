@@ -10,7 +10,7 @@ function [S,Q] = genlouvain(B,limit,verbose,randord,randmove,S0)
 %   B(i,j) such that nodes i and j are placed in the same community.
 %   Following Blondel et al. 2008, the algorithm proceeds in two phases
 %   repeated iteratively: quality is optimized by moving one node at a time
-%   until no such moves improve quality; the communities found to that
+%   until no such moves improve quality; the snapshots found to that
 %   point are then aggregated to build a new network where each node
 %   represents a community.  The output vector S encodes the obtained
 %   community assignments, with S(i) identifying the community to which
@@ -121,7 +121,7 @@ function [S,Q] = genlouvain(B,limit,verbose,randord,randmove,S0)
 %
 %   References:
 %     Blondel, Vincent D., Jean-Loup Guillaume, Renaud Lambiotte, and
-%     Etienne Lefebvre, "Fast unfolding of communities in large networks,"
+%     Etienne Lefebvre, "Fast unfolding of snapshots in large networks,"
 %     Journal of Statistical Mechanics: Theory and Experiment, P10008
 %     (2008).
 %
@@ -258,7 +258,7 @@ y = S0;
 %Run using function handle, if provided
 while (isa(M,'function_handle')) %loop around each "pass" (in language of Blondel et al) with B function handle  
     clocktime=clock;
-    mydisp(['Merging ',num2str(length(y)),' communities  ',datestr(clocktime)]);
+    mydisp(['Merging ',num2str(length(y)),' snapshots  ',datestr(clocktime)]);
     Sb=S;
     yb=[];
     while ~isequal(yb,y)
@@ -319,7 +319,7 @@ S2 = (1:length(B))';
 Sb = [];
 while ~isequal(Sb,S2) %loop around each "pass" (in language of Blondel et al) with B matrix    
     clocktime=clock;
-    mydisp(['Merging ',num2str(max(y)),' communities  ',datestr(clocktime)]);
+    mydisp(['Merging ',num2str(max(y)),' snapshots  ',datestr(clocktime)]);
     
     Sb = S2;
     yb = [];
@@ -362,7 +362,7 @@ end
 
 %-----%
 function M = metanetwork(J,S)
-%Computes new aggregated network (communities --> nodes)
+%Computes new aggregated network (snapshots --> nodes)
 PP = sparse(1:length(S),S,1);
 M = PP'*J*PP;
 end

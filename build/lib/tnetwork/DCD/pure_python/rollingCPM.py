@@ -84,12 +84,12 @@ def rollingCPM(dynNetSN,k=3,runningTime=False):
 
                     #print("checking",matched,killed,born,jaccardUnionAndAfter[c])
                     for aMatch in matched:
-                        #print("check continue ",DynCom.getID(dateOld,aMatch[0]),DynCom.getID(date,aMatch[1]))
+                        #print("check continue ",DynCom.get_ID(dateOld,aMatch[0]),DynCom.get_ID(date,aMatch[1]))
                         DynCom.add_event((dateOld, DynCom.com_ID(dateOld, aMatch[0])), (date, DynCom.com_ID(date, aMatch[1])), dateOld, date, "continue")
 
                     for kil in killed:#these are actual merge (unmatched communities are "merged" to new ones)
                         for com in jaccardUnionAndAfter[c]:
-                            #print("merge",kil,DynCom.getID(dateOld,kil),"=>",com,DynCom.getID(date,com))
+                            #print("merge",kil,DynCom.get_ID(dateOld,kil),"=>",com,DynCom.get_ID(date,com))
                             #print("because",c)
                             #print("oups",jaccardBeforeAndUnion)
                             DynCom.add_event((dateOld, DynCom.com_ID(dateOld, kil)), (date, DynCom.com_ID(date, com)), dateOld, date, "merged")

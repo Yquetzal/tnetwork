@@ -10,6 +10,7 @@ tnetwork.egg-info/top_level.txt
 tnetwork/DCD/DCD_metrics.py
 tnetwork/DCD/__init__.py
 tnetwork/DCD/communities_scenarios.py
+tnetwork/DCD/community.py
 tnetwork/DCD/computing_coms_by_sn.py
 tnetwork/DCD/analytics/NMIs.py
 tnetwork/DCD/analytics/__init__.py
@@ -52,11 +53,11 @@ tnetwork/readwrite/SN_graph_io.py
 tnetwork/readwrite/__init__.py
 tnetwork/test/__init__.py
 tnetwork/test/test_DCD.py
+tnetwork/test/test_convert.py
 tnetwork/test/test_dyn_net_sn.py
 tnetwork/test/test_intervals.py
 tnetwork/test/test_read_write.py
 tnetwork/test/test_visu.py
-tnetwork/test/testests.py
 tnetwork/utils/__init__.py
 tnetwork/utils/community_utils.py
 tnetwork/utils/intervals.py

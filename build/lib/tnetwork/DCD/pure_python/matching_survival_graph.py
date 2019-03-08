@@ -12,18 +12,18 @@ def _match_communities_according_to_com(dynComSN, matchesGraph):
     :param matchesGraph:
     :return:
     """
-    #find communities in the graph of matching
+    #find snapshots in the graph of matching
     node2comID = best_partition(matchesGraph)
-    #for each "node" (of this network of communities)
+    #for each "node" (of this network of snapshots)
     for (t,c),cID in node2comID.items():
         #create an ID
         newComID = "DC_"+str(cID)
-        #if this Id is already present, means that 2 communities of the SAME timestep are merged, modified the communities accordingly
-        if newComID in dynComSN._communities[t].inv:
-            dynComSN._communities[t].inv[newComID]=dynComSN._communities[t].inv[newComID].union(c)
-            del dynComSN._communities[t][c]
+        #if this Id is already present, means that 2 snapshots of the SAME timestep are merged, modified the snapshots accordingly
+        if newComID in dynComSN._snapshots[t].inv:
+            dynComSN._snapshots[t].inv[newComID]=dynComSN._snapshots[t].inv[newComID].union(c)
+            del dynComSN._snapshots[t][c]
         else: #replace the ID of the (local) community by the ID of the (global) community
-            dynComSN._communities[t][c]=newComID #add DC_ to avoid confusion with already assigned com ID
+            dynComSN._snapshots[t][c]=newComID #add DC_ to avoid confusion with already assigned com ID
 
 
 
@@ -52,7 +52,7 @@ def _build_matches_graph(partitions, mt):
 
     return graph
 
-def matching_survival_graph(dynNetSN, mt=0.3): #mt is the merge threashold. Algo can be either a networkx function returning communities of the string "louvain" to use louvain algorithm
+def matching_survival_graph(dynNetSN, mt=0.3): #mt is the merge threashold. Algo can be either a networkx function returning snapshots of the string "louvain" to use louvain algorithm
 
 
     dynComSN = iterative_louvain(dynNetSN)

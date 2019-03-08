@@ -105,13 +105,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-snapshot-communities">Manipulate snapshot communities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-snapshot-snapshots">Manipulate snapshot snapshots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_static_coms_by_node.html">tnetwork.readwrite.read_static_coms_by_node</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_SN_by_com.html">tnetwork.readwrite.read_SN_by_com</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_com_SN.html">tnetwork.readwrite.write_com_SN</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-stream-graph-communities">Manipulate stream graph communities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-stream-graph-snapshots">Manipulate stream graph snapshots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_SGC.html">tnetwork.readwrite.write_SGC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_com_ordered_changes.html">tnetwork.readwrite.read_com_ordered_changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
@@ -203,7 +203,7 @@
 
 <div class="viewcode-block" id="write_SG"><a class="viewcode-back" href="../../../reference/iof/tnetwork.readwrite.write_SG.html#tnetwork.readwrite.write_SG">[docs]</a><span class="k">def</span> <span class="nf">write_SG</span><span class="p">(</span><span class="n">theDynGraph</span><span class="p">:</span><span class="n">dn</span><span class="o">.</span><span class="n">DynGraphSG</span><span class="p">,</span> <span class="n">fileOutput</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Write a stream graph as a list of intervals, for the graph, the nodes, and the edges</span>
+<span class="sd">    Write a stream graph as a list of periods, for the graph, the nodes, and the edges</span>
 <span class="sd">    :param theDynGraph: a dynamic graph</span>
 <span class="sd">    :param fileOutput: the address of the file to write</span>
 
@@ -213,13 +213,13 @@
     <span class="k">for</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">intervs</span><span class="p">)</span> <span class="ow">in</span> <span class="n">theDynGraph</span><span class="o">.</span><span class="n">node_presence</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">toAdd</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">,</span><span class="n">n</span><span class="p">]</span>
 
-        <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">intervs</span><span class="o">.</span><span class="n">get_intervals</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">intervs</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
             <span class="n">toAdd</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">interv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;:&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">interv</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
         <span class="n">toWrite</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">toAdd</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="p">((</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">),</span><span class="n">intervs</span><span class="p">)</span> <span class="ow">in</span> <span class="n">theDynGraph</span><span class="o">.</span><span class="n">interactions</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">toAdd</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">intervs</span><span class="o">.</span><span class="n">get_intervals</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">intervs</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
             <span class="n">toAdd</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">interv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;:&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">interv</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
         <span class="n">toWrite</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">toAdd</span><span class="p">)</span>
 
@@ -229,7 +229,7 @@
 
 <div class="viewcode-block" id="read_SG"><a class="viewcode-back" href="../../../reference/iof/tnetwork.readwrite.read_SG.html#tnetwork.readwrite.read_SG">[docs]</a><span class="k">def</span> <span class="nf">read_SG</span><span class="p">(</span><span class="n">fileInput</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Read a stream graph as a list of intervals, for the graph, the nodes, and the edges</span>
+<span class="sd">    Read a stream graph as a list of periods, for the graph, the nodes, and the edges</span>
 <span class="sd">    :param fileInput:</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -291,7 +291,7 @@
 
         <span class="k">for</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">intervs</span><span class="p">)</span> <span class="ow">in</span> <span class="n">dataDicNodes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="c1">#times = self.nodes[n]</span>
-            <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">intervs</span><span class="o">.</span><span class="n">get_intervals</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">intervs</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
                 <span class="n">addDate</span> <span class="o">=</span> <span class="n">interv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
                 <span class="c1">#delDate = maxInterval(interv)</span>
@@ -302,7 +302,7 @@
     <span class="k">for</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="n">intervs</span><span class="p">)</span> <span class="ow">in</span> <span class="n">dataDicEdges</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="c1">#print(&quot;e&quot;,e,intervs)</span>
         <span class="c1">#times = self.edges[e]</span>
-        <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">intervs</span><span class="o">.</span><span class="n">get_intervals</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">intervs</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
             <span class="n">addDate</span> <span class="o">=</span> <span class="n">interv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">delDate</span> <span class="o">=</span> <span class="n">interv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
@@ -316,7 +316,7 @@
     <span class="k">if</span> <span class="n">nodeModifications</span><span class="p">:</span>  <span class="c1"># note that we remove nodes after edges,...</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">intervs</span><span class="p">)</span> <span class="ow">in</span> <span class="n">dataDicNodes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="c1">#times = self.nodes[n]</span>
-            <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">intervs</span><span class="o">.</span><span class="n">get_intervals</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">intervs</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
                 <span class="n">delDate</span> <span class="o">=</span> <span class="n">interv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">delDate</span> <span class="ow">in</span> <span class="n">timeOfActions</span><span class="p">:</span>

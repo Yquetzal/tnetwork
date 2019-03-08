@@ -2,7 +2,7 @@
 Input-Output
 ************
 
-Functions to read and write dynamic graphs and communities
+Functions to read and write dynamic graphs and snapshots
 
 .. automodule:: tnetwork.readwrite
 
@@ -32,7 +32,7 @@ Manipulate stream graphs
 
 
 -------------------------------
-Manipulate snapshot communities
+Manipulate snapshot snapshots
 -------------------------------
 
 
@@ -44,7 +44,7 @@ Manipulate snapshot communities
     write_com_SN
 
 -------------------------------------
-Manipulate stream graph communities
+Manipulate stream graph snapshots
 -------------------------------------
 
 

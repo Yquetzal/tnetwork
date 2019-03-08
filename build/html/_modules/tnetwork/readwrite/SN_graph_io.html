@@ -105,13 +105,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-snapshot-communities">Manipulate snapshot communities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-snapshot-snapshots">Manipulate snapshot snapshots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_static_coms_by_node.html">tnetwork.readwrite.read_static_coms_by_node</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_SN_by_com.html">tnetwork.readwrite.read_SN_by_com</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_com_SN.html">tnetwork.readwrite.write_com_SN</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-stream-graph-communities">Manipulate stream graph communities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#manipulate-stream-graph-snapshots">Manipulate stream graph snapshots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_SGC.html">tnetwork.readwrite.write_SGC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.read_com_ordered_changes.html">tnetwork.readwrite.read_com_ordered_changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
@@ -348,9 +348,9 @@
                 <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodesIDs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">nodeSeparator</span><span class="p">):</span>
                     <span class="n">currentCom</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
                     <span class="c1"># if asSN:</span>
-                    <span class="c1">#     theDynCom.addBelonging(n,startTime,comID)</span>
+                    <span class="c1">#     theDynCom.add_belonging(n,startTime,comID)</span>
                     <span class="c1"># if asTN:</span>
-                    <span class="c1">#     theDynCom.addBelonging(n,comID,startTime) #belongings without end</span>
+                    <span class="c1">#     theDynCom.add_belonging(n,comID,startTime) #belongings without end</span>
                 <span class="n">coms</span><span class="p">[</span><span class="nb">frozenset</span><span class="p">(</span><span class="n">currentCom</span><span class="p">)]</span><span class="o">=</span><span class="n">comID</span>
     <span class="k">return</span> <span class="n">coms</span>
 

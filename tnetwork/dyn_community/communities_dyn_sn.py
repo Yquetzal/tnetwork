@@ -11,17 +11,18 @@ class DynamicCommunitiesSN:
         """
         Initialize a dynamic community object, corresponding to a snapshot-based dynamic network
         """
-        self._communities=SortedDict() #A sorted dict, key:time, value: bidict {frozenset of nodes}:id
+        self._snapshots=SortedDict() #A sorted dict, key:time, value: bidict {frozenset of nodes}:id
         self.events=CommunitiesEvent()
         self._automaticID=1
 
     def add_empy_sn(self, t):
         """
-        Add a snapshot with no communities at time t
+        Add a snapshot with no snapshots at time t
         :param t: time step
         """
-        if not t in self._communities:
-            self._communities[t] = bidict()
+        if not t in self._snapshots:
+            self._snapshots[t] = bidict()
+
 
     def belongings_by_node(self,t):
         """
@@ -56,9 +57,9 @@ class DynamicCommunitiesSN:
 
 
         for ts in t:
-            if not ts in self._communities:
-                self._communities[ts]=bidict()
-            coms = self._communities[ts]
+            if not ts in self._snapshots:
+                self._snapshots[ts]=bidict()
+            coms = self._snapshots[ts]
             for cs in cID:
                 if not cs in coms.inv:
                     coms.inv[cs]=frozenset()
@@ -70,7 +71,7 @@ class DynamicCommunitiesSN:
         :param clusters: dict or bidict{frozenset of nodes}:id
         """
 
-        self._communities[t]=bidict(clusters)
+        self._snapshots[t]=bidict(clusters)
 
     def add_community(self, t, com, id=None):
         """
@@ -90,27 +91,30 @@ class DynamicCommunitiesSN:
     def com_ID(self, t, com):
         """
         Get the id of a community at a time
+
         :param t: time
         :param com: set of nodes
         :return: the id
         """
 
-        return self._communities[t][com]
+        return self._snapshots[t][com]
 
     def communities(self,t=None):
         """
-        return all communities present at a given time
+        return all snapshots present at a given time
+
         :param t: time
         :return: a bidict {frozenset of nodes}:id
         """
 
         if t==None:
-            return self._communities
-        return self._communities[t]
+            return self._snapshots
+        return self._snapshots[t]
 
     def _compute_fraction_identity(self, com1, com2):
         """
-        compute a fraction of identity between two communities
+        compute a fraction of identity between two snapshots
+
         :param com1: a com
         :param com2: another com
         """
@@ -120,12 +124,11 @@ class DynamicCommunitiesSN:
 
     def create_standard_event_graph(self, keepingPreviousEvents=False,threshold=0,score=_compute_fraction_identity):
         """
-        From a set of static communities, do a standard matching process such as all communities in consecutive steps with at least a node in common are linked by an event, and compute a similarity score
-
+        From a set of static snapshots, do a standard matching process such as all snapshots in consecutive steps with at least a node in common are linked by an event, and compute a similarity score
 
         :param keepingPreviousEvents: if true, if events were already present, we keep them and compute their score
         :param threshold: a minimal value of score under which a link is not created. Default: 0
-        :param score: a function describing how to compute the score. Takes 2 communities as input and return the score.
+        :param score: a function describing how to compute the score. Takes 2 snapshots as input and return the score.
         """
         if not keepingPreviousEvents:
             self.events=CommunitiesEvent()
@@ -135,7 +138,7 @@ class DynamicCommunitiesSN:
                 fraction = self._compute_fraction_identity(communities[t1].inv[com1], communities[t2].inv[com2])
                 self.events[(t1, com1)][(t2, com2)]["fraction"]=fraction
 
-        #compute events between consecutive communities
+        #compute events between consecutive snapshots
         communities = self.communities()
         for i in range(1,len(communities),1):
             (t1,comsBefore) = communities.peekitem(i-1)
@@ -150,19 +153,21 @@ class DynamicCommunitiesSN:
     def _change_com_id(self,t,oldID,newID):
         """
         Modify the ID of a community, in the community list and the event graph
+
         :param t:
         :param nodes:
         :param newID:
         :return:
         """
-        nodesOfCom = self._communities[t].inv[oldID]
-        self._communities[t][nodesOfCom] = newID
+        nodesOfCom = self._snapshots[t].inv[oldID]
+        self._snapshots[t][nodesOfCom] = newID
         nx.relabel_nodes(self.events, {(t,oldID): (t, newID)}, copy=False)
 
     def relabel_coms_from_continue_events(self, typedEvents=True):
         """
-        If an event graph is present, rename the communities such as two communities that are linked by an event labeled "continue" will have the same ID.
+        If an event graph is present, rename the snapshots such as two snapshots that are linked by an event labeled "continue" will have the same ID.
         If events are not labels, is possible to label them automatically into merge, split and continue using the in/out degrees of nodes in the event graph
+
         :param typedEvents: True if continue labels have already been set.
         """
         if typedEvents:
@@ -178,16 +183,16 @@ class DynamicCommunitiesSN:
                         idComToKeep = changedIDs[u]
                     changedIDs[v]=idComToKeep
 
-                    nodesOfCom = self._communities[timeEnd].inv[idComToChange]
-                    self._communities[timeEnd][nodesOfCom]=idComToKeep
+                    nodesOfCom = self._snapshots[timeEnd].inv[idComToChange]
+                    self._snapshots[timeEnd][nodesOfCom]=idComToKeep
 
                     #update com ID in event graph
                     nx.relabel_nodes(self.events, {(timeEnd, idComToChange): (timeEnd, idComToKeep)}, copy=False)
 
         if not typedEvents:
             #if events are not typed, we infer what we can, i.e one input and one input is a continue, otherwise we change label of edges accordingly
-            for t in self._communities:
-                for (c,cID) in self._communities[t].items():
+            for t in self._snapshots:
+                for (c,cID) in self._snapshots[t].items():
                     node_current=(t,cID)
                     succ = self.events.out_degree([node_current])
 
@@ -242,29 +247,30 @@ class DynamicCommunitiesSN:
 
     def to_SGcommunities(self, convertTimeToInteger=False):
         """
-        Convert to SG communities
+        Convert to SG snapshots
+
         :param convertTimeToInteger:
         :return:
         """
         dynComTN= tn.DynamicCommunitiesSG()
-        for i in range(len(self._communities)):
+        for i in range(len(self._snapshots)):
             if convertTimeToInteger:
                 t=i
                 tNext=i+1
             else:
-                t = self._communities.peekitem(i)[0]
-                if i<len(self._communities)-1:
-                    tNext=self._communities.peekitem(i + 1)[0]
+                t = self._snapshots.peekitem(i)[0]
+                if i<len(self._snapshots)-1:
+                    tNext=self._snapshots.peekitem(i + 1)[0]
                 else:
-                    tNext = self._communities.peekitem("END")[1]
+                    tNext = self._snapshots.peekitem("END")[1]
 
-            for (c,cID) in self._communities.peekitem(i)[1].items(): #for each community for this timestep
+            for (c,cID) in self._snapshots.peekitem(i)[1].items(): #for each community for this timestep
                 for n in c:#get the nodes, not the
-                    dynComTN.addBelonging(n, cID, t, tNext)
+                    dynComTN.add_belonging(n, cID, t, tNext)
 
 
         #convert also events
         for (u,v,d) in self.events.edges(data=True):
-            if d["type"]!="continue": #if communities have different IDs
+            if d["type"]!="continue": #if snapshots have different IDs
                 dynComTN.addEvent(u[1],v[1],d["time"][0],d["time"][1],d["type"])
         return dynComTN

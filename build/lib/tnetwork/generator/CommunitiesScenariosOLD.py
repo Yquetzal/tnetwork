@@ -75,7 +75,7 @@ class community(abstractStructure):
         :param name: the name of the community
         """
         #generate a unique ID
-        id = comScenario._getNewID(prefix="COM")
+        id = comScenario._get_new_ID(prefix="COM")
 
         self.id = id
         self.name=name
@@ -180,8 +180,8 @@ class operation(abstractStructure):
         """
 
         :param action: The type of action, as a string. It can be an atomic of simple event (birth, death, migrate, split, merge)
-        :param beforeIDS: the unique IDs of the communities involved in the event
-        :param afterIDS: the unique IDs of the communities resulting of the event
+        :param beforeIDS: the unique IDs of the snapshots involved in the event
+        :param afterIDS: the unique IDs of the snapshots resulting of the event
         :param comScenario:
         :param parameters: dict(), splitting:{{n1,n2,...n5},{n6,...,n10},...,{}} , splitSize:[n/3,n/3,n/3]
         """
@@ -222,7 +222,7 @@ class operation(abstractStructure):
         # 1) It should be easier for the user
         # 2) ...
         for comName in self.beforeIDS:
-            self.before.append(self.comScenario._retrieveLastCommunityWithName(comName))
+            self.before.append(self.comScenario._retrieve_last_community_with_name(comName))
 
         #Create new clusters with zero nodes with appropriate names
         for comName in self.afterIDS:
@@ -260,10 +260,10 @@ class operation(abstractStructure):
 
 
         for c in self.before:
-            currentEdges.update(c.getInternEdges( ))
+            currentEdges.update(c._intern_edges())
 
         for c in self.after:
-            edgesAfter.update(c.getInternEdges())
+            edgesAfter.update(c._intern_edges())
 
         toRemove = set(currentEdges) - set(edgesAfter)
         toAdd = set(edgesAfter) - set(currentEdges)
@@ -277,7 +277,7 @@ class operation(abstractStructure):
         if len(self.after)==0:
             #self.after.append(self.comScenario.createCluster(0, activeCluster=False))
             self.after.append(community(self.comScenario))
-            self.afterIDS=[self.after[0].getName()]
+            self.afterIDS=[self.after[0].name()]
         #afterCom = self.comScenario.createCluster(0, list(self.afterIDS)[0], activeCluster=False)
 
         #If we do not specify the nodes that should be added to this community (?), create nodes
@@ -286,20 +286,20 @@ class operation(abstractStructure):
             for i in range(self.parameters["size"]):
                 self.parameters["nodes"].add(self.comScenario.createNode())
 
-        self.after[0].addNodes(self.parameters["nodes"])
+        self.after[0]._add_nodes(self.parameters["nodes"])
 
     # def _merge(self):
     #
     #     #afterCom = self.comScenario.createCluster(0,list(self.afterIDS)[0],activeCluster=False)
     #     for c in self.before:
-    #         self.after[0].addNodes(c.getNodes())
+    #         self.after[0]._add_nodes(c.nodes())
 
     def _death(self):
         #the community is removed automatically because self.before is removed and nothing is added to replace.
         #nodes must not be killed now because this code is called during scenario definition.
         pass
         # for c in self.before:
-        #     for n in c.getNodes():
+        #     for n in c.nodes():
         #         self.comScenario.killNode(n)
 
     def _migrate(self):
@@ -308,7 +308,7 @@ class operation(abstractStructure):
 
 
         if not "sizesIn" in self.parameters: # by default, take all nodes in all input coms
-            self.parameters["sizesIn"]= [len(c.getNodes()) for c in self.before]
+            self.parameters["sizesIn"]= [len(c.nodes()) for c in self.before]
 
         if not "sizesOut" in self.parameters and not "splittingOut" in self.parameters: #by default, split evenly among outputs
             self.parameters["sizesOut"]=[]
@@ -320,7 +320,7 @@ class operation(abstractStructure):
         listNodes = []
         for i in range(len(self.before)):
             nodesToTake=self.parameters["sizesIn"][i]
-            listNodes += list(self.before[i].getNodes())[:nodesToTake]
+            listNodes += list(self.before[i].nodes())[:nodesToTake]
         #the migration is done by giving the number of nodes that migrate (currently, not random, attribute by natural order)
 
 
@@ -331,27 +331,27 @@ class operation(abstractStructure):
             #For each of the communities we want to migrate them to
             for i in range(len(self.parameters["sizesOut"])):
                 cSize = self.parameters["sizesOut"][i]
-                self.after[i].addNodes(listNodes[:cSize])
+                self.after[i]._add_nodes(listNodes[:cSize])
                 listNodes = listNodes[cSize:]
 
         #the migration is done by giving the exact list of which node should migrate in each community
         if "splittingOut" in self.parameters:
             for i in range(len(self.parameters["splittingOut"])):
-                self.after[i].addNodes(self.parameters["splittingOut"][i])
+                self.after[i]._add_nodes(self.parameters["splittingOut"][i])
 
     # def _split(self):
     #
     #
     #     if "sizes" in self.parameters:
-    #         listNodes = list(self.before[0].getNodes())
+    #         listNodes = list(self.before[0].nodes())
     #         for i in range(len(self.parameters["sizes"])):
     #             cSize = self.parameters["sizes"][i]
-    #             self.after[i].addNodes(listNodes[:cSize])
+    #             self.after[i]._add_nodes(listNodes[:cSize])
     #             listNodes = listNodes[cSize:]
     #
     #     if "splitting" in self.parameters:
     #         for i in range(len(self.parameters["splitting"])):
-    #             self.after[i].addNodes(self.parameters["splitting"][i])
+    #             self.after[i]._add_nodes(self.parameters["splitting"][i])
 
 
 
@@ -394,7 +394,7 @@ class operation(abstractStructure):
     def getNodes(self):
         allNodes = set()
         for com in self.after:
-            allNodes.update(com.getNodes())
+            allNodes.update(com.nodes())
         return allNodes
 
 
@@ -403,7 +403,7 @@ class operation(abstractStructure):
 class comScenario():
     def __init__(self,variant="best",verbose=True,coeffCommunity=0.01):
         self.pairsImportance =dict() #List of importance for each pair of nodes in the graph
-        self.abstractCommunities = dict()  # type:{str:community} #dictionary containing the list of all currently active communities {name:object}
+        self.abstractCommunities = dict()  # type:{str:community} snapshots
 
         self.currentID=0 #To ensure that all community IDs are different
 
@@ -424,7 +424,7 @@ class comScenario():
     def _getCurrentNodes(self):
         allNodes=set()
         for name,com in self.abstractCommunities.items():
-            allNodes.update(set(com.getNodes()))
+            allNodes.update(set(com.nodes()))
 
         return allNodes
 
@@ -433,7 +433,7 @@ class comScenario():
         :return: number edges to have between communities
         """
         nbNodes = len(self._getCurrentNodes())
-        coeffReduction=self.coeffCommunity
+ snapshotsfReduction=self.coeffCommunity
         alpha=0.75
         return math.ceil(coeffReduction*(math.pow(nbNodes - 1, alpha) * nbNodes) / 2)
 
@@ -459,18 +459,18 @@ class comScenario():
         :return:
         """
         if(self.verbose):
-            print("---------END OF OPERATION: ",operation.getName())
+            print("---------END OF OPERATION: ", operation.name())
 
-        del self.abstractCommunities[operation.getName()]
+        del self.abstractCommunities[operation.name()]
         for com in operation.after:
-            self.abstractCommunities[com.getName()] = com
+            self.abstractCommunities[com.name()] = com
 
             #Memorising the states of communities (for random assignment ?)
-            ###comSteps.setdefault(com.getName(), []).append(set(com.getInternEdges(variant=self.variant)))
+            ###comSteps.setdefault(com.name(), []).append(set(com._intern_edges(variant=self.variant)))
             if len(operation.before)>0:
                 #print("nodes:",self.dynCom.events.nodes)
                 #update the name of community with the event graph now that we know the time of end of operation
-                nx.relabel_nodes(self.dynCom.events,{com.getName():(self.currentT,com.getName())},copy=False)
+                nx.relabel_nodes(self.dynCom.events, {com.name():(self.currentT, com.name())}, copy=False)
 
     def generateCurrentNetwork(self):
         """
@@ -485,9 +485,9 @@ class comScenario():
         #for each community
         for c in list(self.abstractCommunities.values()):
 
-            internPairs = c.getInternPairsAffinity()
+            internPairs = c._intern_pairs()
 
-            chosenEdges = c.getInternEdges(variant=self.variant)
+            chosenEdges = c._intern_edges(variant=self.variant)
 
 
             ###REMOVE intern pairs from possible pairs for inter-com edges
@@ -549,7 +549,7 @@ class comScenario():
     #     if activeCluster:
     #         self.abstractCommunities[nameCl]=newcom
     #     for i in range(nbNodes):
-    #         newN = self.createNode()
+    #         newN = self.create_node()
     #         newcom.addNode(newN)
     #
     #     #self.readyComs.add(newcom.id)
@@ -564,11 +564,10 @@ class comScenario():
         :param waitFor: the ID of the event(s) that should be finished before considering activation
         :return: the ID or IDs of communities created by this action
         """
-        if (self.verbose):
-            print("----request action ", action.action, action.getName())
+        if (self.verbose)snapshots   print("----request action ", action.action, action.name())
         action.initialise(self)
         if (self.verbose):
-            print("----added action ", action.action, action.getName())
+            print("----added action ", action.action, action.name())
 
         self.actions.append({"operation": action, "t": t, "wait": wait,"waitFor":waitFor})
         return action.after
@@ -577,8 +576,7 @@ class comScenario():
         """
 
         :param toMerge: names of communities to merge
-        :param merged: name of the merged community
-        :param t:
+        :param merged: name of the merged communitysnapshotsaram t:
         :return:
         """
         if type(merged) is str:
@@ -587,16 +585,15 @@ class comScenario():
         return mergedCom
 
         #for com in mergedCom: #remove communities that disappeared (all if name is not kept)
-         #   if not com.getName() in merged:
-          #      self.addAction(operation("death", beforeIDS=com.getID()), t,
-           #                    wait=0, waitFor=com.getID())
+         #   if not com.name() in merged:
+          #      self.addAction(operation("death", beforeIDS=com.get_ID()), t,
+           #                    wait=0, waitFor=com.get_ID())
 
     def split(self,toSplit, newComs,t=0,wait=0,waitFor=None,parameters=None):
         """
 
         :param toMerge: names of communities to merge
-        :param merged: name of the merged community
-        :param t:
+        :param merged: name of the merged communitysnapshotsaram t:
         :return:
         """
         if type(toSplit) is str:
@@ -604,24 +601,24 @@ class comScenario():
         splittedCom = self.addAction(operation("migrate",beforeIDS=toSplit,afterIDS=newComs,parameters=parameters),t,wait,waitFor)
         return splittedCom
         #if not toSplit in newComs:
-         #   self.addAction(operation("death", beforeIDS=toSplit), t, wait=0, waitFor=splittedCom[0].getID())
+         #   self.addAction(operation("death", beforeIDS=toSplit), t, wait=0, waitFor=splittedCom[0].get_ID())
 
 
     def activateAction(self,op):
         if (self.verbose):
-            print("---------ACTIVATING: ", op.getName())
-        self.abstractCommunities[op.getName()] = op
+            print("---------ACTIVATING: ", op.name())
+        self.abstractCommunities[op.name()] = op
 
         #delete the communites involved in the operation from the list of currently existing communities
         for c in op.before:
-            del self.abstractCommunities[c.getName()]
+            del self.abstractCommunities[c.name()]
 
 
     def retrieveLastCommunityWithName(self,anAction):
         for action in reversed(self.actions):
             if anAction in action["operation"].afterIDS:
                 return action["operation"].after[action["operation"].afterIDS.index(anAction)]
-        raise Exception("OPERATION MISSING to lead to com: ",anAction.getName())
+        raise Exception("OPERATION MISSING to lead to com: ", anAction.name())
 
 
     def run(self):
@@ -630,11 +627,11 @@ class comScenario():
             if(self.verbose):
                 print("TIME : ",self.currentT)
                 print("communities start of step: ",self.abstractCommunities.keys())
-                #print("action start of step: ",[a["operation"].getName() for a in self.actions])
+          snapshotst("action start of step: ",[a["operation"].name() for a in self.actions])
 
 
             #get the list of names and IDs of communities and events currently active
-            readycomNames = {c.getName() for c in self.abstractCommunities.values()}
+            readycomNames = {c.name() for c in self.abstractCommunities.values()}
             readycomIDs = {c.com_ID() for c in self.abstractCommunities.values()}
 
 
@@ -668,17 +665,17 @@ class comScenario():
 
             g=self.generateCurrentNetwork()
             self.dynGraph.add_snapshot(self.currentT, g)
-            #nx.draw_networkx(g,with_labels=True)#,labels={k:k.getName() for k in g.nodes})
+            #nx.draw_networkx(g,with_labels=True)#,labels={k:k.name() for k in g.nodes})
 
             if self.verbose:
                 print("communities end of step: ",self.abstractCommunities.keys())
 
-            self.dynCom.add_empy_sn(self.currentT)
+           snapshotsm.add_empy_sn(self.currentT)
             for c in self.abstractCommunities.values():
                 if type(c) is community:
                     if (self.verbose):
-                        print("list of current com: adding com ",self.currentT," ",c.getName())
-                    self.dynCom.add_community(self.currentT, c.getNodes(), c.getName())
+                        print("list of current com: adding com ", self.currentT," ", c.name())
+                    self.dynCom.add_community(self.currentT, c.nodes(), c.name())
 
 
             plt.show()
@@ -691,27 +688,27 @@ class comScenario():
 ################### COMPOSED OPERATIONS ####################
 
 def theseusBoat(theComTh, wait=3):
-    initialNodes = list(theComTh.getNodes())
-    name = theComTh.getName()
+    initialNodes = list(theComTh.nodes())
+    name = theComTh.name()
     currentID = theComTh.com_ID()
     size = len(initialNodes)
     comScen = theComTh.comScenar
 
     planksInStoreHouse = []
     for i in range(size):
-        xCom = comScen._addAction(operation("birth", parameters={"size": 1}), waitFor=currentID,
-                                  wait=wait)
-        comPlus1 = comScen.merge([name, xCom[0].getName()], [name])
+        xCom = comScen._add_action(operation("birth", parameters={"size": 1}), waitFor=currentID,
+                                   wait=wait)
+        comPlus1 = comScen.merge([name, xCom[0].name()], [name])
         nodeToRemove = initialNodes[i]
         currentID = comPlus1[0].com_ID()
 
         [killed, comMinus1] = comScen.split([name], ["toKill" + str(i), name], parameters={
-            "splittingOut": [{nodeToRemove}, set(comPlus1[0].getNodes()) - {nodeToRemove}]},
+            "splittingOut": [{nodeToRemove}, set(comPlus1[0].nodes()) - {nodeToRemove}]},
                                             wait=wait, waitFor=currentID)
 
 
-        #comScen.addAction(operation("death", [killed.getName()]))
-        planksInStoreHouse.append(killed.getName())
+        #comScen.addAction(operation("death", [killed.name()]))
+        planksInStoreHouse.append(killed.name())
 
 
         currentID = comMinus1.com_ID()
@@ -725,30 +722,30 @@ def migration(comFrom, comTo, nbNodes, wait=0):
 
     currentFrom = comFrom
     for i in range(nbNodes):
-        [switched, currentFrom] = comScen.split([comFrom.getName()], ["toSwitch" + str(i), comFrom.getName()],
+        [switched, currentFrom] = comScen.split([comFrom.name()], ["toSwitch" + str(i), comFrom.name()],
                                                 parameters={"sizesOut": [1, len(currentFrom.getNodes()) - 1]},
                                                 wait=wait, waitFor=currentFrom.getID())
-        comScen.merge([comTo.getName(), switched.getName()], [comTo.getName()], waitFor=switched.com_ID())
+        comScen.merge([comTo.name(), switched.name()], [comTo.name()], waitFor=switched.com_ID())
 
 
 def growIterative(com, nodes2Add, wait=1):
     comScen = com.comScenar
 
     currentCom = com
-    # currentID = com.getID()
-    # name = com.getName()
+    # currentID = com.get_ID()
+    # name = com.name()
     for i in range(nodes2Add):
-        xCom = comScen._addAction(operation("birth", parameters={"size": 1}), waitFor=currentCom.getID(),
-                                  wait=wait)
-        [comPlus1] = comScen.merge([currentCom.getName(), xCom[0].getName()], [currentCom.getName()])
+        xCom = comScen._add_action(operation("birth", parameters={"size": 1}), waitFor=currentCom.getID(),
+                                   wait=wait)
+        [comPlus1] = comScen.merge([currentCom.getName(), xCom[0].name()], [currentCom.getName()])
         currentCom = comPlus1
     return currentCom
 
 def shrinkIterative(com, nodes2Remove, waitInitial=1,waitStep=1):
     comScen = com.comScenar
     currentCom = com
-    # currentID = com.getID()
-    # name = com.getName()
+    # currentID = com.get_ID()
+    # name = com.name()
 
     for i in range(nodes2Remove):
         waitToConsider = waitStep
@@ -757,6 +754,6 @@ def shrinkIterative(com, nodes2Remove, waitInitial=1,waitStep=1):
         currentNbNodes = len(currentCom.getNodes())
         print("----",i,currentCom.getID(),currentNbNodes,currentCom.getName())
         [killed, comMinus1] = comScen.split([currentCom.getName()], ["toDisappear" + str(i), currentCom.getName()], parameters={"sizesOut":[1,currentNbNodes-1]}, wait=waitToConsider, waitFor=currentCom.getID())
-        comScen._addAction(operation("death", [killed.getName()]))
+        comScen._add_action(operation("death", [killed.name()]))
         currentCom = comMinus1
     return currentCom

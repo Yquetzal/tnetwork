@@ -2,49 +2,86 @@
 import networkx as nx
 import math
 from tnetwork.dyn_graph.dyn_graph import DynGraph
-from tnetwork.utils.intervals import intervals
+from tnetwork.utils.intervals import Intervals
+import tnetwork as tn
 
 
 class DynGraphSG(DynGraph):
 
 
-    def __init__(self, data=None):
+    def __init__(self, data=None,start=None,end=None):
 
-        self._start=math.inf
-        self._end=-math.inf
+        """
+
+        :param start: set a start time, by default will be the first time of the added snapshots
+        :param end: set an end time, by default will be the last time of the added snapshots
+        """
+        if start==None:
+            self.start=math.inf
+        if end==None:
+            self.end=-math.inf
+
         self._graph = nx.Graph()
+
+    def graph_at_time(self,t):
+        to_return = nx.Graph()
+        for n,intv in nx.get_node_attributes(self._graph,"t").items():
+            if intv.contains_t(t):
+                to_return.add_node(n)
+
+        for e, intv in nx.get_edge_attributes(self._graph, "t").items():
+            if intv.contains_t(t):
+                to_return.add_edge(e[0],e[1])
+        return to_return
+
+    def _add_interaction_safe(self, u,v, time):
+        """
+        Same as add_interaction but do not modify nodes presences to save time. To use only if nodes
+        have been added manually first
+        :param u:
+        :param v:
+        :param time: pair or directly an Intervals object
+        :return:
+        """
+
+        if not self._graph.has_edge(u,v):
+            self._graph.add_edge(u, v, t=Intervals())
+
+        if isinstance(time,Intervals):
+            self._graph.add_edge(u,v,t=time)
+        else:
+            start = time[0]
+            end = time[1]
+            self._graph[u][v]["t"].add_interval((start, end))
+
 
 
     def add_interaction(self, u_of_edge,v_of_edge, time):
         """
         Add an interaction between nodes u and v at time time
-        :param u: first node
-        :param v: second node
+        :param u_of_edge: first node
+        :param v_of_edge: second node
         :param time: pair (start,end)
         :return:
         """
 
         u = u_of_edge
         v = v_of_edge
-        start=time[0]
-        end = time[1]
-        if not self._graph.has_node(u):
-            self.add_node_presence(u_of_edge, start, end)
 
-        if not self._graph.has_node(v):
-            self.add_node_presence(v, start, end)
 
-        if not self._graph.has_edge(u,v):
-            self._graph.add_edge(u,v,t=intervals())
+        self.add_node_presence(u, time)
+        self.add_node_presence(v, time)
 
-        self._graph[u][v]["t"].add_interval((start, end))
+        self._add_interaction_safe(u,v, time)
 
-        self._start = min(self._start, start)
-        self._end = max(self._end, end)
+        start = time[0]
+        end=time[1]
+        self.start = min(self.start, start)
+        self.end = max(self.end, end)
 
     def add_interactions_from(self, nodePairs, times):
         """
-        Add interactions between provided pairs for the provided intervals
+        Add interactions between provided pairs for the provided periods
         :param nodePairs: a node pair, or a list of node pairs
         :param times: a pair of time step of the form (start,stop), or a list of pair of time step of same length as nodePairs
         """
@@ -66,12 +103,16 @@ class DynGraphSG(DynGraph):
         :param time: a period, couple (start, stop)
         """
 
-        start = time[0]
-        stop = time[1]
-        if not self._graph.has_node(n):
-            self._graph.add_node(n,t=intervals())
 
-        self._graph.node[n]["t"].add_interval((start, stop))
+        if not self._graph.has_node(n):
+            self._graph.add_node(n, t=Intervals())
+
+        if isinstance(time,Intervals):
+            self._graph.node[n]["t"]=time
+        else:
+            start = time[0]
+            stop = time[1]
+            self._graph.node[n]["t"].add_interval((start, stop))
 
     def add_nodes_presence_from(self, nodes,times):
         """
@@ -116,3 +157,58 @@ class DynGraphSG(DynGraph):
             return es
 
         return {k:v for k,v in es.items() if k in edges}
+
+    def active_times(self):
+        to_return = set()
+        for e,interv in self.interactions().items():
+            for period in interv.periods():
+                to_return.update(period)
+
+        for n,interv in self.node_presence().items():
+            for period in interv.periods():
+                to_return.update(period)
+        return sorted(list(to_return))
+
+
+
+    def to_DynGraphSN(self,slices=None):
+        """
+        Convert to a snapshot representation.
+
+        :param slices: can be one of (1)None, snapshots are created such as a new snapshot is created at every node/edge change,
+        (2)an integer, snapshots are created using a sliding window
+        (3)a list of periods, represented as pairs (start, end), each period yieling a snapshot
+        :return: a dynamic graph represented as snapshots, the weight of nodes/edges correspond to their presence time during the snapshot
+        """
+        dgSN = tn.DynGraphSN()
+        if slices==None:
+            times = self.active_times()
+            slices = [(times[i],times[i+1]) for i in range(len(times)-1)]
+
+        if isinstance(slices,int):
+            duration = slices
+            slices = []
+            start = self.start
+            end = start+duration
+            while(end<self.end):
+                end = start+duration
+                slices.append((start,end))
+                start=end
+                end = end+duration
+
+        for ts in slices:
+            dgSN.add_snapshot(t=ts[0],graphSN=nx.Graph())
+
+        for n,interv in self.node_presence().items():
+            for ts in slices:
+                presence = interv.intersect(Intervals([ts])).duration()
+                if presence>0:
+                    dgSN.snapshots(ts[0]).add_node(n,weight=presence)
+
+        for e,interv in self.interactions().items():
+            for ts in slices:
+                presence = interv.intersect(Intervals([ts])).duration()
+                if presence>0:
+                    dgSN.snapshots(ts[0]).add_edge(e[0],e[1],weight=presence)
+
+        return dgSN

@@ -5,7 +5,7 @@ from tnetwork.utils.community_utils import *
 
 def iterative_louvain(dynNetSN):
     """
-    Compute communities according to the louvain algorithm at each step
+    Compute snapshots according to the louvain algorithm at each step
     :param dynNetSN: a dynamic network
     :return: a dynamic community object
     """
@@ -22,7 +22,7 @@ def iterative_louvain(dynNetSN):
 
 def smoothed_louvain(dynNetSN):
     """
-    Compute communities iteratively by starting a louvain algorithm at each step with the previous communities as seeds
+    Compute snapshots iteratively by starting a louvain algorithm at each step with the previous snapshots as seeds
     :param dynNetSN:
     :return:a dynamic community object
     """

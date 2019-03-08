@@ -17,7 +17,7 @@ class DynamicCommunitiesSN:
 
     def add_empy_sn(self, t):
         """
-        Add a snapshot with no communities at time t
+        Add a snapshot with no snapshots at time t
         :param t: time step
         """
         if not t in self._communities:
@@ -99,7 +99,7 @@ class DynamicCommunitiesSN:
 
     def communities(self,t=None):
         """
-        return all communities present at a given time
+        return all snapshots present at a given time
         :param t: time
         :return: a bidict {frozenset of nodes}:id
         """
@@ -110,7 +110,7 @@ class DynamicCommunitiesSN:
 
     def _compute_fraction_identity(self, com1, com2):
         """
-        compute a fraction of identity between two communities
+        compute a fraction of identity between two snapshots
         :param com1: a com
         :param com2: another com
         """
@@ -120,12 +120,12 @@ class DynamicCommunitiesSN:
 
     def create_standard_event_graph(self, keepingPreviousEvents=False,threshold=0,score=_compute_fraction_identity):
         """
-        From a set of static communities, do a standard matching process such as all communities in consecutive steps with at least a node in common are linked by an event, and compute a similarity score
+        From a set of static snapshots, do a standard matching process such as all snapshots in consecutive steps with at least a node in common are linked by an event, and compute a similarity score
 
 
         :param keepingPreviousEvents: if true, if events were already present, we keep them and compute their score
         :param threshold: a minimal value of score under which a link is not created. Default: 0
-        :param score: a function describing how to compute the score. Takes 2 communities as input and return the score.
+        :param score: a function describing how to compute the score. Takes 2 snapshots as input and return the score.
         """
         if not keepingPreviousEvents:
             self.events=CommunitiesEvent()
@@ -135,7 +135,7 @@ class DynamicCommunitiesSN:
                 fraction = self._compute_fraction_identity(communities[t1].inv[com1], communities[t2].inv[com2])
                 self.events[(t1, com1)][(t2, com2)]["fraction"]=fraction
 
-        #compute events between consecutive communities
+        #compute events between consecutive snapshots
         communities = self.communities()
         for i in range(1,len(communities),1):
             (t1,comsBefore) = communities.peekitem(i-1)
@@ -161,7 +161,7 @@ class DynamicCommunitiesSN:
 
     def relabel_coms_from_continue_events(self, typedEvents=True):
         """
-        If an event graph is present, rename the communities such as two communities that are linked by an event labeled "continue" will have the same ID.
+        If an event graph is present, rename the snapshots such as two snapshots that are linked by an event labeled "continue" will have the same ID.
         If events are not labels, is possible to label them automatically into merge, split and continue using the in/out degrees of nodes in the event graph
         :param typedEvents: True if continue labels have already been set.
         """
@@ -242,7 +242,7 @@ class DynamicCommunitiesSN:
 
     def to_SGcommunities(self, convertTimeToInteger=False):
         """
-        Convert to SG communities
+        Convert to SG snapshots
         :param convertTimeToInteger:
         :return:
         """
@@ -260,11 +260,11 @@ class DynamicCommunitiesSN:
 
             for (c,cID) in self._communities.peekitem(i)[1].items(): #for each community for this timestep
                 for n in c:#get the nodes, not the
-                    dynComTN.addBelonging(n, cID, t, tNext)
+                    dynComTN.add_belonging(n, cID, t, tNext)
 
 
         #convert also events
         for (u,v,d) in self.events.edges(data=True):
-            if d["type"]!="continue": #if communities have different IDs
+            if d["type"]!="continue": #if snapshots have different IDs
                 dynComTN.addEvent(u[1],v[1],d["time"][0],d["time"][1],d["type"])
         return dynComTN

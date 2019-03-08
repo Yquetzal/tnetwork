@@ -39,12 +39,12 @@ from tnetwork.utils.community_utils import _jaccard
 def simple_matching(dynNetSN, mt=0.3, CDalgo="louvain", labels=True):
     """
     This algorithm is based on the one by Greene et al. using the louvain algorithm for detection at each step and the Jaccard coefficent to evaluate the similarity
-    of communities.
+    of snapshots.
     :param dynNetSN: a dynamic network
     :param mt: a minimum threashold for jaccard
     :param CDalgo: can be "louvain" or "smoothedLouvain"
     :param runningTime:
-    :param labels: if True, the matching of communities is done using labels. If False, using an event graph.
+    :param labels: if True, the matching of snapshots is done using labels. If False, using an event graph.
     :return:
     """
 

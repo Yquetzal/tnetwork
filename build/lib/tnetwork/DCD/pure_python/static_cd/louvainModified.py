@@ -28,8 +28,8 @@ def _partition_at_level(dendrogram, level) :
 	"""Return the partition of the nodes at the given level
 
 	A dendrogram is a tree and each level is a partition of the graph nodes.
-	Level 0 is the first partition, which contains the smallest communities, and the best is len(dendrogram) - 1.
-	The higher the level is, the bigger are the communities
+	Level 0 is the first partition, which contains the smallest snapshots, and the best is len(dendrogram) - 1.
+	The higher the level is, the bigger are the snapshots
 
 	"""
 	partition = dendrogram[0].copy()
@@ -88,9 +88,9 @@ def modularity(partition, graph,nullModel) :
 
 
 def _generate_dendrogram(graph, nullModel, part_init = None) :
-	"""Find communities in the graph and return the associated dendrogram
+	"""Find snapshots in the graph and return the associated dendrogram
 
-	A dendrogram is a tree and each level is a partition of the graph nodes.  Level 0 is the first partition, which contains the smallest communities, and the best is len(dendrogram) - 1. The higher the level is, the bigger are the communities
+	A dendrogram is a tree and each level is a partition of the graph nodes.  Level 0 is the first partition, which contains the smallest snapshots, and the best is len(dendrogram) - 1. The higher the level is, the bigger are the snapshots
 
 	"""
 	if type(graph) != nx.Graph :
@@ -170,9 +170,9 @@ def best_partition(graph, nullModel, partition = None) :
 
 
 def _induced_graph(partition, graph) :
-	"""Produce the graph where nodes are the communities
+	"""Produce the graph where nodes are the snapshots
 
-	there is a link of weight w between communities if the sum of the weights of the links between their elements is w
+	there is a link of weight w between snapshots if the sum of the weights of the links between their elements is w
 	"""
 	ret = nx.Graph()
 	ret.add_nodes_from(partition.values())
@@ -241,7 +241,7 @@ class Status :
 
 
 	def one_level(self):
-		"""Compute one level of communities
+		"""Compute one level of snapshots
 		"""
 		modif = True
 		nb_pass_done = 0
@@ -297,8 +297,8 @@ class Status :
 		new_status.node2com = self.node2com.copy()
 		new_status.com2node = self.com2node.copy()
 
-		new_status.internals = self.internals.copy() #intern edges in communities in original graph
-		new_status.internalsNull=self.internalsNull #intern edges in communities in null model
+		new_status.internals = self.internals.copy() #intern edges in snapshots in original graph
+		new_status.internalsNull=self.internalsNull #intern edges in snapshots in null model
 
 		new_status.total_weight = self.total_weight
 
@@ -342,10 +342,10 @@ class Status :
 
 	def neighcom(self,node,graph,nullModel):
 		"""
-		Compute the communities in the neighborood of node in the graph given
+		Compute the snapshots in the neighborood of node in the graph given
 		with the decomposition node2com
 		"""
-		#compute, for each neighbor of the node, for their communities, to how much does link to the tested nodes contribute to them
+		#compute, for each neighbor of the node, for their snapshots, to how much does link to the tested nodes contribute to them
 
 		weightsOriginal = {}
 		weightsNullModel = {}
