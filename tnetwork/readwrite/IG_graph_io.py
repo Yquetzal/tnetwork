@@ -1,5 +1,5 @@
 import tnetwork as tn
-from sortedcontainers import *
+import sortedcontainers
 from tnetwork.utils import write_list_of_list
 
 __all__ = ["write_IG", "read_IG", "write_ordered_changes"]
@@ -109,7 +109,7 @@ def write_ordered_changes(dynNet:tn.DynGraphIG, fileOutput, dateEveryLine=False,
     if type(dynNet) is tn.DynGraphSN:
         dynNet = dynNet.toDynGraphTN(convertTimeToInteger=False)
 
-    timeOfActions = SortedDict()
+    timeOfActions = sortedcontainers.SortedDict()
     #NOTE : can be easily optimized ! one complete check to add and to remove nodes...
     dataDicNodes={}
     if nodeModifications: #note that we add nodes before edges, so that nodes are added before there edges...

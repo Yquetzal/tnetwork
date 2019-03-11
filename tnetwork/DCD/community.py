@@ -1,6 +1,5 @@
 import random
 import math
-import operator
 
 
 class _AbstractStructure():

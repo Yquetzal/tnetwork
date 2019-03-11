@@ -1,4 +1,4 @@
-from sortedcontainers import *
+import sortedcontainers
 from collections import Iterable
 
 import networkx as nx
@@ -31,12 +31,12 @@ class DynGraphSN(DynGraph):
         :param data: can be a dictionary {time step:graph} or a list of graph, in which sase time steps are integers starting at 0
         """
 
-        self._snapshots = SortedDict()
+        self._snapshots = sortedcontainers.SortedDict()
         if data!=None:
             if isinstance(data,dict):
-                self._snapshots = SortedDict(data)
+                self._snapshots = sortedcontainers.SortedDict(data)
             elif isinstance(data,list):
-                self._snapshots = SortedDict({i:g for i,g in enumerate(data)})
+                self._snapshots = sortedcontainers.SortedDict({i:g for i,g in enumerate(data)})
             else:
                 raise Exception("data should be a list or a dictionary")
 

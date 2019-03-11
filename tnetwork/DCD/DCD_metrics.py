@@ -1,4 +1,3 @@
-from networkx import *
 import tnetwork as dn
 import sklearn as sk
 

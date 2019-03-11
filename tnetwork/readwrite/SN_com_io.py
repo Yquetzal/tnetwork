@@ -1,4 +1,4 @@
-from sortedcontainers import *
+import sortedcontainers
 from tnetwork.utils.bidict import *
 import os
 import tnetwork as tn
@@ -54,7 +54,7 @@ def read_SN_by_com(inputDir, sn_id_transformer=None, **kwargs):
     theDynCom = tn.dynamicCommunitiesSN()
     files = os.listdir(inputDir)
     visibleFiles = [f for f in files if f[0] != "."]
-    timeIDs = SortedDict() #a dictionary associating timeIds to files
+    timeIDs = sortedcontainers.SortedDict() #a dictionary associating timeIds to files
     if sn_id_transformer!=None:
         for f in visibleFiles:
             timeID = sn_id_transformer(f)

@@ -1,4 +1,4 @@
-from sortedcontainers import SortedDict
+import sortedcontainers
 from tnetwork.dyn_community.communitiesEventsHandler import CommunitiesEvent
 from tnetwork.utils.bidict import bidict
 from collections import Iterable
@@ -20,7 +20,7 @@ class DynCommunitiesSN:
 
         Initialize a dynamic community object, corresponding to a snapshot-based dynamic network
         """
-        self.snapshots=SortedDict() #A sorted dict, key:time, value: bidict {frozenset of nodes}:id
+        self.snapshots=sortedcontainers.SortedDict() #A sorted dict, key:time, value: bidict {frozenset of nodes}:id
         self.events=CommunitiesEvent()
         self._automaticID=1
 

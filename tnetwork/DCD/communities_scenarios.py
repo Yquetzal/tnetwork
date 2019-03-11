@@ -1,7 +1,6 @@
 import tnetwork as dn
 import networkx as nx
 import numpy as np
-import operator
 import math
 import progressbar
 from tnetwork.utils.intervals import Intervals

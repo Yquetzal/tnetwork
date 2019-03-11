@@ -1,5 +1,7 @@
-from sortedcontainers import *
+#from sortedcontainers import *
 import copy
+import sortedcontainers
+
 class Intervals:
     """
     Class used to represent complex intervals
@@ -33,7 +35,7 @@ class Intervals:
         :param initial: a list of intervals (list of pairs (start,end))
         """
 
-        self.interv  = SortedDict()
+        self.interv  = sortedcontainers.SortedDict()
         if initial!=None:
             for intv in initial:
                 self.interv[intv[0]]=intv

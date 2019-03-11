@@ -1,6 +1,5 @@
 from tnetwork.dyn_community.communitiesEventsHandler import *
 from tnetwork.utils.intervals import *
-import numpy as np
 import operator
 import math
 from tnetwork.utils.community_utils import affiliations2nodesets
