@@ -1,10 +1,11 @@
 import networkx as nx
+from tnetwork import DynGraphSN
 import os
 import tnetwork as dn
 
 from tnetwork.utils.bidict import *
 
-__all__ = ["read_snapshots_dir", "write_snapshots_dir","read_graph_link_stream"]
+__all__ = ["read_snapshots", "write_snapshots", "read_graph_link_stream"]
 
 def _detectAutomaticallyFormat(networkFile):
     format = networkFile.split(".")[1]
@@ -72,9 +73,12 @@ def _read_network_file(in_name, in_format="", directed=False):
     return g
 
 
-def read_snapshots_dir(inputDir, format=None):
+def read_snapshots(inputDir:str, format=None) -> DynGraphSN:
     """
-    Read a dynamic graph as a directory containing one file per snapshot. If the format is not provided, it is infered automatically from file extensions
+    Read as one file per snapshot
+    
+    Read a dynamic graph as a directory containing one file per snapshot. 
+    If the format is not provided, it is infered automatically from file extensions
 
     :param inputDir: directory where the files are located
     :param format: a string among edges(edgelist)|ncol|gefx|gml|pajek|graphML, by default, the extension of the files
@@ -97,9 +101,12 @@ def read_snapshots_dir(inputDir, format=None):
     return anSnGraph
 
 
-def write_snapshots_dir(dynGraph, outputDir, format=None):
+def write_snapshots(dynGraph:DynGraphSN, outputDir:str, format:str=None):
     """
-    Write a dynamic graph as a directory containing one file for each snapshot. The format of files can be chosen
+    Write one file per snapshot
+    
+    Write a dynamic graph as a directory containing one file for each snapshot. The format of files can be chosen.
+    
     :param dynGraph: a dynamic graph
     :param outputDir: address of the directory to write
     :param format: default edgelist, choose among edges(edgelist)|ncol|gefx|gml|pajek|graphML
@@ -151,20 +158,34 @@ def _readStaticSNByCom(inputFile, commentsChar="#", nodeSeparator=" ", nodeInBra
                 for n in nodesIDs.split(nodeSeparator):
                     currentCom.add(n)
                     # if asSN:
-                    #     theDynCom.add_belonging(n,startTime,comID)
+                    #     theDynCom.add_affiliation(n,startTime,comID)
                     # if asTN:
-                    #     theDynCom.add_belonging(n,comID,startTime) #belongings without end
+                    #     theDynCom.add_affiliation(n,comID,startTime) #belongings without end
                 coms[frozenset(currentCom)]=comID
     return coms
 
 
-def read_graph_link_stream(inputFile, toSN=True):
+def read_graph_link_stream(inputFile:str) -> DynGraphSN:
     """
-    SOCIOPATTERN format
-    this format is a variation of snapshots, in which all snapshots are in a single file, adapted for occasional observations
-    at a high framerate (each SN is meaningless), Link stream
+    Format used by SOCIOPATTERN
+
+    This format is a variation of affiliations, in which all affiliations are in a single file, adapted for occasional observations
+    at a high framerate (each SN is not really meaningful).
+
+    Format:
+    ::
+
+        DATE1	N1	N2
+        DATE1	N2	N3
+        DATE2	N1	N2
+        DATE3	N1	N2
+        DATE3	N2	N4
+        DATE3	N5	N2
+
+    :param inputFile: address of the file to read
+    :return: DynGraphSN
     """
-    theDynGraph = dn.DynGraphSN()
+    theDynGraph = DynGraphSN()
     f = open(inputFile)
 
     for l in f:
@@ -172,8 +193,7 @@ def read_graph_link_stream(inputFile, toSN=True):
         date = int(l[0])
         n1 = l[1]
         n2 = l[2]
-        if toSN:
-            theDynGraph.add_interaction(n1,n2,date)
+        theDynGraph.add_interaction(n1,n2,date)
     return theDynGraph
 
 

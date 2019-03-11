@@ -1,19 +1,26 @@
 from tnetwork.DCD.pure_python.static_cd.louvain import *
-from tnetwork.dyn_community.communities_dyn_sn import DynamicCommunitiesSN
+from tnetwork.dyn_community.communities_dyn_sn import DynCommunitiesSN
 from tnetwork.utils.community_utils import *
 
 
-def iterative_louvain(dynNetSN):
+def CD_each_step(dynNetSN,method=None):
     """
-    Compute snapshots according to the louvain algorithm at each step
+    Apply a community detection at each step
+
+    Compute affiliations at each snapshot and return a dynamic community object with those.
+
     :param dynNetSN: a dynamic network
-    :return: a dynamic community object
+    :param method: a function, the community detection algorithm to use. Default: the louvain algorithm.
+    :return: a DynCommunitiesSN object
     """
-    coms = DynamicCommunitiesSN()
-    for SNt in dynNetSN.snapshots():
-        coms.add_empy_sn(SNt)
-        if len(dynNetSN.snapshots(SNt).edges())>0:
-            partition = best_partition(dynNetSN.snapshots(SNt))
+    if method==None:
+        method = best_partition
+
+    coms = DynCommunitiesSN()
+    for SNt in dynNetSN.affiliations():
+        coms.add_empty_sn(SNt)
+        if len(dynNetSN.affiliations(SNt).edges())>0:
+            partition = method(dynNetSN.affiliations(SNt))
             asNodeSets = affiliations2nodesets(partition)
             for c in asNodeSets:
                 coms.add_community(SNt, asNodeSets[c])
@@ -22,14 +29,17 @@ def iterative_louvain(dynNetSN):
 
 def smoothed_louvain(dynNetSN):
     """
-    Compute snapshots iteratively by starting a louvain algorithm at each step with the previous snapshots as seeds
+    Apply the smoothed louvain method
+
+    Compute affiliations iteratively by starting a louvain algorithm at each step with the previous affiliations as seeds
+
     :param dynNetSN:
-    :return:a dynamic community object
+    :return:a DynCommunitiesSN
     """
-    coms = DynamicCommunitiesSN()
+    coms = DynCommunitiesSN()
     previousPartition = None
-    for SNt in dynNetSN.snapshots():
-        currentSN = dynNetSN.snapshots(SNt)
+    for SNt in dynNetSN.affiliations():
+        currentSN = dynNetSN.affiliations(SNt)
 
         if previousPartition!=None:
             #remove from the partition nodes that disappeared

@@ -13,7 +13,7 @@ class FunctionTestCase(unittest.TestCase):
 
         self.assertEqual(dg.snapshots_timesteps(),dg2.snapshots_timesteps())
         for t in dg.snapshots_timesteps():
-            self.assertEqual(dg.snapshots(t).edges(),dg2.snapshots(t).edges())
+            self.assertEqual(dg.affiliations(t).edges(), dg2.affiliations(t).edges())
 
     def test_convert2(self):
         dg = dn.DynGraphSN.graph_socioPatterns2012()
@@ -23,7 +23,7 @@ class FunctionTestCase(unittest.TestCase):
 
         self.assertEqual(dg.snapshots_timesteps(),dg2.snapshots_timesteps())
         for t in dg.snapshots_timesteps():
-            self.assertEqual(dg.snapshots(t).edges(),dg2.snapshots(t).edges())
+            self.assertEqual(dg.affiliations(t).edges(), dg2.affiliations(t).edges())
 
 
 

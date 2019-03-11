@@ -2,7 +2,7 @@ import unittest
 import tnetwork as tn
 
 from bokeh.server.server import Server
-from tnetwork.visualization.graphs import visuTest
+from tnetwork.visualization.plots import visuTest
 
 class VisuTestCase(unittest.TestCase):
 
@@ -15,7 +15,7 @@ class VisuTestCase(unittest.TestCase):
 
         my_graph = tn.DynGraphSN.graph_socioPatterns2012()
         my_graph = my_graph.aggregate_sliding_window(60 * 60 * 24)
-        my_dyn_coms = tn.DCD.simple_matching(my_graph)
+        my_dyn_coms = tn.DCD.iterative_match(my_graph)
 
         v = visuTest(my_graph,my_dyn_coms)
         server = Server({'/': v.testApplication})

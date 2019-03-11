@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Input-Output &mdash; tnetwork  documentation</title>
+  <title>Read/Write &mdash; tnetwork  documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="tnetwork.readwrite.read_snapshots_dir" href="iof/tnetwork.readwrite.read_snapshots_dir.html" />
-    <link rel="prev" title="Installing tnetwork" href="../installing.html" /> 
+    <link rel="next" title="tnetwork.readwrite.write_snapshots" href="iof/tnetwork.readwrite.write_snapshots.html" />
+    <link rel="prev" title="Installation" href="../installing.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -82,7 +82,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#free-software">Free software</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installing tnetwork</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../installing.html#quick-install">Quick install</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installing.html#installing-from-source">Installing from source</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../installing.html#github">GitHub</a></li>
@@ -94,42 +94,176 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Input-Output</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#manipulate-snapshot-graphs">Manipulate snapshot graphs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.read_snapshots_dir.html">tnetwork.readwrite.read_snapshots_dir</a></li>
-<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.write_snapshots_dir.html">tnetwork.readwrite.write_snapshots_dir</a></li>
-<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.read_graph_link_stream.html">tnetwork.readwrite.read_graph_link_stream</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Read/Write</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#simple-example">Simple example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#read-write-graphs">Read/Write graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#read-write-snapshot-graphs">Read/Write snapshot graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.readwrite.write_snapshots.html">tnetwork.readwrite.write_snapshots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.readwrite.read_snapshots.html">tnetwork.readwrite.read_snapshots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.readwrite.read_graph_link_stream.html">tnetwork.readwrite.read_graph_link_stream</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#manipulate-stream-graphs">Manipulate stream graphs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.write_SG.html">tnetwork.readwrite.write_SG</a></li>
-<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.read_SG.html">tnetwork.readwrite.read_SG</a></li>
-<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#read-write-interval-graphs">Read/Write interval graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.readwrite.write_IG.html">tnetwork.readwrite.write_IG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.readwrite.read_IG.html">tnetwork.readwrite.read_IG</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#manipulate-snapshot-snapshots">Manipulate snapshot snapshots</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.read_static_coms_by_node.html">tnetwork.readwrite.read_static_coms_by_node</a></li>
-<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.read_SN_by_com.html">tnetwork.readwrite.read_SN_by_com</a></li>
-<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.write_com_SN.html">tnetwork.readwrite.write_com_SN</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#manipulate-stream-graph-snapshots">Manipulate stream graph snapshots</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.write_SGC.html">tnetwork.readwrite.write_SGC</a></li>
-<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.read_com_ordered_changes.html">tnetwork.readwrite.read_com_ordered_changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#read-write-communities">Read/Write Communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#read-write-snapshot-affiliations">Read/Write snapshot affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.readwrite.write_com_SN.html">tnetwork.readwrite.write_com_SN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.readwrite.read_SN_by_com.html">tnetwork.readwrite.read_SN_by_com</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#read-write-interval-graph-affiliations">Read/Write interval graph affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.readwrite.write_IGC.html">tnetwork.readwrite.write_IGC</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dyn_graph.html">Dynamic Network Classes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dyn_graph.html#methods">Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dyn_graph.html#sequences-of-snapshots">Sequences of snapshots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="dyn_graph.html#adding-and-removing-nodes-and-edges">Adding and removing nodes and edges</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.__init__.html">tnetwork.DynGraphSN.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_node_presence.html">tnetwork.DynGraphSN.add_node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_nodes_presence_from.html">tnetwork.DynGraphSN.add_nodes_presence_from</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_interaction.html">tnetwork.DynGraphSN.add_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_interactions_from.html">tnetwork.DynGraphSN.add_interactions_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_snapshot.html">tnetwork.DynGraphSN.add_snapshot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.node_presence.html">tnetwork.DynGraphSN.node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.graph_at_time.html">tnetwork.DynGraphSN.graph_at_time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.snapshots_timesteps.html">tnetwork.DynGraphSN.snapshots_timesteps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.last_snapshot.html">tnetwork.DynGraphSN.last_snapshot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dyn_graph.html#conversion-to-different-formats">Conversion to different formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.to_DynGraphSG.html">tnetwork.DynGraphSN.to_DynGraphSG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.to_tensor.html">tnetwork.DynGraphSN.to_tensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dyn_graph.html#aggregation">Aggregation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.cumulated_graph.html">tnetwork.DynGraphSN.cumulated_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.aggregate_sliding_window.html">tnetwork.DynGraphSN.aggregate_sliding_window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.aggregate_time_period.html">tnetwork.DynGraphSN.aggregate_time_period</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dyn_graph.html#other-graph-operations">Other graph operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.apply_nx_function.html">tnetwork.DynGraphSN.apply_nx_function</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="dyn_graph.html#interval-graphs">Interval graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dyn_graph.html#id1">Adding and removing nodes and edges</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.add_node_presence.html">tnetwork.DynGraphIG.add_node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.add_nodes_presence_from.html">tnetwork.DynGraphIG.add_nodes_presence_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.add_interaction.html">tnetwork.DynGraphIG.add_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.add_interactions_from.html">tnetwork.DynGraphIG.add_interactions_from</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dyn_graph.html#id2">Accessing the graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.node_presence.html">tnetwork.DynGraphIG.node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.graph_at_time.html">tnetwork.DynGraphIG.graph_at_time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.interactions.html">tnetwork.DynGraphIG.interactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.change_times.html">tnetwork.DynGraphIG.change_times</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dyn_graph.html#id3">Conversion to different formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.to_DynGraphSN.html">tnetwork.DynGraphIG.to_DynGraphSN</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dyn_communities.html">Dynamic Communities Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dyn_communities.html#sequences-of-snapshots-communities">Sequences of snapshots communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dyn_communities.html#adding-and-removing-affiliations">Adding and removing affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.add_empty_sn.html">tnetwork.DynCommunitiesSN.add_empty_sn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.set_affiliations_from.html">tnetwork.DynCommunitiesSN.set_affiliations_from</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dyn_communities.html#accessing-affiliations">Accessing affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.affiliations.html">tnetwork.DynCommunitiesSN.affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.communities.html">tnetwork.DynCommunitiesSN.communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.com_ID.html">tnetwork.DynCommunitiesSN.com_ID</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dyn_communities.html#converting">Converting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.to_SGcommunities.html">tnetwork.DynCommunitiesSN.to_SGcommunities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dyn_communities.html#interval-graph-communities">Interval graph communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dyn_communities.html#id1">Adding and removing affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.add_affiliation.html">tnetwork.DynCommunitiesIG.add_affiliation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.add_affiliations_from.html">tnetwork.DynCommunitiesIG.add_affiliations_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.remove_affiliation.html">tnetwork.DynCommunitiesIG.remove_affiliation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dyn_communities.html#id2">Accessing affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.affiliations.html">tnetwork.DynCommunitiesIG.affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.communities.html">tnetwork.DynCommunitiesIG.communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.affiliations_durations.html">tnetwork.DynCommunitiesIG.affiliations_durations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dyn_communities.html#other-functions">Other functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.nodes_main_com.html">tnetwork.DynCommunitiesIG.nodes_main_com</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.nodes_natural_order.html">tnetwork.DynCommunitiesIG.nodes_natural_order</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.nodes_ordered_by_com.html">tnetwork.DynCommunitiesIG.nodes_ordered_by_com</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Intervals.html">Intervals Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Intervals.html#adding-and-removing-intervals">Adding and removing intervals</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.__init__.html">tnetwork.utils.Intervals.__init__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.add_interval.html">tnetwork.utils.Intervals.add_interval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.add_intervals.html">tnetwork.utils.Intervals.add_intervals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.add_interval_at_the_end.html">tnetwork.utils.Intervals.add_interval_at_the_end</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.remove_interval.html">tnetwork.utils.Intervals.remove_interval</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Intervals.html#accessing-intervals-properties">Accessing Intervals properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.contains_t.html">tnetwork.utils.Intervals.contains_t</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.contains.html">tnetwork.utils.Intervals.contains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.periods.html">tnetwork.utils.Intervals.periods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.duration.html">tnetwork.utils.Intervals.duration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.start.html">tnetwork.utils.Intervals.start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.end.html">tnetwork.utils.Intervals.end</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Intervals.html#operations">Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.intersection.html">tnetwork.utils.Intervals.intersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.union.html">tnetwork.utils.Intervals.union</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="DCD.html">Dynamic Community Detection</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.iterative_match.html">tnetwork.iterative_match</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.match_survival_graph.html">tnetwork.match_survival_graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.rollingCPM.html">tnetwork.rollingCPM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vizu.html">Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.plot_as_graph.html">tnetwork.plot_as_graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.plot_longitudinal.html">tnetwork.plot_longitudinal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.plot_longitudinal_sn_clusters.html">tnetwork.plot_longitudinal_sn_clusters</a></li>
 </ul>
 </li>
 </ul>
@@ -177,7 +311,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Input-Output</li>
+      <li>Read/Write</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -196,88 +330,93 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="input-output">
-<h1>Input-Output<a class="headerlink" href="#input-output" title="Permalink to this headline">¶</a></h1>
-<p>Functions to read and write dynamic graphs and snapshots</p>
-<span class="target" id="module-tnetwork.readwrite"></span><div class="section" id="manipulate-snapshot-graphs">
-<h2>Manipulate snapshot graphs<a class="headerlink" href="#manipulate-snapshot-graphs" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="read-write">
+<h1>Read/Write<a class="headerlink" href="#read-write" title="Permalink to this headline">¶</a></h1>
+<p>Functions to read and write dynamic graphs and affiliations.</p>
+<div class="section" id="simple-example">
+<h2>Simple example<a class="headerlink" href="#simple-example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">tn</span>
+<span class="n">sn</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">read_snapshots</span><span class="p">(</span><span class="s2">&quot;file_to_Read&quot;</span><span class="p">)</span>
+<span class="n">tn</span><span class="o">.</span><span class="n">write_snapshots</span><span class="p">(</span><span class="n">sn</span><span class="p">,</span><span class="s2">&quot;file_to_write&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<span class="target" id="module-tnetwork.readwrite"></span></div>
+<div class="section" id="read-write-graphs">
+<h2>Read/Write graphs<a class="headerlink" href="#read-write-graphs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="read-write-snapshot-graphs">
+<h3>Read/Write snapshot graphs<a class="headerlink" href="#read-write-snapshot-graphs" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_snapshots_dir.html#tnetwork.readwrite.read_snapshots_dir" title="tnetwork.readwrite.read_snapshots_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_snapshots_dir</span></code></a>(inputDir[,&nbsp;format])</td>
-<td>Read a dynamic graph as a directory containing one file per snapshot.</td>
+<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_snapshots.html#tnetwork.readwrite.write_snapshots" title="tnetwork.readwrite.write_snapshots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_snapshots</span></code></a>(dynGraph,&nbsp;outputDir,&nbsp;format)</td>
+<td>Write one file per snapshot</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_snapshots_dir.html#tnetwork.readwrite.write_snapshots_dir" title="tnetwork.readwrite.write_snapshots_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_snapshots_dir</span></code></a>(dynGraph,&nbsp;outputDir[,&nbsp;…])</td>
-<td>Write a dynamic graph as a directory containing one file for each snapshot.</td>
+<tr class="row-even"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_snapshots.html#tnetwork.readwrite.read_snapshots" title="tnetwork.readwrite.read_snapshots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_snapshots</span></code></a>(inputDir[,&nbsp;format])</td>
+<td>Read as one file per snapshot</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_graph_link_stream.html#tnetwork.readwrite.read_graph_link_stream" title="tnetwork.readwrite.read_graph_link_stream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_graph_link_stream</span></code></a>(inputFile[,&nbsp;toSN])</td>
-<td>SOCIOPATTERN format this format is a variation of snapshots, in which all snapshots are in a single file, adapted for occasional observations at a high framerate (each SN is meaningless), Link stream</td>
+<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_graph_link_stream.html#tnetwork.readwrite.read_graph_link_stream" title="tnetwork.readwrite.read_graph_link_stream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_graph_link_stream</span></code></a>(inputFile)</td>
+<td>Format used by SOCIOPATTERN</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="manipulate-stream-graphs">
-<h2>Manipulate stream graphs<a class="headerlink" href="#manipulate-stream-graphs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="read-write-interval-graphs">
+<h3>Read/Write interval graphs<a class="headerlink" href="#read-write-interval-graphs" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_SG.html#tnetwork.readwrite.write_SG" title="tnetwork.readwrite.write_SG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_SG</span></code></a>(theDynGraph,&nbsp;fileOutput)</td>
-<td>Write a stream graph as a list of periods, for the graph, the nodes, and the edges :param theDynGraph: a dynamic graph :param fileOutput: the address of the file to write</td>
+<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_IG.html#tnetwork.readwrite.write_IG" title="tnetwork.readwrite.write_IG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_IG</span></code></a>(theDynGraph,&nbsp;fileOutput)</td>
+<td>Write as list of periods</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_SG.html#tnetwork.readwrite.read_SG" title="tnetwork.readwrite.read_SG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_SG</span></code></a>(fileInput)</td>
-<td>Read a stream graph as a list of periods, for the graph, the nodes, and the edges :param fileInput:</td>
+<tr class="row-even"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_ordered_changes.html#tnetwork.readwrite.write_ordered_changes" title="tnetwork.readwrite.write_ordered_changes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_ordered_changes</span></code></a>(dynNet,&nbsp;fileOutput[,&nbsp;…])</td>
+<td>Write as list of successive changes</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_ordered_changes.html#tnetwork.readwrite.write_ordered_changes" title="tnetwork.readwrite.write_ordered_changes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_ordered_changes</span></code></a>(dynNet,&nbsp;fileOutput[,&nbsp;…])</td>
-<td>Write the dynamic network as a list of successive changes.</td>
+<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_IG.html#tnetwork.readwrite.read_IG" title="tnetwork.readwrite.read_IG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_IG</span></code></a>(file_address)</td>
+<td>Read as list of periods</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="manipulate-snapshot-snapshots">
-<h2>Manipulate snapshot snapshots<a class="headerlink" href="#manipulate-snapshot-snapshots" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="read-write-communities">
+<h2>Read/Write Communities<a class="headerlink" href="#read-write-communities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="read-write-snapshot-affiliations">
+<h3>Read/Write snapshot affiliations<a class="headerlink" href="#read-write-snapshot-affiliations" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_static_coms_by_node.html#tnetwork.readwrite.read_static_coms_by_node" title="tnetwork.readwrite.read_static_coms_by_node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_static_coms_by_node</span></code></a>(inputFile[,&nbsp;separator])</td>
-<td>Read a file containing snapshots such as each line is: node SEP com1 SEP com2 …</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_SN_by_com.html#tnetwork.readwrite.read_SN_by_com" title="tnetwork.readwrite.read_SN_by_com"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_SN_by_com</span></code></a>(inputDir[,&nbsp;nameFilter])</td>
-<td>Read directory in which each file correponds to a community list :param inputDir: directory :param nameFilter: a function that takes a file name and decript it into a :param kwargs: :return: a dynamic community object</td>
-</tr>
 <tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_com_SN.html#tnetwork.readwrite.write_com_SN" title="tnetwork.readwrite.write_com_SN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_com_SN</span></code></a>(dyn_communities,&nbsp;output_dir[,&nbsp;…])</td>
-<td>Write dynamic snapshots as a directory containing one file for each snapshot.</td>
+<td>Write directory, 1 file = affiliations of a snaphshot</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_SN_by_com.html#tnetwork.readwrite.read_SN_by_com" title="tnetwork.readwrite.read_SN_by_com"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_SN_by_com</span></code></a>(inputDir[,&nbsp;sn_id_transformer])</td>
+<td>Read directory, 1 file = affiliations of a snaphshot</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="manipulate-stream-graph-snapshots">
-<h2>Manipulate stream graph snapshots<a class="headerlink" href="#manipulate-stream-graph-snapshots" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="read-write-interval-graph-affiliations">
+<h3>Read/Write interval graph affiliations<a class="headerlink" href="#read-write-interval-graph-affiliations" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_SGC.html#tnetwork.readwrite.write_SGC" title="tnetwork.readwrite.write_SGC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_SGC</span></code></a>(self,&nbsp;outputFile[,&nbsp;renumber])</td>
-<td>SG =&gt; stream graph.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="iof/tnetwork.readwrite.read_com_ordered_changes.html#tnetwork.readwrite.read_com_ordered_changes" title="tnetwork.readwrite.read_com_ordered_changes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_com_ordered_changes</span></code></a>(inputFile)</td>
-<td>Read a dynamic graph represented as a sequence of changes :param inputFile: :return:</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_ordered_changes.html#tnetwork.readwrite.write_ordered_changes" title="tnetwork.readwrite.write_ordered_changes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_ordered_changes</span></code></a>(dynNet,&nbsp;fileOutput[,&nbsp;…])</td>
-<td>Write the dynamic network as a list of successive changes.</td>
+<tr class="row-odd"><td><a class="reference internal" href="iof/tnetwork.readwrite.write_IGC.html#tnetwork.readwrite.write_IGC" title="tnetwork.readwrite.write_IGC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_IGC</span></code></a>(dyn_communities,&nbsp;outputFile[,&nbsp;…])</td>
+<td>Write affiliations as interval lists</td>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 
@@ -289,10 +428,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="iof/tnetwork.readwrite.read_snapshots_dir.html" class="btn btn-neutral float-right" title="tnetwork.readwrite.read_snapshots_dir" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="iof/tnetwork.readwrite.write_snapshots.html" class="btn btn-neutral float-right" title="tnetwork.readwrite.write_snapshots" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../installing.html" class="btn btn-neutral" title="Installing tnetwork" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../installing.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

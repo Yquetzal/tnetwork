@@ -11,7 +11,7 @@ def mucha(dynNetSN, om=0.5,form="local"):
     dynNetSN.remove_nodes_from(dynNetSN.isolates())
 
 
-    graphs = dynNetSN.snapshots()
+    graphs = dynNetSN.affiliations()
 
     #unify all slices in a single network
     multiSliceGraph = nx.Graph()
@@ -82,7 +82,7 @@ def mucha(dynNetSN, om=0.5,form="local"):
         affilT = node[0]
         affilNode = node[1]
         #affilT = timesList[affilTi]
-        communities.add_belonging(affilNode, affilT, affilCom)
+        communities.add_affiliation(affilNode, affilT, affilCom)
         #addNodeComRelationship(node[1],affilCom,affilTi,affilTi,self.discretisation)
 
     return communities

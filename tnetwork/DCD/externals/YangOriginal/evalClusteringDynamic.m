@@ -40,7 +40,7 @@ if iscell(realZ)==0 && iscell(Z)==0
    for t=2:T
       CL=find(realZ(:,t)~=realZ(:,t-1));
       ECL=find(Z(:,t)~=Z(:,t-1));
-      IL=intersect(CL, ECL);
+      IL=intersection(CL, ECL);
      TAC(t-1,1)=length(IL)/length(ECL);
      TAC(t-1,2)=length(IL)/length(CL);
    end

@@ -13,25 +13,19 @@ import tnetwork as tn
 
 from bokeh.io import show, output_notebook
 
-def _sg_graph2CDS(dynamic_net:tn.DynGraphSG, coms:tn.DynamicCommunitiesSG=None, to_datetime=False):
+def _sg_graph2CDS(dynamic_net:tn.DynGraphIG, coms:tn.DynCommunitiesIG=None, to_datetime=False):
 
-    # construct the dataset
     forData = []
-    #dates = list(dynamic_net.snapshots_timesteps())
-    #durations = [dates[i+1]-dates[i] for i in range(len(dates)-1)]
 
     for n,periods in dynamic_net.node_presence().items():
         for (start,end) in periods.periods():
             forData.append([start, n, "no", end-start])
+
     if coms != None:
-        for n,belongings in coms.nodes.items():
+        for n,belongings in coms.affiliations.items():
             for com,periods in belongings.items():
                 for (start,end) in periods.periods():
                     forData.append([start, n, com, end - start])
-    #     comName="no"
-    #     if coms!=None and belongings!=None:
-    #         if n in belongings:
-    #             comName = belongings[n][0]
 
     data = pd.DataFrame(columns=["time", "node", "com","duration"], data=forData)
 
@@ -71,9 +65,13 @@ def _sn_graph2CDS(dynamic_net, coms=None, to_datetime=False):
             duration = durations[i]
         else:
             duration = np.min(durations)
+
         t = dates[i]
         if coms != None:
-            belongings = coms.communities_at_t(t)
+            belongings = coms.affiliations(t)
+            for n in belongings:
+                belongings[n] = belongings[n][0] #keep only onl
+
         for n in dynamic_net.snapshots()[t].nodes:
             comName="no"
             if coms!=None and belongings!=None:
@@ -168,7 +166,7 @@ def _update_net(currentT, graph_plot, dynamic_net):
         graph_plot.layout_provider = StaticLayoutProvider(
             graph_layout={str(currentT) + "|" + n.split("|")[1]: position for n, position in node_positions.items()})
 
-        edges = dynamic_net.snapshots()[currentT].edges()
+        edges = dynamic_net.affiliations()[currentT].edges()
         print(edges)
         n1s = []
         n2s = []
@@ -181,19 +179,20 @@ def _update_net(currentT, graph_plot, dynamic_net):
 
 
 
-def plot_as_graph(dynamic_graph:tn.DynGraphSN, communities=None, t=None,to_datetime=False, width=800,height=600,auto_show=False):
+def plot_as_graph(dynamic_graph, communities=None, t=None,to_datetime=False, width=800,height=600,auto_show=False):
     """
     Interactive plot to see the static graph at each snapshot
 
-    :param dynamic_graph: a dynamic network
-    :param communities: dynamic snapshots of the network
-    :param t: time of the first snapshot to display
+    :param dynamic_graph: DynGraphSN
+    :param communities: dynamic affiliations of the network (can be ignored)
+    :param t: time of the snapshot to display. If None, a slider allows to interactively choose the step (work only in jupyter notebooks on a local machine)
     :param to_datetime: one of True/False/function. If True, step IDs are converted to dates using datetime.utcfromtimestamp. If a function, should take a step ID and return a datetime object.
     :param width: width of the figure
     :param height: height of the figure
-    :return: bokeh layout containing slider and plot
+    :param auto_show: if True, the plot is directly displayed in a jupyter notebook. In any other setting, should be False, and the graph should be displayed as any bokeh plot, depending on the setting.
+    :return: bokeh layout containing slider and plot, or only plot if no slider.
     """
-    if isinstance(dynamic_graph,tn.DynGraphSG):
+    if isinstance(dynamic_graph, tn.DynGraphIG):
         raise Exception("currently, only snapshot graphs are supported, please convert using DynGraphSG.to_DynGraphSN()")
     slider_bool=False
     if to_datetime==True:
@@ -249,9 +248,12 @@ def plot_as_graph(dynamic_graph:tn.DynGraphSN, communities=None, t=None,to_datet
 
 def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_datetime=False, nodes=None,width=800,height=600,auto_show=False):
     """
-    Plot snapshots such as each node corresponds to an horizontal line and time corresponds to the horizontal axis
-    :param dynamic_graph: a dynamic network
-    :param communities: dynamic snapshots
+    A longitudinal view of nodes/communities
+
+    Plot affiliations such as each node corresponds to a horizontal line and time corresponds to the horizontal axis
+
+    :param dynamic_graph: DynGraphSN or DynGraphIG
+    :param communities: dynamic affiliations, DynCommunitiesSN or DynCommunitiesIG
     :param sn_duration: the duration of a snapshot, as int or timedelta. If none, inferred automatically as lasting until next snpashot
     :param to_datetime: one of True/False/function. If True, step IDs are converted to dates using datetime.utcfromtimestamp. If a function, should take a step ID and return a datetime object.
     :param nodes: If none, plot all nodes in lexicographic order. If a list of nodes, plot only those nodes, in that order
@@ -326,26 +328,27 @@ def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_dateti
     else:
         return (longi)
 
-def plot_longitudinal_sn_clusters(dynamic_graph,clusters,level=None, sn_duration=None,to_datetime=False,width=800,height=600,auto_show=False):
+def plot_longitudinal_sn_clusters(dynamic_graph,clusters,level=None, **kwargs):
     """
-    Plot clusters of snapshots
+    A longitudinal view of snapshot clusters
 
-    If clusters is a list of set, plot each node, otherwise plot the hierarchy of clusters. If levels is not None, plot this level as a single cluster.
-    :param dynamic_graph: a dynamic network
-    :param clusters: clusters.
-    :param sn_duration: the duration of a snapshot, as int or timedelta. If none, inferred automatically as lasting until next snpashot
-    :param to_datetime: one of True/False/function. If True, step IDs are converted to dates using datetime.utcfromtimestamp. If a function, should take a step ID and return a datetime object.
-    :param width: width of the figure
-    :param height: height of the figure
+    Snapshot clusters are a way to represent periods of the dynamic graphs similar in some way. It is similar to dynamic communities,
+    but all nodes of a snapshot belongs always to the same "community".
+
+    Optional parameters (kwargs) are the same as for plot_longitudinal.
+
+    :param dynamic_graph:  DynGraphSN or DynGraphIG
+    :param clusters: clusters as a set of set of partitions ID. Can also be a hierarchical partitioning, represented as a list of clusters. The level to display is in this case decided by the level parameter
+    :param level: if clusters is a hierarchical clustering, the level to display
     """
     if level!=None: #single level
         clusters = clusters[level]
-    coms = tn.DynamicCommunitiesSN()
+    coms = tn.DynCommunitiesSN()
     for i,cl in enumerate(clusters): #cl: a cluster
         for t in cl:
-            coms.add_community(t, com=dynamic_graph.snapshots(t).nodes, id=i)
-    if isinstance(dynamic_graph,tn.DynGraphSG):
+            coms.add_community(t, nodes=dynamic_graph.affiliations(t).nodes, id=i)
+    if isinstance(dynamic_graph, tn.DynGraphIG):
         coms = coms.to_SGcommunities()
-    return plot_longitudinal(dynamic_graph,communities=coms, sn_duration=sn_duration,to_datetime=to_datetime, width=width,height=height,auto_show=auto_show)
+    return plot_longitudinal(dynamic_graph,communities=coms, **kwargs)
 
 

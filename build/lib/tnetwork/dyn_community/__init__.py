@@ -1,3 +1,3 @@
-from tnetwork.dyn_community.communities_dyn_sn import DynamicCommunitiesSN
-from tnetwork.dyn_community.communities_dyn_sg import DynamicCommunitiesSG
+from tnetwork.dyn_community.communities_dyn_sn import DynCommunitiesSN
+from tnetwork.dyn_community.communities_dyn_ig import DynCommunitiesIG
 

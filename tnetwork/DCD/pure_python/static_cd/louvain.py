@@ -24,8 +24,8 @@ def partition_at_level(dendrogram, level) :
     """Return the partition of the nodes at the given level
 
     A dendrogram is a tree and each level is a partition of the graph nodes.
-    Level 0 is the first partition, which contains the smallest snapshots, and the best is len(dendrogram) - 1.
-    The higher the level is, the bigger are the snapshots
+    Level 0 is the first partition, which contains the smallest affiliations, and the best is len(dendrogram) - 1.
+    The higher the level is, the bigger are the affiliations
 
     Parameters
     ----------
@@ -68,7 +68,7 @@ def modularity(partition, graph) :
     Parameters
     ----------
     partition : dict
-       the partition of the nodes, i.e a dictionary where keys are their nodes and values the snapshots
+       the partition of the nodes, i.e a dictionary where keys are their nodes and values the affiliations
     graph : networkx.Graph
        the networkx graph which is decomposed
 
@@ -134,12 +134,12 @@ def best_partition(graph, partition = None) :
     graph : networkx.Graph
        the networkx graph which is decomposed
     partition : dict, optionnal
-       the algorithm will start using this partition of the nodes. It's a dictionary where keys are their nodes and values the snapshots
+       the algorithm will start using this partition of the nodes. It's a dictionary where keys are their nodes and values the affiliations
 
     Returns
     -------
     partition : dictionnary
-       The partition, with snapshots numbered from 0 to number of snapshots
+       The partition, with affiliations numbered from 0 to number of affiliations
 
     Raises
     ------
@@ -156,7 +156,7 @@ def best_partition(graph, partition = None) :
 
     References
     ----------
-    .. 1. Blondel, V.D. et al. Fast unfolding of snapshots in large networks. J. Stat. Mech 10008, 1-12(2008).
+    .. 1. Blondel, V.D. et al. Fast unfolding of affiliations in large networks. J. Stat. Mech 10008, 1-12(2008).
 
     Examples
     --------
@@ -193,9 +193,9 @@ def generate_dendogram(graph, part_init = None) :
 
 
 def generate_dendrogram(graph, part_init = None) :
-    """Find snapshots in the graph and return the associated dendrogram
+    """Find affiliations in the graph and return the associated dendrogram
 
-    A dendrogram is a tree and each level is a partition of the graph nodes.  Level 0 is the first partition, which contains the smallest snapshots, and the best is len(dendrogram) - 1. The higher the level is, the bigger are the snapshots
+    A dendrogram is a tree and each level is a partition of the graph nodes.  Level 0 is the first partition, which contains the smallest affiliations, and the best is len(dendrogram) - 1. The higher the level is, the bigger are the affiliations
 
 
     Parameters
@@ -203,7 +203,7 @@ def generate_dendrogram(graph, part_init = None) :
     graph : networkx.Graph
         the networkx graph which will be decomposed
     part_init : dict, optionnal
-        the algorithm will start using this partition of the nodes. It's a dictionary where keys are their nodes and values the snapshots
+        the algorithm will start using this partition of the nodes. It's a dictionary where keys are their nodes and values the affiliations
 
     Returns
     -------
@@ -225,7 +225,7 @@ def generate_dendrogram(graph, part_init = None) :
 
     References
     ----------
-    .. 1. Blondel, V.D. et al. Fast unfolding of snapshots in large networks. J. Stat. Mech 10008, 1-12(2008).
+    .. 1. Blondel, V.D. et al. Fast unfolding of affiliations in large networks. J. Stat. Mech 10008, 1-12(2008).
 
     Examples
     --------
@@ -275,9 +275,9 @@ def generate_dendrogram(graph, part_init = None) :
 
 
 def induced_graph(partition, graph) :
-    """Produce the graph where nodes are the snapshots
+    """Produce the graph where nodes are the affiliations
 
-    there is a link of weight w between snapshots if the sum of the weights of the links between their elements is w
+    there is a link of weight w between affiliations if the sum of the weights of the links between their elements is w
 
     Parameters
     ----------
@@ -365,7 +365,7 @@ def __load_binary(data) :
 
 
 def __one_level(graph, status) :
-    """Compute one level of snapshots
+    """Compute one level of affiliations
     """
     modif = True
     nb_pass_done = 0
@@ -477,7 +477,7 @@ class Status :
 
 def __neighcom(node, graph, status) :
     """
-    Compute the snapshots in the neighborood of node in the graph given
+    Compute the affiliations in the neighborood of node in the graph given
     with the decomposition node2com
     """
     weights = {}
@@ -533,7 +533,7 @@ def main() :
             print(str(elem) + " " + str(part))
     except (IndexError, IOError):
         print("Usage : ./community filename")
-        print("find the snapshots in graph filename and display the dendrogram")
+        print("find the affiliations in graph filename and display the dendrogram")
         print("Parameters:")
         print("filename is a binary file as generated by the ")
         print("convert utility distributed with the C implementation")

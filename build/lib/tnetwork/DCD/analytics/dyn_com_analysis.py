@@ -1,6 +1,6 @@
 def computeNetworkStability(dynNet):
-    ts = dynNet.snapshots().keys()
-    sns = dynNet.snapshots().values()
+    ts = dynNet.affiliations().keys()
+    sns = dynNet.affiliations().values()
     fractionChange = []
     graphBefore = sns[0]
     for i in range(1,len(ts)):

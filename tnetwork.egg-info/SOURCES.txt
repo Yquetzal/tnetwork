@@ -38,16 +38,16 @@ tnetwork/DCD/pure_python/static_cd/louvain.py
 tnetwork/DCD/pure_python/static_cd/louvainModified.py
 tnetwork/dyn_community/__init__.py
 tnetwork/dyn_community/communitiesEventsHandler.py
-tnetwork/dyn_community/communities_dyn_sg.py
+tnetwork/dyn_community/communities_dyn_ig.py
 tnetwork/dyn_community/communities_dyn_sn.py
 tnetwork/dyn_graph/__init__.py
 tnetwork/dyn_graph/dyn_graph.py
-tnetwork/dyn_graph/dyn_graph_sg.py
+tnetwork/dyn_graph/dyn_graph_ig.py
 tnetwork/dyn_graph/dyn_graph_sn.py
 tnetwork/dyn_graph/function.py
 tnetwork/dyn_graph/toy_data/thiers_2012.csv
-tnetwork/readwrite/SG_com_io.py
-tnetwork/readwrite/SG_graph_io.py
+tnetwork/readwrite/IG_com_io.py
+tnetwork/readwrite/IG_graph_io.py
 tnetwork/readwrite/SN_com_io.py
 tnetwork/readwrite/SN_graph_io.py
 tnetwork/readwrite/__init__.py
@@ -76,5 +76,5 @@ tnetwork/utils/bidict/compat.py
 tnetwork/utils/bidict/metadata.py
 tnetwork/utils/bidict/util.py
 tnetwork/visualization/__init__.py
-tnetwork/visualization/graphs.py
 tnetwork/visualization/palette.py
+tnetwork/visualization/plots.py

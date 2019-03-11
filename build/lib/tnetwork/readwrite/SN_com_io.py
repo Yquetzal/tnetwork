@@ -4,13 +4,13 @@ import os
 import tnetwork as tn
 from tnetwork.utils.community_utils import *
 
-__all__ = ["read_static_coms_by_node", "read_SN_by_com","write_com_SN"]
+__all__ = ["read_SN_by_com", "write_com_SN"]
 
-def read_static_coms_by_node(inputFile, separator="\t"):
+def _read_static_coms_by_node(inputFile, separator="\t"):
     """
-    Read a file containing snapshots such as each line is:
-    node SEP com1 SEP com2 ...
-    :param inputFile:
+    Read affiliations as a file, 1 line per node
+
+    :param inputFile: file as str
     :param separator:
 
     """
@@ -30,12 +30,24 @@ def read_static_coms_by_node(inputFile, separator="\t"):
 
 
 
-def read_SN_by_com(inputDir, nameFilter=None, **kwargs):
+def read_SN_by_com(inputDir, sn_id_transformer=None, **kwargs):
     """
-    Read directory in which each file correponds to a community list
+    Read directory, 1 file = affiliations of a snaphshot
+
+    By default, the name of the file is used as snapshot id. A function can be passed to associate a different
+    ID snapshot to files
+
+    The format to read is:
+    ::
+
+            node1   com1    com2
+            node2   com1
+            node3   com2    com3    com4
+            ...
+
     :param inputDir: directory
-    :param nameFilter: a function that takes a file name and decript it into a
-    :param kwargs:
+    :param sn_id_transformer: a function taking a str and
+    :param kwargs: a separator can be passed with parameter separator
     :return: a dynamic community object
 
     """
@@ -43,27 +55,47 @@ def read_SN_by_com(inputDir, nameFilter=None, **kwargs):
     files = os.listdir(inputDir)
     visibleFiles = [f for f in files if f[0] != "."]
     timeIDs = SortedDict() #a dictionary associating timeIds to files
-    if nameFilter!=None:
+    if sn_id_transformer!=None:
         for f in visibleFiles:
-            timeID = nameFilter(f)
+            timeID = sn_id_transformer(f)
             if timeID!=None:
                 timeIDs[timeID]=f
-
-        #visibleFiles = timeIDs.keys()
-    currentComIDs = 0
+    else:
+        for f in visibleFiles:
+            timeIDs[int(f)]=f
 
     for t in timeIDs:  # for each file in order of their name
         f = inputDir + "/" + str(timeIDs[t])
-        coms = read_static_coms_by_node(f,**kwargs)
-        #print(coms)
-        theDynCom.add_belongins_from(coms, t)
+        coms = _read_static_coms_by_node(f, **kwargs)
+
+        theDynCom.set_affiliations_from(coms, t)
     return theDynCom
 
-def write_com_SN(dyn_communities:tn.DynamicCommunitiesSN, output_dir,asNodeSet=True):
+def write_com_SN(dyn_communities:tn.DynCommunitiesSN, output_dir, asNodeSet=True):
     """
-    Write dynamic snapshots as a directory containing one file for each snapshot.
+    Write directory, 1 file = affiliations of a snaphshot
+
+    Write dynamic affiliations as a directory containing one file for each snapshot.
+
+    Two possible formats:
+
+    **Affiliations:**
+    ::
+
+            node1   com1    com2
+            node2   com1
+            node3   com2    com3    com4
+
+    **Node Sets:**
+    ::
+
+            com:com1    n1  n2  n3
+            com:another_com    n1   n4  n5
+
+
     :param dynGraph: a dynamic graph
     :param outputDir: address of the directory to write
+    :param asNodeSet: if True, node sets, otherwise, affiliations
 
     """
     os.makedirs(output_dir, exist_ok=True)

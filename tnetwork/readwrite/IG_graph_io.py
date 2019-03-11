@@ -2,12 +2,26 @@ import tnetwork as tn
 from sortedcontainers import *
 from tnetwork.utils import write_list_of_list
 
-__all__ = ["write_SG", "read_SG","write_ordered_changes"]
+__all__ = ["write_IG", "read_IG", "write_ordered_changes"]
 
 
-def write_SG(theDynGraph:tn.DynGraphSG, fileOutput):
+def write_IG(theDynGraph:tn.DynGraphIG, fileOutput:str):
     """
-    Write a stream graph as a list of periods, for the graph, the nodes, and the edges
+    Write as list of periods
+
+    Write an interval graph graph as a list of periods, for the graph, the nodes, and the edges
+
+    Exemple of result:
+    ::
+
+        SG  0:100
+        N   N1  0:10 50:60
+        N   NODE_3  0:20 30:60
+        E1  N1  NODE_3  5:10
+
+    Means that the graph exists from time 0 to 100, it contains 2 nodes (N1 and NODE_3) that exist each over 2 intervals
+    and one edge between those 2 nodes during the interval from 5 to 10
+
     :param theDynGraph: a dynamic graph
     :param fileOutput: the address of the file to write
 
@@ -30,14 +44,19 @@ def write_SG(theDynGraph:tn.DynGraphSG, fileOutput):
     write_list_of_list(toWrite,fileOutput,sep="\t")
 
 
-def read_SG(fileInput):
+def read_IG(file_address:str):
     """
-    Read a stream graph as a list of periods, for the graph, the nodes, and the edges
-    :param fileInput:
+    Read as list of periods
+
+    Read an interval graph as a list of periods, for the graph, the nodes, and the edges
+
+    See write_IG for an explanation of the format
+
+    :param file_address:
 
     """
-    aDynGraph = tn.DynGraphSG()
-    file = open(fileInput)
+    aDynGraph = tn.DynGraphIG()
+    file = open(file_address)
     for line in file:
         parts = line.split("\t")
 
@@ -67,9 +86,13 @@ def read_SG(fileInput):
                 aDynGraph.add_interaction(n1,n2, (start, end))
     return aDynGraph
 
-def write_ordered_changes(dynNet:tn.DynGraphSG, fileOutput, dateEveryLine=False, nodeModifications=False, separator="\t", edgeIdentifier="l"):
+def write_ordered_changes(dynNet:tn.DynGraphIG, fileOutput, dateEveryLine=False, nodeModifications=False, separator="\t", edgeIdentifier="l"):
     """
+    Write as list of successive changes
+
+    (use with caution, not tested recently)
     Write the dynamic network as a list of successive changes. There are several variants:
+
        * OML :ordered modif list with dates as #DATE and no nodes (Online Modification List)
        * OMLN : with nodes
        * OMLR : with repeated dates

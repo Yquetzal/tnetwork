@@ -84,7 +84,7 @@ def muchaOriginal(dynNetSN, om=0.5,form="local",runningTime=False):
     #dynNetSN.remove_nodes_from(dynNetSN.isolates())
 
 
-    graphs = dynNetSN.snapshots()
+    graphs = dynNetSN.affiliations()
 
     nodeOrderAllSN = []
     listModularityMatrices = []
@@ -138,7 +138,7 @@ def muchaOriginal(dynNetSN, om=0.5,form="local",runningTime=False):
 
     DCSN = dynamicCommunitiesSN()
     for i in range(len(S)):
-        DCSN.add_belonging(nodeOrderAllSN[i][1], nodeOrderAllSN[i][0], S[i])
+        DCSN.add_affiliation(nodeOrderAllSN[i][1], nodeOrderAllSN[i][0], S[i])
     return DCSN
 
 

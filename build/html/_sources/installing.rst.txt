@@ -1,5 +1,5 @@
 *******************
-Installing tnetwork
+Installation
 *******************
 
 Before installing ``tnetwork``, you need to have setuptools installed.

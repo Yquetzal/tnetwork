@@ -2,12 +2,34 @@ from sortedcontainers import *
 import copy
 class Intervals:
     """
-    This class uses a sorted dictionary to maintain efficiently a proper complex interval, i.e. that can be composed of several periods.
+    Class used to represent complex intervals
 
+    This class is used to represent periods of existence of nodes and edges. Nodes and edges can exist during
+    not continuous periods (e.g., from time 2 to 5, and from time 7 to 8). Those intervals are represent as
+    closed on the left and open on the right, i.e., [2,5[ and [2,8[. If we were to use closed intervals on the
+    right, we would be confronted to ponctual overlaps (without duration), which cause troubles. Furthermore,
+    intervals are often used to represent discrete time events. If we want to express that an edge exist
+    during one hour, from 8a.m. to 9a.m, representing it as [8,9[ gives the following results:
+    Does the edge exist at 8a.m? -> answer YES
+    Does the edge exist at 9a.m? -> answer NO
+    Duration -> 1h
+
+    When intervals are added, overlapping ones are merged, i.e. if the current Intervals contains
+    [0,3[ and [4,5[
+    and we add the interval [2,4[,
+    The resulting Interval will be [0,5[
+
+    This class uses a sorted dictionary to maintain efficiently a proper complex interval,
+    key=start date, value=pair(start,end)
+
+    The attribute "interv" contains the interval (a SortedDict) and can be safely manipulated
     """
     def __init__(self,initial=None):
         """
-        Instanciate an intervals object. Can be instanciated by a list of intervals
+        Instantiate intervals
+
+        Instanciate an intervals object. Can be initialized by a list of intervals
+
         :param initial: a list of intervals (list of pairs (start,end))
         """
 
@@ -16,22 +38,48 @@ class Intervals:
             for intv in initial:
                 self.interv[intv[0]]=intv
 
-    def intersect(self, intervals_to_keep):
+    def intersection(self, other_Intervals):
         """
-        return the intersection between the current interval and the one provided as parameter
+        Intersection with another Intervals
 
-        :param intervals: intervals provided as a intervals object
-        :return:
+        return the intersection between the current interval and the one provided as parameter, i.e. a new Interval
+        containing periods in common between them.
+
+        :param intervals: intervals provided as a Intervals object
+        :return: a new Intervals object
         """
         to_return = copy.deepcopy(self)
         start = self.start()
-        for interval in intervals_to_keep.periods():
+        for interval in other_Intervals.periods():
             to_return.remove_interval((start,interval[0]))
             start=interval[1]
         to_return.remove_interval((start,self.end()))
         return to_return
 
+    def union(self,other_Intervals):
+        """
+        Union with another Intervals
+
+        Return the union between the current interval and the one provided as parameter, i.e. a new interval containing
+        all sub-intervals of both. (if they overlap, it is handled)
+
+        :param intervals: intervals provided as a Intervals object
+        :return: a new Intervals object
+        """
+        to_return = copy.deepcopy(self)
+        for interval in other_Intervals.periods():
+            to_return.add_interval(interval)
+        return to_return
+
     def contains(self,period):
+        """
+        Is the period contained in this Interval
+
+        Check if the provided period is included in the (active time of the) current Interval
+
+        :param period: the period to test
+        :return: True or False
+        """
         t_start= period[0]
         t_end=period[1]
         iBefore = self.interv.bisect_right(t_start) - 1
@@ -43,7 +91,8 @@ class Intervals:
 
     def contains_t(self, t):
         """
-        Return True if the provided t is in the current interval
+        Return True if the provided t is in the current Intervals
+
         :param t: a time step to test
         :return: True if the time is in the interval, False otherwise
         """
@@ -56,9 +105,11 @@ class Intervals:
 
     def add_interval_at_the_end(self,interval):
         """
-        Add the provided interval at the end. Avoid many checks, faster
-        :param interval:
-        :return:
+        Add the provided interval at the end.
+
+        The advantage of this function is that it is much faster than the normal addition of interval.
+
+        :param interval: the interval to add
         """
         (last_t,last_period) = self.interv.peekitem(-1)
         if last_period[-1]==interval[0]: #the period to add start at the point where ther previous stop
@@ -69,6 +120,7 @@ class Intervals:
     def add_interval(self, interval):
         """
         Add the provided interval to the current interval object.
+
         :param interval: provided as a pair (start, end)
         """
 
@@ -119,7 +171,8 @@ class Intervals:
 
     def remove_interval(self, interval):
         """
-        remove the provided interval from the current periods
+        Remove the provided interval from the current periods
+
         :param interval: the interval to remove provided as a tuples (start, stop)
         """
 
@@ -148,7 +201,9 @@ class Intervals:
     def add_intervals(self, intervals):
         """
         Add several periods to the current periods.
+
         Note: inneficient if there is a lot of overlaps
+
         :param intervals:
         :return:
         """
@@ -158,6 +213,7 @@ class Intervals:
     def periods(self):
         """
         Return the periods as a list of pairs (start, end)
+
         :return: list of pairs
         """
         return list(self.interv.values())
@@ -165,6 +221,7 @@ class Intervals:
     def _merge_overlapping_intervals(self, interval1, interval2):
         """
         merge overlapping periods provided as pairs (start, stop)
+
         :param interval1: an interval
         :param interval2: another interval
         :return: a single interval, result of the merge
@@ -174,6 +231,7 @@ class Intervals:
     def _substract_intervals(self, before, toSubstract):
         """
         Remove interval toSubstract from interval before. Provided as pairs (start, stop)
+
         :param before:
         :param toSubstract:
         :return:
@@ -189,14 +247,27 @@ class Intervals:
 
 
     def start(self):
+        """
+        First date of the Intervals
+
+        :return: int
+        """
         return self.interv.peekitem(0)[0]
 
     def end(self):
+        """
+        Last date of the interval
+
+        :return: int
+        """
         return self.interv.peekitem(-1)[1][1]
 
     def duration(self):
         """
-        Return the duration of this interval, i.e. the sum of the difference between end and start for all periods in the current interval object.
+        Duration of the interval
+
+        Return the duration of this interval, i.e. the sum of the difference between end and start for all periods
+        in the current interval object.
         :return:
         """
         totalDuration = 0

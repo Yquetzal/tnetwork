@@ -11,7 +11,7 @@ class DCDTestCase(unittest.TestCase):
         dg = tn.DynGraphSN.graph_socioPatterns2012()
         dg = dg.aggregate_sliding_window(60*60*24)
 
-        coms = DCD.simple_matching(dg)
+        coms = DCD.iterative_match(dg)
 
         tn.write_com_SN(coms,"testDir")
         shutil.rmtree("testDir")
@@ -20,7 +20,7 @@ class DCDTestCase(unittest.TestCase):
         dg = tn.DynGraphSN.graph_socioPatterns2012()
         dg = dg.aggregate_sliding_window(60 * 60 * 24)
 
-        coms = DCD.matching_survival_graph(dg)
+        coms = DCD.match_survival_graph(dg)
 
         tn.write_com_SN(coms, "testDir")
         shutil.rmtree("testDir")

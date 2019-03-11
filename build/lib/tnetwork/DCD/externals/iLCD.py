@@ -37,7 +37,7 @@ def iLCD(dynNet,par1=None,par2=None,runningTime=False):
     sandBox = os.path.join(dir, "sandBox")
 
     networkLocation = sandBox+"/network.ctnf"
-    communitiesLocation = sandBox+"/snapshots"
+    communitiesLocation = sandBox+"/affiliations"
     dn.write_ordered_changes(dynNet, networkLocation, edgeIdentifier="")
 
     commandToLaunch = "java -jar "+jarLocation+" -i "+networkLocation+" -o "+communitiesLocation

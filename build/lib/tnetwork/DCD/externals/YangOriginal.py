@@ -24,7 +24,7 @@ def prepareArgumentsOnline(dynNetSN,k,online):
 
 
     #Create a dynamic network as seuqence of nx graphs
-    # Gs = list(dynNetSN.snapshots().values())
+    # Gs = list(dynNetSN.communities().values())
     # nodesPresent = []
     # GsMat = []
     # for g in Gs:
@@ -97,7 +97,7 @@ def prepareArgumentsOnline(dynNetSN,k,online):
 #     allNodes =     SortedSet(dynNetSN.aggregate().nodes().keys())
 #
 #     #Create a dynamic network as seuqence of nx graphs
-#     Gs = list(dynNetSN.snapshots().values())
+#     Gs = list(dynNetSN.communities().values())
 #     nodeNamesDic = []
 #     GsMat = []
 #     for mat in Gs:
@@ -180,7 +180,7 @@ def YangOriginal(dynNetSN, k=5,online=False):
         tID = times[i]
         for (n,c) in partition: #for each node
             if n in nodesPresent[i]:  #if this node is present (problems with the offline method)
-                DCSN.add_belonging(nodeOrder.inv[n], tID, c)
+                DCSN.add_affiliation(nodeOrder.inv[n], tID, c)
         i+=1
     return DCSN
 

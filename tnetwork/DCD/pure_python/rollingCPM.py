@@ -1,12 +1,9 @@
 import networkx as nx
-from timeit import default_timer as timer
-import tnetwork as dn
 from operator import itemgetter
 from collections import defaultdict
-from tnetwork import DynamicCommunitiesSN
-import time
+from tnetwork import DynCommunitiesSN
 
-__author__ = "Giulio Rossetti"
+__author__ = "Giulio Rossetti, modif:Remy Cazabet"
 __contact__ = "giulio.rossetti@gmail.com"
 __website__ = "about.giuliorossetti.net"
 __license__ = "BSD"
@@ -16,24 +13,30 @@ __license__ = "BSD"
 
 
 
+def rollingCPM(dynNetSN,k=3):
+    """
 
+    This method is based on Palla et al[1]. It first computes overlapping communities in each snapshot based on the
+    clique percolation algorithm, and then match communities in successive steps using a method based on the
+    union graph.
 
-def rollingCPM(dynNetSN,k=3,runningTime=False):
+    [1] Palla, G., Barabási, A. L., & Vicsek, T. (2007).
+    Quantifying social group evolution.
+    Nature, 446(7136), 664.
 
-    #print("computing PALLA with k: "+str(k))
-    DynCom = DynamicCommunitiesSN()
+    :param dynNetSN: a dynamic network
+    :param k: the size of cliques used as communities building blocks
+    :return: DynCommunitiesSN
+    """
+
+    DynCom = DynCommunitiesSN()
     old_communities = None
     old_graph = nx.Graph()
-    lastcid = 0
-    tabDurations =[]
-    graphs=dynNetSN.snapshots()
 
-    start_time = time.time()
+    graphs=dynNetSN.affiliations()
 
     for (date, graph) in graphs.items():
-        #print("--- t:"+str(date))
-        start = timer()
-        communitiesAtT = list(_get_percolated_cliques(graph, k)) #get the percolated cliques (communities) as a list of set of nodes
+        communitiesAtT = list(_get_percolated_cliques(graph, k)) #get the percolated cliques (affiliations) as a list of set of nodes
         for c in communitiesAtT:
             DynCom.add_community(date, c)
 
@@ -43,14 +46,10 @@ def rollingCPM(dynNetSN,k=3,runningTime=False):
             old_communities = communitiesAtT
 
         else:
-            #communities = {res[idc-lastcid]: idc for idc in range(lastcid, lastcid+len(res))} #associate new IDs to com
             if len(communitiesAtT)>0: #if there is at least one community
                 union_graph = nx.compose(old_graph, graph) #create the union graph of the current and the previous
-                communities_union = list(_get_percolated_cliques(union_graph, k)) #get the communities of the union graph
-                #communities_union = {res2[idc-lastcid]: idc for idc in range(lastcid, lastcid+len(res2))} #assign new IDs to coms of union graph
+                communities_union = list(_get_percolated_cliques(union_graph, k)) #get the affiliations of the union graph
 
-                #jaccardBeforeAndUnion = _jaccard_similarity(old_communities, communities_union,threashold=0.1) #we only care if the value is above 0
-                #jaccardUnionAndAfter = _jaccard_similarity(communitiesAtT,communities_union,threashold=0.1) #we only care if the value is above 0
                 jaccardBeforeAndUnion = _included(old_communities, communities_union) #we only care if the value is above 0
                 jaccardUnionAndAfter = _included(communitiesAtT,communities_union) #we only care if the value is above 0
 
@@ -69,32 +68,27 @@ def rollingCPM(dynNetSN,k=3,runningTime=False):
 
                     oldCToMatch = dict(jaccardBeforeAndUnion[c]) #get all coms before
                     newCToMatch = dict(jaccardUnionAndAfter[c]) #get all new coms
-                    while len(sortedMatches)>0: #as long as there are couples of unmatched communities
-                        matchedKeys = sortedMatches[0] #pair of communities of highest jaccard
+                    while len(sortedMatches)>0: #as long as there are couples of unmatched affiliations
+                        matchedKeys = sortedMatches[0] #pair of affiliations of highest jaccard
                         matched.append(matchedKeys) #this pair will be matched
 
                         del oldCToMatch[matchedKeys[0]] #delete chosen com from possible to match
                         del newCToMatch[matchedKeys[1]]
-                        sortedMatches = [k for k in sortedMatches if len(set(matchedKeys) & set(k))==0] #keep only pairs of unmatched communities
+                        sortedMatches = [k for k in sortedMatches if len(set(matchedKeys) & set(k))==0] #keep only pairs of unmatched affiliations
 
                     if len(oldCToMatch)>0:
                         killed.append(list(oldCToMatch.keys())[0])
                     if len(newCToMatch)>0:
                         born.append(list(newCToMatch.keys())[0])
 
-                    #print("checking",matched,killed,born,jaccardUnionAndAfter[c])
                     for aMatch in matched:
-                        #print("check continue ",DynCom.get_ID(dateOld,aMatch[0]),DynCom.get_ID(date,aMatch[1]))
                         DynCom.add_event((dateOld, DynCom.com_ID(dateOld, aMatch[0])), (date, DynCom.com_ID(date, aMatch[1])), dateOld, date, "continue")
 
-                    for kil in killed:#these are actual merge (unmatched communities are "merged" to new ones)
+                    for kil in killed:#these are actual merge (unmatched affiliations are "merged" to new ones)
                         for com in jaccardUnionAndAfter[c]:
-                            #print("merge",kil,DynCom.get_ID(dateOld,kil),"=>",com,DynCom.get_ID(date,com))
-                            #print("because",c)
-                            #print("oups",jaccardBeforeAndUnion)
                             DynCom.add_event((dateOld, DynCom.com_ID(dateOld, kil)), (date, DynCom.com_ID(date, com)), dateOld, date, "merged")
 
-                    for b in born:#these are actual merge (unmatched communities are "merged" to new ones)
+                    for b in born:#these are actual merge (unmatched affiliations are "merged" to new ones)
                         for com in jaccardBeforeAndUnion[c]:
                             DynCom.add_event((dateOld, DynCom.com_ID(dateOld, com)), (date, DynCom.com_ID(date, b)), dateOld, date, "split")
 
@@ -102,11 +96,8 @@ def rollingCPM(dynNetSN,k=3,runningTime=False):
             dateOld=date
             old_communities = communitiesAtT
 
-    duration = (time.time() - start_time)
-    DynCom.relabel_coms_from_continue_events()
+    DynCom._relabel_coms_from_continue_events()
 
-    if runningTime:
-        return duration
     return(DynCom)
 
 def _get_percolated_cliques(g, k):

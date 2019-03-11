@@ -81,7 +81,7 @@
 <li class="toctree-l2"><a class="reference internal" href="overview.html#free-software">Free software</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing tnetwork</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#quick-install">Quick install</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#installing-from-source">Installing from source</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="installing.html#github">GitHub</a></li>
@@ -93,45 +93,176 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="reference/readwrite.html">Input-Output</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="reference/readwrite.html#manipulate-snapshot-graphs">Manipulate snapshot graphs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/iof/tnetwork.readwrite.read_snapshots_dir.html">tnetwork.readwrite.read_snapshots_dir</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/iof/tnetwork.readwrite.write_snapshots_dir.html">tnetwork.readwrite.write_snapshots_dir</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/iof/tnetwork.readwrite.read_graph_link_stream.html">tnetwork.readwrite.read_graph_link_stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/readwrite.html">Read/Write</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/readwrite.html#simple-example">Simple example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/readwrite.html#read-write-graphs">Read/Write graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/readwrite.html#read-write-snapshot-graphs">Read/Write snapshot graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/iof/tnetwork.readwrite.write_snapshots.html">tnetwork.readwrite.write_snapshots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/iof/tnetwork.readwrite.read_snapshots.html">tnetwork.readwrite.read_snapshots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/iof/tnetwork.readwrite.read_graph_link_stream.html">tnetwork.readwrite.read_graph_link_stream</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="reference/readwrite.html#manipulate-stream-graphs">Manipulate stream graphs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/iof/tnetwork.readwrite.write_SG.html">tnetwork.readwrite.write_SG</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/iof/tnetwork.readwrite.read_SG.html">tnetwork.readwrite.read_SG</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/readwrite.html#read-write-interval-graphs">Read/Write interval graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/iof/tnetwork.readwrite.write_IG.html">tnetwork.readwrite.write_IG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/iof/tnetwork.readwrite.read_IG.html">tnetwork.readwrite.read_IG</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="reference/readwrite.html#manipulate-snapshot-snapshots">Manipulate snapshot snapshots</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/iof/tnetwork.readwrite.read_static_coms_by_node.html">tnetwork.readwrite.read_static_coms_by_node</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/iof/tnetwork.readwrite.read_SN_by_com.html">tnetwork.readwrite.read_SN_by_com</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/iof/tnetwork.readwrite.write_com_SN.html">tnetwork.readwrite.write_com_SN</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="reference/readwrite.html#manipulate-stream-graph-snapshots">Manipulate stream graph snapshots</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/iof/tnetwork.readwrite.write_SGC.html">tnetwork.readwrite.write_SGC</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/iof/tnetwork.readwrite.read_com_ordered_changes.html">tnetwork.readwrite.read_com_ordered_changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/iof/tnetwork.readwrite.write_ordered_changes.html">tnetwork.readwrite.write_ordered_changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/readwrite.html#read-write-communities">Read/Write Communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/readwrite.html#read-write-snapshot-affiliations">Read/Write snapshot affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/iof/tnetwork.readwrite.write_com_SN.html">tnetwork.readwrite.write_com_SN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/iof/tnetwork.readwrite.read_SN_by_com.html">tnetwork.readwrite.read_SN_by_com</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/readwrite.html#read-write-interval-graph-affiliations">Read/Write interval graph affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/iof/tnetwork.readwrite.write_IGC.html">tnetwork.readwrite.write_IGC</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="reference/dyn_graph.html">Dynamic Network Classes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="reference/dyn_graph.html#methods">Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/dyn_graph.html#sequences-of-snapshots">Sequences of snapshots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="reference/dyn_graph.html#adding-and-removing-nodes-and-edges">Adding and removing nodes and edges</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.__init__.html">tnetwork.DynGraphSN.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.add_node_presence.html">tnetwork.DynGraphSN.add_node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.add_nodes_presence_from.html">tnetwork.DynGraphSN.add_nodes_presence_from</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.add_interaction.html">tnetwork.DynGraphSN.add_interaction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.add_interactions_from.html">tnetwork.DynGraphSN.add_interactions_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.add_snapshot.html">tnetwork.DynGraphSN.add_snapshot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.node_presence.html">tnetwork.DynGraphSN.node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.graph_at_time.html">tnetwork.DynGraphSN.graph_at_time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.snapshots_timesteps.html">tnetwork.DynGraphSN.snapshots_timesteps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.last_snapshot.html">tnetwork.DynGraphSN.last_snapshot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_graph.html#conversion-to-different-formats">Conversion to different formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.to_DynGraphSG.html">tnetwork.DynGraphSN.to_DynGraphSG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.to_tensor.html">tnetwork.DynGraphSN.to_tensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_graph.html#aggregation">Aggregation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.cumulated_graph.html">tnetwork.DynGraphSN.cumulated_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.aggregate_sliding_window.html">tnetwork.DynGraphSN.aggregate_sliding_window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.aggregate_time_period.html">tnetwork.DynGraphSN.aggregate_time_period</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_graph.html#other-graph-operations">Other graph operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.apply_nx_function.html">tnetwork.DynGraphSN.apply_nx_function</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="reference/dyn_graph.html#interval-graphs">Interval graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_graph.html#id1">Adding and removing nodes and edges</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphIG.add_node_presence.html">tnetwork.DynGraphIG.add_node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphIG.add_nodes_presence_from.html">tnetwork.DynGraphIG.add_nodes_presence_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphIG.add_interaction.html">tnetwork.DynGraphIG.add_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphIG.add_interactions_from.html">tnetwork.DynGraphIG.add_interactions_from</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_graph.html#id2">Accessing the graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphIG.node_presence.html">tnetwork.DynGraphIG.node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphIG.graph_at_time.html">tnetwork.DynGraphIG.graph_at_time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphIG.interactions.html">tnetwork.DynGraphIG.interactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphIG.change_times.html">tnetwork.DynGraphIG.change_times</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_graph.html#id3">Conversion to different formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphIG.to_DynGraphSN.html">tnetwork.DynGraphIG.to_DynGraphSN</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/dyn_communities.html">Dynamic Communities Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/dyn_communities.html#sequences-of-snapshots-communities">Sequences of snapshots communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_communities.html#adding-and-removing-affiliations">Adding and removing affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.add_empty_sn.html">tnetwork.DynCommunitiesSN.add_empty_sn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.set_affiliations_from.html">tnetwork.DynCommunitiesSN.set_affiliations_from</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_communities.html#accessing-affiliations">Accessing affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.affiliations.html">tnetwork.DynCommunitiesSN.affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.communities.html">tnetwork.DynCommunitiesSN.communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.com_ID.html">tnetwork.DynCommunitiesSN.com_ID</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_communities.html#converting">Converting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.to_SGcommunities.html">tnetwork.DynCommunitiesSN.to_SGcommunities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/dyn_communities.html#interval-graph-communities">Interval graph communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_communities.html#id1">Adding and removing affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesIG.add_affiliation.html">tnetwork.DynCommunitiesIG.add_affiliation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesIG.add_affiliations_from.html">tnetwork.DynCommunitiesIG.add_affiliations_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesIG.remove_affiliation.html">tnetwork.DynCommunitiesIG.remove_affiliation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_communities.html#id2">Accessing affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesIG.affiliations.html">tnetwork.DynCommunitiesIG.affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesIG.communities.html">tnetwork.DynCommunitiesIG.communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesIG.affiliations_durations.html">tnetwork.DynCommunitiesIG.affiliations_durations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_communities.html#other-functions">Other functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesIG.nodes_main_com.html">tnetwork.DynCommunitiesIG.nodes_main_com</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesIG.nodes_natural_order.html">tnetwork.DynCommunitiesIG.nodes_natural_order</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesIG.nodes_ordered_by_com.html">tnetwork.DynCommunitiesIG.nodes_ordered_by_com</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/Intervals.html">Intervals Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/Intervals.html#adding-and-removing-intervals">Adding and removing intervals</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.__init__.html">tnetwork.utils.Intervals.__init__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.add_interval.html">tnetwork.utils.Intervals.add_interval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.add_intervals.html">tnetwork.utils.Intervals.add_intervals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.add_interval_at_the_end.html">tnetwork.utils.Intervals.add_interval_at_the_end</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.remove_interval.html">tnetwork.utils.Intervals.remove_interval</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/Intervals.html#accessing-intervals-properties">Accessing Intervals properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.contains_t.html">tnetwork.utils.Intervals.contains_t</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.contains.html">tnetwork.utils.Intervals.contains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.periods.html">tnetwork.utils.Intervals.periods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.duration.html">tnetwork.utils.Intervals.duration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.start.html">tnetwork.utils.Intervals.start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.end.html">tnetwork.utils.Intervals.end</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/Intervals.html#operations">Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.intersection.html">tnetwork.utils.Intervals.intersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.union.html">tnetwork.utils.Intervals.union</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/DCD.html">Dynamic Community Detection</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.iterative_match.html">tnetwork.iterative_match</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.match_survival_graph.html">tnetwork.match_survival_graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.rollingCPM.html">tnetwork.rollingCPM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/vizu.html">Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.plot_as_graph.html">tnetwork.plot_as_graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.plot_longitudinal.html">tnetwork.plot_longitudinal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.plot_longitudinal_sn_clusters.html">tnetwork.plot_longitudinal_sn_clusters</a></li>
 </ul>
 </li>
 </ul>
@@ -216,7 +347,7 @@
 <td><strong>GitHub</strong></td>
 <td><strong>pypl</strong></td>
 </tr>
-<tr class="row-even"><td>2019-02-19</td>
+<tr class="row-even"><td>2019-03-11</td>
 <td>3.x</td>
 <td><a class="reference external" href="http://cazabetremy.fr">Rémy Cazabet</a></td>
 <td><a class="reference external" href="https://github.com/Yquetzal/tnetwork">Source</a></td>

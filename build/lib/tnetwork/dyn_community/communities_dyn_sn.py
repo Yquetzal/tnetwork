@@ -6,41 +6,77 @@ import networkx as nx
 import tnetwork as tn
 from tnetwork.utils.community_utils import nodesets2affiliations
 
-class DynamicCommunitiesSN:
+class DynCommunitiesSN:
+    """
+    Dynamic affiliations as sequences of affiliations
+
+    Communities are represented as a SortedDict, key:time, value: bidict {frozenset of nodes}:id
+    a bidict allows to access elements in both directions using them as keys.
+
+    """
     def __init__(self):
         """
+        Initialization
+
         Initialize a dynamic community object, corresponding to a snapshot-based dynamic network
         """
-        self._communities=SortedDict() #A sorted dict, key:time, value: bidict {frozenset of nodes}:id
+        self.snapshots=SortedDict() #A sorted dict, key:time, value: bidict {frozenset of nodes}:id
         self.events=CommunitiesEvent()
         self._automaticID=1
 
-    def add_empy_sn(self, t):
+    def add_empty_sn(self, t):
         """
-        Add a snapshot with no snapshots at time t
+        Add a snapshot with no affiliations at time t
+
         :param t: time step
         """
-        if not t in self._communities:
-            self._communities[t] = bidict()
+        if not t in self.snapshots:
+            self.snapshots[t] = bidict()
 
-    def belongings_by_node(self,t):
+    def communities(self,t=None):
         """
-        return the belonging of a node a time
+        Affiliations by communities
 
-        :param n: the node
-        :param t: the time
-        :return: a community ID
+        If t is given, return affiliation at this t as a bidict {frozenset of nodes}:id
+        else, return a sorted dict, key:time, value: bidict {frozenset of nodes}:id
+
+        :param t: time
+        :return: a bidict {frozenset of nodes}:id
         """
+
+        if t==None:
+            return self.snapshots
+        return self.snapshots[t]
+
+    def affiliations(self, t=None):
+        """
+        Affiliations by nodes
+
+        If t is given, return affiliation at this t as a dict, key=node, value=set of communities
+        else, return a sorted dict, key:time, value: dict node:communities
+
+        :param t: time
+        :return: dictionary, key=node, value=set of affiliations ID
+        """
+        if t==None:
+            return {k:nodesets2affiliations(v) for k,v in enumerate(self.snapshots)}
+
         if not t in self.communities():
             return None
+
         return nodesets2affiliations(self.communities()[t])
 
-    def add_belonging(self, n, t, cID): #be careful, if the n is a single node in the shape of a set, incorrect behavior
+    def add_affiliation(self, n, t, cID): #be careful, if the n is a single node in the shape of a set, incorrect behavior
         """
-        Add belonging for the provided node(s) to the provided communitie(s) at the provided time(s)
-        :param n: accept lists of nodes or single node
-        :param t:
-        :param cID: accept lists of coms or single
+        Affiliate node(s) to community(ies) at time(s)
+
+        Add belonging for the provided node(s) to the provided communitie(s) at the provided time(s).
+        (all nodes, at all times, in all affiliations)
+        If affiliations do not exist, they are created.
+
+        :param n: accept set/list of nodes or single node
+        :param t: accept list of times or single time
+        :param cID: accept lists of coms or single com
         :return:
         """
 
@@ -56,61 +92,62 @@ class DynamicCommunitiesSN:
 
 
         for ts in t:
-            if not ts in self._communities:
-                self._communities[ts]=bidict()
-            coms = self._communities[ts]
+            if not ts in self.snapshots:
+                self.snapshots[ts]=bidict()
+            coms = self.snapshots[ts]
             for cs in cID:
                 if not cs in coms.inv:
                     coms.inv[cs]=frozenset()
                 coms.inv[cs]=coms.inv[cs].union(n)
 
-    def add_belongins_from(self, clusters, t):
+    def set_affiliations_from(self, clusters, t):
         """
-        Given a cluster provided as a dict or bidict {frozenset of nodes}:id , add it to time t
+        Affiliate nodes given a dictionary representation
+
+        Given a clustering provided as a dict or bidict {frozenset of nodes}:id , set this clustering at the
+        provided time (replace any existing clustering at that time)
+
         :param clusters: dict or bidict{frozenset of nodes}:id
         """
 
-        self._communities[t]=bidict(clusters)
+        self.snapshots[t]=bidict(clusters)
 
-    def add_community(self, t, com, id=None):
+    def add_community(self, t, nodes, id=None):
         """
-        add the community com at time t (with a random id if not provided)
+        Add a community at a time
+
+        Create a community at time t with the provided nodes and id  ( random id if not provided)
+
         :param t: time
-        :param com: a community provided as a set/list of nodes
+        :param nodes: a community provided as a set/list of nodes
         :param id: optional id, otherwise, new unique one
         :return:
         """
 
-        com = frozenset(com)
+        nodes = frozenset(nodes)
         if id==None:
             id=str(self._automaticID)
             self._automaticID+=1
-        self.add_belonging(com, t, id)
+
+        self.add_affiliation(nodes, t, id)
 
     def com_ID(self, t, com):
         """
         Get the id of a community at a time
+
         :param t: time
         :param com: set of nodes
         :return: the id
         """
 
-        return self._communities[t][com]
+        return self.snapshots[t][com]
 
-    def communities(self,t=None):
-        """
-        return all snapshots present at a given time
-        :param t: time
-        :return: a bidict {frozenset of nodes}:id
-        """
 
-        if t==None:
-            return self._communities
-        return self._communities[t]
 
     def _compute_fraction_identity(self, com1, com2):
         """
-        compute a fraction of identity between two snapshots
+        compute a fraction of identity between two affiliations
+
         :param com1: a com
         :param com2: another com
         """
@@ -120,12 +157,11 @@ class DynamicCommunitiesSN:
 
     def create_standard_event_graph(self, keepingPreviousEvents=False,threshold=0,score=_compute_fraction_identity):
         """
-        From a set of static snapshots, do a standard matching process such as all snapshots in consecutive steps with at least a node in common are linked by an event, and compute a similarity score
-
+        From a set of static affiliations, do a standard matching process such as all affiliations in consecutive steps with at least a node in common are linked by an event, and compute a similarity score
 
         :param keepingPreviousEvents: if true, if events were already present, we keep them and compute their score
         :param threshold: a minimal value of score under which a link is not created. Default: 0
-        :param score: a function describing how to compute the score. Takes 2 snapshots as input and return the score.
+        :param score: a function describing how to compute the score. Takes 2 affiliations as input and return the score.
         """
         if not keepingPreviousEvents:
             self.events=CommunitiesEvent()
@@ -135,7 +171,7 @@ class DynamicCommunitiesSN:
                 fraction = self._compute_fraction_identity(communities[t1].inv[com1], communities[t2].inv[com2])
                 self.events[(t1, com1)][(t2, com2)]["fraction"]=fraction
 
-        #compute events between consecutive snapshots
+        #compute events between consecutive affiliations
         communities = self.communities()
         for i in range(1,len(communities),1):
             (t1,comsBefore) = communities.peekitem(i-1)
@@ -150,19 +186,22 @@ class DynamicCommunitiesSN:
     def _change_com_id(self,t,oldID,newID):
         """
         Modify the ID of a community, in the community list and the event graph
+
         :param t:
         :param nodes:
         :param newID:
         :return:
         """
-        nodesOfCom = self._communities[t].inv[oldID]
-        self._communities[t][nodesOfCom] = newID
+        nodesOfCom = self.snapshots[t].inv[oldID]
+        self.snapshots[t][nodesOfCom] = newID
         nx.relabel_nodes(self.events, {(t,oldID): (t, newID)}, copy=False)
 
-    def relabel_coms_from_continue_events(self, typedEvents=True):
+    def _relabel_coms_from_continue_events(self, typedEvents=True):
         """
-        If an event graph is present, rename the snapshots such as two snapshots that are linked by an event labeled "continue" will have the same ID.
+
+        If an event graph is present, rename the affiliations such as two affiliations that are linked by an event labeled "continue" will have the same ID.
         If events are not labels, is possible to label them automatically into merge, split and continue using the in/out degrees of nodes in the event graph
+
         :param typedEvents: True if continue labels have already been set.
         """
         if typedEvents:
@@ -178,16 +217,16 @@ class DynamicCommunitiesSN:
                         idComToKeep = changedIDs[u]
                     changedIDs[v]=idComToKeep
 
-                    nodesOfCom = self._communities[timeEnd].inv[idComToChange]
-                    self._communities[timeEnd][nodesOfCom]=idComToKeep
+                    nodesOfCom = self.snapshots[timeEnd].inv[idComToChange]
+                    self.snapshots[timeEnd][nodesOfCom]=idComToKeep
 
                     #update com ID in event graph
                     nx.relabel_nodes(self.events, {(timeEnd, idComToChange): (timeEnd, idComToKeep)}, copy=False)
 
         if not typedEvents:
             #if events are not typed, we infer what we can, i.e one input and one input is a continue, otherwise we change label of edges accordingly
-            for t in self._communities:
-                for (c,cID) in self._communities[t].items():
+            for t in self.snapshots:
+                for (c,cID) in self.snapshots[t].items():
                     node_current=(t,cID)
                     succ = self.events.out_degree([node_current])
 
@@ -242,29 +281,31 @@ class DynamicCommunitiesSN:
 
     def to_SGcommunities(self, convertTimeToInteger=False):
         """
-        Convert to SG snapshots
-        :param convertTimeToInteger:
-        :return:
+        Convert to SG affiliations
+
+        :param convertTimeToInteger: if True, affiliations IDs will be forgottent and replaced by consecutive integers
+        :return: DynamicCommunitiesIG
         """
-        dynComTN= tn.DynamicCommunitiesSG()
-        for i in range(len(self._communities)):
+
+        dynComTN= tn.DynCommunitiesIG()
+        for i in range(len(self.snapshots)):
             if convertTimeToInteger:
                 t=i
                 tNext=i+1
             else:
-                t = self._communities.peekitem(i)[0]
-                if i<len(self._communities)-1:
-                    tNext=self._communities.peekitem(i + 1)[0]
+                t = self.snapshots.peekitem(i)[0]
+                if i<len(self.snapshots)-1:
+                    tNext=self.snapshots.peekitem(i + 1)[0]
                 else:
-                    tNext = self._communities.peekitem("END")[1]
+                    tNext = self.snapshots.peekitem("END")[1]
 
-            for (c,cID) in self._communities.peekitem(i)[1].items(): #for each community for this timestep
+            for (c,cID) in self.snapshots.peekitem(i)[1].items(): #for each community for this timestep
                 for n in c:#get the nodes, not the
-                    dynComTN.add_belonging(n, cID, t, tNext)
+                    dynComTN.add_affiliation(n, cID, t, tNext)
 
 
         #convert also events
         for (u,v,d) in self.events.edges(data=True):
-            if d["type"]!="continue": #if snapshots have different IDs
+            if d["type"]!="continue": #if affiliations have different IDs
                 dynComTN.addEvent(u[1],v[1],d["time"][0],d["time"][1],d["type"])
         return dynComTN

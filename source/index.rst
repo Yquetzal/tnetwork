@@ -30,6 +30,12 @@ tnetwork Dev Team
    installing.rst
    reference/readwrite.rst
    reference/dyn_graph.rst
+   reference/dyn_communities.rst
+   reference/Intervals.rst
+   reference/DCD.rst
+   reference/vizu.rst
+
+
 
 
 .. _`Rémy Cazabet`: http://cazabetremy.fr

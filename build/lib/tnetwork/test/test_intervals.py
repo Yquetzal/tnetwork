@@ -98,6 +98,32 @@ class ReadWriteTestCase(unittest.TestCase):
         self.assertEqual([(10, 20)], anInt.periods())
 
 
+    def test_intersect(self):
+        anInt = Intervals()
+        anInt.add_interval((5, 10))
+        anInt.add_interval((12, 20))
+        anInt.add_interval((50, 100))
+
+        another = Intervals()
+        another.add_interval((3,105))
+
+        test1 = another.intersection(anInt)
+        test2 = anInt.intersection(another)
+        self.assertEqual(test1,test2)
+        self.assertEqual(test1,anInt)
+
+        another = Intervals()
+        another.add_interval((3, 18))
+
+        test1 = another.intersection(anInt)
+
+        self.assertEqual(test1.periods(),[(5,10),(12,18)])
+
+        another = Intervals()
+        another.add_interval((19, 55))
+        test1 = anInt.intersection(another)
+
+        self.assertEqual(test1.periods(),[(19,20),(50,55)])
 
 
 if __name__ == '__main__':

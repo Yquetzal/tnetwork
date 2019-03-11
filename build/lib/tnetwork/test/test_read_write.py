@@ -16,15 +16,15 @@ class ReadWriteTestCase(unittest.TestCase):
 
         for type in [None,"ncol","gefx","gml","pajek","graphML"]:
             print("writing ",type)
-            dn.write_snapshots_dir(dg,"testDir",type)
+            dn.write_snapshots(dg, "testDir", type)
 
             print("reading ",type)
 
-            read_dg = dn.read_snapshots_dir("testDir")
+            read_dg = dn.read_snapshots("testDir")
 
-            self.assertEqual(len(dg.snapshots()),len(read_dg.snapshots()))
+            self.assertEqual(len(dg.affiliations()), len(read_dg.snapshots()))
 
-            self.assertEqual(list(dg.snapshots().values())[0].edges, list(read_dg.snapshots().values())[0].edges)
+            self.assertEqual(list(dg.affiliations().values())[0].edges, list(read_dg.snapshots().values())[0].edges)
 
             shutil.rmtree("testDir")
 
@@ -34,11 +34,11 @@ class ReadWriteTestCase(unittest.TestCase):
         dg_sg = dg.to_DynGraphSG()
 
         print("printing file")
-        dn.write_SG(dg_sg,"testFile")
+        dn.write_IG(dg_sg, "testFile")
 
         print("reading file")
 
-        reconstructed = dn.read_SG("testFile")
+        reconstructed = dn.read_IG("testFile")
 
         self.assertEqual(reconstructed.interactions(), dg_sg.interactions())
 

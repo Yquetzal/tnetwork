@@ -1,69 +1,44 @@
 from tnetwork.DCD.computing_coms_by_sn import *
-import time
-from tnetwork.utils.community_utils import _jaccard
+from tnetwork.utils.community_utils import jaccard
 
 
 
-# def _matchAll(oldc, newc, mt):
-#     """
-#
-#     :param oldc:  list of communities defined as dic {cID:set of nodesID}
-#     :param newc:  list of communities defined as dic {cID:set of nodesID}
-#     :param mt:
-#     :return: dic {newC:oldC} communities not matched are missing
-#     """
-#     coms_matched = set()
-#     for c in oldc:  # for each of the new communities
-#         for cd in newc:  # for each of the old communities
-#             jaccard = _jaccard(oldc[c],newc[cd])
-#
-#             if jaccard >= mt:  # check if this jaccard is above threashold
-#                 coms_matched.add((c,cd))
-#     return coms_matched  # return dic {newC:oldC} communities not matched are missing
-#
-#
-# def _build_matches(partitions, mt):
-#     coms = partitions.communities()
-#
-#     for i in range(len(coms) - 1):  # for each date taken in chronological order
-#         tOfSN = coms.iloc[i]
-#         nextTOfSN = coms.iloc[i + 1]
-#
-#         oldc = partitions.communities(tOfSN)
-#         newc = partitions.communities(nextTOfSN)
-#         matched = _matchAll(oldc.inv, newc.inv, mt)  # find the best match for each new commmunity
-#
-#         for c in matched:  # c is the oldest community
-#             partitions.events.add_event((tOfSN, c[0]), (nextTOfSN, c[1]), tOfSN, nextTOfSN, type="unknown")
-
-def simple_matching(dynNetSN, mt=0.3, CDalgo="louvain", labels=True):
+def iterative_match(dynNetSN, CDalgo="louvain", match_function=jaccard, threshold=0.3, labels=True):
     """
-    This algorithm is based on the one by Greene et al. using the louvain algorithm for detection at each step and the Jaccard coefficent to evaluate the similarity
-    of snapshots.
+    Community Detection by iterative detection and matching
+
+    This algorithm is inspired by the one proposed by Greene et al., [1] but additionally to the detection of match
+    between communities in consecutive snapshots, a post process assign labels to communities, based on the
+    following rules:
+
+    * A community "send" its label to the community the most similar in the next snapshot
+    * If a community "receives" several labels from communities in the previous snapshot, it selects the one of the community the most similar.
+
+
+    [1]Greene, Derek, Donal Doyle, and Padraig Cunningham.
+    "Tracking the evolution of communities in dynamic social networks."
+    2010 international conference on advances in social networks analysis and mining. IEEE, 2010.
+
     :param dynNetSN: a dynamic network
-    :param mt: a minimum threashold for jaccard
-    :param CDalgo: can be "louvain" or "smoothedLouvain"
-    :param runningTime:
-    :param labels: if True, the matching of snapshots is done using labels. If False, using an event graph.
-    :return:
+    :param CDalgo: community detection to apply at each step. Can be a function returning a clustering, or the string "louvain" or "smoothedLouvain
+    :param match_function: a function that gives a matching score between two communities (two sets of nodes). Default: jaccard
+    :param threshold: a threshold for match_function below which communities are not matched
+    :param labels: if True, the matching of affiliations is done using labels. If False, using an event graph.
+    :return: DynCommunitiesSN
     """
 
-
-    if CDalgo=="louvain":
-        dynPartitions = iterative_louvain(dynNetSN)
     if CDalgo=="smoothedLouvain":
         dynPartitions = smoothed_louvain(dynNetSN)
+    elif CDalgo=="louvain":
+        dynPartitions = CD_each_step(dynNetSN,best_partition)
+    else:
+        dynPartitions = CD_each_step(dynNetSN, CDalgo)
 
 
-
-
-    #_build_matches(dynPartitions, mt)
-    dynPartitions.create_standard_event_graph(threshold=mt,score=_jaccard)
+    dynPartitions.create_standard_event_graph(threshold=threshold, score=match_function)
 
     if labels:
-        dynPartitions.relabel_coms_from_continue_events(typedEvents=False)
-    else:
-        dynPartitions.create_standard_event_graph()
+        dynPartitions._relabel_coms_from_continue_events(typedEvents=False)
 
 
 

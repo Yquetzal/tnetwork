@@ -1,56 +1,67 @@
 ************
-Input-Output
+Read/Write
 ************
 
-Functions to read and write dynamic graphs and snapshots
+Functions to read and write dynamic graphs and affiliations.
+
+--------------------------
+Simple example
+--------------------------
+::
+
+    import tnetwork as tn
+    sn = tn.read_snapshots("file_to_Read")
+    tn.write_snapshots(sn,"file_to_write")
 
 .. automodule:: tnetwork.readwrite
 
 --------------------------
-Manipulate snapshot graphs
+Read/Write graphs
 --------------------------
 
+
+Read/Write snapshot graphs
+---------------------------
 
 .. autosummary::
     :toctree: iof/
 
-    read_snapshots_dir
-    write_snapshots_dir
+    write_snapshots
+    read_snapshots
     read_graph_link_stream
 
---------------------------
-Manipulate stream graphs
---------------------------
+Read/Write interval graphs
+------------------------------
 
 
 .. autosummary::
     :toctree: iof/
 
-    write_SG
-    read_SG
+    write_IG
     write_ordered_changes
+    read_IG
 
 
--------------------------------
-Manipulate snapshot snapshots
--------------------------------
+--------------------------
+Read/Write Communities
+--------------------------
+
+Read/Write snapshot affiliations
+-----------------------------------
 
 
 .. autosummary::
     :toctree: iof/
 
-    read_static_coms_by_node
-    read_SN_by_com
     write_com_SN
+    read_SN_by_com
 
--------------------------------------
-Manipulate stream graph snapshots
--------------------------------------
+
+Read/Write interval graph affiliations
+-----------------------------------------
 
 
 .. autosummary::
     :toctree: iof/
 
-    write_SGC
-    read_com_ordered_changes
-    write_ordered_changes
+    write_IGC
