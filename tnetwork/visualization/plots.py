@@ -1,5 +1,5 @@
 import bokeh
-# from bokeh.plotting import figure
+import bokeh.plotting
 # from bokeh.models import ColumnDataSource ,CDSView, HoverTool
 # from bokeh.models import GraphRenderer, StaticLayoutProvider, Circle
 # from bokeh.models import Slider, TapTool, MultiLine
