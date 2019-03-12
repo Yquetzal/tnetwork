@@ -24,7 +24,7 @@ def _sg_graph2CDS(dynamic_net:tn.DynGraphIG, coms:tn.DynCommunitiesIG=None, to_d
             forData.append([start, n, "no", end-start])
 
     if coms != None:
-        for n,belongings in coms.affiliations.items():
+        for n,belongings in coms.affiliations().items():
             for com,periods in belongings.items():
                 for (start,end) in periods.periods():
                     forData.append([start, n, com, end - start])
@@ -274,7 +274,7 @@ def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_dateti
     if sn_duration!=None:
         CDS.data["duration"] = [sn_duration]*len(CDS.data["time"])
     CDS.data["duration_display"]=CDS.data["duration"]
-    CDS.data["duration"] = [v+0.1 for v in CDS.data["duration"]]
+    #CDS.data["duration"] = [v+0.1 for v in CDS.data["duration"]]
 
     #should work for timedelta and integers
     CDS.data["time_shift"] = [CDS.data["time"][i] + CDS.data["duration"][i] / 2 for i in range(len(CDS.data["duration"]))]
