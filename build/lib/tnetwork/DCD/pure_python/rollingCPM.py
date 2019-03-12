@@ -1,7 +1,7 @@
 import networkx as nx
 from operator import itemgetter
 from collections import defaultdict
-from tnetwork import DynCommunitiesSN
+from tnetwork import DynCommunitiesSN,DynGraphSN
 
 __author__ = "Giulio Rossetti, modif:Remy Cazabet"
 __contact__ = "giulio.rossetti@gmail.com"
@@ -13,7 +13,7 @@ __license__ = "BSD"
 
 
 
-def rollingCPM(dynNetSN,k=3):
+def rollingCPM(dynNetSN:DynGraphSN,k=3):
     """
 
     This method is based on Palla et al[1]. It first computes overlapping communities in each snapshot based on the
@@ -24,7 +24,7 @@ def rollingCPM(dynNetSN,k=3):
     Quantifying social group evolution.
     Nature, 446(7136), 664.
 
-    :param dynNetSN: a dynamic network
+    :param dynNetSN: a dynamic network (DynGraphSN)
     :param k: the size of cliques used as communities building blocks
     :return: DynCommunitiesSN
     """
@@ -33,7 +33,7 @@ def rollingCPM(dynNetSN,k=3):
     old_communities = None
     old_graph = nx.Graph()
 
-    graphs=dynNetSN.affiliations()
+    graphs=dynNetSN.snapshots()
 
     for (date, graph) in graphs.items():
         communitiesAtT = list(_get_percolated_cliques(graph, k)) #get the percolated cliques (affiliations) as a list of set of nodes
@@ -82,15 +82,15 @@ def rollingCPM(dynNetSN,k=3):
                         born.append(list(newCToMatch.keys())[0])
 
                     for aMatch in matched:
-                        DynCom.add_event((dateOld, DynCom.com_ID(dateOld, aMatch[0])), (date, DynCom.com_ID(date, aMatch[1])), dateOld, date, "continue")
+                        DynCom.events.add_event((dateOld, DynCom.com_ID(dateOld, aMatch[0])), (date, DynCom.com_ID(date, aMatch[1])), dateOld, date, "continue")
 
                     for kil in killed:#these are actual merge (unmatched affiliations are "merged" to new ones)
                         for com in jaccardUnionAndAfter[c]:
-                            DynCom.add_event((dateOld, DynCom.com_ID(dateOld, kil)), (date, DynCom.com_ID(date, com)), dateOld, date, "merged")
+                            DynCom.events.add_event((dateOld, DynCom.com_ID(dateOld, kil)), (date, DynCom.com_ID(date, com)), dateOld, date, "merged")
 
                     for b in born:#these are actual merge (unmatched affiliations are "merged" to new ones)
                         for com in jaccardBeforeAndUnion[c]:
-                            DynCom.add_event((dateOld, DynCom.com_ID(dateOld, com)), (date, DynCom.com_ID(date, b)), dateOld, date, "split")
+                            DynCom.events.add_event((dateOld, DynCom.com_ID(dateOld, com)), (date, DynCom.com_ID(date, b)), dateOld, date, "split")
 
             old_graph = graph
             dateOld=date

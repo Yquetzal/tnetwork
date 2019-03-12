@@ -59,7 +59,7 @@ class DynCommunitiesSN:
         :return: dictionary, key=node, value=set of affiliations ID
         """
         if t==None:
-            return {k:nodesets2affiliations(v) for k,v in enumerate(self.snapshots)}
+            return {k:nodesets2affiliations(v) for k,v in self.communities().items()}
 
         if not t in self.communities():
             return None

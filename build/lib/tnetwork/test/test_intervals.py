@@ -125,6 +125,27 @@ class ReadWriteTestCase(unittest.TestCase):
 
         self.assertEqual(test1.periods(),[(19,20),(50,55)])
 
+    def test_union(self):
+        anInt = Intervals()
+        anInt.add_interval((5, 10))
 
+        another = Intervals()
+        another.add_interval((3, 105))
+
+        test1 = another.union(anInt)
+        test2 = anInt.union(another)
+        self.assertEqual(test1, test2)
+        self.assertEqual(test1, another)
+
+        anInt = Intervals()
+        anInt.add_interval((5, 10))
+
+        another = Intervals()
+        another.add_interval((30, 105))
+
+        test1 = another.union(anInt)
+        test2 = anInt.union(another)
+        self.assertEqual(test1, test2)
+        self.assertEqual(test1, Intervals([(5,10),(30,105)]))
 if __name__ == '__main__':
     unittest.main()

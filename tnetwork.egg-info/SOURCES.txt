@@ -57,7 +57,6 @@ tnetwork/test/test_convert.py
 tnetwork/test/test_dyn_net_sn.py
 tnetwork/test/test_intervals.py
 tnetwork/test/test_read_write.py
-tnetwork/test/test_visu.py
 tnetwork/utils/__init__.py
 tnetwork/utils/community_utils.py
 tnetwork/utils/intervals.py

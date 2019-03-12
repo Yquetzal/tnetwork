@@ -17,34 +17,36 @@ def _match_communities_according_to_com(dynComSN, matchesGraph):
         #create an ID
         newComID = "DC_"+str(cID)
         #if this Id is already present, means that 2 affiliations of the SAME timestep are merged, modified the affiliations accordingly
-        if newComID in dynComSN._snapshots[t].inv:
-            dynComSN._snapshots[t].inv[newComID]=dynComSN._snapshots[t].inv[newComID].union(c)
-            del dynComSN._snapshots[t][c]
+        if newComID in dynComSN.communities(t).inv:
+            dynComSN.snapshots[t].inv[newComID]=dynComSN.snapshots[t].inv[newComID].union(c)
+            del dynComSN.snapshots[t][c]
         else: #replace the ID of the (local) community by the ID of the (global) community
-            dynComSN._snapshots[t][c]=newComID #add DC_ to avoid confusion with already assigned com ID
+            dynComSN.snapshots[t][c]=newComID #add DC_ to avoid confusion with already assigned com ID
 
 
 
 
 
 
-def _build_matches_graph(partitions, match_function=jaccard, threshold=0.3):
+def _build_matches_graph(partitions, match_function, threshold=0.3):
     graph = nx.Graph()
-    coms = partitions.affiliations()
+    coms = partitions.communities()
 
-    allComs = set()
+    allComs = []
     for t in coms:  # for each date taken in chronological order
-       for c in coms[t]:
-           allComs.add((t,c))
+        for c in coms[t]:
+            allComs.append((t,c))
 
 
-    for com1 in allComs:
-        for com2 in allComs:
+    for i in range(len(allComs)):
+        for j in range(i,len(allComs)):
+            com1 = allComs[i]
+            com2 = allComs[j]
             if com1!=com2: #if not same community
                 score = match_function(com1[1], com2[1])
                 if score>=threshold:
-                    commonNodes = len(com1[1] & com2[1])
-                    identityPreservation = commonNodes / len(com1[1]) * commonNodes / len(com2[1])
+                    #commonNodes = len(com1[0] & com2[0])
+                    #identityPreservation = commonNodes / len(com1[0]) * commonNodes / len(com2[0])
 
                     graph.add_edge(com1,com2,weight=score)#the weight is used such as the louvain algorihtm applied afterwards uses it (not sure it does)
 
@@ -63,7 +65,7 @@ def match_survival_graph(dynNetSN, CDalgo="louvain", match_function=jaccard, thr
     In Proceedings of the 2006 IEEE/WIC/ACM International Conference on Web Intelligence (pp. 52-58). IEEE Computer Society.
 
     :param dynNetSN: a dynamic network
-    :param CDalgo: community detection to apply at each step. Can be a function returning a clustering, or the string "louvain" or "smoothedLouvain
+    :param CDalgo: community detection to apply at each step. Can be a function returning a clustering, or the string "louvain" or "smoothedLouvain"
     :param match_function: a function that gives a matching score between two communities (two sets of nodes). Default: jaccard
     :param threshold: a threshold for match_function below which communities are not matched
     :return: DynCommunitiesSN

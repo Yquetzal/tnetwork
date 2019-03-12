@@ -169,7 +169,6 @@ def _update_net(currentT, graph_plot, dynamic_net):
             graph_layout={str(currentT) + "|" + n.split("|")[1]: position for n, position in node_positions.items()})
 
         edges = dynamic_net.affiliations()[currentT].edges()
-        print(edges)
         n1s = []
         n2s = []
         for (n1, n2) in edges:
