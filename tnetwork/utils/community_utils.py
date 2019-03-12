@@ -1,10 +1,11 @@
 from tnetwork.utils.read_write import write_list_of_list
+from tnetwork.utils.bidict import bidict
 
 def nodesets2affiliations(communities):
     """
     Transform community format to "affiliations"
 
-    Representation expected in input: dictionary, key=node set, value= community ID
+    Representation expected in input: dictionary, key=node frozen set, value= community ID
     Representation in output: dictionary, key=node, value=set of affiliations ID
 
     :param communities: dictionary, key=node set, value= community ID
@@ -23,15 +24,25 @@ def affiliations2nodesets(communities):
     Transform community format to "nodesets"
 
     Representation expected in input: dictionary, key=node, value=list/set of affiliations ID
-    Representation in output: dictionary, key=node, value=set of affiliations ID
+    Representation in output: bidict, key=node frozen set, value=community ID
 
     :param partition:
     :return:
     """
-    asNodeSets = {}
-    for n, c in communities.items():
-        asNodeSets.setdefault(c, set()).add(n)
-    return asNodeSets
+
+    if communities==None:
+        return None
+
+    asNodeSets = dict()
+
+    if len(communities)==0:
+        return asNodeSets
+
+    for n, coms in communities.items():
+        for c in coms:
+            asNodeSets.setdefault(c, set()).add(n)
+
+    return bidict({frozenset(v):k for k,v in asNodeSets.items()})
 
 def jaccard(com1, com2):
     return float(len(com1 & com2)) / float(len(com1 | com2))

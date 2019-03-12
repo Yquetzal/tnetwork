@@ -55,6 +55,7 @@ tnetwork/test/__init__.py
 tnetwork/test/test_DCD.py
 tnetwork/test/test_convert.py
 tnetwork/test/test_dyn_net_sn.py
+tnetwork/test/test_generation.py
 tnetwork/test/test_intervals.py
 tnetwork/test/test_read_write.py
 tnetwork/utils/__init__.py

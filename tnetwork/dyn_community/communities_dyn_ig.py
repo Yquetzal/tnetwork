@@ -35,12 +35,27 @@ class DynCommunitiesIG:
         if end==None:
             self.end=-math.inf
 
+
+    def _affiliations_at_t(self,t):
+        """
+        Afilliations at t
+        :param t:
+        :return: dictionary (by node) of list of communities
+        """
+        to_return ={}
+        for n in self._by_node:
+            for c,period in self._by_node[n].items():
+                if period.contains_t(t):
+                    to_return.setdefault(n,set())
+                    to_return[n].add(c)
+        return(to_return)
+
     def affiliations(self, t=None):
         """
         Affiliations by nodes
 
         :param t: time of the affiliations ro return. Default: all
-        :return: either a dictionary (by node) of dictionaries (by community) of Intervals if t==None or a dictionary (by node) of Intervals
+        :return: either a dictionary (by node) of dictionaries (by community) of Intervals if t==None or a dictionary (by node) of list of communities
         """
         if t==None:
             return self._by_node
@@ -55,9 +70,9 @@ class DynCommunitiesIG:
         :return: either a dictionary (by community) of dictionaries (by node) of Intervals if t==None or a dictionary (by community) of Intervals
         """
         if t == None:
-            return self._by_node
+            return self._by_com
 
-        return affiliations2nodesets(self._affiliations_at_t(t))
+        return affiliations2nodesets(self.affiliations(t))
 
     def add_affiliation(self, n:str, com:str, times:(int, int)):
         """
