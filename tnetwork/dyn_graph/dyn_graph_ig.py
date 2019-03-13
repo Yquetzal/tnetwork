@@ -165,7 +165,7 @@ class DynGraphIG(DynGraph):
 
         * If nodes==None (default), return a dict for each note, its existing times
         * If nodes is a single node, return the interval of presence of this node
-        * If nodes is a list of nodes, return interval of presence of those nodes as a dictionary
+        * If nodes is a set of nodes, return interval of presence of those nodes as a dictionary
 
         :param nodes:
         :return: dictionary, for each node, its existing times, or single Interval for single node
