@@ -247,7 +247,6 @@ class DynGraphIG(DynGraph):
                 slices.append((start,end))
                 start=end
                 end = end+duration
-        print(slices)
         for ts in slices:
             dgSN.add_snapshot(t=ts[0],graphSN=nx.Graph())
 
