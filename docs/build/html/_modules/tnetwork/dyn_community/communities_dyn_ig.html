@@ -364,12 +364,27 @@
         <span class="k">if</span> <span class="n">end</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="o">=-</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span>
 
+
+    <span class="k">def</span> <span class="nf">_affiliations_at_t</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">t</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Afilliations at t</span>
+<span class="sd">        :param t:</span>
+<span class="sd">        :return: dictionary (by node) of list of communities</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">to_return</span> <span class="o">=</span><span class="p">{}</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_by_node</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">c</span><span class="p">,</span><span class="n">period</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_by_node</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">period</span><span class="o">.</span><span class="n">contains_t</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+                    <span class="n">to_return</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="nb">set</span><span class="p">())</span>
+                    <span class="n">to_return</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">to_return</span><span class="p">)</span>
+
 <div class="viewcode-block" id="DynCommunitiesIG.affiliations"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynCommunitiesIG.affiliations.html#tnetwork.DynCommunitiesIG.affiliations">[docs]</a>    <span class="k">def</span> <span class="nf">affiliations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Affiliations by nodes</span>
 
 <span class="sd">        :param t: time of the affiliations ro return. Default: all</span>
-<span class="sd">        :return: either a dictionary (by node) of dictionaries (by community) of Intervals if t==None or a dictionary (by node) of Intervals</span>
+<span class="sd">        :return: either a dictionary (by node) of dictionaries (by community) of Intervals if t==None or a dictionary (by node) of list of communities</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">t</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_by_node</span>
@@ -384,9 +399,9 @@
 <span class="sd">        :return: either a dictionary (by community) of dictionaries (by node) of Intervals if t==None or a dictionary (by community) of Intervals</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_by_node</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_by_com</span>
 
-        <span class="k">return</span> <span class="n">affiliations2nodesets</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_affiliations_at_t</span><span class="p">(</span><span class="n">t</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">affiliations2nodesets</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">affiliations</span><span class="p">(</span><span class="n">t</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="DynCommunitiesIG.add_affiliation"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynCommunitiesIG.add_affiliation.html#tnetwork.DynCommunitiesIG.add_affiliation">[docs]</a>    <span class="k">def</span> <span class="nf">add_affiliation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">com</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">times</span><span class="p">:(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
         <span class="sd">&quot;&quot;&quot;</span>

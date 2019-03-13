@@ -465,7 +465,12 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">add_interval</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">add_interval</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span>
+
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">start</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DynGraphIG.add_nodes_presence_from"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.add_nodes_presence_from.html#tnetwork.DynGraphIG.add_nodes_presence_from">[docs]</a>    <span class="k">def</span> <span class="nf">add_nodes_presence_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span><span class="n">times</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -488,16 +493,25 @@
 
 <div class="viewcode-block" id="DynGraphIG.node_presence"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.node_presence.html#tnetwork.DynGraphIG.node_presence">[docs]</a>    <span class="k">def</span> <span class="nf">node_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        return the presence period of each node, as a dictionary</span>
+<span class="sd">        Presence period of nodes</span>
+
+<span class="sd">        Several usages:</span>
+
+<span class="sd">        * If nodes==None (default), return a dict for each note, its existing times</span>
+<span class="sd">        * If nodes is a single node, return the interval of presence of this node</span>
+<span class="sd">        * If nodes is a set of nodes, return interval of presence of those nodes as a dictionary</span>
 
 <span class="sd">        :param nodes:</span>
-<span class="sd">        :return: dictionary, for each node, its existing times</span>
+<span class="sd">        :return: dictionary, for each node, its existing times, or single Interval for single node</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">toReturn</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="n">ns</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">get_node_attributes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">,</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">nodes</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">ns</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">ns</span><span class="p">[</span><span class="n">nodes</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ns</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">}</span></div>
 
@@ -557,12 +571,11 @@
             <span class="n">slices</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span>
             <span class="n">end</span> <span class="o">=</span> <span class="n">start</span><span class="o">+</span><span class="n">duration</span>
-            <span class="k">while</span><span class="p">(</span><span class="n">end</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">):</span>
+            <span class="k">while</span><span class="p">(</span><span class="n">end</span><span class="o">&lt;=</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">):</span>
                 <span class="n">end</span> <span class="o">=</span> <span class="n">start</span><span class="o">+</span><span class="n">duration</span>
                 <span class="n">slices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">))</span>
                 <span class="n">start</span><span class="o">=</span><span class="n">end</span>
                 <span class="n">end</span> <span class="o">=</span> <span class="n">end</span><span class="o">+</span><span class="n">duration</span>
-
         <span class="k">for</span> <span class="n">ts</span> <span class="ow">in</span> <span class="n">slices</span><span class="p">:</span>
             <span class="n">dgSN</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="n">ts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">graphSN</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">())</span>
 

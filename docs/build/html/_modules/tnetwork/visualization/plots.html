@@ -329,11 +329,12 @@
   <h1>Source code for tnetwork.visualization.plots</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">bokeh</span>
 <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
+<span class="c1">#import bokeh.io</span>
+<span class="c1">#from bokeh.io import show,output_notebook</span>
 <span class="c1"># from bokeh.models import ColumnDataSource ,CDSView, HoverTool</span>
 <span class="c1"># from bokeh.models import GraphRenderer, StaticLayoutProvider, Circle</span>
 <span class="c1"># from bokeh.models import Slider, TapTool, MultiLine</span>
 <span class="c1"># from bokeh.layouts import column</span>
-<span class="c1"># from bokeh.io import show, output_notebook</span>
 
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -353,7 +354,7 @@
             <span class="n">forData</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="s2">&quot;no&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">])</span>
 
     <span class="k">if</span> <span class="n">coms</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">belongings</span> <span class="ow">in</span> <span class="n">coms</span><span class="o">.</span><span class="n">affiliations</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">belongings</span> <span class="ow">in</span> <span class="n">coms</span><span class="o">.</span><span class="n">affiliations</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">com</span><span class="p">,</span><span class="n">periods</span> <span class="ow">in</span> <span class="n">belongings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">for</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">)</span> <span class="ow">in</span> <span class="n">periods</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
                     <span class="n">forData</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">com</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">])</span>
@@ -378,7 +379,7 @@
 
     <span class="k">if</span> <span class="n">to_datetime</span><span class="o">!=</span><span class="kc">False</span><span class="p">:</span>
         <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]]</span>
-        <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]]</span>
+        <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]]</span>
 
     <span class="k">return</span> <span class="n">CDS</span>
 
@@ -429,7 +430,7 @@
 
     <span class="k">if</span> <span class="n">to_datetime</span><span class="o">!=</span><span class="kc">False</span><span class="p">:</span>
         <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]]</span>
-        <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]]</span>
+        <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]]</span>
 
     <span class="k">return</span> <span class="n">CDS</span>
 
@@ -498,7 +499,6 @@
             <span class="n">graph_layout</span><span class="o">=</span><span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">currentT</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;|&quot;</span> <span class="o">+</span> <span class="n">n</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">position</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">node_positions</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
 
         <span class="n">edges</span> <span class="o">=</span> <span class="n">dynamic_net</span><span class="o">.</span><span class="n">affiliations</span><span class="p">()[</span><span class="n">currentT</span><span class="p">]</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
         <span class="n">n1s</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">n2s</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
@@ -603,7 +603,7 @@
     <span class="k">if</span> <span class="n">sn_duration</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
         <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sn_duration</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
     <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration_display&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]</span>
-    <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="o">+</span><span class="mf">0.1</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]]</span>
+    <span class="c1">#CDS.data[&quot;duration&quot;] = [v+0.1 for v in CDS.data[&quot;duration&quot;]]</span>
 
     <span class="c1">#should work for timedelta and integers</span>
     <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time_shift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]))]</span>
@@ -653,9 +653,9 @@
     <span class="k">if</span> <span class="n">auto_show</span><span class="p">:</span>
         <span class="k">def</span> <span class="nf">modify_doc</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
             <span class="n">doc</span><span class="o">.</span><span class="n">add_root</span><span class="p">(</span><span class="n">longi</span><span class="p">)</span>
-            <span class="n">bokeh</span><span class="o">.</span><span class="n">iooutput_notebook</span><span class="p">()</span>
 
-        <span class="n">bokeh</span><span class="o">.</span><span class="n">ioshow</span><span class="p">(</span><span class="n">modify_doc</span><span class="p">)</span>
+        <span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">output_notebook</span><span class="p">()</span>
+        <span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">modify_doc</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">longi</span><span class="p">)</span></div>
 

@@ -337,14 +337,20 @@
 <dl class="method">
 <dt id="tnetwork.DynGraphIG.node_presence">
 <code class="descclassname">DynGraphIG.</code><code class="descname">node_presence</code><span class="sig-paren">(</span><em>nodes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/dyn_graph/dyn_graph_ig.html#DynGraphIG.node_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DynGraphIG.node_presence" title="Permalink to this definition">¶</a></dt>
-<dd><p>return the presence period of each node, as a dictionary</p>
+<dd><p>Presence period of nodes</p>
+<p>Several usages:</p>
+<ul class="simple">
+<li>If nodes==None (default), return a dict for each note, its existing times</li>
+<li>If nodes is a single node, return the interval of presence of this node</li>
+<li>If nodes is a set of nodes, return interval of presence of those nodes as a dictionary</li>
+</ul>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nodes</strong> – </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">dictionary, for each node, its existing times</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">dictionary, for each node, its existing times, or single Interval for single node</td>
 </tr>
 </tbody>
 </table>

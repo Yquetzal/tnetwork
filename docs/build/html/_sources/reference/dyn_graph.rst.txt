@@ -2,6 +2,10 @@
 Dynamic Network Classes
 *************************************
 
+A simple demo of usage can be found `here
+<https://colab.research.google.com/github/Yquetzal/tnetwork/blob/master/Network_Graph_classes.ipynb>`_.
+
+
 Dynamic graphs can be represented as:
 
 * Sequences of affiliations
@@ -12,6 +16,8 @@ Each representation has strengths and weaknesses. The representation to use depe
 
 #. Algorithms we wish to use and
 #. properties of the network to represent.
+
+
 
 .. currentmodule:: tnetwork
 

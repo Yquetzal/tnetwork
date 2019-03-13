@@ -332,6 +332,7 @@
             
   <div class="section" id="dynamic-network-classes">
 <h1>Dynamic Network Classes<a class="headerlink" href="#dynamic-network-classes" title="Permalink to this headline">¶</a></h1>
+<p>A simple demo of usage can be found <a class="reference external" href="https://colab.research.google.com/github/Yquetzal/tnetwork/blob/master/Network_Graph_classes.ipynb">here</a>.</p>
 <p>Dynamic graphs can be represented as:</p>
 <ul class="simple">
 <li>Sequences of affiliations</li>
@@ -398,8 +399,8 @@ an position in the sequence (1,2,3,…) or an arbitrary temporal indicator (year
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.node_presence.html#tnetwork.DynGraphSN.node_presence" title="tnetwork.DynGraphSN.node_presence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.node_presence</span></code></a>([nbunch])</td>
-<td>Compute for each node the list of its apparitions :return: a dictionary, key:node, value: list of time steps</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.node_presence.html#tnetwork.DynGraphSN.node_presence" title="tnetwork.DynGraphSN.node_presence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.node_presence</span></code></a>([nodes])</td>
+<td>Presence time of nodes</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.graph_at_time.html#tnetwork.DynGraphSN.graph_at_time" title="tnetwork.DynGraphSN.graph_at_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.graph_at_time</span></code></a>(t)</td>
 <td>return the graph as it is at time t</td>
@@ -512,7 +513,7 @@ order to represent dates.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphIG.node_presence.html#tnetwork.DynGraphIG.node_presence" title="tnetwork.DynGraphIG.node_presence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphIG.node_presence</span></code></a>([nodes])</td>
-<td>return the presence period of each node, as a dictionary</td>
+<td>Presence period of nodes</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynGraphIG.graph_at_time.html#tnetwork.DynGraphIG.graph_at_time" title="tnetwork.DynGraphIG.graph_at_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphIG.graph_at_time</span></code></a>(t)</td>
 <td>Graph as it is at time t</td>

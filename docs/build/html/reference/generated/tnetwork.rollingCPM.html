@@ -336,7 +336,7 @@
 <h1>tnetwork.rollingCPM<a class="headerlink" href="#tnetwork-rollingcpm" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="tnetwork.rollingCPM">
-<code class="descclassname">tnetwork.</code><code class="descname">rollingCPM</code><span class="sig-paren">(</span><em>dynNetSN</em>, <em>k=3</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/DCD/pure_python/rollingCPM.html#rollingCPM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.rollingCPM" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">tnetwork.</code><code class="descname">rollingCPM</code><span class="sig-paren">(</span><em>dynNetSN: tnetwork.dyn_graph.dyn_graph_sn.DynGraphSN</em>, <em>k=3</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/DCD/pure_python/rollingCPM.html#rollingCPM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.rollingCPM" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method is based on Palla et al[1]. It first computes overlapping communities in each snapshot based on the
 clique percolation algorithm, and then match communities in successive steps using a method based on the
 union graph.</p>
@@ -348,7 +348,7 @@ Nature, 446(7136), 664.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>dynNetSN</strong> – a dynamic network</li>
+<li><strong>dynNetSN</strong> – a dynamic network (DynGraphSN)</li>
 <li><strong>k</strong> – the size of cliques used as communities building blocks</li>
 </ul>
 </td>
