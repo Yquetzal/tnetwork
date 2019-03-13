@@ -1,10 +1,11 @@
 import bokeh
 import bokeh.plotting
+#import bokeh.io
+#from bokeh.io import show,output_notebook
 # from bokeh.models import ColumnDataSource ,CDSView, HoverTool
 # from bokeh.models import GraphRenderer, StaticLayoutProvider, Circle
 # from bokeh.models import Slider, TapTool, MultiLine
 # from bokeh.layouts import column
-# from bokeh.io import show, output_notebook
 
 
 import numpy as np
@@ -49,7 +50,7 @@ def _sg_graph2CDS(dynamic_net:tn.DynGraphIG, coms:tn.DynCommunitiesIG=None, to_d
 
     if to_datetime!=False:
         CDS.data["time"] = [to_datetime(x) for x in CDS.data["time"]]
-        CDS.data["duration"] = [timedelta(seconds=x) for x in CDS.data["duration"]]
+        CDS.data["duration"] = [timedelta(seconds=int(x)) for x in CDS.data["duration"]]
 
     return CDS
 
@@ -100,7 +101,7 @@ def _sn_graph2CDS(dynamic_net, coms=None, to_datetime=False):
 
     if to_datetime!=False:
         CDS.data["time"] = [to_datetime(x) for x in CDS.data["time"]]
-        CDS.data["duration"] = [timedelta(seconds=x) for x in CDS.data["duration"]]
+        CDS.data["duration"] = [timedelta(seconds=int(x)) for x in CDS.data["duration"]]
 
     return CDS
 
@@ -323,9 +324,9 @@ def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_dateti
     if auto_show:
         def modify_doc(doc):
             doc.add_root(longi)
-            bokeh.iooutput_notebook()
 
-        bokeh.ioshow(modify_doc)
+        bokeh.io.output_notebook()
+        bokeh.io.show(modify_doc)
     else:
         return (longi)
 

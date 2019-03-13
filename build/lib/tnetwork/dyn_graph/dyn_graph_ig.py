@@ -159,16 +159,25 @@ class DynGraphIG(DynGraph):
 
     def node_presence(self, nodes=None):
         """
-        return the presence period of each node, as a dictionary
+        Presence period of nodes
+
+        Several usages:
+
+        * If nodes==None (default), return a dict for each note, its existing times
+        * If nodes is a single node, return the interval of presence of this node
+        * If nodes is a list of nodes, return interval of presence of those nodes as a dictionary
 
         :param nodes:
-        :return: dictionary, for each node, its existing times
+        :return: dictionary, for each node, its existing times, or single Interval for single node
         """
         toReturn = {}
 
         ns = nx.get_node_attributes(self._graph,"t")
         if nodes==None:
             return ns
+
+        if isinstance(nodes,str):
+            return ns[nodes]
 
         return {k:v for k,v in ns.items() if k in nodes}
 
