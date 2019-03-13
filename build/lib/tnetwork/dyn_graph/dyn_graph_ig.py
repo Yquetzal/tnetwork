@@ -138,6 +138,11 @@ class DynGraphIG(DynGraph):
             stop = time[1]
             self._graph.node[n]["t"].add_interval((start, stop))
 
+        start = time[0]
+        end = time[1]
+        self.start = min(self.start, start)
+        self.end = max(self.end, end)
+
     def add_nodes_presence_from(self, nodes,times):
         """
         Add interactions between provided pairs for the provided periods
@@ -165,7 +170,7 @@ class DynGraphIG(DynGraph):
 
         * If nodes==None (default), return a dict for each note, its existing times
         * If nodes is a single node, return the interval of presence of this node
-        * If nodes is a list of nodes, return interval of presence of those nodes as a dictionary
+        * If nodes is a set of nodes, return interval of presence of those nodes as a dictionary
 
         :param nodes:
         :return: dictionary, for each node, its existing times, or single Interval for single node
@@ -237,12 +242,12 @@ class DynGraphIG(DynGraph):
             slices = []
             start = self.start
             end = start+duration
-            while(end<self.end):
+            while(end<=self.end):
                 end = start+duration
                 slices.append((start,end))
                 start=end
                 end = end+duration
-
+        print(slices)
         for ts in slices:
             dgSN.add_snapshot(t=ts[0],graphSN=nx.Graph())
 

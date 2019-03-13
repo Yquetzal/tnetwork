@@ -428,17 +428,35 @@ class DynGraphSN(DynGraph):
             return self._snapshots
         return self._snapshots[t]
 
-    def node_presence(self, nbunch=None):
+    def node_presence(self, nodes=None):
         """
-        Compute for each node the list of its apparitions
+        Presence time of nodes
+
+         Several usages:
+
+        * If nodes==None (default), return a dict for each note, its existing times
+        * If nodes is a single node, return the interval of presence of this node
+        * If nodes is a set of nodes, return interval of presence of those nodes as a dictionary
+
+        :param nodes: list of ndoes
         :return: a dictionary, key:node, value: list of time steps
         """
+
+
+        if isinstance(nodes,str):
+            nodes= {nodes}
+
         toReturn = {}
         for (SNt,g) in self.snapshots().items():
-            for n in g.nodes():
-                if not n in toReturn:
-                    toReturn[n]=[]
+            if nodes==None:
+                nodes_this_step = g.nodes()
+            else:
+                nodes_this_step = g.nodes() & nodes
+            for n in nodes_this_step:
+                toReturn.setdefault(n,[])
                 toReturn[n].append(SNt)
+        if nodes!=None and len(nodes)==1:
+            return toReturn[list(nodes)[0]]
         return toReturn
 
     def to_tensor(self,always_all_nodes=True):
