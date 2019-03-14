@@ -62,12 +62,15 @@ def _sn_graph2CDS(dynamic_net, coms=None, to_datetime=False):
     dates = list(dynamic_net.snapshots_timesteps())
     durations = [dates[i+1]-dates[i] for i in range(len(dates)-1)]
 
-
+    if len(durations)==0:
+        final_duration=1
+    else:
+        final_duration=np.min(durations)
     for i in range(len(dates)):
         if i<len(dates)-1:
             duration = durations[i]
         else:
-            duration = np.min(durations)
+            duration = final_duration
 
         t = dates[i]
         if coms != None:
@@ -169,7 +172,7 @@ def _update_net(currentT, graph_plot, dynamic_net):
         graph_plot.layout_provider = bokeh.models.StaticLayoutProvider(
             graph_layout={str(currentT) + "|" + n.split("|")[1]: position for n, position in node_positions.items()})
 
-        edges = dynamic_net.affiliations()[currentT].edges()
+        edges = dynamic_net.graph_at_time(currentT).edges()
         n1s = []
         n2s = []
         for (n1, n2) in edges:

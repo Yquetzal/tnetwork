@@ -312,6 +312,8 @@ class DynGraphSN(DynGraph):
         Compute the cumulated graph. Return a networkx graph
         :return: a networkx (weighted) graph
         """
+        if len(self.snapshots_timesteps())==1:
+            return(self.snapshots().peekitem(0)[1])
         return self.aggregate_sliding_window().snapshots().peekitem(0)[1]
 
 
