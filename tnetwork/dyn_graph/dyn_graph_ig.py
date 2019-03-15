@@ -40,7 +40,7 @@ class DynGraphIG(DynGraph):
         """
         Compute the cumulated graph.
 
-        Return a networkx graph
+        Return a networkx graph corresponding to the cumulated graph of the given period (whole graph by default)
 
         :param times: Intervals object or list of pairs (start, end)
         :return: a networkx (weighted) graph

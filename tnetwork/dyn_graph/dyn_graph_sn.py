@@ -321,7 +321,7 @@ class DynGraphSN(DynGraph):
         """
         Compute the cumulated graph.
 
-        Return a networkx graph
+        Return a networkx graph corresponding to the cumulated graph of the given period (whole graph by default)
 
         :param times: list/set of time steps ID of snapshots to cumulate. Default (None) means all snapshots
         :return: a networkx (weighted) graph
