@@ -284,5 +284,7 @@ class Intervals:
         return toReturn
 
     def  __eq__(self, other):
+        if not isinstance(other,Intervals):
+            return False
         return set(self.interv.values())==set(other.interv.values())
     __repr__ = __str__

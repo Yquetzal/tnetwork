@@ -294,12 +294,22 @@ class DynGraphSN(DynGraph):
         """
         newG = nx.Graph()
         for g in graphList:
-            weights = nx.get_edge_attributes(g, "weight")
-            # add weight of one to unweighted graphs
-            if len(weights) == 0:
-                weights = {(u, v): 1 for (u, v) in g.edges()}
+            e_weights = nx.get_edge_attributes(g, "weight")
+            n_weights = nx.get_node_attributes(g,"weight")
 
-            for (u, v), w in weights.items():
+            # add weight of one to unweighted graphs
+            if len(e_weights) == 0:
+                e_weights = {(u, v): 1 for (u, v) in g.edges()}
+            if len(n_weights) == 0:
+                n_weights = {n: 1 for n in g.nodes()}
+
+            for n, w in n_weights.items():
+                if newG.has_node(n):
+                    newG.node[n]["weight"] += w
+                else:
+                    newG.add_node(n, weight=w)
+
+            for (u, v), w in e_weights.items():
                 if newG.has_edge(u, v):
                     newG[u][v]["weight"] += w
                 else:
@@ -307,14 +317,22 @@ class DynGraphSN(DynGraph):
         return newG
 
 
-    def cumulated_graph(self):
+    def cumulated_graph(self,times=None):
         """
-        Compute the cumulated graph. Return a networkx graph
+        Compute the cumulated graph.
+
+        Return a networkx graph
+
+        :param times: list/set of time steps ID of snapshots to cumulate. Default (None) means all snapshots
         :return: a networkx (weighted) graph
         """
-        if len(self.snapshots_timesteps())==1:
-            return(self.snapshots().peekitem(0)[1])
-        return self.aggregate_sliding_window().snapshots().peekitem(0)[1]
+
+        if times==None:
+            snapshots=list(self.snapshots().values())
+        else:
+            snapshots= [sn for t,sn in self.snapshots().items() if t in times]
+
+        return self._combine_weighted_graphs(snapshots)
 
 
     def aggregate_sliding_window(self, bin_size=None, shift=None, t_start=None, t_end=None):

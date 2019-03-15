@@ -116,3 +116,10 @@ Conversion to different formats
     :toctree: generated/
 
         DynGraphIG.to_DynGraphSN
+
+Aggregation
+-----------------------------------
+.. autosummary::
+    :toctree: generated/
+
+        DynGraphIG.cumulated_graph

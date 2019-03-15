@@ -36,6 +36,34 @@ class DynGraphIG(DynGraph):
 
         self._graph = nx.Graph()
 
+    def cumulated_graph(self,times=None):
+        """
+        Compute the cumulated graph.
+
+        Return a networkx graph
+
+        :param times: Intervals object or list of pairs (start, end)
+        :return: a networkx (weighted) graph
+        """
+
+        if times==None:
+            times=Intervals([(self.start,self.end)])
+        elif not isinstance(times,Intervals):
+            times = Intervals(times)
+
+        to_return = nx.Graph()
+        for n,t in nx.get_node_attributes(self._graph,"t").items():
+            #print("----",t)
+            intersect = t.intersection(times)
+            #print("int",intersect.duration())
+            to_return.add_node(n,weight=intersect.duration())
+
+        for (u,v),t in nx.get_edge_attributes(self._graph,"t").items():
+            intersect = t.intersection(times)
+            to_return.add_edge(u,v,weight=intersect.duration())
+
+        return to_return
+
     def graph_at_time(self,t:int) -> nx.Graph:
         """
         Graph as it is at time t

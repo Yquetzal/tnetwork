@@ -26,4 +26,6 @@ class DynGraph():
 
     def remove_interactions_from(self, nodePairs, periods):
         raise NotImplementedError("Not implemented")
-    
+
+    def cumulated_graph(self,times=None):
+        raise NotImplementedError("Not implemented")
