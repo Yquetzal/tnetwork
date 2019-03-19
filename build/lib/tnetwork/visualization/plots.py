@@ -74,7 +74,7 @@ def _sn_graph2CDS(dynamic_net, coms=None, to_datetime=False):
 
         t = dates[i]
         if coms != None:
-            belongings = coms.affiliations(t)
+            belongings = coms.snapshot_affiliations(t)
             for n in belongings:
                 belongings[n] = belongings[n][0] #keep only onl
 
@@ -189,7 +189,7 @@ def plot_as_graph(dynamic_graph, communities=None, t=None,to_datetime=False, wid
     Interactive plot to see the static graph at each snapshot
 
     :param dynamic_graph: DynGraphSN
-    :param communities: dynamic affiliations of the network (can be ignored)
+    :param communities: dynamic snapshot_affiliations of the network (can be ignored)
     :param t: time of the snapshot to display. If None, a slider allows to interactively choose the step (work only in jupyter notebooks on a local machine)
     :param to_datetime: one of True/False/function. If True, step IDs are converted to dates using datetime.utcfromtimestamp. If a function, should take a step ID and return a datetime object.
     :param width: width of the figure
@@ -253,12 +253,12 @@ def plot_as_graph(dynamic_graph, communities=None, t=None,to_datetime=False, wid
 
 def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_datetime=False, nodes=None,width=800,height=600,auto_show=False):
     """
-    A longitudinal view of nodes/communities
+    A longitudinal view of nodes/snapshot_communities
 
-    Plot affiliations such as each node corresponds to a horizontal line and time corresponds to the horizontal axis
+    Plot snapshot_affiliations such as each node corresponds to a horizontal line and time corresponds to the horizontal axis
 
     :param dynamic_graph: DynGraphSN or DynGraphIG
-    :param communities: dynamic affiliations, DynCommunitiesSN or DynCommunitiesIG
+    :param communities: dynamic snapshot_affiliations, DynCommunitiesSN or DynCommunitiesIG
     :param sn_duration: the duration of a snapshot, as int or timedelta. If none, inferred automatically as lasting until next snpashot
     :param to_datetime: one of True/False/function. If True, step IDs are converted to dates using datetime.utcfromtimestamp. If a function, should take a step ID and return a datetime object.
     :param nodes: If none, plot all nodes in lexicographic order. If a list of nodes, plot only those nodes, in that order
@@ -337,7 +337,7 @@ def plot_longitudinal_sn_clusters(dynamic_graph,clusters,level=None, **kwargs):
     """
     A longitudinal view of snapshot clusters
 
-    Snapshot clusters are a way to represent periods of the dynamic graphs similar in some way. It is similar to dynamic communities,
+    Snapshot clusters are a way to represent periods of the dynamic graphs similar in some way. It is similar to dynamic snapshot_communities,
     but all nodes of a snapshot belongs always to the same "community".
 
     Optional parameters (kwargs) are the same as for plot_longitudinal.
@@ -351,7 +351,7 @@ def plot_longitudinal_sn_clusters(dynamic_graph,clusters,level=None, **kwargs):
     coms = tn.DynCommunitiesSN()
     for i,cl in enumerate(clusters): #cl: a cluster
         for t in cl:
-            coms.add_community(t, nodes=dynamic_graph.affiliations(t).nodes, id=i)
+            coms.add_community(t, nodes=dynamic_graph.snapshot_affiliations(t).nodes, id=i)
     if isinstance(dynamic_graph, tn.DynGraphIG):
         coms = coms.to_SGcommunities()
     return plot_longitudinal(dynamic_graph,communities=coms, **kwargs)

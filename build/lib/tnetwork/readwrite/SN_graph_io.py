@@ -169,7 +169,7 @@ def read_graph_link_stream(inputFile:str) -> DynGraphSN:
     """
     Format used by SOCIOPATTERN
 
-    This format is a variation of affiliations, in which all affiliations are in a single file, adapted for occasional observations
+    This format is a variation of snapshot_affiliations, in which all snapshot_affiliations are in a single file, adapted for occasional observations
     at a high framerate (each SN is not really meaningful).
 
     Format:

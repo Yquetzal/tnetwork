@@ -18,7 +18,7 @@ def entropyFracSet(fracSet):
         toReturn+=partialEntropyAProba(frac)
     return toReturn
 
-def comPairConditionalEntropy(cl,clKnown,allNodes): #cl1,cl2, communities (set of nodes)
+def comPairConditionalEntropy(cl,clKnown,allNodes): #cl1,cl2, snapshot_communities (set of nodes)
     #H(Xi|Yj ) =H(Xi, Yj ) − H(Yj )
     # h(a,n) + h(b,n) + h(c,n) + h(d,n)
     # −h(b + d, n)−h(a + c, n)

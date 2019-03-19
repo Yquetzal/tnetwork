@@ -1,6 +1,6 @@
-tnetwork.DynCommunitiesIG.communities
+tnetwork.DynCommunitiesIG.snapshot_communities
 =====================================
 
 .. currentmodule:: tnetwork
 
-.. automethod:: DynCommunitiesIG.communities
+.. automethod:: DynCommunitiesIG.snapshot_communities

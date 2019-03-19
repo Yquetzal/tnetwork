@@ -8,7 +8,7 @@ from tnetwork.utils.community_utils import nodesets2affiliations
 
 class DynCommunitiesSN:
     """
-    Dynamic affiliations as sequences of affiliations
+    Dynamic snapshot_affiliations as sequences of snapshot_affiliations
 
     Communities are represented as a SortedDict, key:time, value: bidict {frozenset of nodes}:id
     a bidict allows to access elements in both directions using them as keys.
@@ -26,7 +26,7 @@ class DynCommunitiesSN:
 
     def add_empty_sn(self, t):
         """
-        Add a snapshot with no affiliations at time t
+        Add a snapshot with no snapshot_affiliations at time t
 
         :param t: time step
         """
@@ -35,7 +35,7 @@ class DynCommunitiesSN:
 
     def communities(self,t=None):
         """
-        Affiliations by communities
+        Affiliations by snapshot_communities
 
         If t is given, return affiliation at this t as a bidict {frozenset of nodes}:id
         else, return a sorted dict, key:time, value: bidict {frozenset of nodes}:id
@@ -52,11 +52,11 @@ class DynCommunitiesSN:
         """
         Affiliations by nodes
 
-        If t is given, return affiliation at this t as a dict, key=node, value=set of communities
-        else, return a sorted dict, key:time, value: dict node:communities
+        If t is given, return affiliation at this t as a dict, key=node, value=set of snapshot_communities
+        else, return a sorted dict, key:time, value: dict node:snapshot_communities
 
         :param t: time
-        :return: dictionary, key=node, value=set of affiliations ID
+        :return: dictionary, key=node, value=set of snapshot_affiliations ID
         """
         if t==None:
             return {k:nodesets2affiliations(v) for k,v in self.communities().items()}
@@ -71,8 +71,8 @@ class DynCommunitiesSN:
         Affiliate node(s) to community(ies) at time(s)
 
         Add belonging for the provided node(s) to the provided communitie(s) at the provided time(s).
-        (all nodes, at all times, in all affiliations)
-        If affiliations do not exist, they are created.
+        (all nodes, at all times, in all snapshot_affiliations)
+        If snapshot_affiliations do not exist, they are created.
 
         :param n: accept set/list of nodes or single node
         :param t: accept list of times or single time
@@ -146,7 +146,7 @@ class DynCommunitiesSN:
 
     def _compute_fraction_identity(self, com1, com2):
         """
-        compute a fraction of identity between two affiliations
+        compute a fraction of identity between two snapshot_affiliations
 
         :param com1: a com
         :param com2: another com
@@ -157,11 +157,11 @@ class DynCommunitiesSN:
 
     def create_standard_event_graph(self, keepingPreviousEvents=False,threshold=0,score=_compute_fraction_identity):
         """
-        From a set of static affiliations, do a standard matching process such as all affiliations in consecutive steps with at least a node in common are linked by an event, and compute a similarity score
+        From a set of static snapshot_affiliations, do a standard matching process such as all snapshot_affiliations in consecutive steps with at least a node in common are linked by an event, and compute a similarity score
 
         :param keepingPreviousEvents: if true, if events were already present, we keep them and compute their score
         :param threshold: a minimal value of score under which a link is not created. Default: 0
-        :param score: a function describing how to compute the score. Takes 2 affiliations as input and return the score.
+        :param score: a function describing how to compute the score. Takes 2 snapshot_affiliations as input and return the score.
         """
         if not keepingPreviousEvents:
             self.events=CommunitiesEvent()
@@ -171,7 +171,7 @@ class DynCommunitiesSN:
                 fraction = self._compute_fraction_identity(communities[t1].inv[com1], communities[t2].inv[com2])
                 self.events[(t1, com1)][(t2, com2)]["fraction"]=fraction
 
-        #compute events between consecutive affiliations
+        #compute events between consecutive snapshot_affiliations
         communities = self.communities()
         for i in range(1,len(communities),1):
             (t1,comsBefore) = communities.peekitem(i-1)
@@ -199,7 +199,7 @@ class DynCommunitiesSN:
     def _relabel_coms_from_continue_events(self, typedEvents=True):
         """
 
-        If an event graph is present, rename the affiliations such as two affiliations that are linked by an event labeled "continue" will have the same ID.
+        If an event graph is present, rename the snapshot_affiliations such as two snapshot_affiliations that are linked by an event labeled "continue" will have the same ID.
         If events are not labels, is possible to label them automatically into merge, split and continue using the in/out degrees of nodes in the event graph
 
         :param typedEvents: True if continue labels have already been set.
@@ -281,9 +281,9 @@ class DynCommunitiesSN:
 
     def to_SGcommunities(self, convertTimeToInteger=False):
         """
-        Convert to SG affiliations
+        Convert to SG snapshot_affiliations
 
-        :param convertTimeToInteger: if True, affiliations IDs will be forgottent and replaced by consecutive integers
+        :param convertTimeToInteger: if True, snapshot_affiliations IDs will be forgottent and replaced by consecutive integers
         :return: DynamicCommunitiesIG
         """
 
@@ -306,6 +306,6 @@ class DynCommunitiesSN:
 
         #convert also events
         for (u,v,d) in self.events.edges(data=True):
-            if d["type"]!="continue": #if affiliations have different IDs
+            if d["type"]!="continue": #if snapshot_affiliations have different IDs
                 dynComTN.addEvent(u[1],v[1],d["time"][0],d["time"][1],d["type"])
         return dynComTN

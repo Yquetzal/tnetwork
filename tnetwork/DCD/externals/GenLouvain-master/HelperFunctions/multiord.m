@@ -68,7 +68,7 @@ function [B,twom] = multiord(A,gamma,omega)
 %
 %   References:
 %     Blondel, Vincent D., Jean-Loup Guillaume, Renaud Lambiotte, and
-%     Etienne Lefebvre, "Fast unfolding of affiliations in large networks,"
+%     Etienne Lefebvre, "Fast unfolding of snapshot_affiliations in large networks,"
 %     Journal of Statistical Mechanics: Theory and Experiment, P10008
 %     (2008).
 %

@@ -8,7 +8,7 @@ def CD_each_step(dynNetSN:tn.DynGraphSN,method=None):
     """
     Apply a community detection at each step
 
-    Compute affiliations at each snapshot and return a dynamic community object with those.
+    Compute snapshot_affiliations at each snapshot and return a dynamic community object with those.
 
     :param dynNetSN: a dynamic network as a DynGraphSN
     :param method: a function, the community detection algorithm to use. Default: the louvain algorithm.
@@ -32,7 +32,7 @@ def smoothed_louvain(dyn_graph):
     """
     Apply the smoothed louvain method
 
-    Compute affiliations iteratively by starting a louvain algorithm at each step with the previous affiliations as seeds
+    Compute snapshot_affiliations iteratively by starting a louvain algorithm at each step with the previous snapshot_affiliations as seeds
 
     :param dyn_graph: DynGraphSN
     :return:a DynCommunitiesSN

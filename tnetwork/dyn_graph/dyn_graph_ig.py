@@ -26,8 +26,8 @@ class DynGraphIG(DynGraph):
         (for instance, to study activity during a whole year, the graph might start on January 1st at 00:00 while
         the first recorded activity occurs in the afternoon or on another day)
 
-        :param start: set a start time, by default will be the first time of the added affiliations
-        :param end: set an end time, by default will be the last time of the added affiliations
+        :param start: set a start time, by default will be the first time of the added snapshot_affiliations
+        :param end: set an end time, by default will be the last time of the added snapshot_affiliations
         """
         if start==None:
             self.start=math.inf
@@ -253,11 +253,11 @@ class DynGraphIG(DynGraph):
 
         :param slices: can be one of
 
-        - None, affiliations are created such as a new snapshot is created at every node/edge change,
-        - an integer, affiliations are created using a sliding window
+        - None, snapshot_affiliations are created such as a new snapshot is created at every node/edge change,
+        - an integer, snapshot_affiliations are created using a sliding window
         - a list of periods, represented as pairs (start, end), each period yieling a snapshot
 
-        :return: a dynamic graph represented as affiliations, the weight of nodes/edges correspond to their presence time during the snapshot
+        :return: a dynamic graph represented as snapshot_affiliations, the weight of nodes/edges correspond to their presence time during the snapshot
 
         """
         dgSN = tn.DynGraphSN()

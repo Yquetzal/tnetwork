@@ -1,6 +1,6 @@
-tnetwork.DynCommunitiesIG.affiliations
+tnetwork.DynCommunitiesIG.snapshot_affiliations
 ======================================
 
 .. currentmodule:: tnetwork
 
-.. automethod:: DynCommunitiesIG.affiliations
+.. automethod:: DynCommunitiesIG.snapshot_affiliations

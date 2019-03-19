@@ -10,18 +10,19 @@ def _match_communities_according_to_com(dynComSN, matchesGraph):
     :param matchesGraph:
     :return:
     """
-    #find affiliations in the graph of matching
+    #find snapshot_affiliations in the graph of matching
     node2comID = best_partition(matchesGraph)
-    #for each "node" (of this network of affiliations)
-    for (t,c),cID in node2comID.items():
+    print(node2comID)
+    #for each "node" (of this network of snapshot_affiliations)
+    for (t,nodes,original_cID),cid_new in node2comID.items():
         #create an ID
-        newComID = "DC_"+str(cID)
-        #if this Id is already present, means that 2 affiliations of the SAME timestep are merged, modified the affiliations accordingly
-        if newComID in dynComSN.communities(t).inv:
-            dynComSN.snapshots[t].inv[newComID]=dynComSN.snapshots[t].inv[newComID].union(c)
-            del dynComSN.snapshots[t][c]
+        newComID = "DC_"+str(cid_new) #add DC_ to avoid confusion with already assigned com ID
+        #if this Id is already present, means that 2 snapshot_affiliations of the SAME timestep are merged, modified the snapshot_affiliations accordingly
+        if newComID in dynComSN.snapshot_communities(t):
+            dynComSN.snapshots[t][newComID]=dynComSN.snapshots[t][newComID].union(nodes)
         else: #replace the ID of the (local) community by the ID of the (global) community
-            dynComSN.snapshots[t][c]=newComID #add DC_ to avoid confusion with already assigned com ID
+            dynComSN.snapshots[t][newComID]=nodes
+        del dynComSN.snapshots[t][original_cID]
 
 
 
@@ -30,13 +31,12 @@ def _match_communities_according_to_com(dynComSN, matchesGraph):
 
 def _build_matches_graph(partitions, match_function, threshold=0.3):
     graph = nx.Graph()
-    coms = partitions.communities()
+    coms = partitions.snapshot_communities()
 
     allComs = []
     for t in coms:  # for each date taken in chronological order
-        for c in coms[t]:
-            allComs.append((t,c))
-
+        for id,nodes in coms[t].items():
+            allComs.append((t,frozenset(nodes),id))
 
     for i in range(len(allComs)):
         for j in range(i,len(allComs)):
@@ -56,9 +56,9 @@ def match_survival_graph(dynNetSN, CDalgo="louvain", match_function=jaccard, thr
     """
     Community detection by survival graph matching
 
-    This method is based on falkowsky et al.[1]. It first detect communities in each snapshot, then try to match
+    This method is based on falkowsky et al.[1]. It first detect snapshot_communities in each snapshot, then try to match
     any community with any other one in any other snapshot, constituting a survival graph.
-    A community detection algorithm is then applied on this survival graph, yielding dynamic communities.
+    A community detection algorithm is then applied on this survival graph, yielding dynamic snapshot_communities.
 
     [1]Falkowski, T., Bartelheimer, J., & Spiliopoulou, M. (2006, December).
     Mining and visualizing the evolution of subgroups in social networks.
@@ -66,8 +66,8 @@ def match_survival_graph(dynNetSN, CDalgo="louvain", match_function=jaccard, thr
 
     :param dynNetSN: a dynamic network
     :param CDalgo: community detection to apply at each step. Can be a function returning a clustering, or the string "louvain" or "smoothedLouvain"
-    :param match_function: a function that gives a matching score between two communities (two sets of nodes). Default: jaccard
-    :param threshold: a threshold for match_function below which communities are not matched
+    :param match_function: a function that gives a matching score between two snapshot_communities (two sets of nodes). Default: jaccard
+    :param threshold: a threshold for match_function below which snapshot_communities are not matched
     :return: DynCommunitiesSN
     """
     if CDalgo == "smoothedLouvain":

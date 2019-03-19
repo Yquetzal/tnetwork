@@ -13,8 +13,8 @@ def computeByStep(dynamicCommunityReference:dn.dynamicCommunitiesSN,dynamicCommu
     affilReference=[]
 
 
-    comsToEvaluate = dynamicCommunityObserved.affiliations()
-    for t,(comNodes,comId) in dynamicCommunityReference.affiliations().items():
+    comsToEvaluate = dynamicCommunityObserved.snapshot_affiliations()
+    for t,(comNodes,comId) in dynamicCommunityReference.snapshot_affiliations().items():
         for n in comNodes:
             affilReference.append(comId)
             nodeIds.append(n)

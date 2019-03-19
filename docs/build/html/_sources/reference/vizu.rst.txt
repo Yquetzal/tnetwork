@@ -2,7 +2,7 @@
 Visualization
 *************************************
 
-Some methods are proposed to visualize dynamic networks and communities.
+Some methods are proposed to visualize dynamic networks and snapshot_communities.
 
 Vizualising graphs is already a difficul problem in itself, and adding the dynamic makes it an ever harder task.
 

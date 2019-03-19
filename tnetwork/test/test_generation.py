@@ -18,8 +18,8 @@ class DCDTestCase(unittest.TestCase):
         (dyn_graph, dyn_com) = my_scenario.run()
 
         self.assertEqual(len(dyn_graph.graph_at_time(0).nodes),4+6+12)
-        self.assertEqual(len(dyn_com.communities(0)),3)
-        self.assertEqual(len(dyn_com.communities(dyn_com.end-1)),2)
+        self.assertEqual(len(dyn_com.snapshot_communities(0)), 3)
+        self.assertEqual(len(dyn_com.snapshot_communities(dyn_com.end - 1)), 2)
         self.assertEqual(len(dyn_graph.graph_at_time(dyn_com.end-1).nodes),4+6+12)
 
     def test_theseus(self):

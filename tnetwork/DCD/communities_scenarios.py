@@ -39,14 +39,14 @@ class ComScenario():
         """
 
         ##################### Parameters ##########
-        # parameter to define how fast affiliations are loosing in density when they grow
+        # parameter to define how fast snapshot_affiliations are loosing in density when they grow
         self.alpha_com_density = 0.75
 
         self.alpha_com_density = alpha #alpha parameter is defined as a global variable, see beginning of the file
 
         self._pairsImportance =[] #List of importance for each pair of nodes in the graph
 
-        #dictionary containing the list of all currently active affiliations (and operations). {name:object}
+        #dictionary containing the list of all currently active snapshot_affiliations (and operations). {name:object}
         self._currentCommunities = dict()  # type:{str:_AbstractStructure}
 
         self._currentID=0 #To ensure that all community IDs are different
@@ -57,7 +57,7 @@ class ComScenario():
         self._dyn_graph_edges=dict()
         self._dyn_graph_nodes=dict()
 
-        #self._dynCom = dn.DynamicCommunitiesSN() #Class used to memorize the dynamic affiliations in the dynamic rerence partition"
+        #self._dynCom = dn.DynamicCommunitiesSN() #Class used to memorize the dynamic snapshot_affiliations in the dynamic rerence partition"
         self._dynCom = dn.DynCommunitiesIG()
 
         self._variant=variant
@@ -102,7 +102,7 @@ class ComScenario():
     def _get_new_ID(self, prefix=""):
         """
         Fonction to generate a unique ID.
-        :param prefix: optional prefix, for instance to distinguish nodes from affiliations
+        :param prefix: optional prefix, for instance to distinguish nodes from snapshot_affiliations
         :return:
         """
         toR = self._currentID
@@ -119,8 +119,8 @@ class ComScenario():
         if(self._verbose):
             print("---------END OF OPERATION: ", operation.name())
 
-        #remove the operation from the list of current affiliations
-        #--- this has importnat implications: one does not need to manage manually the death of affiliations,
+        #remove the operation from the list of current snapshot_affiliations
+        #--- this has importnat implications: one does not need to manage manually the death of snapshot_affiliations,
         #--- as any community that has a
         del self._currentCommunities[operation.name()]
 
@@ -128,7 +128,7 @@ class ComScenario():
         for com in operation._afterCommunities:
             self._allSeenCommunities.add(com)
 
-            #add this community to the list of active affiliations
+            #add this community to the list of active snapshot_affiliations
             if "|DEATH|" not in com.name():
                 self._currentCommunities[com.name()] = com
 
@@ -140,7 +140,7 @@ class ComScenario():
 
     def _generate_current_network(self):
         """
-        Return a graph generated according to currently active affiliations / operations
+        Return a graph generated according to currently active snapshot_affiliations / operations
         :return:
         """
         g = nx.Graph()
@@ -162,7 +162,7 @@ class ComScenario():
             to_skip.update(internPairs)
 
 
-        #Pick edges outside affiliations
+        #Pick edges outside snapshot_affiliations
         #sortedPairs = sorted(intercomEdges.items(), key=operator.itemgetter(1),reverse=True)
         wantedNbInterEdges = self.nb_edges_for_a_community_size(len(self._get_current_nodes())) * self._externalDensityPenalty
         chosenEdges=[]
@@ -220,7 +220,7 @@ class ComScenario():
         :param t: the time at which we start to consider the activation of this action
         :param wait: the time we should wait after all conditions are fulfilled for activating it
         :param waitFor: the ID of the event(s) that should be finished before considering activation
-        :return: the ID(s) of affiliations created by this action (always a list)
+        :return: the ID(s) of snapshot_affiliations created by this action (always a list)
         """
         if (self._verbose):
             print("----request action ", action._action, action.name())
@@ -243,10 +243,10 @@ class ComScenario():
         if (self._verbose):
             print("---------ACTIVATING: ", op.name())
 
-        #add the operation to the list of currently existing affiliations
+        #add the operation to the list of currently existing snapshot_affiliations
         self._currentCommunities[op.name()] = op
 
-        #delete the affiliations involved in the operation from the list of currently existing affiliations
+        #delete the snapshot_affiliations involved in the operation from the list of currently existing snapshot_affiliations
         for c in op._beforeCommunities:
             del self._currentCommunities[c.name()]
 
@@ -269,7 +269,7 @@ class ComScenario():
 
     def _memorize_current_configuration(self):
         """
-        function to memorize in the dynamic graphs and dynamic affiliations the current configuration
+        function to memorize in the dynamic graphs and dynamic snapshot_affiliations the current configuration
         :return:
         """
         g = self._generate_current_network()
@@ -295,7 +295,7 @@ class ComScenario():
 
 
         if self._verbose:
-            print("affiliations end of step: ", self._currentCommunities.keys())
+            print("snapshot_affiliations end of step: ", self._currentCommunities.keys())
 
         # Memorize the current partition in the dynamic partition
         #self._dynCom.add_empty_sn(self._currentT)
@@ -337,10 +337,10 @@ class ComScenario():
         while len(self._actions)>0 or len([x for x in self._currentCommunities.values() if type(x) is _Operation])>0:
             if(self._verbose):
                 print("TIME : ", self._currentT)
-                print("affiliations start of step: ", self._currentCommunities.keys())
+                print("snapshot_affiliations start of step: ", self._currentCommunities.keys())
 
 
-            #get the list of affiliations and events currently active
+            #get the list of snapshot_affiliations and events currently active
             readycoms =  self._allSeenCommunities
 
             for action in self._actions: #for each action (could be optimized but unnecessary on small scenarios
@@ -349,7 +349,7 @@ class ComScenario():
 
                     op = action["operation"]
 
-                    affectedComs = set(op._beforeCommunities) #affiliations affected by this action
+                    affectedComs = set(op._beforeCommunities) #snapshot_affiliations affected by this action
                     lockingComs= set() #IDs of events/coms used as triggers
 
                     if action["waitFor"]!=None: #if there are triggers
@@ -386,10 +386,10 @@ class ComScenario():
 
     def INITIALIZE(self,sizes:[int],names:[str]=None):
         """
-        Function to initialize the dynamic networks with affiliations that already exist at the beginning
+        Function to initialize the dynamic networks with snapshot_affiliations that already exist at the beginning
 
-        :param sizes: list of the affiliations sizes (same order as names)
-        :param names: list of the affiliations names (if None, unique names are given automatically)
+        :param sizes: list of the snapshot_affiliations sizes (same order as names)
+        :param names: list of the snapshot_affiliations names (if None, unique names are given automatically)
         """
         if names==None:
             names=[None]*len(sizes)
@@ -431,9 +431,9 @@ class ComScenario():
 
     def MERGE(self, toMerge: [Community], merged:str, **kwargs):
         """
-        Merge the affiliations in input into a single community with the name (label) provided in output
+        Merge the snapshot_affiliations in input into a single community with the name (label) provided in output
 
-        :param toMerge: names of affiliations to merge
+        :param toMerge: names of snapshot_affiliations to merge
         :param merged: name of the merged community (can be same as one of the input or not
         :return: the merged community (community object)
         """
@@ -447,13 +447,13 @@ class ComScenario():
         Split a single community into several ones. Note that to control exactly which nodes are moved, one should use migrate instead
 
         :param toSplit: name of the community to split
-        :param newComs: names to give to the new affiliations (list). The name of the community before split can be or not
+        :param newComs: names to give to the new snapshot_affiliations (list). The name of the community before split can be or not
         among them
-        :param sizes: sizes of the new affiliations, in number of nodes. In the same order as names.
-        :return: a list of affiliations resulting from the split.
+        :param sizes: sizes of the new snapshot_affiliations, in number of nodes. In the same order as names.
+        :return: a list of snapshot_affiliations resulting from the split.
         """
         if sum(sizes)!=len(toSplit.nodes()):
-            raise Exception("The number of nodes in resulting affiliations does not match the number of nodes in the initial one")
+            raise Exception("The number of nodes in resulting snapshot_affiliations does not match the number of nodes in the initial one")
             return
         splittingOut= []
         listNodes = toSplit.nodes()
@@ -472,7 +472,7 @@ class ComScenario():
         :param theComTh: the community to modify
         :param nbNodes: the number of nodes to be replaced
         :param wait: the waiting time between each node replacement
-        :return: a tuple of affiliations, current ship, new ship
+        :return: a tuple of snapshot_affiliations, current ship, new ship
         """
 
         name = theComTh.name()
@@ -500,14 +500,14 @@ class ComScenario():
 
     def ASSIGN(self, comsBefore:[Community], comsAfter:[str], splittingOut:[{str}], **kwargs):
         """
-        Migrate nodes from a set of affiliations to another set of affiliations. Can be used to move a set of nodes from a community to
+        Migrate nodes from a set of snapshot_affiliations to another set of snapshot_affiliations. Can be used to move a set of nodes from a community to
         another or any other more complex scenario.
 
         :param comBefore: Ccommunities in input
-        :param comsAfter: name(s) to give to the resulting affiliations
+        :param comsAfter: name(s) to give to the resulting snapshot_affiliations
         :param splittingOut: How to distribute nodes in output. It is a list of same lenght than comsAfter, and each element of the
         list is a set of names of nodes. Note that if some nodes present in input does not appear in output, they are considered "killed"
-        :return: the affiliations resulting from the operation (list of affiliations objects)
+        :return: the snapshot_affiliations resulting from the operation (list of snapshot_affiliations objects)
         """
         return self._add_action(_Operation.migrate(comsBefore, comsAfter, splittingOut), **kwargs)
 

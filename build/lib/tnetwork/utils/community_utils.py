@@ -3,13 +3,13 @@ from tnetwork.utils.bidict import bidict
 
 def nodesets2affiliations(communities):
     """
-    Transform community format to "affiliations"
+    Transform community format to "snapshot_affiliations"
 
     Representation expected in input: dictionary, key=node frozen set, value= community ID
-    Representation in output: dictionary, key=node, value=set of affiliations ID
+    Representation in output: dictionary, key=node, value=set of snapshot_affiliations ID
 
     :param communities: dictionary, key=node set, value= community ID
-    :return: dictionary, key=node, value=list of affiliations ID
+    :return: dictionary, key=node, value=list of snapshot_affiliations ID
     """
     node2com = dict()
     for nodes,id in communities.items():
@@ -23,7 +23,7 @@ def affiliations2nodesets(communities):
     """
     Transform community format to "nodesets"
 
-    Representation expected in input: dictionary, key=node, value=list/set of affiliations ID
+    Representation expected in input: dictionary, key=node, value=list/set of snapshot_affiliations ID
     Representation in output: bidict, key=node frozen set, value=community ID
 
     :param partition:
@@ -50,7 +50,7 @@ def jaccard(com1, com2):
 def write_communities_as_nodeset(partition,file,community_name=True):
     """
 
-    :param community: affiliations as dict (setofnodes:name), or set of set of nodes
+    :param community: snapshot_affiliations as dict (setofnodes:name), or set of set of nodes
     :param type:
     :return:
     """
@@ -71,7 +71,7 @@ def write_communities_as_nodeset(partition,file,community_name=True):
 def write_communities_as_affiliations(partition,file):
     """
 
-    :param community: affiliations as dict (setofnodes:name), or set of set of nodes
+    :param community: snapshot_affiliations as dict (setofnodes:name), or set of set of nodes
     :param type:
     :return:
     """

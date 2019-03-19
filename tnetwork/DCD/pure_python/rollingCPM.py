@@ -16,8 +16,8 @@ __license__ = "BSD"
 def rollingCPM(dynNetSN:DynGraphSN,k=3):
     """
 
-    This method is based on Palla et al[1]. It first computes overlapping communities in each snapshot based on the
-    clique percolation algorithm, and then match communities in successive steps using a method based on the
+    This method is based on Palla et al[1]. It first computes overlapping snapshot_communities in each snapshot based on the
+    clique percolation algorithm, and then match snapshot_communities in successive steps using a method based on the
     union graph.
 
     [1] Palla, G., Barabási, A. L., & Vicsek, T. (2007).
@@ -25,7 +25,7 @@ def rollingCPM(dynNetSN:DynGraphSN,k=3):
     Nature, 446(7136), 664.
 
     :param dynNetSN: a dynamic network (DynGraphSN)
-    :param k: the size of cliques used as communities building blocks
+    :param k: the size of cliques used as snapshot_communities building blocks
     :return: DynCommunitiesSN
     """
 
@@ -36,7 +36,7 @@ def rollingCPM(dynNetSN:DynGraphSN,k=3):
     graphs=dynNetSN.snapshots()
 
     for (date, graph) in graphs.items():
-        communitiesAtT = list(_get_percolated_cliques(graph, k)) #get the percolated cliques (affiliations) as a list of set of nodes
+        communitiesAtT = list(_get_percolated_cliques(graph, k)) #get the percolated cliques (snapshot_affiliations) as a list of set of nodes
         for c in communitiesAtT:
             DynCom.add_community(date, c)
 
@@ -48,7 +48,7 @@ def rollingCPM(dynNetSN:DynGraphSN,k=3):
         else:
             if len(communitiesAtT)>0: #if there is at least one community
                 union_graph = nx.compose(old_graph, graph) #create the union graph of the current and the previous
-                communities_union = list(_get_percolated_cliques(union_graph, k)) #get the affiliations of the union graph
+                communities_union = list(_get_percolated_cliques(union_graph, k)) #get the snapshot_affiliations of the union graph
 
                 jaccardBeforeAndUnion = _included(old_communities, communities_union) #we only care if the value is above 0
                 jaccardUnionAndAfter = _included(communitiesAtT,communities_union) #we only care if the value is above 0
@@ -68,13 +68,13 @@ def rollingCPM(dynNetSN:DynGraphSN,k=3):
 
                     oldCToMatch = dict(jaccardBeforeAndUnion[c]) #get all coms before
                     newCToMatch = dict(jaccardUnionAndAfter[c]) #get all new coms
-                    while len(sortedMatches)>0: #as long as there are couples of unmatched affiliations
-                        matchedKeys = sortedMatches[0] #pair of affiliations of highest jaccard
+                    while len(sortedMatches)>0: #as long as there are couples of unmatched snapshot_affiliations
+                        matchedKeys = sortedMatches[0] #pair of snapshot_affiliations of highest jaccard
                         matched.append(matchedKeys) #this pair will be matched
 
                         del oldCToMatch[matchedKeys[0]] #delete chosen com from possible to match
                         del newCToMatch[matchedKeys[1]]
-                        sortedMatches = [k for k in sortedMatches if len(set(matchedKeys) & set(k))==0] #keep only pairs of unmatched affiliations
+                        sortedMatches = [k for k in sortedMatches if len(set(matchedKeys) & set(k))==0] #keep only pairs of unmatched snapshot_affiliations
 
                     if len(oldCToMatch)>0:
                         killed.append(list(oldCToMatch.keys())[0])
@@ -82,20 +82,21 @@ def rollingCPM(dynNetSN:DynGraphSN,k=3):
                         born.append(list(newCToMatch.keys())[0])
 
                     for aMatch in matched:
-                        DynCom.events.add_event((dateOld, DynCom.com_ID(dateOld, aMatch[0])), (date, DynCom.com_ID(date, aMatch[1])), dateOld, date, "continue")
+                        DynCom.events.add_event((dateOld, DynCom._com_ID(dateOld, aMatch[0])), (date, DynCom._com_ID(date, aMatch[1])), dateOld, date, "continue")
 
-                    for kil in killed:#these are actual merge (unmatched affiliations are "merged" to new ones)
+                    for kil in killed:#these are actual merge (unmatched snapshot_affiliations are "merged" to new ones)
                         for com in jaccardUnionAndAfter[c]:
-                            DynCom.events.add_event((dateOld, DynCom.com_ID(dateOld, kil)), (date, DynCom.com_ID(date, com)), dateOld, date, "merged")
+                            DynCom.events.add_event((dateOld, DynCom._com_ID(dateOld, kil)), (date, DynCom._com_ID(date, com)), dateOld, date, "merged")
 
-                    for b in born:#these are actual merge (unmatched affiliations are "merged" to new ones)
+                    for b in born:#these are actual merge (unmatched snapshot_affiliations are "merged" to new ones)
                         for com in jaccardBeforeAndUnion[c]:
-                            DynCom.events.add_event((dateOld, DynCom.com_ID(dateOld, com)), (date, DynCom.com_ID(date, b)), dateOld, date, "split")
+                            DynCom.events.add_event((dateOld, DynCom._com_ID(dateOld, com)), (date, DynCom._com_ID(date, b)), dateOld, date, "split")
 
             old_graph = graph
             dateOld=date
             old_communities = communitiesAtT
-
+    print(DynCom.snapshots)
+    print(DynCom.events.nodes)
     DynCom._relabel_coms_from_continue_events()
 
     return(DynCom)

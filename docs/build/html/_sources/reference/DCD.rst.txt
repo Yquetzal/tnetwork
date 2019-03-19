@@ -2,7 +2,7 @@
 Dynamic Community Detection
 *************************************
 
-Dynamic community detection is the problem of discovering communities in dynamic networks.
+Dynamic community detection is the problem of discovering snapshot_communities in dynamic networks.
 
 Currently, the following methods are implemented
 
@@ -12,7 +12,7 @@ Currently, the following methods are implemented
 
 All of them are based on snapshots graphs. Iterative match and Survival graph are generic methods, since they can
 be parameterized by the community detection method to use at each step, and by the community similarity function to
-match communities. They can even use a smoothed algorithm to discover communities at each step.
+match snapshot_communities. They can even use a smoothed algorithm to discover snapshot_communities at each step.
 
 .. currentmodule:: tnetwork
 

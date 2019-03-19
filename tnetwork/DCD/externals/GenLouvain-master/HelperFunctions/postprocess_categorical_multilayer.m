@@ -21,7 +21,7 @@ function S=postprocess_categorical_multilayer(S,T,max_coms,verbose)
 %     T: number of layers of S (defaults to 'size(S,2)')
 %
 %     max_coms: only run function when input partition has less than 
-%         'max_coms' affiliations, otherwise return input partition.
+%         'max_coms' snapshot_affiliations, otherwise return input partition.
 %         (defauts to 'inf')
 %
 % Output:
@@ -77,7 +77,7 @@ end
 
 [N0,T0]=size(S);
 
-if max(S(:))<max_coms % don't do anything if too many affiliations for performance
+if max(S(:))<max_coms % don't do anything if too many snapshot_affiliations for performance
 
 % tidy assignment
 [~,~,S]=unique(S);    

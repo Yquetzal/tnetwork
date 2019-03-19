@@ -22,16 +22,16 @@ class ReadWriteTestCase(unittest.TestCase):
 
             read_dg = dn.read_snapshots("testDir")
 
-            self.assertEqual(len(dg.affiliations()), len(read_dg.snapshots()))
+            self.assertEqual(len(dg.snapshot_affiliations()), len(read_dg.snapshots()))
 
-            self.assertEqual(list(dg.affiliations().values())[0].edges, list(read_dg.snapshots().values())[0].edges)
+            self.assertEqual(list(dg.snapshot_affiliations().values())[0].edges, list(read_dg.snapshots().values())[0].edges)
 
             shutil.rmtree("testDir")
 
     def test_io_SG(self):
         dg = dn.DynGraphSN.graph_socioPatterns2012()
         dg = dg.aggregate_sliding_window(60*60*24)
-        dg_sg = dg.to_DynGraphSG()
+        dg_sg = dg.to_DynGraphIG()
 
         print("printing file")
         dn.write_IG(dg_sg, "testFile")

@@ -148,7 +148,7 @@ class Community(_AbstractStructure):
 
 class _Operation(_AbstractStructure):
     """
-    This class corresponds to an ongoing operation between affiliations.
+    This class corresponds to an ongoing operation between snapshot_affiliations.
     When the operation is finished, it disappears and is replaced by a community object (or nothing if death)
     """
 
@@ -156,8 +156,8 @@ class _Operation(_AbstractStructure):
         """
 
         :param action: The type of action, as a string. One of {birth, death, migrate}
-        :param beforeComs: the affiliations modified by the event.
-        :param afterNames: the name(s) of the affiliations resulting of the event. A unique ID will be created
+        :param beforeComs: the snapshot_affiliations modified by the event.
+        :param afterNames: the name(s) of the snapshot_affiliations resulting of the event. A unique ID will be created
         :param parameters: a dict(), necessary for migration.
         it can contains 3 parameters: sizesIn, sizesOut,splittingOut
         splittingOut: type:[[str]] fully controlled: list of list, each lower level list corresponds to an output community
@@ -208,7 +208,7 @@ class _Operation(_AbstractStructure):
 
         self._comScenar = comScen
 
-        #List affiliations object corresponding to the names and IDs provided
+        #List snapshot_affiliations object corresponding to the names and IDs provided
         self._afterCommunities=[]
 
         #Create new clusters with zero nodes with appropriate names
@@ -294,7 +294,7 @@ class _Operation(_AbstractStructure):
         :return:
         """
 
-        #if there is no parameter, the migration is obvious from the context, i.e. several affiliations in input, a single one in output
+        #if there is no parameter, the migration is obvious from the context, i.e. several snapshot_affiliations in input, a single one in output
         #so let's define sizesIn accordingly
 
 

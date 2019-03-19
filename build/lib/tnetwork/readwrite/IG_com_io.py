@@ -5,7 +5,7 @@ __all__ = ["write_IGC"]
 
 def write_IGC(dyn_communities:DynCommunitiesIG, outputFile, renumber=False):
     """
-    Write affiliations as interval lists
+    Write snapshot_affiliations as interval lists
 
     Format is:
     ::
@@ -16,7 +16,7 @@ def write_IGC(dyn_communities:DynCommunitiesIG, outputFile, renumber=False):
 
     use with caution, not tested for some time
 
-    :param dyn_communities: dynamic affiliations
+    :param dyn_communities: dynamic snapshot_affiliations
     :param outputFile: address of file to write
     :param renumber: use successive ids instead of original community ids
     """
@@ -42,7 +42,7 @@ def write_IGC(dyn_communities:DynCommunitiesIG, outputFile, renumber=False):
 
 def _read_com_ordered_changes(inputFile):
     """
-    Read dynamic affiliations as sequences of change
+    Read dynamic snapshot_affiliations as sequences of change
 
     format:
     ::

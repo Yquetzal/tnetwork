@@ -8,7 +8,7 @@ A simple demo of usage can be found `here
 
 Dynamic graphs can be represented as:
 
-* Sequences of affiliations
+* Sequences of snapshot_affiliations
 * Interval Graphs
 * Link streams (Not implemented yet)
 
@@ -58,7 +58,7 @@ Conversion to different formats
 .. autosummary::
     :toctree: generated/
 
-        DynGraphSN.to_DynGraphSG
+        DynGraphSN.to_DynGraphIG
         DynGraphSN.to_tensor
 
 Aggregation

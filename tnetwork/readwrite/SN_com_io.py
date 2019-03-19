@@ -8,7 +8,7 @@ __all__ = ["read_SN_by_com", "write_com_SN"]
 
 def _read_static_coms_by_node(inputFile, separator="\t"):
     """
-    Read affiliations as a file, 1 line per node
+    Read snapshot_affiliations as a file, 1 line per node
 
     :param inputFile: file as str
     :param separator:
@@ -32,7 +32,7 @@ def _read_static_coms_by_node(inputFile, separator="\t"):
 
 def read_SN_by_com(inputDir, sn_id_transformer=None, **kwargs):
     """
-    Read directory, 1 file = affiliations of a snaphshot
+    Read directory, 1 file = snapshot_affiliations of a snaphshot
 
     By default, the name of the file is used as snapshot id. A function can be passed to associate a different
     ID snapshot to files
@@ -73,9 +73,9 @@ def read_SN_by_com(inputDir, sn_id_transformer=None, **kwargs):
 
 def write_com_SN(dyn_communities:tn.DynCommunitiesSN, output_dir, asNodeSet=True):
     """
-    Write directory, 1 file = affiliations of a snaphshot
+    Write directory, 1 file = snapshot_affiliations of a snaphshot
 
-    Write dynamic affiliations as a directory containing one file for each snapshot.
+    Write dynamic snapshot_affiliations as a directory containing one file for each snapshot.
 
     Two possible formats:
 
@@ -95,11 +95,11 @@ def write_com_SN(dyn_communities:tn.DynCommunitiesSN, output_dir, asNodeSet=True
 
     :param dynGraph: a dynamic graph
     :param outputDir: address of the directory to write
-    :param asNodeSet: if True, node sets, otherwise, affiliations
+    :param asNodeSet: if True, node sets, otherwise, snapshot_affiliations
 
     """
     os.makedirs(output_dir, exist_ok=True)
-    all_partitions = dyn_communities.communities()
+    all_partitions = dyn_communities.snapshot_communities()
     for t,p in all_partitions.items():
         if asNodeSet:
             write_communities_as_nodeset(p,os.path.join(output_dir,str(t)))

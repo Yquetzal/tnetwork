@@ -1,6 +1,6 @@
 # tnetwork - temporal networks library
 
-tnetwork is a simple library to manipulate temporal networks, and dynamic affiliations on these networks.
+tnetwork is a simple library to manipulate temporal networks, and dynamic snapshot_affiliations on these networks.
 ## Installation
 
 To install the library just download (or clone) the current project and copy the tnetwork folder in the root of your application.

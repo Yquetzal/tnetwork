@@ -2,7 +2,7 @@
 Read/Write
 ************
 
-Functions to read and write dynamic graphs and affiliations.
+Functions to read and write dynamic graphs and snapshot_affiliations.
 
 --------------------------
 Simple example
@@ -46,7 +46,7 @@ Read/Write interval graphs
 Read/Write Communities
 --------------------------
 
-Read/Write snapshot affiliations
+Read/Write snapshot snapshot_affiliations
 -----------------------------------
 
 
@@ -57,7 +57,7 @@ Read/Write snapshot affiliations
     read_SN_by_com
 
 
-Read/Write interval graph affiliations
+Read/Write interval graph snapshot_affiliations
 -----------------------------------------
 
 

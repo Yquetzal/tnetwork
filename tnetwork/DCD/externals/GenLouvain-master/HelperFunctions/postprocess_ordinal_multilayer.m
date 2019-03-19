@@ -25,7 +25,7 @@ function S=postprocess_ordinal_multilayer(S,T,max_coms,verbose)
 %     T: number of layers of S (defaults to 'size(S,2)')
 %
 %     max_coms: only run function when input partition has less than 
-%         'max_coms' affiliations, otherwise return input partition.
+%         'max_coms' snapshot_affiliations, otherwise return input partition.
 %         (defauts to 'inf')
 %
 % Output:
@@ -82,20 +82,20 @@ end
 [N0,T0]=size(S);
 
 
-if max(S(:))<max_coms % don't do anything if too many affiliations for performance
+if max(S(:))<max_coms % don't do anything if too many snapshot_affiliations for performance
     S=reshape(S,N,T); 
     if verbose
         p0=ordinal_persistence(S);
     end
     max_com=max(S(:,1));
     for i=2:T
-        [u1,~,e1]=unique(S(:,i-1)); % unique affiliations in previous layer
-        [u2,~,e2]=unique(S(:,i)); % unique affiliations in this layer
+        [u1,~,e1]=unique(S(:,i-1)); % unique snapshot_affiliations in previous layer
+        [u2,~,e2]=unique(S(:,i)); % unique snapshot_affiliations in this layer
         G1=sparse(e1,1:length(e1),1); % community assignment matrix for previous layer
         G2=sparse(1:length(e2),e2,true); % community assignment matrix for this layer
-        overlap=G1*G2; % node overlap matrix between affiliations in the two layers
+        overlap=G1*G2; % node overlap matrix between snapshot_affiliations in the two layers
         dist=sum(overlap(:))-overlap;
-        S2=assignmentoptimal(dist'); % find best assignment for affiliations in current layer
+        S2=assignmentoptimal(dist'); % find best assignment for snapshot_affiliations in current layer
 
         for j=1:length(u2)
             if S2(j)~=0&&overlap(S2(j),j)
@@ -111,7 +111,7 @@ if max(S(:))<max_coms % don't do anything if too many affiliations for performan
         fprintf('Improvement in persistence: %g\n',p1-p0);
     end
 else
-    mydisp('number of affiliations exceeds ''max_coms'', skipping postprocessing')
+    mydisp('number of snapshot_affiliations exceeds ''max_coms'', skipping postprocessing')
 end
 
 % return in original format

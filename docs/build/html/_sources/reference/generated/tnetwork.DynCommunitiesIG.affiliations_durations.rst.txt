@@ -1,4 +1,4 @@
-tnetwork.DynCommunitiesIG.affiliations\_durations
+tnetwork.DynCommunitiesIG.snapshot_affiliations\_durations
 =================================================
 
 .. currentmodule:: tnetwork

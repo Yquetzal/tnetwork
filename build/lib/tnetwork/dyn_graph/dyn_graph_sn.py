@@ -246,7 +246,7 @@ class DynGraphSN(DynGraph):
         """
         Convert the graph into a DynGraph_SG, i.e. a representation as a Stream graph (edges have durations).
 
-        By default, affiliations last from their time ID to the time ID of the next snapshot.
+        By default, snapshot_affiliations last from their time ID to the time ID of the next snapshot.
         Be careful, for the last snaphsot, we cannot know his duration, therefore, if sn_duration is not provided, it has a default duration equal to the min
         of all durations
 
@@ -340,7 +340,7 @@ class DynGraphSN(DynGraph):
         Return a new dynamic graph without modifying the original one, aggregated using sliding windows of the desired size. If Shift is not provided or equal to bin_size, windows are non overlapping.
         If no parameter is provided, creates a single graph aggregating the whole period.
         Yielded graphs are weighted (weight: number of apparition of edges during the period)
-        :param bin_size: desired size of bins, in the internal time unit (not necessarily equals to the number of affiliations)
+        :param bin_size: desired size of bins, in the internal time unit (not necessarily equals to the number of snapshot_affiliations)
         :param shift: time distance (shift) between the start of two successive bins, in the internal time unit (not necessarily number of sn)
         :param t_start: time step to start the binning (default: first)
         :param t_end: time step (not included) to stop the binning (default: last)
@@ -440,7 +440,7 @@ class DynGraphSN(DynGraph):
 
     def snapshots(self, t=None):
         """
-        Return affiliations as a sorted dictionary, key: the time information, value: a networkx graph. If t is provided, return graph at that particular time
+        Return snapshot_affiliations as a sorted dictionary, key: the time information, value: a networkx graph. If t is provided, return graph at that particular time
         :param t: the time of the snapshot to return
         :return:
         """
