@@ -12,16 +12,17 @@ def _match_communities_according_to_com(dynComSN, matchesGraph):
     """
     #find snapshot_affiliations in the graph of matching
     node2comID = best_partition(matchesGraph)
+    print(node2comID)
     #for each "node" (of this network of snapshot_affiliations)
-    for (t,c),cID in node2comID.items():
+    for (t,nodes,original_cID),cid_new in node2comID.items():
         #create an ID
-        newComID = "DC_"+str(cID)
+        newComID = "DC_"+str(cid_new) #add DC_ to avoid confusion with already assigned com ID
         #if this Id is already present, means that 2 snapshot_affiliations of the SAME timestep are merged, modified the snapshot_affiliations accordingly
-        if newComID in dynComSN.snapshot_communities(t).inv:
-            dynComSN.snapshots[t].inv[newComID]=dynComSN.snapshots[t].inv[newComID].union(c)
-            del dynComSN.snapshots[t][c]
+        if newComID in dynComSN.snapshot_communities(t):
+            dynComSN.snapshots[t][newComID]=dynComSN.snapshots[t][newComID].union(nodes)
         else: #replace the ID of the (local) community by the ID of the (global) community
-            dynComSN.snapshots[t][c]=newComID #add DC_ to avoid confusion with already assigned com ID
+            dynComSN.snapshots[t][newComID]=nodes
+        del dynComSN.snapshots[t][original_cID]
 
 
 
@@ -34,9 +35,8 @@ def _build_matches_graph(partitions, match_function, threshold=0.3):
 
     allComs = []
     for t in coms:  # for each date taken in chronological order
-        for c in coms[t]:
-            allComs.append((t,c))
-
+        for id,nodes in coms[t].items():
+            allComs.append((t,frozenset(nodes),id))
 
     for i in range(len(allComs)):
         for j in range(i,len(allComs)):

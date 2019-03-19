@@ -3,6 +3,7 @@ from tnetwork.utils.intervals import *
 import operator
 import math
 from tnetwork.utils.community_utils import affiliations2nodesets
+from collections import Iterable
 
 class DynCommunitiesIG:
     """
@@ -39,8 +40,9 @@ class DynCommunitiesIG:
     def _affiliations_at_t(self,t):
         """
         Afilliations at t
+
         :param t:
-        :return: dictionary (by node) of list of snapshot_communities
+        :return: dictionary (by node) of list of communities
         """
         to_return ={}
         for n in self._by_node:
@@ -74,35 +76,47 @@ class DynCommunitiesIG:
 
         return affiliations2nodesets(self.affiliations(t))
 
-    def add_affiliation(self, n:str, com:str, times:(int, int)):
+    def add_affiliation(self, nodes, cIDs, times:Intervals):
         """
         Affiliate node n to community com for period times
 
-        :param n: node
-        :param com: community
-        :param times: period as a pair (int,int)
+        :param nodes: node or list/set of nodes
+        :param cIDs: community or list/set of snapshot_communities. snapshot_communities are str
+        :param times: period as an Intervals obejct
 
         """
-        n = str(n)
-        self._by_node.setdefault(n, {}).setdefault(com, Intervals()).add_interval(times)
-        self._by_com.setdefault(com, {}).setdefault(n, Intervals()).add_interval(times)
 
-        self.start = min(self.start, min(times))
-        self.end = max(self.end, max(times))
+        if isinstance(cIDs, str) or not isinstance(cIDs, Iterable):
+            cIDs = set([cIDs])
+        if isinstance(nodes, str) or not isinstance(nodes, Iterable):
+            nodes=set([nodes])
+        else:
+            nodes = set(nodes)
+
+        for n in nodes:
+            for cID in cIDs:
+                self._by_node.setdefault(n, {}).setdefault(cID, Intervals())
+                self._by_node[n][cID] = self._by_node[n][cID].union(times)
+                self._by_com.setdefault(cID, {}).setdefault(n, Intervals())
+                self._by_com[cID][n] = self._by_node[n][cID].union(times)
+
+
+        self.start = min(self.start, times.start())
+        self.end = max(self.end, times.end())
 
     def add_affiliations_from(self, clusters, times):
         """
         Add snapshot_affiliations provided as a cluster
 
-        Given a cluster provided as a dict or bidict {frozenset of nodes}:id , add it for the period times
+        Given a cluster provided as a dict id:{set of nodes} , add it for the period times
 
-        :param clusters: dict or bidict{frozenset of nodes}:id
+        :param clusters: dict id:{set of nodes}
         """
-        for affils,id in clusters.items():
+        for id,affils in clusters.items():
             for n in affils:
                 self.add_affiliation(n, id, times)
 
-    def remove_affiliation(self, n:str, com, times:(int,int)):
+    def remove_affiliation(self, n:str, com, times:Intervals):
         """
         Remove snapshot_affiliations
 
@@ -140,19 +154,21 @@ class DynCommunitiesIG:
             nodes=[nodes]
         if isinstance(communities,str):
             communities=[communities]
-            nodes = set(nodes)
+        nodes = set(nodes)
         communities = set(communities)
 
         for n in nodes:
             for c in communities & set(self._by_node[n]):
                 toReturn[(n,c)]=self._by_node[n][c].duration()
 
-        if len(nodes)==1:
-            toReturn = {c:t for (n,c),t in toReturn.items()}
-        if len(communities)==1:
-            toReturn = {n:t for (n,c),t in toReturn.items()}
-        if len(nodes)==1 and len(communities)==1:
-            toReturn = list(toReturn.items)[0][1]
+        if len(nodes) == 1 and len(communities) == 1:
+            toReturn = list(toReturn.items())[0][1]
+        else:
+            if len(nodes)==1:
+                toReturn = {c:t for (n,c),t in toReturn.items()}
+            if len(communities)==1:
+                toReturn = {n:t for (n,c),t in toReturn.items()}
+
         return toReturn
 
     def nodes_main_com(self):

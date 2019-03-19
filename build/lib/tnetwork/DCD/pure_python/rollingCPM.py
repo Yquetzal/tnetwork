@@ -95,7 +95,8 @@ def rollingCPM(dynNetSN:DynGraphSN,k=3):
             old_graph = graph
             dateOld=date
             old_communities = communitiesAtT
-
+    print(DynCom.snapshots)
+    print(DynCom.events.nodes)
     DynCom._relabel_coms_from_continue_events()
 
     return(DynCom)

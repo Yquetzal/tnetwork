@@ -14,13 +14,13 @@ and two nodes that have the same labels (in the same or in different time steps)
 
 
 Sequences of snapshots snapshot_communities
-========================================
+===============================================
 
 .. autoclass:: DynCommunitiesSN
 
 
 Adding and removing snapshot_affiliations
------------------------------------------
+------------------------------------------
 .. autosummary::
     :toctree: generated/
 
@@ -34,9 +34,12 @@ Accessing snapshot_affiliations
 .. autosummary::
     :toctree: generated/
 
+        DynCommunitiesSN.affiliations
+        DynCommunitiesSN.communities
         DynCommunitiesSN.snapshot_affiliations
         DynCommunitiesSN.snapshot_communities
-        DynCommunitiesSN._com_ID
+        DynCommunitiesSN.affiliations_durations
+
 
 
 Converting
@@ -50,14 +53,14 @@ Converting
 -----------
 
 Interval graph snapshot_communities
-===========================
+=====================================
 
 .. autoclass:: DynCommunitiesIG
 
 
 
 Adding and removing snapshot_affiliations
------------------------------------
+------------------------------------------
 .. autosummary::
     :toctree: generated/
 
@@ -70,8 +73,8 @@ Accessing snapshot_affiliations
 .. autosummary::
     :toctree: generated/
 
-        DynCommunitiesIG.snapshot_affiliations
-        DynCommunitiesIG.snapshot_communities
+        DynCommunitiesIG.affiliations
+        DynCommunitiesIG.communities
         DynCommunitiesIG.affiliations_durations
 
 Other functions

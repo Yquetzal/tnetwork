@@ -32,13 +32,16 @@ class Intervals:
 
         Instanciate an intervals object. Can be initialized by a list of intervals
 
-        :param initial: a list of intervals (list of pairs (start,end))
+        :param initial: a single interval as a pair (start, end) or a list of such intervals
         """
 
         self.interv  = sortedcontainers.SortedDict()
         if initial!=None:
-            for intv in initial:
-                self.interv[intv[0]]=intv
+            if isinstance(initial[0],int):
+                self.interv[initial[0]]=initial
+            else:
+                for intv in initial:
+                    self.interv[intv[0]]=intv
 
     def intersection(self, other_Intervals):
         """

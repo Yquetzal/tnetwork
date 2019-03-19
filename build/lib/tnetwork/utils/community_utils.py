@@ -5,14 +5,14 @@ def nodesets2affiliations(communities):
     """
     Transform community format to "snapshot_affiliations"
 
-    Representation expected in input: dictionary, key=node frozen set, value= community ID
+    Representation expected in input: dictionary, key= community ID, value= node set
     Representation in output: dictionary, key=node, value=set of snapshot_affiliations ID
 
     :param communities: dictionary, key=node set, value= community ID
     :return: dictionary, key=node, value=list of snapshot_affiliations ID
     """
     node2com = dict()
-    for nodes,id in communities.items():
+    for id, nodes in communities.items():
         for n in nodes:
             node2com.setdefault(n,set())
             node2com[n].add(id)
@@ -24,7 +24,7 @@ def affiliations2nodesets(communities):
     Transform community format to "nodesets"
 
     Representation expected in input: dictionary, key=node, value=list/set of snapshot_affiliations ID
-    Representation in output: bidict, key=node frozen set, value=community ID
+    Representation in output: bidict, key=community ID , value=set of nodes
 
     :param partition:
     :return:
@@ -39,10 +39,13 @@ def affiliations2nodesets(communities):
         return asNodeSets
 
     for n, coms in communities.items():
+        if isinstance(coms,str) or isinstance(coms,int):
+            coms=[coms]
         for c in coms:
-            asNodeSets.setdefault(c, set()).add(n)
+            asNodeSets.setdefault(c, set())
+            asNodeSets[c].add(n)
 
-    return bidict({frozenset(v):k for k,v in asNodeSets.items()})
+    return asNodeSets
 
 def jaccard(com1, com2):
     return float(len(com1 & com2)) / float(len(com1 | com2))

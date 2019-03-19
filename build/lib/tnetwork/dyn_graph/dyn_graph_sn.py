@@ -242,9 +242,9 @@ class DynGraphSN(DynGraph):
 
         return to_return
 
-    def to_DynGraphSG(self, sn_duration=None,convert_time_to_integer=False):
+    def to_DynGraphIG(self, sn_duration=None, convert_time_to_integer=False):
         """
-        Convert the graph into a DynGraph_SG, i.e. a representation as a Stream graph (edges have durations).
+        Convert the graph into a DynGraph_IG.
 
         By default, snapshot_affiliations last from their time ID to the time ID of the next snapshot.
         Be careful, for the last snaphsot, we cannot know his duration, therefore, if sn_duration is not provided, it has a default duration equal to the min
@@ -321,7 +321,7 @@ class DynGraphSN(DynGraph):
         """
         Compute the cumulated graph.
 
-        Return a networkx graph
+        Return a networkx graph corresponding to the cumulated graph of the given period (whole graph by default)
 
         :param times: list/set of time steps ID of snapshots to cumulate. Default (None) means all snapshots
         :return: a networkx (weighted) graph

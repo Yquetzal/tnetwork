@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>tnetwork.DynGraphSN.to_DynGraphIG &mdash; tnetwork  documentation</title>
+  <title>tnetwork.DynCommunitiesSN.snapshot_affiliations &mdash; tnetwork  documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="tnetwork.DynGraphSN.to_tensor" href="tnetwork.DynGraphSN.to_tensor.html" />
-    <link rel="prev" title="tnetwork.DynGraphSN.last_snapshot" href="tnetwork.DynGraphSN.last_snapshot.html" /> 
+    <link rel="next" title="tnetwork.DynCommunitiesSN.snapshot_communities" href="tnetwork.DynCommunitiesSN.snapshot_communities.html" />
+    <link rel="prev" title="tnetwork.DynCommunitiesSN.communities" href="tnetwork.DynCommunitiesSN.communities.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -111,13 +111,13 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../readwrite.html#read-write-snapshot_communities">Read/Write Communities</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../readwrite.html#read-write-snapshot-snapshot_affiliations">Read/Write snapshot snapshot_affiliations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readwrite.html#read-write-communities">Read/Write Communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../readwrite.html#read-write-snapshot-snapshot-affiliations">Read/Write snapshot snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../iof/tnetwork.readwrite.write_com_SN.html">tnetwork.readwrite.write_com_SN</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../iof/tnetwork.readwrite.read_SN_by_com.html">tnetwork.readwrite.read_SN_by_com</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../readwrite.html#read-write-interval-graph-snapshot_affiliations">Read/Write interval graph snapshot_affiliations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../readwrite.html#read-write-interval-graph-snapshot-affiliations">Read/Write interval graph snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../iof/tnetwork.readwrite.write_IGC.html">tnetwork.readwrite.write_IGC</a></li>
 </ul>
 </li>
@@ -125,8 +125,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="reference internal" href="../dyn_graph.html">Dynamic Network Classes</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../dyn_graph.html#sequences-of-snapshots">Sequences of snapshots</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../dyn_graph.html">Dynamic Network Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../dyn_graph.html#sequences-of-snapshots">Sequences of snapshots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../dyn_graph.html#adding-and-removing-nodes-and-edges">Adding and removing nodes and edges</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.add_node_presence.html">tnetwork.DynGraphSN.add_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.add_nodes_presence_from.html">tnetwork.DynGraphSN.add_nodes_presence_from</a></li>
@@ -145,8 +145,8 @@
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.last_snapshot.html">tnetwork.DynGraphSN.last_snapshot</a></li>
 </ul>
 </li>
-<li class="toctree-l3 current"><a class="reference internal" href="../dyn_graph.html#conversion-to-different-formats">Conversion to different formats</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#">tnetwork.DynGraphSN.to_DynGraphIG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dyn_graph.html#conversion-to-different-formats">Conversion to different formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.to_DynGraphIG.html">tnetwork.DynGraphSN.to_DynGraphIG</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.to_tensor.html">tnetwork.DynGraphSN.to_tensor</a></li>
 </ul>
 </li>
@@ -189,19 +189,21 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../dyn_communities.html">Dynamic Communities Classes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../dyn_communities.html#sequences-of-snapshots-snapshot_communities">Sequences of snapshots snapshot_communities</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../dyn_communities.html#adding-and-removing-snapshot_affiliations">Adding and removing snapshot_affiliations</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="../dyn_communities.html">Dynamic Communities Classes</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../dyn_communities.html#sequences-of-snapshots-snapshot-communities">Sequences of snapshots snapshot_communities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.add_empty_sn.html">tnetwork.DynCommunitiesSN.add_empty_sn</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.set_affiliations_from.html">tnetwork.DynCommunitiesSN.set_affiliations_from</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../dyn_communities.html#accessing-snapshot_affiliations">Accessing snapshot_affiliations</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.snapshot_affiliations.html">tnetwork.DynCommunitiesSN.snapshot_affiliations</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../dyn_communities.html#accessing-snapshot-affiliations">Accessing snapshot_affiliations</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.affiliations.html">tnetwork.DynCommunitiesSN.affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.communities.html">tnetwork.DynCommunitiesSN.communities</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">tnetwork.DynCommunitiesSN.snapshot_affiliations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.snapshot_communities.html">tnetwork.DynCommunitiesSN.snapshot_communities</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN._com_ID.html">tnetwork.DynCommunitiesSN._com_ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.affiliations_durations.html">tnetwork.DynCommunitiesSN.affiliations_durations</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../dyn_communities.html#converting">Converting</a><ul>
@@ -210,7 +212,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../dyn_communities.html#interval-graph-snapshot_communities">Interval graph snapshot_communities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../dyn_communities.html#interval-graph-snapshot-communities">Interval graph snapshot_communities</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../dyn_communities.html#id1">Adding and removing snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesIG.add_affiliation.html">tnetwork.DynCommunitiesIG.add_affiliation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesIG.add_affiliations_from.html">tnetwork.DynCommunitiesIG.add_affiliations_from</a></li>
@@ -218,8 +220,8 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../dyn_communities.html#id2">Accessing snapshot_affiliations</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesIG.snapshot_affiliations.html">tnetwork.DynCommunitiesIG.snapshot_affiliations</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesIG.snapshot_communities.html">tnetwork.DynCommunitiesIG.snapshot_communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesIG.affiliations.html">tnetwork.DynCommunitiesIG.affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesIG.communities.html">tnetwork.DynCommunitiesIG.communities</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesIG.affiliations_durations.html">tnetwork.DynCommunitiesIG.affiliations_durations</a></li>
 </ul>
 </li>
@@ -315,15 +317,15 @@
     
       <li><a href="../../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../dyn_graph.html">Dynamic Network Classes</a> &raquo;</li>
+          <li><a href="../dyn_communities.html">Dynamic Communities Classes</a> &raquo;</li>
         
-      <li>tnetwork.DynGraphSN.to_DynGraphIG</li>
+      <li>tnetwork.DynCommunitiesSN.snapshot_affiliations</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/reference/generated/tnetwork.DynGraphSN.to_DynGraphIG.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/reference/generated/tnetwork.DynCommunitiesSN.snapshot_affiliations.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -336,27 +338,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="tnetwork-dyngraphsn-to-dyngraphsg">
-<h1>tnetwork.DynGraphSN.to_DynGraphIG<a class="headerlink" href="#tnetwork-dyngraphsn-to-dyngraphsg" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="tnetwork-dyncommunitiessn-snapshot-affiliations">
+<h1>tnetwork.DynCommunitiesSN.snapshot_affiliations<a class="headerlink" href="#tnetwork-dyncommunitiessn-snapshot-affiliations" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
-<dt id="tnetwork.DynGraphSN.to_DynGraphIG">
-<code class="descclassname">DynGraphSN.</code><code class="descname">to_DynGraphIG</code><span class="sig-paren">(</span><em>sn_duration=None</em>, <em>convert_time_to_integer=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/dyn_graph/dyn_graph_sn.html#DynGraphSN.to_DynGraphIG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DynGraphSN.to_DynGraphIG" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert the graph into a DynGraph_SG, i.e. a representation as a Stream graph (edges have durations).</p>
-<p>By default, snapshot_affiliations last from their time ID to the time ID of the next snapshot.
-Be careful, for the last snaphsot, we cannot know his duration, therefore, if sn_duration is not provided, it has a default duration equal to the min
-of all durations</p>
+<dt id="tnetwork.DynCommunitiesSN.snapshot_affiliations">
+<code class="descclassname">DynCommunitiesSN.</code><code class="descname">snapshot_affiliations</code><span class="sig-paren">(</span><em>t=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/dyn_community/communities_dyn_sn.html#DynCommunitiesSN.snapshot_affiliations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DynCommunitiesSN.snapshot_affiliations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Affiliations by nodes</p>
+<p>If t is given, return affiliation at this t as a dict, key=node, value=set of snapshot_communities
+else, return a sorted dict, key:time, value: dict node:snapshot_communities</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>sn_duration</strong> – duration of sns</li>
-<li><strong>convert_time_to_integer</strong> – if True, use the snapshot order in the list of SN rather than its time step</li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>t</strong> – time</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">sorted dict, key:time, value: dict node:snapshot_communities or key=node, value=set of snapshot_communities</td>
 </tr>
 </tbody>
 </table>
@@ -372,10 +368,10 @@ of all durations</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tnetwork.DynGraphSN.to_tensor.html" class="btn btn-neutral float-right" title="tnetwork.DynGraphSN.to_tensor" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tnetwork.DynCommunitiesSN.snapshot_communities.html" class="btn btn-neutral float-right" title="tnetwork.DynCommunitiesSN.snapshot_communities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="tnetwork.DynGraphSN.last_snapshot.html" class="btn btn-neutral" title="tnetwork.DynGraphSN.last_snapshot" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tnetwork.DynCommunitiesSN.communities.html" class="btn btn-neutral" title="tnetwork.DynCommunitiesSN.communities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

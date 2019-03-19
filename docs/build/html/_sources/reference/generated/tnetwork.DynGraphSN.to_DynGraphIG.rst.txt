@@ -1,4 +1,4 @@
-tnetwork.DynGraphSN.to\_DynGraphSG
+tnetwork.DynGraphSN.to\_DynGraphIG
 ==================================
 
 .. currentmodule:: tnetwork

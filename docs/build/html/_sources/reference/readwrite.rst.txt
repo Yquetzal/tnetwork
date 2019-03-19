@@ -47,7 +47,7 @@ Read/Write Communities
 --------------------------
 
 Read/Write snapshot snapshot_affiliations
------------------------------------
+------------------------------------------
 
 
 .. autosummary::
@@ -58,7 +58,7 @@ Read/Write snapshot snapshot_affiliations
 
 
 Read/Write interval graph snapshot_affiliations
------------------------------------------
+--------------------------------------------------
 
 
 .. autosummary::

@@ -57,28 +57,39 @@ def _sg_graph2CDS(dynamic_net:tn.DynGraphIG, coms:tn.DynCommunitiesIG=None, to_d
 
 def _sn_graph2CDS(dynamic_net, coms=None, to_datetime=False):
 
-    # construct the dataset
     forData = []
     dates = list(dynamic_net.snapshots_timesteps())
+    if coms!=None:
+        dates = dates+list(coms.snapshots.keys())
+        dates = sorted(list(set(dates)))
     durations = [dates[i+1]-dates[i] for i in range(len(dates)-1)]
 
     if len(durations)==0:
         final_duration=1
     else:
         final_duration=np.min(durations)
+
     for i in range(len(dates)):
+        nodesInGraph=[]
+        belongings={}
+        t = dates[i]
+
+        if t in dynamic_net.snapshots():
+            nodesInGraph = dynamic_net.snapshots(t).nodes()
+
         if i<len(dates)-1:
             duration = durations[i]
         else:
             duration = final_duration
 
-        t = dates[i]
         if coms != None:
             belongings = coms.snapshot_affiliations(t)
             for n in belongings:
-                belongings[n] = belongings[n][0] #keep only onl
+                belongings[n] = list(belongings[n])[0]
 
-        for n in dynamic_net.snapshots()[t].nodes:
+
+        nodesGraphAndComs = set(nodesInGraph + list(belongings.keys()))
+        for n in nodesGraphAndComs:
             comName="no"
             if coms!=None and belongings!=None:
                 if n in belongings:
@@ -86,7 +97,6 @@ def _sn_graph2CDS(dynamic_net, coms=None, to_datetime=False):
 
             forData.append([t, n, comName,duration])
     data = pd.DataFrame(columns=["time", "node", "com","duration"], data=forData)
-
 
 
     # pick a color for each community

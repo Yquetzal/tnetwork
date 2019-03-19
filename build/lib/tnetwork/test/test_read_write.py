@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 import unittest
 import tnetwork as dn
-import os
 import shutil
 
 
@@ -22,9 +21,9 @@ class ReadWriteTestCase(unittest.TestCase):
 
             read_dg = dn.read_snapshots("testDir")
 
-            self.assertEqual(len(dg.snapshot_affiliations()), len(read_dg.snapshots()))
+            self.assertEqual(len(dg.snapshots()), len(read_dg.snapshots()))
 
-            self.assertEqual(list(dg.snapshot_affiliations().values())[0].edges, list(read_dg.snapshots().values())[0].edges)
+            self.assertEqual(list(dg.snapshots().values())[0].edges, list(read_dg.snapshots().values())[0].edges)
 
             shutil.rmtree("testDir")
 
