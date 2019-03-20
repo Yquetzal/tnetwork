@@ -369,12 +369,10 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">dynPartitions</span> <span class="o">=</span> <span class="n">CD_each_step</span><span class="p">(</span><span class="n">dynNetSN</span><span class="p">,</span> <span class="n">CDalgo</span><span class="p">)</span>
 
-
     <span class="n">dynPartitions</span><span class="o">.</span><span class="n">create_standard_event_graph</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="n">match_function</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">labels</span><span class="p">:</span>
         <span class="n">dynPartitions</span><span class="o">.</span><span class="n">_relabel_coms_from_continue_events</span><span class="p">(</span><span class="n">typedEvents</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
 
 
     <span class="k">return</span> <span class="n">dynPartitions</span></div>

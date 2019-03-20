@@ -34,12 +34,10 @@ def iterative_match(dynNetSN, CDalgo="louvain", match_function=jaccard, threshol
     else:
         dynPartitions = CD_each_step(dynNetSN, CDalgo)
 
-
     dynPartitions.create_standard_event_graph(threshold=threshold, score=match_function)
 
     if labels:
         dynPartitions._relabel_coms_from_continue_events(typedEvents=False)
-
 
 
     return dynPartitions

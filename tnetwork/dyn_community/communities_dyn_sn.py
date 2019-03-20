@@ -257,7 +257,7 @@ class DynCommunitiesSN:
         common = len(com1 & com2)
         return (common/len(com1)*(common/len(com2)))
 
-    def create_standard_event_graph(self, keepingPreviousEvents=False,threshold=0,score=_compute_fraction_identity):
+    def create_standard_event_graph(self, keepingPreviousEvents=False,threshold=0,score=None):
         """
         From a set of static snapshot_affiliations, do a standard matching process such as all snapshot_affiliations in consecutive steps with at least a node in common are linked by an event, and compute a similarity score
 
@@ -265,12 +265,14 @@ class DynCommunitiesSN:
         :param threshold: a minimal value of score under which a link is not created. Default: 0
         :param score: a function describing how to compute the score. Takes 2 snapshot_affiliations as input and return the score.
         """
+        if score==None:
+            score = self._compute_fraction_identity
         if not keepingPreviousEvents:
             self.events=CommunitiesEvent()
         else:
             communities = self.snapshot_communities()
             for ((t1,com1),(t2,com2)) in self.events.edges():
-                fraction = self._compute_fraction_identity(communities[t1][com1], communities[t2][com2])
+                fraction = score(communities[t1][com1], communities[t2][com2])
                 self.events[(t1, com1)][(t2, com2)]["fraction"]=fraction
 
         #compute events between consecutive snapshot_affiliations
@@ -280,7 +282,7 @@ class DynCommunitiesSN:
             (t2,comsPresent) = communities.peekitem(i)
             for comID,comNodes in comsBefore.items():
                 for com2ID,com2Nodes in comsPresent.items():
-                    fraction = self._compute_fraction_identity(comNodes, com2Nodes)
+                    fraction = score(comNodes, com2Nodes)
                     if fraction>threshold:
                         self.events.add_event((t1, comID), (t2, com2ID), t1, t2, "unknown", fraction=fraction)
 
@@ -323,13 +325,15 @@ class DynCommunitiesSN:
                     self._change_com_id(timeEnd,idComToChange,idComToKeep)
 
         if not typedEvents:
-            #if events are not typed, we infer what we can, i.e one input and one input is a continue, otherwise we change label of edges accordingly
+            #if events are not typed, we infer what we can, i.e one input and one output is a continue, otherwise we change label of edges accordingly
             for t in self.snapshots:
-                for (cID,nodes) in self.snapshots[t].items():
+                coms = list(self.snapshots[t].items())
+                for (cID,nodes) in coms:
                     node_current=(t,cID)
+
                     succ = self.events.out_degree([node_current])
 
-                    if isinstance(node_current[1], frozenset):
+                    if isinstance(node_current[1], frozenset): # If there are communities in the previous steps that consider this one similar
                         com_predecessors = node_current[1] #node_current[1] contains the list of similar predecessors, instead of a single ID
                         if len(com_predecessors)==1:
                             main_pred = list(com_predecessors)[0]
@@ -343,6 +347,7 @@ class DynCommunitiesSN:
                                  if self.events[merged][node_current]["fraction"]>main_pred_match:
                                     main_pred_match = self.events[merged][node_current]["fraction"]
                                     main_pred = merged
+
                         self._change_com_id(node_current[0], node_current[1], main_pred[1])
                         node_current = (node_current[0], main_pred[1])
 
@@ -366,6 +371,7 @@ class DynCommunitiesSN:
                             candidates_names+=list(main_succ[1])
                         candidates_names.append(node_current)
                         candidates_names = frozenset(candidates_names)
+
 
                         self._change_com_id(main_succ[0], main_succ[1], candidates_names)
 

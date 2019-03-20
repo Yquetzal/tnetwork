@@ -342,8 +342,10 @@
 <h1>tnetwork.plot_as_graph<a class="headerlink" href="#tnetwork-plot-as-graph" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="tnetwork.plot_as_graph">
-<code class="descclassname">tnetwork.</code><code class="descname">plot_as_graph</code><span class="sig-paren">(</span><em>dynamic_graph</em>, <em>communities=None</em>, <em>t=None</em>, <em>to_datetime=False</em>, <em>width=800</em>, <em>height=600</em>, <em>auto_show=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/visualization/plots.html#plot_as_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.plot_as_graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Interactive plot to see the static graph at each snapshot</p>
+<code class="descclassname">tnetwork.</code><code class="descname">plot_as_graph</code><span class="sig-paren">(</span><em>dynamic_graph</em>, <em>communities=None</em>, <em>t=None</em>, <em>slider=False</em>, <em>to_datetime=False</em>, <em>width=800</em>, <em>height=600</em>, <em>auto_show=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/visualization/plots.html#plot_as_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.plot_as_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot to see the static graph at each snapshot</p>
+<p>can be row of graphs or an interactive graph with a slider to change snapshot.
+In all cases, the position of nodes is the same in all snapshots</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -351,7 +353,8 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>dynamic_graph</strong> – DynGraphSN</li>
 <li><strong>communities</strong> – dynamic snapshot_affiliations of the network (can be ignored)</li>
-<li><strong>t</strong> – time of the snapshot to display. If None, a slider allows to interactively choose the step (work only in jupyter notebooks on a local machine)</li>
+<li><strong>t</strong> – time of snapshot(s) to display. single value or list. default None means all snapshots.</li>
+<li><strong>slider</strong> – If None, a slider allows to interactively choose the step (work only in jupyter notebooks on a local machine)</li>
 <li><strong>to_datetime</strong> – one of True/False/function. If True, step IDs are converted to dates using datetime.utcfromtimestamp. If a function, should take a step ID and return a datetime object.</li>
 <li><strong>width</strong> – width of the figure</li>
 <li><strong>height</strong> – height of the figure</li>

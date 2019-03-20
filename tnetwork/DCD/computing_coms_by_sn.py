@@ -11,7 +11,7 @@ def CD_each_step(dynNetSN:tn.DynGraphSN,method=None):
     Compute snapshot_affiliations at each snapshot and return a dynamic community object with those.
 
     :param dynNetSN: a dynamic network as a DynGraphSN
-    :param method: a function, the community detection algorithm to use. Default: the louvain algorithm.
+    :param method: a function, the community detection algorithm to use. Default: the louvain algorithm. must return a list of set of nodes, or a dictionary comname:set of node
     :return: a DynCommunitiesSN object
     """
     if method==None:
@@ -22,9 +22,12 @@ def CD_each_step(dynNetSN:tn.DynGraphSN,method=None):
         coms.add_empty_sn(SNt)
         if len(dynNetSN.snapshots(SNt).edges())>0:
             partition = method(dynNetSN.snapshots(SNt))
-            asNodeSets = affiliations2nodesets(partition)
-            for c in asNodeSets:
-                coms.add_community(SNt, asNodeSets[c])
+            if isinstance(partition,dict): #louvain is returning a different format
+                asNodeSets = affiliations2nodesets(partition)
+                partition = [asNodeSets[c] for c in asNodeSets]
+            #for c in asNodeSets:
+            for nodes in partition:
+                coms.add_community(SNt, nodes)
     return coms
 
 
@@ -53,7 +56,6 @@ def smoothed_louvain(dyn_graph):
 
                 #add to the partition nodes that appeared
                 addedNodes = set(currentSN.nodes())-set(previousPartition.keys())
-                print("---",previousPartition.values())
                 if len(previousPartition.values())==0:
                     maxCom=-1
                 else:

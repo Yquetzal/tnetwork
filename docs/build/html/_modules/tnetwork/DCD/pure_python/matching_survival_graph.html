@@ -347,7 +347,6 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#find snapshot_affiliations in the graph of matching</span>
     <span class="n">node2comID</span> <span class="o">=</span> <span class="n">best_partition</span><span class="p">(</span><span class="n">matchesGraph</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">node2comID</span><span class="p">)</span>
     <span class="c1">#for each &quot;node&quot; (of this network of snapshot_affiliations)</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">nodes</span><span class="p">,</span><span class="n">original_cID</span><span class="p">),</span><span class="n">cid_new</span> <span class="ow">in</span> <span class="n">node2comID</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="c1">#create an ID</span>

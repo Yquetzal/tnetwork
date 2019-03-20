@@ -12,7 +12,6 @@ def _match_communities_according_to_com(dynComSN, matchesGraph):
     """
     #find snapshot_affiliations in the graph of matching
     node2comID = best_partition(matchesGraph)
-    print(node2comID)
     #for each "node" (of this network of snapshot_affiliations)
     for (t,nodes,original_cID),cid_new in node2comID.items():
         #create an ID
