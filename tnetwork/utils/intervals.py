@@ -1,4 +1,3 @@
-#from sortedcontainers import *
 import copy
 import sortedcontainers
 
@@ -32,16 +31,20 @@ class Intervals:
 
         Instanciate an intervals object. Can be initialized by a list of intervals
 
-        :param initial: a single interval as a pair (start, end) or a list of such intervals
+        :param initial: a single interval as a pair (start, end) or an Interval object
         """
 
         self.interv  = sortedcontainers.SortedDict()
         if initial!=None:
-            if isinstance(initial[0],int):
-                self.interv[initial[0]]=initial
+            if isinstance(initial,Intervals):
+                for start,intv in initial.interv.items():
+                    self.interv[start]=intv
             else:
-                for intv in initial:
-                    self.interv[intv[0]]=intv
+                if isinstance(initial[0],int):
+                    initial = [initial]
+                for period in initial:
+                    self.interv[period[0]]=period
+
 
     def intersection(self, other_Intervals):
         """
@@ -56,9 +59,9 @@ class Intervals:
         to_return = copy.deepcopy(self)
         start = self.start()
         for interval in other_Intervals.periods():
-            to_return.remove_interval((start,interval[0]))
+            to_return._substract_one_period((start, interval[0]))
             start=interval[1]
-        to_return.remove_interval((start,self.end()))
+        to_return._substract_one_period((start, self.end()))
         return to_return
 
     def union(self,other_Intervals):
@@ -75,6 +78,22 @@ class Intervals:
         for interval in other_Intervals.periods():
             to_return.add_interval(interval)
         return to_return
+
+    def difference(self,other_Intervals):
+        """
+        Current interval - other_Intervals
+
+
+        :param other_Intervals:
+        :return:
+        """
+        to_return = Intervals(self)
+
+        for t_start,inter in other_Intervals.interv.items():
+            to_return._substract_one_period(inter)
+
+        return to_return
+
 
     def contains(self,period):
         """
@@ -174,11 +193,11 @@ class Intervals:
             del self.interv.iloc[i]
         self.interv[mergedInterv[0]]=mergedInterv
 
-    def remove_interval(self, interval):
+    def _substract_one_period(self, interval):
         """
         Remove the provided interval from the current periods
 
-        :param interval: the interval to remove provided as a tuples (start, stop)
+        :param interval: the interval to remove provided as a tuple (start, stop) or an Interval object
         """
 
         # get the index of element that is just before the interval we want to remove
@@ -189,7 +208,7 @@ class Intervals:
 
         for i in range(max(0,iMinToDelete),iMaxToDelete):
             toRemove.append(i)
-            afterSubstraction = self._substract_intervals(self.interv.peekitem(i)[1], interval)
+            afterSubstraction = self._substract_tuple_from_tuple(self.interv.peekitem(i)[1], interval)
 
             for interv in  afterSubstraction:
                 if interv!=[]:
@@ -233,7 +252,7 @@ class Intervals:
         """
         return ((min([interval1[0],interval2[0]]),max([interval1[1],interval2[1]])))
 
-    def _substract_intervals(self, before, toSubstract):
+    def _substract_tuple_from_tuple(self, before, toSubstract):
         """
         Remove interval toSubstract from interval before. Provided as pairs (start, stop)
 
@@ -289,5 +308,5 @@ class Intervals:
     def  __eq__(self, other):
         if not isinstance(other,Intervals):
             return False
-        return set(self.interv.values())==set(other.interv.values())
+        return [x for x in self.interv.values()]==[x for x in other.interv.values()]
     __repr__ = __str__

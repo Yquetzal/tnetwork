@@ -134,7 +134,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
-<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.add_snapshot.html">tnetwork.DynGraphSN.add_snapshot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.set_snapshot.html">tnetwork.DynGraphSN.set_snapshot</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="reference/dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
@@ -193,8 +193,8 @@
 <li class="toctree-l3"><a class="reference internal" href="reference/dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
-<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.add_empty_sn.html">tnetwork.DynCommunitiesSN.add_empty_sn</a></li>
-<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.set_affiliations_from.html">tnetwork.DynCommunitiesSN.set_affiliations_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.set_snapshot.html">tnetwork.DynCommunitiesSN.set_snapshot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.set_communities.html">tnetwork.DynCommunitiesSN.set_communities</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="reference/dyn_communities.html#accessing-snapshot-affiliations">Accessing snapshot_affiliations</a><ul>
@@ -206,7 +206,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="reference/dyn_communities.html#converting">Converting</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.to_SGcommunities.html">tnetwork.DynCommunitiesSN.to_SGcommunities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html">tnetwork.DynCommunitiesSN.to_DynCommunitiesIG</a></li>
 </ul>
 </li>
 </ul>
@@ -240,7 +240,7 @@
 <li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.add_interval.html">tnetwork.utils.Intervals.add_interval</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.add_intervals.html">tnetwork.utils.Intervals.add_intervals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.add_interval_at_the_end.html">tnetwork.utils.Intervals.add_interval_at_the_end</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.remove_interval.html">tnetwork.utils.Intervals.remove_interval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals._substract_one_period.html">tnetwork.utils.Intervals._substract_one_period</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="reference/Intervals.html#accessing-intervals-properties">Accessing Intervals properties</a><ul>
@@ -376,7 +376,7 @@
 </li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesSN.add_community.html#tnetwork.DynCommunitiesSN.add_community">add_community() (tnetwork.DynCommunitiesSN method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.add_empty_sn.html#tnetwork.DynCommunitiesSN.add_empty_sn">add_empty_sn() (tnetwork.DynCommunitiesSN method)</a>
+      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.set_snapshot.html#tnetwork.DynCommunitiesSN.set_snapshot">set_snapshot() (tnetwork.DynCommunitiesSN method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphIG.add_interaction.html#tnetwork.DynGraphIG.add_interaction">add_interaction() (tnetwork.DynGraphIG method)</a>
 
@@ -410,7 +410,7 @@
         <li><a href="reference/generated/tnetwork.DynGraphSN.add_nodes_presence_from.html#tnetwork.DynGraphSN.add_nodes_presence_from">(tnetwork.DynGraphSN method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/generated/tnetwork.DynGraphSN.add_snapshot.html#tnetwork.DynGraphSN.add_snapshot">add_snapshot() (tnetwork.DynGraphSN method)</a>
+      <li><a href="reference/generated/tnetwork.DynGraphSN.set_snapshot.html#tnetwork.DynGraphSN.set_snapshot">set_snapshot() (tnetwork.DynGraphSN method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesIG.affiliations.html#tnetwork.DynCommunitiesIG.affiliations">affiliations() (tnetwork.DynCommunitiesIG method)</a>
 
@@ -584,7 +584,7 @@
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html#tnetwork.DynGraphSN.remove_interactions_from">remove_interactions_from() (tnetwork.DynGraphSN method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.utils.Intervals.remove_interval.html#tnetwork.utils.Intervals.remove_interval">remove_interval() (tnetwork.utils.Intervals method)</a>
+      <li><a href="reference/generated/tnetwork.utils.Intervals._substract_one_period.html#tnetwork.utils.Intervals._substract_one_period">_substract_one_period() (tnetwork.utils.Intervals method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.remove_node_presence.html#tnetwork.DynGraphSN.remove_node_presence">remove_node_presence() (tnetwork.DynGraphSN method)</a>
 </li>
@@ -596,7 +596,7 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.set_affiliations_from.html#tnetwork.DynCommunitiesSN.set_affiliations_from">set_affiliations_from() (tnetwork.DynCommunitiesSN method)</a>
+      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.set_communities.html#tnetwork.DynCommunitiesSN.set_communities">set_communities() (tnetwork.DynCommunitiesSN method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesSN.snapshot_affiliations.html#tnetwork.DynCommunitiesSN.snapshot_affiliations">snapshot_affiliations() (tnetwork.DynCommunitiesSN method)</a>
 </li>
@@ -622,7 +622,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DynGraphIG.to_DynGraphSN.html#tnetwork.DynGraphIG.to_DynGraphSN">to_DynGraphSN() (tnetwork.DynGraphIG method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.to_SGcommunities.html#tnetwork.DynCommunitiesSN.to_SGcommunities">to_SGcommunities() (tnetwork.DynCommunitiesSN method)</a>
+      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html#tnetwork.DynCommunitiesSN.to_DynCommunitiesIG">to_DynCommunitiesIG() (tnetwork.DynCommunitiesSN method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.to_tensor.html#tnetwork.DynGraphSN.to_tensor">to_tensor() (tnetwork.DynGraphSN method)</a>
 </li>

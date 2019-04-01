@@ -135,7 +135,7 @@
 <li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
-<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_snapshot.html">tnetwork.DynGraphSN.add_snapshot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.set_snapshot.html">tnetwork.DynGraphSN.set_snapshot</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
@@ -194,8 +194,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
-<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.add_empty_sn.html">tnetwork.DynCommunitiesSN.add_empty_sn</a></li>
-<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.set_affiliations_from.html">tnetwork.DynCommunitiesSN.set_affiliations_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.set_snapshot.html">tnetwork.DynCommunitiesSN.set_snapshot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.set_communities.html">tnetwork.DynCommunitiesSN.set_communities</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#accessing-snapshot-affiliations">Accessing snapshot_affiliations</a><ul>
@@ -207,7 +207,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#converting">Converting</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.to_SGcommunities.html">tnetwork.DynCommunitiesSN.to_SGcommunities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html">tnetwork.DynCommunitiesSN.to_DynCommunitiesIG</a></li>
 </ul>
 </li>
 </ul>
@@ -241,7 +241,7 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.add_interval.html">tnetwork.utils.Intervals.add_interval</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.add_intervals.html">tnetwork.utils.Intervals.add_intervals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.add_interval_at_the_end.html">tnetwork.utils.Intervals.add_interval_at_the_end</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.remove_interval.html">tnetwork.utils.Intervals.remove_interval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals._substract_one_period.html">tnetwork.utils.Intervals._substract_one_period</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Intervals.html#accessing-intervals-properties">Accessing Intervals properties</a><ul>
@@ -369,10 +369,10 @@ and two nodes that have the same labels (in the same or in different time steps)
 <tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.add_community.html#tnetwork.DynCommunitiesSN.add_community" title="tnetwork.DynCommunitiesSN.add_community"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynCommunitiesSN.add_community</span></code></a>(t,&nbsp;nodes[,&nbsp;id])</td>
 <td>Add a community at a time</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.add_empty_sn.html#tnetwork.DynCommunitiesSN.add_empty_sn" title="tnetwork.DynCommunitiesSN.add_empty_sn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynCommunitiesSN.add_empty_sn</span></code></a>(t)</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.set_snapshot.html#tnetwork.DynCommunitiesSN.set_snapshot" title="tnetwork.DynCommunitiesSN.set_snapshot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynCommunitiesSN.set_snapshot</span></code></a>(t)</td>
 <td>Add a snapshot with no snapshot_affiliations at time t</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.set_affiliations_from.html#tnetwork.DynCommunitiesSN.set_affiliations_from" title="tnetwork.DynCommunitiesSN.set_affiliations_from"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynCommunitiesSN.set_affiliations_from</span></code></a>(…)</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.set_communities.html#tnetwork.DynCommunitiesSN.set_communities" title="tnetwork.DynCommunitiesSN.set_communities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynCommunitiesSN.set_communities</span></code></a>(…)</td>
 <td>Affiliate nodes given a dictionary representation</td>
 </tr>
 </tbody>
@@ -412,7 +412,7 @@ and two nodes that have the same labels (in the same or in different time steps)
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.to_SGcommunities.html#tnetwork.DynCommunitiesSN.to_SGcommunities" title="tnetwork.DynCommunitiesSN.to_SGcommunities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynCommunitiesSN.to_SGcommunities</span></code></a>([…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html#tnetwork.DynCommunitiesSN.to_DynCommunitiesIG" title="tnetwork.DynCommunitiesSN.to_DynCommunitiesIG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynCommunitiesSN.to_DynCommunitiesIG</span></code></a>([…])</td>
 <td>Convert to SG snapshot_affiliations</td>
 </tr>
 </tbody>

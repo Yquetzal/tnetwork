@@ -59,7 +59,7 @@ class ReadWriteTestCase(unittest.TestCase):
         anInt = Intervals()
         anInt.add_interval((10, 100))
 
-        anInt.remove_interval((20, 30))
+        anInt._substract_one_period((20, 30))
         self.assertEqual(anInt.periods(), [(10, 20), (30, 100)])
 
     def test_delete2(self):
@@ -67,9 +67,9 @@ class ReadWriteTestCase(unittest.TestCase):
         anInt.add_interval((10, 100))
         anInt.add_interval((200, 300))
 
-        anInt.remove_interval((0, 5))
-        anInt.remove_interval((150, 160))
-        anInt.remove_interval((350, 450))
+        anInt._substract_one_period((0, 5))
+        anInt._substract_one_period((150, 160))
+        anInt._substract_one_period((350, 450))
 
         self.assertEqual(anInt.periods(), [(10, 100), (200, 300)])
 
@@ -78,13 +78,13 @@ class ReadWriteTestCase(unittest.TestCase):
         anInt.add_interval((10, 100))
         anInt.add_interval((200, 300))
 
-        anInt.remove_interval((5, 15))
+        anInt._substract_one_period((5, 15))
         self.assertEqual([(15, 100),(200,300)], anInt.periods())
 
-        anInt.remove_interval((20, 30))
+        anInt._substract_one_period((20, 30))
         self.assertEqual([(15, 20),(30,100),(200,300)], anInt.periods())
 
-        anInt.remove_interval((0, 300))
+        anInt._substract_one_period((0, 300))
         self.assertEqual([], anInt.periods())
 
     def test_inf(self):
@@ -94,7 +94,7 @@ class ReadWriteTestCase(unittest.TestCase):
         anInt.add_interval((10, np.inf))
         anInt.add_interval((20, np.inf))
         self.assertEqual([(10, np.inf)], anInt.periods())
-        anInt.remove_interval((20, np.inf))
+        anInt._substract_one_period((20, np.inf))
         self.assertEqual([(10, 20)], anInt.periods())
 
 
@@ -134,6 +134,8 @@ class ReadWriteTestCase(unittest.TestCase):
 
         test1 = another.union(anInt)
         test2 = anInt.union(another)
+        print(test1)
+        print(test2)
         self.assertEqual(test1, test2)
         self.assertEqual(test1, another)
 

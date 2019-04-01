@@ -78,6 +78,8 @@ def NMI(cover,coverRef,allNodes=-1,variant="LFR",adjustForChance=False): #cover 
     """
     if (len(cover)==0 and len(coverRef)!=0) or (len(cover)!=0 and len(coverRef)==0):
         return 0
+    if cover==coverRef:
+        return 1
 
     if allNodes==-1:
         allNodes={n for c in coverRef for n in c}
@@ -99,7 +101,7 @@ def NMI(cover,coverRef,allNodes=-1,variant="LFR",adjustForChance=False): #cover 
     elif variant=="MGH":
         IXY = 0.5*(HX-HXY+HY-HYX)
         NMI =  IXY/(max(HX,HY))
-    if NMI<0 or NMI>1:
+    if NMI<0 or NMI>1 or math.isnan(NMI):
         print("NMI: %s  from %s %s %s %s "%(NMI,HXY,HYX,HX,HY))
         raise Exception("incorrect NMI")
     return NMI

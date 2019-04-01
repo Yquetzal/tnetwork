@@ -255,7 +255,7 @@ class DynGraphIG(DynGraph):
 
         - None, snapshot_affiliations are created such as a new snapshot is created at every node/edge change,
         - an integer, snapshot_affiliations are created using a sliding window
-        - a list of periods, represented as pairs (start, end), each period yieling a snapshot
+        - a list of periods, represented as pairs (start, end), each period yielding a snapshot
 
         :return: a dynamic graph represented as snapshot_affiliations, the weight of nodes/edges correspond to their presence time during the snapshot
 

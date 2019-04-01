@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>tnetwork.DynCommunitiesSN.set_affiliations_from &mdash; tnetwork  documentation</title>
+  <title>tnetwork.DynCommunitiesSN.set_communities &mdash; tnetwork  documentation</title>
   
 
   
@@ -29,7 +29,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="tnetwork.DynCommunitiesSN.affiliations" href="tnetwork.DynCommunitiesSN.affiliations.html" />
-    <link rel="prev" title="tnetwork.DynCommunitiesSN.add_empty_sn" href="tnetwork.DynCommunitiesSN.add_empty_sn.html" /> 
+    <link rel="prev" title="tnetwork.DynCommunitiesSN.set_snapshot" href="tnetwork.DynCommunitiesSN.set_snapshot.html" />
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -135,7 +135,7 @@
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.add_snapshot.html">tnetwork.DynGraphSN.add_snapshot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.set_snapshot.html">tnetwork.DynGraphSN.set_snapshot</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
@@ -194,8 +194,8 @@
 <li class="toctree-l3 current"><a class="reference internal" href="../dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.add_empty_sn.html">tnetwork.DynCommunitiesSN.add_empty_sn</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">tnetwork.DynCommunitiesSN.set_affiliations_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.set_snapshot.html">tnetwork.DynCommunitiesSN.set_snapshot</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">tnetwork.DynCommunitiesSN.set_communities</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../dyn_communities.html#accessing-snapshot-affiliations">Accessing snapshot_affiliations</a><ul>
@@ -207,7 +207,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../dyn_communities.html#converting">Converting</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.to_SGcommunities.html">tnetwork.DynCommunitiesSN.to_SGcommunities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html">tnetwork.DynCommunitiesSN.to_DynCommunitiesIG</a></li>
 </ul>
 </li>
 </ul>
@@ -241,7 +241,7 @@
 <li class="toctree-l3"><a class="reference internal" href="tnetwork.utils.Intervals.add_interval.html">tnetwork.utils.Intervals.add_interval</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tnetwork.utils.Intervals.add_intervals.html">tnetwork.utils.Intervals.add_intervals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tnetwork.utils.Intervals.add_interval_at_the_end.html">tnetwork.utils.Intervals.add_interval_at_the_end</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tnetwork.utils.Intervals.remove_interval.html">tnetwork.utils.Intervals.remove_interval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tnetwork.utils.Intervals._substract_one_period.html">tnetwork.utils.Intervals._substract_one_period</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Intervals.html#accessing-intervals-properties">Accessing Intervals properties</a><ul>
@@ -319,13 +319,13 @@
         
           <li><a href="../dyn_communities.html">Dynamic Communities Classes</a> &raquo;</li>
         
-      <li>tnetwork.DynCommunitiesSN.set_affiliations_from</li>
+      <li>tnetwork.DynCommunitiesSN.set_communities</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/reference/generated/tnetwork.DynCommunitiesSN.set_affiliations_from.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/reference/generated/tnetwork.DynCommunitiesSN.set_communities.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -339,10 +339,10 @@
            <div itemprop="articleBody">
             
   <div class="section" id="tnetwork-dyncommunitiessn-set-affiliations-from">
-<h1>tnetwork.DynCommunitiesSN.set_affiliations_from<a class="headerlink" href="#tnetwork-dyncommunitiessn-set-affiliations-from" title="Permalink to this headline">¶</a></h1>
+<h1>tnetwork.DynCommunitiesSN.set_communities<a class="headerlink" href="#tnetwork-dyncommunitiessn-set-affiliations-from" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
-<dt id="tnetwork.DynCommunitiesSN.set_affiliations_from">
-<code class="descclassname">DynCommunitiesSN.</code><code class="descname">set_affiliations_from</code><span class="sig-paren">(</span><em>clusters</em>, <em>t</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/dyn_community/communities_dyn_sn.html#DynCommunitiesSN.set_affiliations_from"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DynCommunitiesSN.set_affiliations_from" title="Permalink to this definition">¶</a></dt>
+<dt id="tnetwork.DynCommunitiesSN.set_communities">
+<code class="descclassname">DynCommunitiesSN.</code><code class="descname">set_communities</code><span class="sig-paren">(</span><em>clusters</em>, <em>t</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/dyn_community/communities_dyn_sn.html#DynCommunitiesSN.set_communities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DynCommunitiesSN.set_communities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Affiliate nodes given a dictionary representation</p>
 <p>Given a clustering provided as a dict  id:{set of nodes} , set this clustering at the
 provided time (replace any existing clustering at that time)</p>
@@ -369,7 +369,7 @@ provided time (replace any existing clustering at that time)</p>
         <a href="tnetwork.DynCommunitiesSN.affiliations.html" class="btn btn-neutral float-right" title="tnetwork.DynCommunitiesSN.affiliations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="tnetwork.DynCommunitiesSN.add_empty_sn.html" class="btn btn-neutral" title="tnetwork.DynCommunitiesSN.add_empty_sn" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tnetwork.DynCommunitiesSN.set_snapshot.html" class="btn btn-neutral" title="tnetwork.DynCommunitiesSN.set_snapshot" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

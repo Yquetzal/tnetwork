@@ -133,7 +133,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.add_snapshot.html">tnetwork.DynGraphSN.add_snapshot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.set_snapshot.html">tnetwork.DynGraphSN.set_snapshot</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
@@ -192,8 +192,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_empty_sn.html">tnetwork.DynCommunitiesSN.add_empty_sn</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_affiliations_from.html">tnetwork.DynCommunitiesSN.set_affiliations_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_snapshot.html">tnetwork.DynCommunitiesSN.set_snapshot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_communities.html">tnetwork.DynCommunitiesSN.set_communities</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#accessing-snapshot-affiliations">Accessing snapshot_affiliations</a><ul>
@@ -205,7 +205,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#converting">Converting</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.to_SGcommunities.html">tnetwork.DynCommunitiesSN.to_SGcommunities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html">tnetwork.DynCommunitiesSN.to_DynCommunitiesIG</a></li>
 </ul>
 </li>
 </ul>
@@ -239,7 +239,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.add_interval.html">tnetwork.utils.Intervals.add_interval</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.add_intervals.html">tnetwork.utils.Intervals.add_intervals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.add_interval_at_the_end.html">tnetwork.utils.Intervals.add_interval_at_the_end</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.remove_interval.html">tnetwork.utils.Intervals.remove_interval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals._substract_one_period.html">tnetwork.utils.Intervals._substract_one_period</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/Intervals.html#accessing-intervals-properties">Accessing Intervals properties</a><ul>
@@ -405,7 +405,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">time</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_snapshot</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">time</span><span class="p">]</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DynGraphSN.add_nodes_presence_from"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.add_nodes_presence_from.html#tnetwork.DynGraphSN.add_nodes_presence_from">[docs]</a>    <span class="k">def</span> <span class="nf">add_nodes_presence_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span><span class="n">times</span><span class="p">):</span>
@@ -468,7 +468,7 @@
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">nodePair</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">):</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_snapshot</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">apply_nx_function</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="n">t</span><span class="p">,</span><span class="n">stop</span><span class="o">=</span><span class="n">t</span><span class="p">,</span><span class="n">u_of_edge</span><span class="o">=</span><span class="n">nodePair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">v_of_edge</span><span class="o">=</span><span class="n">nodePair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
 
@@ -520,7 +520,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">(</span><span class="n">t</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="DynGraphSN.add_snapshot"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.add_snapshot.html#tnetwork.DynGraphSN.add_snapshot">[docs]</a>    <span class="k">def</span> <span class="nf">add_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">graphSN</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DynGraphSN.set_snapshot"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.set_snapshot.html#tnetwork.DynGraphSN.set_snapshot">[docs]</a>    <span class="k">def</span> <span class="nf">set_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">graphSN</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a snapshot for a time step t</span>
 
@@ -706,9 +706,9 @@
             <span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">irange</span><span class="p">(</span><span class="n">binStart</span><span class="p">,</span> <span class="n">binEnd</span><span class="p">,</span> <span class="n">inclusive</span><span class="o">=</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
             <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
-                <span class="n">toReturn</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">binStart</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_weighted_graphs</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]))</span>
+                <span class="n">toReturn</span><span class="o">.</span><span class="n">set_snapshot</span><span class="p">(</span><span class="n">binStart</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_weighted_graphs</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">toReturn</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">binStart</span><span class="p">)</span>
+                <span class="n">toReturn</span><span class="o">.</span><span class="n">set_snapshot</span><span class="p">(</span><span class="n">binStart</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">toReturn</span></div>
 
     <span class="k">def</span> <span class="nf">_get_monday_from_calendar_week</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">calendar_week</span><span class="p">):</span>
@@ -768,7 +768,7 @@
             <span class="c1">#new_t = new_t.timestamp()</span>
             <span class="n">new_t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">new_t</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">new_t</span> <span class="ow">in</span> <span class="n">to_return</span><span class="o">.</span><span class="n">snapshots</span><span class="p">():</span>
-                <span class="n">to_return</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">new_t</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+                <span class="n">to_return</span><span class="o">.</span><span class="n">set_snapshot</span><span class="p">(</span><span class="n">new_t</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
             <span class="n">to_return</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">new_t</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_combine_weighted_graphs</span><span class="p">([</span><span class="n">to_return</span><span class="o">.</span><span class="n">snapshots</span><span class="p">(</span><span class="n">new_t</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">(</span><span class="n">t</span><span class="p">)])</span>
 
         <span class="k">return</span> <span class="n">to_return</span></div>

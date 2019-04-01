@@ -242,7 +242,7 @@ class DynGraphSN(DynGraph):
 
         return to_return
 
-    def to_DynGraphIG(self, sn_duration=None, convert_time_to_integer=False):
+    def to_DynGraphIG(self, sn_duration, convert_time_to_integer=False):
         """
         Convert the graph into a DynGraph_IG.
 
@@ -250,7 +250,7 @@ class DynGraphSN(DynGraph):
         Be careful, for the last snaphsot, we cannot know his duration, therefore, if sn_duration is not provided, it has a default duration equal to the min
         of all durations
 
-        :param sn_duration: duration of sns
+        :param sn_duration: duration of sns, None for automatic behavior
         :param convert_time_to_integer: if True, use the snapshot order in the list of SN rather than its time step
         :return:
         """
@@ -273,6 +273,7 @@ class DynGraphSN(DynGraph):
                     else:
                         #computing the min duration to choose as duration of the last period
                         dates = self.snapshots_timesteps()
+
                         minDuration = min([dates[i + 1] - dates[i] for i in range(len(dates) - 1)])
                         tNext = current_t+minDuration
 
@@ -334,8 +335,22 @@ class DynGraphSN(DynGraph):
 
         return self._combine_weighted_graphs(snapshots)
 
+    def slice(self,start,end):
+        """
+        Keep only the selected period
 
-    def aggregate_sliding_window(self, bin_size=None, shift=None, t_start=None, t_end=None):
+        :param start:
+        :param end:
+        """
+
+        to_return = tn.DynGraphSN()
+        interv = tn.Intervals((start,end))
+        for t in list(self._snapshots.keys()):
+            if interv.contains_t(t):
+                to_return.add_snapshot(t,self._snapshots[t])
+        return to_return
+
+    def aggregate_sliding_window(self, bin_size=None, shift=None, t_start=None, t_end=None,weighted=True):
         """
         Return a new dynamic graph without modifying the original one, aggregated using sliding windows of the desired size. If Shift is not provided or equal to bin_size, windows are non overlapping.
         If no parameter is provided, creates a single graph aggregating the whole period.
@@ -367,11 +382,13 @@ class DynGraphSN(DynGraph):
 
         toReturn = DynGraphSN()
         for (binStart,binEnd) in bins:
-            #print("aggregating",binStart,binEnd)
             keys = self.snapshots().irange(binStart, binEnd, inclusive=(True, False))
             keys = list(keys)
             if len(keys)>0:
-                toReturn.add_snapshot(binStart, self._combine_weighted_graphs([self._snapshots[k] for k in keys]))
+                if weighted:
+                    toReturn.add_snapshot(binStart, self._combine_weighted_graphs([self._snapshots[k] for k in keys]))
+                else:
+                    toReturn.add_snapshot(binStart,nx.compose_all([self._snapshots[k] for k in keys]))
             else:
                 toReturn.add_snapshot(binStart)
         return toReturn

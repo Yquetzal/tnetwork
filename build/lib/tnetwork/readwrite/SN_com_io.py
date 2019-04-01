@@ -68,7 +68,7 @@ def read_SN_by_com(inputDir, sn_id_transformer=None, **kwargs):
         f = inputDir + "/" + str(timeIDs[t])
         coms = _read_static_coms_by_node(f, **kwargs)
 
-        theDynCom.set_affiliations_from(coms, t)
+        theDynCom.set_communities(t, coms)
     return theDynCom
 
 def write_com_SN(dyn_communities:tn.DynCommunitiesSN, output_dir, asNodeSet=True):

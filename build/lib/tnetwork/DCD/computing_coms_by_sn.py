@@ -19,7 +19,7 @@ def CD_each_step(dynNetSN:tn.DynGraphSN,method=None):
 
     coms = DynCommunitiesSN()
     for SNt in dynNetSN.snapshots():
-        coms.add_empty_sn(SNt)
+        coms.set_communities( SNt)
         if len(dynNetSN.snapshots(SNt).edges())>0:
             partition = method(dynNetSN.snapshots(SNt))
             if isinstance(partition,dict): #louvain is returning a different format
@@ -45,7 +45,7 @@ def smoothed_louvain(dyn_graph):
     for SNt in dyn_graph.snapshots():
         currentSN = dyn_graph.snapshots(SNt)
         if len(currentSN.edges())==0:
-            coms.add_empty_sn(SNt)
+            coms.set_communities(SNt)
             previousPartition=None
         else:
             if previousPartition!=None:

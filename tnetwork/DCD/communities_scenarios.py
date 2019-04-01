@@ -275,7 +275,7 @@ class ComScenario():
         g = self._generate_current_network()
 
         # memorize the current step of the graph in the dynamic network
-        #self._dynGraph.add_snapshot(self._currentT, g)
+        #self._dynGraph.set_snapshot(self._currentT, g)
         #self._dynGraph.add_interactions_from(list(g.edges()),(self._currentT,self._currentT+1))
         for (n1,n2) in g.edges():
             e = frozenset([n1,n2])
@@ -298,7 +298,7 @@ class ComScenario():
             print("snapshot_affiliations end of step: ", self._currentCommunities.keys())
 
         # Memorize the current partition in the dynamic partition
-        #self._dynCom.add_empty_sn(self._currentT)
+        #self._dynCom.set_snapshot(self._currentT)
         for c in self._currentCommunities.values():
             if type(c) is Community:
                 if (self._verbose):

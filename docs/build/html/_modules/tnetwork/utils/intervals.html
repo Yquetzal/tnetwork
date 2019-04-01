@@ -133,7 +133,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.add_snapshot.html">tnetwork.DynGraphSN.add_snapshot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.set_snapshot.html">tnetwork.DynGraphSN.set_snapshot</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
@@ -192,8 +192,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_empty_sn.html">tnetwork.DynCommunitiesSN.add_empty_sn</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_affiliations_from.html">tnetwork.DynCommunitiesSN.set_affiliations_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_snapshot.html">tnetwork.DynCommunitiesSN.set_snapshot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_communities.html">tnetwork.DynCommunitiesSN.set_communities</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#accessing-snapshot-affiliations">Accessing snapshot_affiliations</a><ul>
@@ -205,7 +205,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#converting">Converting</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.to_SGcommunities.html">tnetwork.DynCommunitiesSN.to_SGcommunities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html">tnetwork.DynCommunitiesSN.to_DynCommunitiesIG</a></li>
 </ul>
 </li>
 </ul>
@@ -239,7 +239,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.add_interval.html">tnetwork.utils.Intervals.add_interval</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.add_intervals.html">tnetwork.utils.Intervals.add_intervals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.add_interval_at_the_end.html">tnetwork.utils.Intervals.add_interval_at_the_end</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.remove_interval.html">tnetwork.utils.Intervals.remove_interval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals._substract_one_period.html">tnetwork.utils.Intervals._substract_one_period</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/Intervals.html#accessing-intervals-properties">Accessing Intervals properties</a><ul>
@@ -391,9 +391,9 @@
         <span class="n">to_return</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">other_Intervals</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
-            <span class="n">to_return</span><span class="o">.</span><span class="n">remove_interval</span><span class="p">((</span><span class="n">start</span><span class="p">,</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">to_return</span><span class="o">.</span><span class="n">_substract_one_period</span><span class="p">((</span><span class="n">start</span><span class="p">,</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
             <span class="n">start</span><span class="o">=</span><span class="n">interval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">to_return</span><span class="o">.</span><span class="n">remove_interval</span><span class="p">((</span><span class="n">start</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">()))</span>
+        <span class="n">to_return</span><span class="o">.</span><span class="n">_substract_one_period</span><span class="p">((</span><span class="n">start</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">()))</span>
         <span class="k">return</span> <span class="n">to_return</span></div>
 
 <div class="viewcode-block" id="Intervals.union"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.union.html#tnetwork.utils.Intervals.union">[docs]</a>    <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other_Intervals</span><span class="p">):</span>
@@ -509,7 +509,7 @@
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="p">[</span><span class="n">mergedInterv</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">=</span><span class="n">mergedInterv</span></div>
 
-<div class="viewcode-block" id="Intervals.remove_interval"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.remove_interval.html#tnetwork.utils.Intervals.remove_interval">[docs]</a>    <span class="k">def</span> <span class="nf">remove_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals._substract_one_period"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals._substract_one_period.html#tnetwork.utils.Intervals._substract_one_period">[docs]</a>    <span class="k">def</span> <span class="nf">_substract_one_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove the provided interval from the current periods</span>
 
@@ -524,7 +524,7 @@
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">iMinToDelete</span><span class="p">),</span><span class="n">iMaxToDelete</span><span class="p">):</span>
             <span class="n">toRemove</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="n">afterSubstraction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_substract_intervals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">peekitem</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">interval</span><span class="p">)</span>
+            <span class="n">afterSubstraction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_substract_tuple_from_tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">peekitem</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">interval</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span>  <span class="n">afterSubstraction</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">interv</span><span class="o">!=</span><span class="p">[]:</span>
@@ -568,7 +568,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">((</span><span class="nb">min</span><span class="p">([</span><span class="n">interval1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">interval2</span><span class="p">[</span><span class="mi">0</span><span class="p">]]),</span><span class="nb">max</span><span class="p">([</span><span class="n">interval1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">interval2</span><span class="p">[</span><span class="mi">1</span><span class="p">]])))</span>
 
-    <span class="k">def</span> <span class="nf">_substract_intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">before</span><span class="p">,</span> <span class="n">toSubstract</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_substract_tuple_from_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">before</span><span class="p">,</span> <span class="n">toSubstract</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove interval toSubstract from interval before. Provided as pairs (start, stop)</span>
 

@@ -26,8 +26,8 @@ Adding and removing snapshot_affiliations
 
         DynCommunitiesSN.add_affiliation
         DynCommunitiesSN.add_community
-        DynCommunitiesSN.add_empty_sn
-        DynCommunitiesSN.set_affiliations_from
+        DynCommunitiesSN.set_snapshot
+        DynCommunitiesSN.set_communities
 
 Accessing snapshot_affiliations
 -----------------------------------
@@ -47,7 +47,7 @@ Converting
 .. autosummary::
     :toctree: generated/
 
-        DynCommunitiesSN.to_SGcommunities
+        DynCommunitiesSN.to_DynCommunitiesIG
 
 
 -----------

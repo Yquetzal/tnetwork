@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>tnetwork.DynGraphSN.add_snapshot &mdash; tnetwork  documentation</title>
+  <title>tnetwork.DynGraphSN.set_snapshot &mdash; tnetwork  documentation</title>
   
 
   
@@ -135,7 +135,7 @@
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">tnetwork.DynGraphSN.add_snapshot</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">tnetwork.DynGraphSN.set_snapshot</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
@@ -194,8 +194,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.add_empty_sn.html">tnetwork.DynCommunitiesSN.add_empty_sn</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.set_affiliations_from.html">tnetwork.DynCommunitiesSN.set_affiliations_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.set_snapshot.html">tnetwork.DynCommunitiesSN.set_snapshot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.set_communities.html">tnetwork.DynCommunitiesSN.set_communities</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../dyn_communities.html#accessing-snapshot-affiliations">Accessing snapshot_affiliations</a><ul>
@@ -207,7 +207,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../dyn_communities.html#converting">Converting</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.to_SGcommunities.html">tnetwork.DynCommunitiesSN.to_SGcommunities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html">tnetwork.DynCommunitiesSN.to_DynCommunitiesIG</a></li>
 </ul>
 </li>
 </ul>
@@ -241,7 +241,7 @@
 <li class="toctree-l3"><a class="reference internal" href="tnetwork.utils.Intervals.add_interval.html">tnetwork.utils.Intervals.add_interval</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tnetwork.utils.Intervals.add_intervals.html">tnetwork.utils.Intervals.add_intervals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tnetwork.utils.Intervals.add_interval_at_the_end.html">tnetwork.utils.Intervals.add_interval_at_the_end</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tnetwork.utils.Intervals.remove_interval.html">tnetwork.utils.Intervals.remove_interval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tnetwork.utils.Intervals._substract_one_period.html">tnetwork.utils.Intervals._substract_one_period</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Intervals.html#accessing-intervals-properties">Accessing Intervals properties</a><ul>
@@ -319,13 +319,13 @@
         
           <li><a href="../dyn_graph.html">Dynamic Network Classes</a> &raquo;</li>
         
-      <li>tnetwork.DynGraphSN.add_snapshot</li>
+      <li>tnetwork.DynGraphSN.set_snapshot</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/reference/generated/tnetwork.DynGraphSN.add_snapshot.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/reference/generated/tnetwork.DynGraphSN.set_snapshot.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -339,10 +339,10 @@
            <div itemprop="articleBody">
             
   <div class="section" id="tnetwork-dyngraphsn-add-snapshot">
-<h1>tnetwork.DynGraphSN.add_snapshot<a class="headerlink" href="#tnetwork-dyngraphsn-add-snapshot" title="Permalink to this headline">¶</a></h1>
+<h1>tnetwork.DynGraphSN.set_snapshot<a class="headerlink" href="#tnetwork-dyngraphsn-add-snapshot" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
-<dt id="tnetwork.DynGraphSN.add_snapshot">
-<code class="descclassname">DynGraphSN.</code><code class="descname">add_snapshot</code><span class="sig-paren">(</span><em>t=None</em>, <em>graphSN=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/dyn_graph/dyn_graph_sn.html#DynGraphSN.add_snapshot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DynGraphSN.add_snapshot" title="Permalink to this definition">¶</a></dt>
+<dt id="tnetwork.DynGraphSN.set_snapshot">
+<code class="descclassname">DynGraphSN.</code><code class="descname">set_snapshot</code><span class="sig-paren">(</span><em>t=None</em>, <em>graphSN=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/dyn_graph/dyn_graph_sn.html#DynGraphSN.set_snapshot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DynGraphSN.set_snapshot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a snapshot for a time step t</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

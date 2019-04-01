@@ -19,7 +19,7 @@ Adding and removing intervals
         Intervals.add_interval
         Intervals.add_intervals
         Intervals.add_interval_at_the_end
-        Intervals.remove_interval
+        Intervals._substract_one_period
 
 Accessing Intervals properties
 -----------------------------------

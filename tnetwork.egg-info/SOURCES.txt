@@ -12,6 +12,7 @@ tnetwork/DCD/__init__.py
 tnetwork/DCD/communities_scenarios.py
 tnetwork/DCD/community.py
 tnetwork/DCD/computing_coms_by_sn.py
+tnetwork/DCD/multi_temporal_scale.py
 tnetwork/DCD/analytics/NMIs.py
 tnetwork/DCD/analytics/__init__.py
 tnetwork/DCD/analytics/dyn_com_analysis.py
@@ -30,10 +31,12 @@ tnetwork/DCD/externals/GenLouvain-master/GenLouvain/for_testing/__init__.py
 tnetwork/DCD/externals/GenLouvain-master/GenLouvain/for_testing/setup.py
 tnetwork/DCD/externals/GenLouvain-master/GenLouvain/for_testing/GenLouvain/__init__.py
 tnetwork/DCD/pure_python/__init__.py
+tnetwork/DCD/pure_python/community_tracker.py
 tnetwork/DCD/pure_python/matching_survival_graph.py
 tnetwork/DCD/pure_python/rollingCPM.py
 tnetwork/DCD/pure_python/simple_matching.py
 tnetwork/DCD/pure_python/static_cd/__init__.py
+tnetwork/DCD/pure_python/static_cd/infomap.py
 tnetwork/DCD/pure_python/static_cd/louvain.py
 tnetwork/DCD/pure_python/static_cd/louvainModified.py
 tnetwork/dyn_community/__init__.py

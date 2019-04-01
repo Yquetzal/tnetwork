@@ -4,6 +4,7 @@ import operator
 import math
 from tnetwork.utils.community_utils import affiliations2nodesets
 from collections import Iterable
+import tnetwork as tn
 
 class DynCommunitiesIG:
     """
@@ -128,8 +129,8 @@ class DynCommunitiesIG:
         """
         (t,e) = times
         n = str(n)
-        self._by_node[n][com].remove_interval((t, e))
-        self._by_com[com][n].remove_interval((t, e))
+        self._by_node[n][com]._substract_one_period((t, e))
+        self._by_com[com][n]._substract_one_period((t, e))
 
     def affiliations_durations(self, nodes=None, communities=None):
         """
@@ -217,3 +218,45 @@ class DynCommunitiesIG:
                 if node2com[n] == c:
                     to_return.append(n)
         return to_return
+
+    def to_DynCommunitiesSN(self,slices=None):
+        """
+            Convert to a snapshot representation.
+
+            :param slices: can be one of
+
+            - None, snapshot_affiliations are created such as a new snapshot is created at every node/edge change,
+            - an integer, snapshot_affiliations are created using a sliding window
+            - a list of periods, represented as pairs (start, end), each period yielding a snapshot
+
+            :return: a dynamic graph represented as snapshot_affiliations, the weight of nodes/edges correspond to their presence time during the snapshot
+
+        """
+        dgSN = tn.DynCommunitiesSN()
+        if slices == None:
+            times = self.change_times()
+            slices = [(times[i], times[i + 1]) for i in range(len(times) - 1)]
+
+        if isinstance(slices, int):
+            duration = slices
+            slices = []
+            start = self.start
+            end = start + duration
+            while (end <= self.end):
+                end = start + duration
+                slices.append((start, end))
+                start = end
+                end = end + duration
+
+        for ts in slices:
+            dgSN.set_communities(t=ts[0])
+
+        for cID, coms in self.communities().items():
+            for n,interv in coms.items():
+                for ts in slices:
+                    presence = interv.intersection(Intervals([ts])).duration()
+                    if presence > 0:
+                        dgSN.add_affiliation(n,cID,ts[0])
+
+
+        return dgSN

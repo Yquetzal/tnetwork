@@ -1,5 +1,8 @@
 from tnetwork.utils.read_write import write_list_of_list
-from tnetwork.utils.bidict import bidict
+import pandas as pd
+import pkg_resources
+import os
+
 
 def nodesets2affiliations(communities):
     """
@@ -48,7 +51,10 @@ def affiliations2nodesets(communities):
     return asNodeSets
 
 def jaccard(com1, com2):
-    return float(len(com1 & com2)) / float(len(com1 | com2))
+    union_size = len(com1 | com2)
+    if union_size==0:
+        return 0
+    return len(com1 & com2) / union_size
 
 def write_communities_as_nodeset(partition,file,community_name=True):
     """
@@ -84,3 +90,17 @@ def write_communities_as_affiliations(partition,file):
             affiliations = list([affiliations])
         to_print.append([node]+list(affiliations))
     write_list_of_list(to_print,file)
+
+def read_socioPatterns_com():
+    resource_package = __name__
+    resource_package = '.'.join(resource_package.split(".")[:-2])
+
+    resource_path = '/'.join(("dyn_graph",'toy_data', 'thiers_2012.csv'))
+    fileLocation = pkg_resources.resource_filename(resource_package, resource_path)
+    df = pd.read_csv(fileLocation, sep="\t",
+                     names=["t", "n1", "n2", "n1_class", "n2_class"])
+    coms = {}
+    for index, row in df.iterrows():
+        coms[str(row["n1"])] = row["n1_class"]
+        coms[str(row["n2"])] = row["n2_class"]
+    return coms

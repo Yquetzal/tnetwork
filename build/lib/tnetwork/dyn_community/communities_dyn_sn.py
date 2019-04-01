@@ -24,14 +24,21 @@ class DynCommunitiesSN:
         self.events=CommunitiesEvent()
         self._automaticID=1
 
-    def add_empty_sn(self, t):
+    def slice(self,start,end):
         """
-        Add a snapshot with no snapshot_affiliations at time t
+        Keep only the selected period
 
-        :param t: time step
+        :param start:
+        :param end:
         """
-        if not t in self.snapshots:
-            self.snapshots[t] = dict()
+
+        to_return = tn.DynCommunitiesSN()
+        interv = tn.Intervals((start,end))
+        for t in list(self.snapshots.keys()):
+            if t in interv:
+                to_return.set_communities(self.snapshots[t], t)
+        return to_return
+
 
     def snapshot_communities(self, t=None):
         """
@@ -192,7 +199,7 @@ class DynCommunitiesSN:
                     coms[cs]=set()
                 coms[cs]=coms[cs].union(nodes)
 
-    def set_affiliations_from(self, clusters, t):
+    def set_communities(self, t, communities=None):
         """
         Affiliate nodes given a dictionary representation
 
@@ -202,7 +209,10 @@ class DynCommunitiesSN:
         :param clusters: dict or bidict{frozenset of nodes}:id
         """
 
-        self.snapshots[t]=clusters
+        if communities==None:
+            self.snapshots[t] = dict()
+        else:
+            self.snapshots[t]=communities
 
     def add_community(self, t, nodes, id=None):
         """
@@ -380,10 +390,10 @@ class DynCommunitiesSN:
 
 
 
-    def to_SGcommunities(self, sn_duration=None,convertTimeToInteger=False):
+    def to_DynCommunitiesIG(self, sn_duration, convertTimeToInteger=False):
         """
         Convert to SG snapshot_affiliations
-
+        :param sn_duration: time of a snapshot, or None for automatic: each snapshot last until start of the next
         :param convertTimeToInteger: if True, snapshot_affiliations IDs will be forgottent and replaced by consecutive integers
         :return: DynamicCommunitiesIG
         """
