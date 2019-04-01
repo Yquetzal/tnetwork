@@ -1,4 +1,5 @@
 from tnetwork.utils.community_utils import jaccard
+from tnetwork.DCD import iterative_match
 import tnetwork as tn
 import networkx as nx
 
@@ -117,7 +118,7 @@ def track_communities(dyn_graph, granularity, start_time=0, similarity=jaccard, 
 
         print("computing communities")
 
-        dyn_coms = tn.DCD.iterative_match(s_graph_current_granularity)#,CDalgo=infomap_communities)
+        dyn_coms = iterative_match(s_graph_current_granularity)#,CDalgo=infomap_communities)
         all_coms[current_granularity] = dyn_coms
 
         print("computing quality for each com")
