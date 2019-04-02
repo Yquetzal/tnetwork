@@ -1,7 +1,5 @@
 import networkx as nx
 
-
-
 class CommunitiesEvent(nx.DiGraph):
     def __init__(self):
         super(CommunitiesEvent, self).__init__()

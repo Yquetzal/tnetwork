@@ -104,3 +104,31 @@ def read_socioPatterns_com():
         coms[str(row["n1"])] = row["n1_class"]
         coms[str(row["n2"])] = row["n2_class"]
     return coms
+
+#functions to add to community_utils
+def read_socioPatterns_Primary_School_com():
+    resource_package = __name__
+    resource_package = '.'.join(resource_package.split(".")[:-2])
+
+    resource_path = '/'.join(("dyn_graph",'toy_data', 'Primary_School.csv'))
+    fileLocation = pkg_resources.resource_filename(resource_package, resource_path)
+    df = pd.read_csv(fileLocation, sep="\t",
+                     names=["t", "n1", "n2", "n1_class", "n2_class"])
+    coms = {}
+    for index, row in df.iterrows():
+        coms[str(row["n1"])] = row["n1_class"]
+        coms[str(row["n2"])] = row["n2_class"]
+    return coms
+def read_socioPatterns_Hospital():
+    resource_package = __name__
+    resource_package = '.'.join(resource_package.split(".")[:-2])
+
+    resource_path = '/'.join(("dyn_graph",'toy_data', 'Contacts_Hospital.csv'))
+    fileLocation = pkg_resources.resource_filename(resource_package, resource_path)
+    df = pd.read_csv(fileLocation, sep="\t",
+                     names=["t", "n1", "n2", "n1_class", "n2_class"])
+    coms = {}
+    for index, row in df.iterrows():
+        coms[str(row["n1"])] = row["n1_class"]
+        coms[str(row["n2"])] = row["n2_class"]
+    return coms

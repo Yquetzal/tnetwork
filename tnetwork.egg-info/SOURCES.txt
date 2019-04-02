@@ -48,6 +48,9 @@ tnetwork/dyn_graph/dyn_graph.py
 tnetwork/dyn_graph/dyn_graph_ig.py
 tnetwork/dyn_graph/dyn_graph_sn.py
 tnetwork/dyn_graph/function.py
+tnetwork/dyn_graph/toy_reading.py
+tnetwork/dyn_graph/toy_data/Contacts_Hospital.csv
+tnetwork/dyn_graph/toy_data/Primary_School.csv
 tnetwork/dyn_graph/toy_data/thiers_2012.csv
 tnetwork/readwrite/IG_com_io.py
 tnetwork/readwrite/IG_graph_io.py

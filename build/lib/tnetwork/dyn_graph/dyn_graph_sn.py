@@ -60,6 +60,38 @@ class DynGraphSN(DynGraph):
         dg = tn.read_graph_link_stream(fileLocation)
         return dg
 
+    # function to add to dyn_graph_sn.py
+    @staticmethod
+    def graph_socioPatterns_Primary_School():
+        """
+        Function that return the graph of interactions between children and teachers, from the SocioPatterns project.
+        >>> dg = DynGraphSN.graph_socioPatterns_Primary_School()
+
+        :return:
+        """
+
+        resource_package = __name__
+        resource_path = '/'.join(('toy_data', 'Primary_School.csv'))
+        fileLocation = pkg_resources.resource_filename(resource_package, resource_path)
+
+        dg = tn.read_graph_link_stream(fileLocation)
+        return dg
+
+    @staticmethod
+    def graph_socioPatterns_Hospital():
+        """
+        Function that return the graph of interactions in the hospital of Lyon between patients and medical staff, from the SocioPatterns project.
+        >>> dg = DynGraphSN.graph_socioPatterns_Hospital()
+
+        :return:
+        """
+
+        resource_package = __name__
+        resource_path = '/'.join(('toy_data', 'Contacts_Hospital.csv'))
+        fileLocation = pkg_resources.resource_filename(resource_package, resource_path)
+
+        dg = tn.read_graph_link_stream(fileLocation)
+        return dg
 
     def add_node_presence(self, n, time):
         """
