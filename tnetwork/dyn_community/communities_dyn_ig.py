@@ -38,6 +38,23 @@ class DynCommunitiesIG:
             self.end=-math.inf
 
 
+    def slice(self,start,end):
+        """
+        Keep only the selected period
+
+        :param start:
+        :param end:
+        """
+
+        to_return = tn.DynCommunitiesIG()
+        interv = tn.Intervals((start,end))
+        for c_id,c in self.communities().items():
+            for n,the_inter in c.items():
+                duration = interv.intersection(the_inter)
+                if duration.duration()>0:
+                    to_return.add_affiliation(n,c_id,duration)
+        return to_return
+
     def _affiliations_at_t(self,t):
         """
         Afilliations at t

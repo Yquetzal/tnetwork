@@ -24,7 +24,7 @@ def _generate_a_community(to_return_graph,to_return_com,nb_nodes, duration, freq
     nodes = np.random.choice(to_return_graph.snapshots(start).nodes, nb_nodes, replace=False)
 
     # Add this community to the dyn com
-    to_return_com.add_affiliation(nodes, str(nodes)+str(start), [x for x in range(start, end)])
+    to_return_com.add_affiliation(nodes, str(start).zfill(5)+str(nodes), [x for x in range(start, end)])
 
     #For every step, add edges with probability frequency
     for step in range(start, end):
@@ -36,7 +36,7 @@ def _generate_a_community(to_return_graph,to_return_com,nb_nodes, duration, freq
                     current_graph.add_edge(nodes[i], nodes[j])
 
 
-def generate_multi_temporal_scale(nb_steps=5000,nb_nodes=100,nb_com = 10,noise=None,max_com_size=10,max_com_duration=500):
+def generate_multi_temporal_scale(nb_steps=5000,nb_nodes=100,nb_com = 10,noise=None,max_com_size=None,max_com_duration=None):
     """
     Generate a dynamic graph with dynamic communities
     :param nb_steps: steps in the graph
@@ -51,7 +51,13 @@ def generate_multi_temporal_scale(nb_steps=5000,nb_nodes=100,nb_com = 10,noise=N
     to_return_com = tn.DynCommunitiesSN()
 
     if noise==None:
-        noise = 10/(nb_nodes)/nb_steps
+        noise = 1/(nb_nodes*nb_nodes) #in average, 5 random interactions per step
+
+    if max_com_duration==None:
+        max_com_duration = nb_steps/2
+
+    if max_com_size==None:
+        max_com_size = int(nb_nodes/4)
 
     #initialise each step with a random graph with noise
     for i in range(nb_steps):
@@ -60,11 +66,13 @@ def generate_multi_temporal_scale(nb_steps=5000,nb_nodes=100,nb_com = 10,noise=N
     #for each desired community
     for n in range(nb_com):
         #get a random size
-        size = np.random.randint(4,max_com_size)
+        size = np.random.uniform(np.log(4),np.log(max_com_size))
+        size = int(np.exp(size))
 
         #get a random duration
 
-        duration = np.random.randint(10,max_com_duration)
+        duration = np.random.uniform(np.log(10),np.log(max_com_duration))
+        duration = int(np.exp(duration))
 
         #We whoose the clique frequency so that all communities last long enough to be detectable
         cliques_frequency = 10/duration

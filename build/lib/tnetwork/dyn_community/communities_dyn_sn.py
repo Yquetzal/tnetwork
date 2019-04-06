@@ -426,5 +426,5 @@ class DynCommunitiesSN:
         #convert also events
         for (u,v,d) in self.events.edges(data=True):
             if d["type"]!="continue": #if snapshot_affiliations have different IDs
-                dynComTN.addEvent(u[1],v[1],d["time"][0],d["time"][1],d["type"])
+                dynComTN.events.add_event(u[1],v[1],d["time"][0],d["time"][1],d["type"])
         return dynComTN
