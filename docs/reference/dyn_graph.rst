@@ -41,7 +41,6 @@ Adding and removing nodes and edges
         DynGraphSN.remove_node_presence
         DynGraphSN.remove_interaction
         DynGraphSN.remove_interactions_from
-        DynGraphSN.set_snapshot
 
 Accessing the graph
 -----------------------------------

@@ -32,6 +32,7 @@ tnetwork/DCD/externals/GenLouvain-master/GenLouvain/for_testing/setup.py
 tnetwork/DCD/externals/GenLouvain-master/GenLouvain/for_testing/GenLouvain/__init__.py
 tnetwork/DCD/pure_python/__init__.py
 tnetwork/DCD/pure_python/community_tracker.py
+tnetwork/DCD/pure_python/community_tracker_save.py
 tnetwork/DCD/pure_python/matching_survival_graph.py
 tnetwork/DCD/pure_python/rollingCPM.py
 tnetwork/DCD/pure_python/simple_matching.py

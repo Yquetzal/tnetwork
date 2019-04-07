@@ -17,32 +17,44 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../../',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -133,7 +145,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.set_snapshot.html">tnetwork.DynGraphSN.set_snapshot</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
@@ -192,7 +203,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_snapshot.html">tnetwork.DynCommunitiesSN.set_snapshot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_communities.html">tnetwork.DynCommunitiesSN.set_communities</a></li>
 </ul>
 </li>
@@ -262,6 +272,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.iterative_match.html">tnetwork.iterative_match</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.match_survival_graph.html">tnetwork.match_survival_graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.rollingCPM.html">tnetwork.rollingCPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.track_communities.html">tnetwork.track_communities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.generate_multi_temporal_scale.html">tnetwork.generate_multi_temporal_scale</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/vizu.html">Visualization</a><ul>
@@ -395,6 +407,38 @@
         <span class="n">dg</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">read_graph_link_stream</span><span class="p">(</span><span class="n">fileLocation</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dg</span>
 
+    <span class="c1"># function to add to dyn_graph_sn.py</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">graph_socioPatterns_Primary_School</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function that return the graph of interactions between children and teachers, from the SocioPatterns project.</span>
+<span class="sd">        &gt;&gt;&gt; dg = DynGraphSN.graph_socioPatterns_Primary_School()</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resource_package</span> <span class="o">=</span> <span class="vm">__name__</span>
+        <span class="n">resource_path</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s1">&#39;toy_data&#39;</span><span class="p">,</span> <span class="s1">&#39;Primary_School.csv&#39;</span><span class="p">))</span>
+        <span class="n">fileLocation</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="n">resource_package</span><span class="p">,</span> <span class="n">resource_path</span><span class="p">)</span>
+
+        <span class="n">dg</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">read_graph_link_stream</span><span class="p">(</span><span class="n">fileLocation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dg</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">graph_socioPatterns_Hospital</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function that return the graph of interactions in the hospital of Lyon between patients and medical staff, from the SocioPatterns project.</span>
+<span class="sd">        &gt;&gt;&gt; dg = DynGraphSN.graph_socioPatterns_Hospital()</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resource_package</span> <span class="o">=</span> <span class="vm">__name__</span>
+        <span class="n">resource_path</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s1">&#39;toy_data&#39;</span><span class="p">,</span> <span class="s1">&#39;Contacts_Hospital.csv&#39;</span><span class="p">))</span>
+        <span class="n">fileLocation</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="n">resource_package</span><span class="p">,</span> <span class="n">resource_path</span><span class="p">)</span>
+
+        <span class="n">dg</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">read_graph_link_stream</span><span class="p">(</span><span class="n">fileLocation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dg</span>
 
 <div class="viewcode-block" id="DynGraphSN.add_node_presence"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.add_node_presence.html#tnetwork.DynGraphSN.add_node_presence">[docs]</a>    <span class="k">def</span> <span class="nf">add_node_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -405,7 +449,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">time</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_snapshot</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">time</span><span class="p">]</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DynGraphSN.add_nodes_presence_from"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.add_nodes_presence_from.html#tnetwork.DynGraphSN.add_nodes_presence_from">[docs]</a>    <span class="k">def</span> <span class="nf">add_nodes_presence_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span><span class="n">times</span><span class="p">):</span>
@@ -468,7 +512,7 @@
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">nodePair</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">):</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">set_snapshot</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">apply_nx_function</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="n">t</span><span class="p">,</span><span class="n">stop</span><span class="o">=</span><span class="n">t</span><span class="p">,</span><span class="n">u_of_edge</span><span class="o">=</span><span class="n">nodePair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">v_of_edge</span><span class="o">=</span><span class="n">nodePair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
 
@@ -520,7 +564,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">(</span><span class="n">t</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="DynGraphSN.set_snapshot"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.set_snapshot.html#tnetwork.DynGraphSN.set_snapshot">[docs]</a>    <span class="k">def</span> <span class="nf">set_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">graphSN</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">add_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">graphSN</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a snapshot for a time step t</span>
 
@@ -534,7 +578,7 @@
                 <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
         <span class="k">if</span> <span class="n">graphSN</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
             <span class="n">graphSN</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">=</span><span class="n">graphSN</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">=</span><span class="n">graphSN</span>
 
 
 
@@ -577,7 +621,7 @@
 
         <span class="k">return</span> <span class="n">to_return</span></div>
 
-<div class="viewcode-block" id="DynGraphSN.to_DynGraphIG"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.to_DynGraphIG.html#tnetwork.DynGraphSN.to_DynGraphIG">[docs]</a>    <span class="k">def</span> <span class="nf">to_DynGraphIG</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sn_duration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">convert_time_to_integer</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="DynGraphSN.to_DynGraphIG"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.to_DynGraphIG.html#tnetwork.DynGraphSN.to_DynGraphIG">[docs]</a>    <span class="k">def</span> <span class="nf">to_DynGraphIG</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sn_duration</span><span class="p">,</span> <span class="n">convert_time_to_integer</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert the graph into a DynGraph_IG.</span>
 
@@ -585,7 +629,7 @@
 <span class="sd">        Be careful, for the last snaphsot, we cannot know his duration, therefore, if sn_duration is not provided, it has a default duration equal to the min</span>
 <span class="sd">        of all durations</span>
 
-<span class="sd">        :param sn_duration: duration of sns</span>
+<span class="sd">        :param sn_duration: duration of sns, None for automatic behavior</span>
 <span class="sd">        :param convert_time_to_integer: if True, use the snapshot order in the list of SN rather than its time step</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -608,6 +652,7 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="c1">#computing the min duration to choose as duration of the last period</span>
                         <span class="n">dates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()</span>
+
                         <span class="n">minDuration</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="n">dates</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">dates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)])</span>
                         <span class="n">tNext</span> <span class="o">=</span> <span class="n">current_t</span><span class="o">+</span><span class="n">minDuration</span>
 
@@ -669,8 +714,22 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_weighted_graphs</span><span class="p">(</span><span class="n">snapshots</span><span class="p">)</span></div>
 
+    <span class="k">def</span> <span class="nf">slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Keep only the selected period</span>
 
-<div class="viewcode-block" id="DynGraphSN.aggregate_sliding_window"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.aggregate_sliding_window.html#tnetwork.DynGraphSN.aggregate_sliding_window">[docs]</a>    <span class="k">def</span> <span class="nf">aggregate_sliding_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bin_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">t_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">t_end</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="sd">        :param start:</span>
+<span class="sd">        :param end:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">to_return</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">()</span>
+        <span class="n">interv</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">Intervals</span><span class="p">((</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">interv</span><span class="o">.</span><span class="n">contains_t</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+                <span class="n">to_return</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">to_return</span>
+
+<div class="viewcode-block" id="DynGraphSN.aggregate_sliding_window"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.aggregate_sliding_window.html#tnetwork.DynGraphSN.aggregate_sliding_window">[docs]</a>    <span class="k">def</span> <span class="nf">aggregate_sliding_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bin_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">t_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">t_end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">weighted</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a new dynamic graph without modifying the original one, aggregated using sliding windows of the desired size. If Shift is not provided or equal to bin_size, windows are non overlapping.</span>
 <span class="sd">        If no parameter is provided, creates a single graph aggregating the whole period.</span>
@@ -702,13 +761,15 @@
 
         <span class="n">toReturn</span> <span class="o">=</span> <span class="n">DynGraphSN</span><span class="p">()</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">binStart</span><span class="p">,</span><span class="n">binEnd</span><span class="p">)</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">:</span>
-            <span class="c1">#print(&quot;aggregating&quot;,binStart,binEnd)</span>
             <span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">irange</span><span class="p">(</span><span class="n">binStart</span><span class="p">,</span> <span class="n">binEnd</span><span class="p">,</span> <span class="n">inclusive</span><span class="o">=</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
             <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
-                <span class="n">toReturn</span><span class="o">.</span><span class="n">set_snapshot</span><span class="p">(</span><span class="n">binStart</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_weighted_graphs</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]))</span>
+                <span class="k">if</span> <span class="n">weighted</span><span class="p">:</span>
+                    <span class="n">toReturn</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">binStart</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_weighted_graphs</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">toReturn</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">binStart</span><span class="p">,</span><span class="n">nx</span><span class="o">.</span><span class="n">compose_all</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">toReturn</span><span class="o">.</span><span class="n">set_snapshot</span><span class="p">(</span><span class="n">binStart</span><span class="p">)</span>
+                <span class="n">toReturn</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">binStart</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">toReturn</span></div>
 
     <span class="k">def</span> <span class="nf">_get_monday_from_calendar_week</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">calendar_week</span><span class="p">):</span>
@@ -768,7 +829,7 @@
             <span class="c1">#new_t = new_t.timestamp()</span>
             <span class="n">new_t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">new_t</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">new_t</span> <span class="ow">in</span> <span class="n">to_return</span><span class="o">.</span><span class="n">snapshots</span><span class="p">():</span>
-                <span class="n">to_return</span><span class="o">.</span><span class="n">set_snapshot</span><span class="p">(</span><span class="n">new_t</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+                <span class="n">to_return</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">new_t</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
             <span class="n">to_return</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">new_t</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_combine_weighted_graphs</span><span class="p">([</span><span class="n">to_return</span><span class="o">.</span><span class="n">snapshots</span><span class="p">(</span><span class="n">new_t</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">(</span><span class="n">t</span><span class="p">)])</span>
 
         <span class="k">return</span> <span class="n">to_return</span></div>
@@ -884,36 +945,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../../../',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

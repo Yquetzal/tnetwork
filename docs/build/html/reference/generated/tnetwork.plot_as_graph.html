@@ -17,34 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="tnetwork.plot_longitudinal" href="tnetwork.plot_longitudinal.html" />
     <link rel="prev" title="Visualization" href="../vizu.html" /> 
-
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -135,7 +147,6 @@
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.set_snapshot.html">tnetwork.DynGraphSN.set_snapshot</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
@@ -194,7 +205,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.set_snapshot.html">tnetwork.DynCommunitiesSN.set_snapshot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.set_communities.html">tnetwork.DynCommunitiesSN.set_communities</a></li>
 </ul>
 </li>
@@ -264,6 +274,8 @@
 <li class="toctree-l2"><a class="reference internal" href="tnetwork.iterative_match.html">tnetwork.iterative_match</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tnetwork.match_survival_graph.html">tnetwork.match_survival_graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tnetwork.rollingCPM.html">tnetwork.rollingCPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tnetwork.track_communities.html">tnetwork.track_communities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tnetwork.generate_multi_temporal_scale.html">tnetwork.generate_multi_temporal_scale</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="../vizu.html">Visualization</a><ul class="current">
@@ -342,7 +354,7 @@
 <h1>tnetwork.plot_as_graph<a class="headerlink" href="#tnetwork-plot-as-graph" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="tnetwork.plot_as_graph">
-<code class="descclassname">tnetwork.</code><code class="descname">plot_as_graph</code><span class="sig-paren">(</span><em>dynamic_graph</em>, <em>communities=None</em>, <em>t=None</em>, <em>slider=False</em>, <em>to_datetime=False</em>, <em>width=800</em>, <em>height=600</em>, <em>auto_show=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/visualization/plots.html#plot_as_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.plot_as_graph" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">tnetwork.</code><code class="descname">plot_as_graph</code><span class="sig-paren">(</span><em>dynamic_graph</em>, <em>communities=None</em>, <em>ts=None</em>, <em>slider=False</em>, <em>to_datetime=False</em>, <em>width=800</em>, <em>height=600</em>, <em>auto_show=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/visualization/plots.html#plot_as_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.plot_as_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot to see the static graph at each snapshot</p>
 <p>can be row of graphs or an interactive graph with a slider to change snapshot.
 In all cases, the position of nodes is the same in all snapshots</p>
@@ -353,7 +365,7 @@ In all cases, the position of nodes is the same in all snapshots</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>dynamic_graph</strong> – DynGraphSN</li>
 <li><strong>communities</strong> – dynamic snapshot_affiliations of the network (can be ignored)</li>
-<li><strong>t</strong> – time of snapshot(s) to display. single value or list. default None means all snapshots.</li>
+<li><strong>ts</strong> – time of snapshot(s) to display. single value or list. default None means all snapshots.</li>
 <li><strong>slider</strong> – If None, a slider allows to interactively choose the step (work only in jupyter notebooks on a local machine)</li>
 <li><strong>to_datetime</strong> – one of True/False/function. If True, step IDs are converted to dates using datetime.utcfromtimestamp. If a function, should take a step ID and return a datetime object.</li>
 <li><strong>width</strong> – width of the figure</li>
@@ -382,7 +394,7 @@ In all cases, the position of nodes is the same in all snapshots</p>
         <a href="tnetwork.plot_longitudinal.html" class="btn btn-neutral float-right" title="tnetwork.plot_longitudinal" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../vizu.html" class="btn btn-neutral" title="Visualization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../vizu.html" class="btn btn-neutral float-left" title="Visualization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -408,36 +420,16 @@ In all cases, the position of nodes is the same in all snapshots</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../../',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

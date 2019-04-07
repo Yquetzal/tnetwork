@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>tnetwork.DynGraphSN.set_snapshot &mdash; tnetwork  documentation</title>
+  <title>tnetwork.generate_multi_temporal_scale &mdash; tnetwork  documentation</title>
   
 
   
@@ -17,34 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="tnetwork.DynGraphSN.node_presence" href="tnetwork.DynGraphSN.node_presence.html" />
-    <link rel="prev" title="tnetwork.DynGraphSN.remove_interactions_from" href="tnetwork.DynGraphSN.remove_interactions_from.html" /> 
-
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
-
+    <link rel="next" title="Visualization" href="../vizu.html" />
+    <link rel="prev" title="tnetwork.track_communities" href="tnetwork.track_communities.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -125,9 +137,9 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="reference internal" href="../dyn_graph.html">Dynamic Network Classes</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../dyn_graph.html#sequences-of-snapshots">Sequences of snapshots</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../dyn_graph.html#adding-and-removing-nodes-and-edges">Adding and removing nodes and edges</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../dyn_graph.html">Dynamic Network Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../dyn_graph.html#sequences-of-snapshots">Sequences of snapshots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../dyn_graph.html#adding-and-removing-nodes-and-edges">Adding and removing nodes and edges</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.add_node_presence.html">tnetwork.DynGraphSN.add_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.add_nodes_presence_from.html">tnetwork.DynGraphSN.add_nodes_presence_from</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.add_interaction.html">tnetwork.DynGraphSN.add_interaction</a></li>
@@ -135,7 +147,6 @@
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">tnetwork.DynGraphSN.set_snapshot</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
@@ -194,7 +205,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.set_snapshot.html">tnetwork.DynCommunitiesSN.set_snapshot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tnetwork.DynCommunitiesSN.set_communities.html">tnetwork.DynCommunitiesSN.set_communities</a></li>
 </ul>
 </li>
@@ -260,10 +270,12 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../DCD.html">Dynamic Community Detection</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="../DCD.html">Dynamic Community Detection</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="tnetwork.iterative_match.html">tnetwork.iterative_match</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tnetwork.match_survival_graph.html">tnetwork.match_survival_graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tnetwork.rollingCPM.html">tnetwork.rollingCPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tnetwork.track_communities.html">tnetwork.track_communities</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">tnetwork.generate_multi_temporal_scale</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../vizu.html">Visualization</a><ul>
@@ -317,15 +329,15 @@
     
       <li><a href="../../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../dyn_graph.html">Dynamic Network Classes</a> &raquo;</li>
+          <li><a href="../DCD.html">Dynamic Community Detection</a> &raquo;</li>
         
-      <li>tnetwork.DynGraphSN.set_snapshot</li>
+      <li>tnetwork.generate_multi_temporal_scale</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/reference/generated/tnetwork.DynGraphSN.set_snapshot.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/reference/generated/tnetwork.generate_multi_temporal_scale.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -338,20 +350,27 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="tnetwork-dyngraphsn-add-snapshot">
-<h1>tnetwork.DynGraphSN.set_snapshot<a class="headerlink" href="#tnetwork-dyngraphsn-add-snapshot" title="Permalink to this headline">¶</a></h1>
-<dl class="method">
-<dt id="tnetwork.DynGraphSN.set_snapshot">
-<code class="descclassname">DynGraphSN.</code><code class="descname">set_snapshot</code><span class="sig-paren">(</span><em>t=None</em>, <em>graphSN=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/dyn_graph/dyn_graph_sn.html#DynGraphSN.set_snapshot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DynGraphSN.set_snapshot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a snapshot for a time step t</p>
+  <div class="section" id="tnetwork-generate-multi-temporal-scale">
+<h1>tnetwork.generate_multi_temporal_scale<a class="headerlink" href="#tnetwork-generate-multi-temporal-scale" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="tnetwork.generate_multi_temporal_scale">
+<code class="descclassname">tnetwork.</code><code class="descname">generate_multi_temporal_scale</code><span class="sig-paren">(</span><em>nb_steps=5000</em>, <em>nb_nodes=100</em>, <em>nb_com=10</em>, <em>noise=None</em>, <em>max_com_size=None</em>, <em>max_com_duration=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/DCD/multi_temporal_scale.html#generate_multi_temporal_scale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.generate_multi_temporal_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate dynamic graph with stable communities</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>t</strong> – the time step identifier. If none, the last one + 1</li>
-<li><strong>graphSN</strong> – the graph to add (networkx object), if None, add an empty snapshot</li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nb_steps</strong> – steps in the graph</li>
+<li><strong>nb_nodes</strong> – total nb nodes</li>
+<li><strong>nb_com</strong> – nb desired communities</li>
+<li><strong>noise</strong> – random noise at each step, i.e. probability for any edge to exist at any step. default,1/(nb_nodes**2)</li>
+<li><strong>max_com_size</strong> – max number of nodes. Default: nb_nodes/4</li>
+<li><strong>max_com_duration</strong> – max community duration. Default: nb_steps/2</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
 </td>
 </tr>
 </tbody>
@@ -368,10 +387,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tnetwork.DynGraphSN.node_presence.html" class="btn btn-neutral float-right" title="tnetwork.DynGraphSN.node_presence" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../vizu.html" class="btn btn-neutral float-right" title="Visualization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="tnetwork.DynGraphSN.remove_interactions_from.html" class="btn btn-neutral" title="tnetwork.DynGraphSN.remove_interactions_from" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tnetwork.track_communities.html" class="btn btn-neutral float-left" title="tnetwork.track_communities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -397,36 +416,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../../',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

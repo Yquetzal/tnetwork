@@ -38,12 +38,14 @@ def _generate_a_community(to_return_graph,to_return_com,nb_nodes, duration, freq
 
 def generate_multi_temporal_scale(nb_steps=5000,nb_nodes=100,nb_com = 10,noise=None,max_com_size=None,max_com_duration=None):
     """
-    Generate a dynamic graph with dynamic communities
+    Generate dynamic graph with stable communities
+
     :param nb_steps: steps in the graph
     :param nb_nodes: total nb nodes
     :param nb_com: nb desired communities
-    :param noise: random noise at each step, i.e. probability for any edge to exist at any step
-    :param cliques_properties:
+    :param noise: random noise at each step, i.e. probability for any edge to exist at any step. default,1/(nb_nodes**2)
+    :param max_com_size: max number of nodes. Default: nb_nodes/4
+    :param max_com_duration: max community duration. Default: nb_steps/2
     :return:
     """
 
@@ -51,7 +53,7 @@ def generate_multi_temporal_scale(nb_steps=5000,nb_nodes=100,nb_com = 10,noise=N
     to_return_com = tn.DynCommunitiesSN()
 
     if noise==None:
-        noise = 1/(nb_nodes*nb_nodes) #in average, 5 random interactions per step
+        noise = 1/(nb_nodes*nb_nodes) #in average, 1 random interaction per timestep
 
     if max_com_duration==None:
         max_com_duration = nb_steps/2
@@ -70,7 +72,6 @@ def generate_multi_temporal_scale(nb_steps=5000,nb_nodes=100,nb_com = 10,noise=N
         size = int(np.exp(size))
 
         #get a random duration
-
         duration = np.random.uniform(np.log(10),np.log(max_com_duration))
         duration = int(np.exp(duration))
 

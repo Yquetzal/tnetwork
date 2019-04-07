@@ -18,32 +18,44 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -134,7 +146,6 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
-<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynGraphSN.set_snapshot.html">tnetwork.DynGraphSN.set_snapshot</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="reference/dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
@@ -193,7 +204,6 @@
 <li class="toctree-l3"><a class="reference internal" href="reference/dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
-<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.set_snapshot.html">tnetwork.DynCommunitiesSN.set_snapshot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DynCommunitiesSN.set_communities.html">tnetwork.DynCommunitiesSN.set_communities</a></li>
 </ul>
 </li>
@@ -263,6 +273,8 @@
 <li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.iterative_match.html">tnetwork.iterative_match</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.match_survival_graph.html">tnetwork.match_survival_graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.rollingCPM.html">tnetwork.rollingCPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.track_communities.html">tnetwork.track_communities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.generate_multi_temporal_scale.html">tnetwork.generate_multi_temporal_scale</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="reference/vizu.html">Visualization</a><ul>
@@ -361,6 +373,10 @@
       <li><a href="reference/generated/tnetwork.utils.Intervals.__init__.html#tnetwork.utils.Intervals.__init__">__init__() (tnetwork.utils.Intervals method)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.utils.Intervals._substract_one_period.html#tnetwork.utils.Intervals._substract_one_period">_substract_one_period() (tnetwork.utils.Intervals method)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="A">A</h2>
@@ -375,8 +391,6 @@
       <li><a href="reference/generated/tnetwork.DynCommunitiesIG.add_affiliations_from.html#tnetwork.DynCommunitiesIG.add_affiliations_from">add_affiliations_from() (tnetwork.DynCommunitiesIG method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesSN.add_community.html#tnetwork.DynCommunitiesSN.add_community">add_community() (tnetwork.DynCommunitiesSN method)</a>
-</li>
-      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.set_snapshot.html#tnetwork.DynCommunitiesSN.set_snapshot">set_snapshot() (tnetwork.DynCommunitiesSN method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphIG.add_interaction.html#tnetwork.DynGraphIG.add_interaction">add_interaction() (tnetwork.DynGraphIG method)</a>
 
@@ -410,8 +424,6 @@
         <li><a href="reference/generated/tnetwork.DynGraphSN.add_nodes_presence_from.html#tnetwork.DynGraphSN.add_nodes_presence_from">(tnetwork.DynGraphSN method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/generated/tnetwork.DynGraphSN.set_snapshot.html#tnetwork.DynGraphSN.set_snapshot">set_snapshot() (tnetwork.DynGraphSN method)</a>
-</li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesIG.affiliations.html#tnetwork.DynCommunitiesIG.affiliations">affiliations() (tnetwork.DynCommunitiesIG method)</a>
 
       <ul>
@@ -487,6 +499,10 @@
 
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.generate_multi_temporal_scale.html#tnetwork.generate_multi_temporal_scale">generate_multi_temporal_scale() (in module tnetwork)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DynGraphIG.graph_at_time.html#tnetwork.DynGraphIG.graph_at_time">graph_at_time() (tnetwork.DynGraphIG method)</a>
 
@@ -576,15 +592,13 @@
 </li>
       <li><a href="reference/iof/tnetwork.readwrite.read_snapshots.html#tnetwork.readwrite.read_snapshots">read_snapshots() (in module tnetwork.readwrite)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DynCommunitiesIG.remove_affiliation.html#tnetwork.DynCommunitiesIG.remove_affiliation">remove_affiliation() (tnetwork.DynCommunitiesIG method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.DynCommunitiesIG.remove_affiliation.html#tnetwork.DynCommunitiesIG.remove_affiliation">remove_affiliation() (tnetwork.DynCommunitiesIG method)</a>
+</li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.remove_interaction.html#tnetwork.DynGraphSN.remove_interaction">remove_interaction() (tnetwork.DynGraphSN method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html#tnetwork.DynGraphSN.remove_interactions_from">remove_interactions_from() (tnetwork.DynGraphSN method)</a>
-</li>
-      <li><a href="reference/generated/tnetwork.utils.Intervals._substract_one_period.html#tnetwork.utils.Intervals._substract_one_period">_substract_one_period() (tnetwork.utils.Intervals method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.remove_node_presence.html#tnetwork.DynGraphSN.remove_node_presence">remove_node_presence() (tnetwork.DynGraphSN method)</a>
 </li>
@@ -616,15 +630,17 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/readwrite.html#module-tnetwork.readwrite">tnetwork.readwrite (module)</a>
 </li>
+      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html#tnetwork.DynCommunitiesSN.to_DynCommunitiesIG">to_DynCommunitiesIG() (tnetwork.DynCommunitiesSN method)</a>
+</li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.to_DynGraphIG.html#tnetwork.DynGraphSN.to_DynGraphIG">to_DynGraphIG() (tnetwork.DynGraphSN method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DynGraphIG.to_DynGraphSN.html#tnetwork.DynGraphIG.to_DynGraphSN">to_DynGraphSN() (tnetwork.DynGraphIG method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html#tnetwork.DynCommunitiesSN.to_DynCommunitiesIG">to_DynCommunitiesIG() (tnetwork.DynCommunitiesSN method)</a>
-</li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.to_tensor.html#tnetwork.DynGraphSN.to_tensor">to_tensor() (tnetwork.DynGraphSN method)</a>
+</li>
+      <li><a href="reference/generated/tnetwork.track_communities.html#tnetwork.track_communities">track_communities() (in module tnetwork)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -684,36 +700,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

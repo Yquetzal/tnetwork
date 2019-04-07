@@ -17,32 +17,44 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../../',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -133,7 +145,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.set_snapshot.html">tnetwork.DynGraphSN.set_snapshot</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
@@ -192,7 +203,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_snapshot.html">tnetwork.DynCommunitiesSN.set_snapshot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_communities.html">tnetwork.DynCommunitiesSN.set_communities</a></li>
 </ul>
 </li>
@@ -262,6 +272,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.iterative_match.html">tnetwork.iterative_match</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.match_survival_graph.html">tnetwork.match_survival_graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.rollingCPM.html">tnetwork.rollingCPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.track_communities.html">tnetwork.track_communities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.generate_multi_temporal_scale.html">tnetwork.generate_multi_temporal_scale</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/vizu.html">Visualization</a><ul>
@@ -333,8 +345,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for tnetwork.utils.intervals</h1><div class="highlight"><pre>
-<span></span><span class="c1">#from sortedcontainers import *</span>
-<span class="kn">import</span> <span class="nn">copy</span>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">sortedcontainers</span>
 
 <div class="viewcode-block" id="Intervals"><a class="viewcode-back" href="../../../reference/Intervals.html#tnetwork.utils.Intervals">[docs]</a><span class="k">class</span> <span class="nc">Intervals</span><span class="p">:</span>
@@ -367,16 +378,20 @@
 
 <span class="sd">        Instanciate an intervals object. Can be initialized by a list of intervals</span>
 
-<span class="sd">        :param initial: a single interval as a pair (start, end) or a list of such intervals</span>
+<span class="sd">        :param initial: a single interval as a pair (start, end) or an Interval object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">interv</span>  <span class="o">=</span> <span class="n">sortedcontainers</span><span class="o">.</span><span class="n">SortedDict</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">initial</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">initial</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="nb">int</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="p">[</span><span class="n">initial</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">=</span><span class="n">initial</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">initial</span><span class="p">,</span><span class="n">Intervals</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">start</span><span class="p">,</span><span class="n">intv</span> <span class="ow">in</span> <span class="n">initial</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="p">[</span><span class="n">start</span><span class="p">]</span><span class="o">=</span><span class="n">intv</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">intv</span> <span class="ow">in</span> <span class="n">initial</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="p">[</span><span class="n">intv</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">=</span><span class="n">intv</span></div>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">initial</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="nb">int</span><span class="p">):</span>
+                    <span class="n">initial</span> <span class="o">=</span> <span class="p">[</span><span class="n">initial</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">period</span> <span class="ow">in</span> <span class="n">initial</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="p">[</span><span class="n">period</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">=</span><span class="n">period</span></div>
+
 
 <div class="viewcode-block" id="Intervals.intersection"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.intersection.html#tnetwork.utils.Intervals.intersection">[docs]</a>    <span class="k">def</span> <span class="nf">intersection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_Intervals</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -391,9 +406,9 @@
         <span class="n">to_return</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">other_Intervals</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
-            <span class="n">to_return</span><span class="o">.</span><span class="n">_substract_one_period</span><span class="p">((</span><span class="n">start</span><span class="p">,</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">to_return</span><span class="o">.</span><span class="n">_substract_one_period</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
             <span class="n">start</span><span class="o">=</span><span class="n">interval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">to_return</span><span class="o">.</span><span class="n">_substract_one_period</span><span class="p">((</span><span class="n">start</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">()))</span>
+        <span class="n">to_return</span><span class="o">.</span><span class="n">_substract_one_period</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">()))</span>
         <span class="k">return</span> <span class="n">to_return</span></div>
 
 <div class="viewcode-block" id="Intervals.union"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.union.html#tnetwork.utils.Intervals.union">[docs]</a>    <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other_Intervals</span><span class="p">):</span>
@@ -410,6 +425,22 @@
         <span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">other_Intervals</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
             <span class="n">to_return</span><span class="o">.</span><span class="n">add_interval</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">to_return</span></div>
+
+    <span class="k">def</span> <span class="nf">difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other_Intervals</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Current interval - other_Intervals</span>
+
+
+<span class="sd">        :param other_Intervals:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">to_return</span> <span class="o">=</span> <span class="n">Intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">t_start</span><span class="p">,</span><span class="n">inter</span> <span class="ow">in</span> <span class="n">other_Intervals</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">to_return</span><span class="o">.</span><span class="n">_substract_one_period</span><span class="p">(</span><span class="n">inter</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">to_return</span>
+
 
 <div class="viewcode-block" id="Intervals.contains"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.contains.html#tnetwork.utils.Intervals.contains">[docs]</a>    <span class="k">def</span> <span class="nf">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">period</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -513,7 +544,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove the provided interval from the current periods</span>
 
-<span class="sd">        :param interval: the interval to remove provided as a tuples (start, stop)</span>
+<span class="sd">        :param interval: the interval to remove provided as a tuple (start, stop) or an Interval object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># get the index of element that is just before the interval we want to remove</span>
@@ -624,7 +655,7 @@
     <span class="k">def</span>  <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span><span class="n">Intervals</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">==</span><span class="nb">set</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span><span class="o">==</span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
     <span class="fm">__repr__</span> <span class="o">=</span> <span class="fm">__str__</span></div>
 </pre></div>
 
@@ -655,36 +686,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../../../',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

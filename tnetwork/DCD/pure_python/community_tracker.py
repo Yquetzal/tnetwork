@@ -4,25 +4,7 @@ import tnetwork as tn
 import networkx as nx
 import numpy as np
 
-interesting_node=45
-def inverse_conductance(G,S):
-    weight="weight"
-    T = set(G) - set(S)
-    num_cut_edges = nx.cut_size(G, S, T, weight=weight)
-    volume_S = nx.volume(G, S, weight=weight)
-
-    if len(T) == 0: #if all nodes in the commmunity, bad conductance (avoid /0)
-        return 0
-    volume_T = nx.volume(G, T, weight=weight)
-    volume_T = volume_T+len(T) #If only a few nodes outside the community, poor score (trivial solution),
-    #but if many nodes outside the community, return good score. And avoid /0
-
-    return 1- num_cut_edges / min(volume_T,volume_S)
-
-def node_threashold(nodes, network):
-    if len(nodes)>=3:
-        return True
-    return False
+#interesting_node=45
 
 def score_conductance(nodes,graph):
     if len(nodes)<4:
@@ -47,8 +29,77 @@ def score_conductance(nodes,graph):
         inverse_cond = inverse_conductance(graph,nodes_in_graph)
         return inverse_cond
     except:
-        #special case in which all
         return 0
+
+
+def track_communities(dyn_graph, t_granularity = 1, t_persistance=3, t_quality=0.7, t_similarity=0.3, similarity=jaccard, CD="louvain", QC=score_conductance, weighted_aggregation=True, Granularity=None, start_time=None):
+    """
+    Proposed method to track communities
+
+    :param dyn_graph: a dynamic graph
+    :param t_granularity: (:math:`\\theta_\\gamma` min temporal granularity,scale to analyze
+    :param t_persistance: :math:`\\theta_p` minimum number of successive occurences for the community to be persistant
+    :param t_quality: :math:`\\theta_q` threashold of community quality
+    :param t_similarity: :math:`\\theta_s` threashold of similarity between communities
+    :param similarity: (CSS)function that give a score of similarity between communities. Default: jaccard
+    :param CD: CD community detection algorithm. A function returning a set of set of nodes. By default, louvain algorithm
+    :param QC: (QC)function to determine the quality of communities. Default: inverse of conductance
+    :param weighted_aggregation: if true, the aggregation over time periods is done using weighted networks
+    :param Granularity: (:math:`\Gamma`) can be used to replace the default scales. List of int.
+    :param start_time: the date at which to start the analysis. Can be useful, for instance, to start analysis at 00:00
+
+    """
+
+
+    #set up the list of granularity/temporal scales to analyze
+    if Granularity==None:
+        Granularity = _studied_scales(dyn_graph, t_granularity, t_persistance)
+
+    if isinstance(Granularity, int):
+        Granularity = [Granularity]
+
+    if start_time==None:
+        start_time = dyn_graph.snapshots_timesteps()[0]
+
+    persistant_coms = [] #C
+
+    #for each granularity level
+    for current_granularity in Granularity:
+
+
+        #Aggregate the graph WITH or WITHOUT weights (on real data I checked, give better results without weights due to some very stronger weights between a small subset of nodes)
+        pre_computed_snapshots = dyn_graph.aggregate_sliding_window(t_start=start_time, bin_size=current_granularity,weighted=weighted_aggregation)
+
+        seeds = _seed_discovery(pre_computed_snapshots, current_granularity, CD, QC, t_quality)
+        nb_good_seeds = len(seeds)
+
+        seeds = _seed_pruning(seeds, similarity, t_similarity, persistant_coms)
+
+        while len(seeds)>0:
+            seed_expansion(seeds.pop(0),current_granularity,t_quality,t_persistance,t_similarity,QC,similarity,pre_computed_snapshots,persistant_coms)
+
+
+        print("------- granularity (gamma): ", current_granularity," | ","# good seeds: ",nb_good_seeds,"# persistent communities found (total): ",len(persistant_coms))
+
+    persistant_coms = sorted(persistant_coms,key=lambda x: x[3],reverse=True)
+    return persistant_coms
+
+
+
+
+def inverse_conductance(G,S):
+    weight="weight"
+    T = set(G) - set(S)
+    num_cut_edges = nx.cut_size(G, S, T, weight=weight)
+    volume_S = nx.volume(G, S, weight=weight)
+
+    if len(T) == 0: #if all nodes in the commmunity, bad conductance (avoid /0)
+        return 0
+    volume_T = nx.volume(G, T, weight=weight)
+    volume_T = volume_T+len(T) #If only a few nodes outside the community, poor score (trivial solution),
+    #but if many nodes outside the community, return good score. And avoid /0
+
+    return 1- num_cut_edges / min(volume_T,volume_S)
 
 def _track_one_community(tracked_nodes, t, dyn_graph,score, t_quality,backward =False):
     to_return = []
@@ -87,129 +138,83 @@ def _track_one_community(tracked_nodes, t, dyn_graph,score, t_quality,backward =
 def seed_contained_in_persistent_com(seed_nodes, persistent_com_nodes, seed_time, persistent_com_period, similarity, t_similarity):
     return persistent_com_period.contains_t(seed_time) and similarity(seed_nodes,persistent_com_nodes) > t_similarity
 
-def track_communities(dyn_graph, granularity_limit = 1, granularity=None, start_time=None, similarity=jaccard, good_community=score_conductance, t_persistance=3, t_quality=0.7, t_similarity=0.3,weighted_aggregation=True):
-    """
-    Proposed method to track communities
-    :param dyn_graph:
-    :param granularity: list of granularites at which we will search for communities
-    :param start_time:
-    :param similarity: function that give a score of similarity between communities
-    :param good_community: function to determine what is a good community
-    :param t_persistance: minimum number of successive occurences for the community to be persistant
-    :param t_quality: threashold of quality
-    :param t_similarity: threashold of similarity
-    :return:
-    """
+def _studied_scales(dyn_graph, t_granularity, t_persistance):
+    G_duration = dyn_graph.snapshots_timesteps()[-1] - dyn_graph.snapshots_timesteps()[0]
+    a_temporal_scale = int(G_duration / t_persistance)  # \gamma
+    all_scales = []  # \Gamma
+    while a_temporal_scale > t_granularity:
+        all_scales.append(a_temporal_scale)
+        a_temporal_scale = int(a_temporal_scale / 2)
 
-    if granularity==None:
-        G_duration = dyn_graph.snapshots_timesteps()[-1]-dyn_graph.snapshots_timesteps()[0]
-        a_temporal_scale = int(G_duration / t_persistance) # \gamma
-        all_scales = []# \Gamma
-        while a_temporal_scale > granularity_limit:
-            all_scales.append(a_temporal_scale)
-            a_temporal_scale = int(a_temporal_scale / 2)
-
-        granularity = all_scales
-
-    if isinstance(granularity,int):
-        granularity = [granularity]
-
-    if start_time==None:
-        start_time = dyn_graph.snapshots_timesteps()[0]
-
-    persistant_coms = []
-    all_graphs = {}
-    all_coms = {}
-
-    granularity = sorted(granularity,reverse=True)
-
-    #for each granularity level
-    for current_granularity in granularity:
-        seeds = []
-
-        #print("aggregating graph")
-
-        #Aggregate the graph WITH or WITHOUT weights (on real data I checked, give better results without weights due to some very stronger weights between a small subset of nodes)
-        s_graph_current_granularity = dyn_graph.aggregate_sliding_window(t_start=start_time, bin_size=current_granularity,weighted=weighted_aggregation)
-        all_graphs[current_granularity]=s_graph_current_granularity
-
-        #print("computing communities")
-
-        dyn_coms = iterative_match(s_graph_current_granularity)#,CDalgo=infomap_communities)
-        for t,g in s_graph_current_granularity.snapshots().items():
-            interesting_connected_com = nx.connected_components(g)
-            interesting_connected_com = [x for x in interesting_connected_com if len(x)>=3]
-            for c in interesting_connected_com:
-                dyn_coms.add_community(t,c)
-        all_coms[current_granularity] = dyn_coms
-
-        #print("computing quality for each com")
-
-        for t,coms in all_coms[current_granularity].snapshots.items():
-            current_graph = s_graph_current_granularity.snapshots(t)
-            for cID,nodes in coms.items():
-                quality = good_community(nodes,current_graph)
-                seeds.append((t,cID,frozenset(nodes),quality,current_granularity)) ##structure of items in coms_and_qualities:  (t,cID,frozenset(nodes),quality,granularity)
-
-        seeds.sort(key=lambda x: x[3],reverse=True)
+    return all_scales
 
 
-        #print("#nb seeds total",len(seeds))
-        seeds = [c for c in seeds if c[3]>=t_quality]
-        nb_good_seeds = len(seeds)
-        #print("--",seeds)
+def _seed_discovery(pre_computed_snapshots, current_granularity, CD, QC, t_quality):
 
+    seeds = []
 
-        #filter out similar communities (same nodes in same period)
-        for nodes,period,gran,score in persistant_coms: #for each already save community
-             # keep in the list of seeds those that are in a different period or that are sufficiently different, compared with the current one
-             #seeds = [c for c in seeds if not period.contains_t(c[0]) or similarity(c[2],current_com[2])<t_no_overlap]
-            seeds = [c for c in seeds if not seed_contained_in_persistent_com(nodes, c[2], c[0], period, similarity=similarity,
-                                                                              t_similarity=t_similarity)]
+    #compute communities at each step
+    dyn_coms = iterative_match(pre_computed_snapshots, CDalgo=CD)  # ,CDalgo=infomap_communities)
 
-        while len(seeds)>0:
+    #We add connected components, avoid degenerated results because of louvain who always split in communities,
+    #even when there is an obvious community
+    for t, g in pre_computed_snapshots.snapshots().items():
+        interesting_connected_com = nx.connected_components(g)
+        interesting_connected_com = [x for x in interesting_connected_com if len(x) >= 3]
+        for c in interesting_connected_com:
+            dyn_coms.add_community(t, c)
 
-            current_com = seeds.pop(0)
-            this_seed_nodes = current_com[2]
-            #if interesting_node in this_seed_nodes:
-             #   print("com tested ",this_seed_nodes)
+    # computing quality for each com
+    for t, coms in dyn_coms.snapshots.items():
+        current_graph = pre_computed_snapshots.snapshots(t)
+        for cID, nodes in coms.items():
+            quality = QC(nodes, current_graph)
+            seeds.append((t, cID, frozenset(nodes), quality,
+                          current_granularity))  ##structure of items in coms_and_qualities:  (t,cID,frozenset(nodes),quality,granularity)
 
-            #Find recursively snapshots in which this community still makes sense
-            similars=[]
+    seeds.sort(key=lambda x: x[3], reverse=True)
 
-            similars += _track_one_community(this_seed_nodes, current_com[0], s_graph_current_granularity,score=good_community,t_quality=t_quality,backward=True)
-            similars +=[(current_com[0],current_com[3])]
-            similars += _track_one_community(this_seed_nodes,current_com[0],s_graph_current_granularity,score=good_community,t_quality=t_quality)
-            #if interesting_node in this_seed_nodes:
-            #    print("similars found", similars)
-            #If the duration of the com is long enough, keep the community
-            if len(similars)>=t_persistance:
-                similars = [similars]  #for genericity, we want to be able to deal with non-continuous intervals
-                inter_presence = tn.Intervals([(sim[0][0],sim[-1][0]+current_granularity) for sim in similars])
+    return seeds
 
-                #check that a similar community has not already been found
-                redundant = False
-                for nodes,period,gran,score in persistant_coms:
+def _seed_pruning(S, CSS, t_similarity, C):
+    for nodes, period, gran, score in C:  # for each already save community
+        # keep in the list of seeds those that are in a different period or that are sufficiently different, compared with the current one
+        S = [s for s in S if
+                 not seed_contained_in_persistent_com(nodes, s[2], s[0], period, similarity=CSS,
+                                                      t_similarity=t_similarity)]
+    return S
 
-                    #if the communities are similar and one of them has at least half of its duration included in the other
-                    if similarity(this_seed_nodes,nodes)>t_similarity and inter_presence.intersection(period).duration()>0.5*min([inter_presence.duration(), period.duration()]):
-                        redundant = True
-                        break
+def seed_expansion(seed,granularity,t_quality,t_persistance,t_similarity,QC,CSS,pre_computed_snapshots,C):
+    # Find recursively snapshots in which this community still makes sense
+    similars = []
+    this_seed_nodes = seed[2]
 
-                if not redundant:
-                    #persistant_coms[current_com]=(inter_presence,sum([x[1] for x in similars]))
-                    sum_quality = 0
-                    for stable in similars:
-                        sum_quality+= sum([1 - (x[1]) for x in stable])
+    similars += _track_one_community(this_seed_nodes, seed[0], pre_computed_snapshots, score=QC,
+                                     t_quality=t_quality, backward=True)
+    similars += [(seed[0], seed[3])]
+    similars += _track_one_community(this_seed_nodes, seed[0], pre_computed_snapshots, score=QC,
+                                     t_quality=t_quality)
 
-                    persistant_coms.append((this_seed_nodes,inter_presence,current_granularity,sum_quality))
+    #if the community is stable, i.e., makes sense more than t_persistance steps
+    if len(similars) >= t_persistance:
+        similars = [similars]  # for genericity, we want to be able to deal with non-continuous intervals
+        inter_presence = tn.Intervals([(sim[0][0], sim[-1][0] + granularity) for sim in similars])
 
-                    #keep in the list of seeds those that are in a different period or that are sufficiently different, compared with the current one
-                    seeds = [c for c in seeds if not seed_contained_in_persistent_com(this_seed_nodes, c[2], c[0], inter_presence, similarity,
-                                                                                      t_similarity)]
+        # check that a similar community has not already been found
+        redundant = False
+        for nodes, period, gran, score in C:
 
-        print("------- granularity (gamma): ", current_granularity," | ","# good seeds: ",nb_good_seeds,"# persistent communities found (total): ",len(persistant_coms))
+            # if the communities are similar and one of them has at least half of its duration included in the other
+            if CSS(this_seed_nodes, nodes) > t_similarity and inter_presence.intersection(
+                    period).duration() > 0.5 * min([inter_presence.duration(), period.duration()]):
+                redundant = True
+                break
 
-    persistant_coms = sorted(persistant_coms,key=lambda x: x[3],reverse=True)
-    return persistant_coms
-    #return (persistant_coms,all_graphs,all_coms)
+        # If community not redundant, we compute its quality and add it to the list of communities
+        if not redundant:
+            sum_quality = 0
+            for stable in similars:
+                sum_quality += sum([1 - (x[1]) for x in stable])
+
+            C.append((this_seed_nodes, inter_presence, granularity, sum_quality))
+

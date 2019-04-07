@@ -17,32 +17,44 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../../',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -133,7 +145,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.set_snapshot.html">tnetwork.DynGraphSN.set_snapshot</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
@@ -192,7 +203,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_snapshot.html">tnetwork.DynCommunitiesSN.set_snapshot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_communities.html">tnetwork.DynCommunitiesSN.set_communities</a></li>
 </ul>
 </li>
@@ -262,6 +272,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.iterative_match.html">tnetwork.iterative_match</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.match_survival_graph.html">tnetwork.match_survival_graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.rollingCPM.html">tnetwork.rollingCPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.track_communities.html">tnetwork.track_communities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.generate_multi_temporal_scale.html">tnetwork.generate_multi_temporal_scale</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/vizu.html">Visualization</a><ul>
@@ -359,14 +371,21 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="o">=</span><span class="n">CommunitiesEvent</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_automaticID</span><span class="o">=</span><span class="mi">1</span>
 
-<div class="viewcode-block" id="DynCommunitiesSN.set_snapshot"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_snapshot.html#tnetwork.DynCommunitiesSN.set_snapshot">[docs]</a>    <span class="k">def</span> <span class="nf">set_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add a snapshot with no snapshot_affiliations at time t</span>
+<span class="sd">        Keep only the selected period</span>
 
-<span class="sd">        :param t: time step</span>
+<span class="sd">        :param start:</span>
+<span class="sd">        :param end:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span></div>
+
+        <span class="n">to_return</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">()</span>
+        <span class="n">interv</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">Intervals</span><span class="p">((</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">interv</span><span class="p">:</span>
+                <span class="n">to_return</span><span class="o">.</span><span class="n">set_communities</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">to_return</span>
+
 
 <div class="viewcode-block" id="DynCommunitiesSN.snapshot_communities"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynCommunitiesSN.snapshot_communities.html#tnetwork.DynCommunitiesSN.snapshot_communities">[docs]</a>    <span class="k">def</span> <span class="nf">snapshot_communities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -527,7 +546,7 @@
                     <span class="n">coms</span><span class="p">[</span><span class="n">cs</span><span class="p">]</span><span class="o">=</span><span class="nb">set</span><span class="p">()</span>
                 <span class="n">coms</span><span class="p">[</span><span class="n">cs</span><span class="p">]</span><span class="o">=</span><span class="n">coms</span><span class="p">[</span><span class="n">cs</span><span class="p">]</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DynCommunitiesSN.set_communities"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_communities.html#tnetwork.DynCommunitiesSN.set_communities">[docs]</a>    <span class="k">def</span> <span class="nf">set_communities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clusters</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<div class="viewcode-block" id="DynCommunitiesSN.set_communities"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_communities.html#tnetwork.DynCommunitiesSN.set_communities">[docs]</a>    <span class="k">def</span> <span class="nf">set_communities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">communities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Affiliate nodes given a dictionary representation</span>
 
@@ -537,7 +556,10 @@
 <span class="sd">        :param clusters: dict or bidict{frozenset of nodes}:id</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">=</span><span class="n">clusters</span></div>
+        <span class="k">if</span> <span class="n">communities</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">=</span><span class="n">communities</span></div>
 
 <div class="viewcode-block" id="DynCommunitiesSN.add_community"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_community.html#tnetwork.DynCommunitiesSN.add_community">[docs]</a>    <span class="k">def</span> <span class="nf">add_community</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -715,10 +737,10 @@
 
 
 
-<div class="viewcode-block" id="DynCommunitiesSN.to_DynCommunitiesIG"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html#tnetwork.DynCommunitiesSN.to_DynCommunitiesIG">[docs]</a>    <span class="k">def</span> <span class="nf">to_DynCommunitiesIG</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sn_duration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">convertTimeToInteger</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="DynCommunitiesSN.to_DynCommunitiesIG"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html#tnetwork.DynCommunitiesSN.to_DynCommunitiesIG">[docs]</a>    <span class="k">def</span> <span class="nf">to_DynCommunitiesIG</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sn_duration</span><span class="p">,</span> <span class="n">convertTimeToInteger</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert to SG snapshot_affiliations</span>
-
+<span class="sd">        :param sn_duration: time of a snapshot, or None for automatic: each snapshot last until start of the next</span>
 <span class="sd">        :param convertTimeToInteger: if True, snapshot_affiliations IDs will be forgottent and replaced by consecutive integers</span>
 <span class="sd">        :return: DynamicCommunitiesIG</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -751,7 +773,7 @@
         <span class="c1">#convert also events</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">!=</span><span class="s2">&quot;continue&quot;</span><span class="p">:</span> <span class="c1">#if snapshot_affiliations have different IDs</span>
-                <span class="n">dynComTN</span><span class="o">.</span><span class="n">addEvent</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">])</span>
+                <span class="n">dynComTN</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">dynComTN</span></div></div>
 </pre></div>
 
@@ -782,36 +804,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../../../',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
