@@ -42,6 +42,11 @@ class DynGraphSN(DynGraph):
 
 
 
+    def start(self):
+        return self.snapshots_timesteps()[0]
+
+    def end(self):
+        return self.snapshots_timesteps()[-1]
 
     @staticmethod
     def graph_socioPatterns2012():
@@ -134,16 +139,16 @@ class DynGraphSN(DynGraph):
 
         self._snapshots[time].remove_node(n)
 
-    def add_interaction(self,u_of_edge,v_of_edge,time):
+    def add_interaction(self,u,v,time):
         """
         Add a single interaction at a single time step.
 
-        :param u_of_edge: first node
-        :param v_of_edge: second node
+        :param u: first node
+        :param v: second node
         :param time: time step identifier
         """
 
-        self.add_interactions_from([(u_of_edge,v_of_edge)],[time])
+        self.add_interactions_from([(u,v)],[time])
 
     def add_interactions_from(self, nodePairs, times):
         """
@@ -170,18 +175,18 @@ class DynGraphSN(DynGraph):
 
 
 
-    def remove_interaction(self,u_of_edge,v_of_edge,time):
+    def remove_interaction(self,u,v,time):
         """
         Remove a single interaction at a single time step.
 
         Note: it does not remove the node
 
-        :param u_of_edge: first node
-        :param v_of_edge: second node
+        :param u: first node
+        :param v: second node
         :param time: time step identifier
         """
 
-        self.remove_interactions_from([(u_of_edge,v_of_edge)],[time])
+        self.remove_interactions_from([(u,v)],[time])
 
     def remove_interactions_from(self, nodePairs, times):
         """
@@ -321,6 +326,7 @@ class DynGraphSN(DynGraph):
     def _combine_weighted_graphs(self,graphList, weight=1.0):
         """
         function to aggregate several graphs into a weighted graph
+
         :param graphList: enumerable of graphs
         :param weight: default weight
         :return:
@@ -338,7 +344,7 @@ class DynGraphSN(DynGraph):
 
             for n, w in n_weights.items():
                 if newG.has_node(n):
-                    newG.node[n]["weight"] += w
+                    newG.nodes[n]["weight"] += w
                 else:
                     newG.add_node(n, weight=w)
 
@@ -371,8 +377,8 @@ class DynGraphSN(DynGraph):
         """
         Keep only the selected period
 
-        :param start:
-        :param end:
+        :param start: time of the beginning of the slice
+        :param end: time of the end of the slice
         """
 
         to_return = tn.DynGraphSN()
@@ -387,6 +393,7 @@ class DynGraphSN(DynGraph):
         Return a new dynamic graph without modifying the original one, aggregated using sliding windows of the desired size. If Shift is not provided or equal to bin_size, windows are non overlapping.
         If no parameter is provided, creates a single graph aggregating the whole period.
         Yielded graphs are weighted (weight: number of apparition of edges during the period)
+
         :param bin_size: desired size of bins, in the internal time unit (not necessarily equals to the number of snapshot_affiliations)
         :param shift: time distance (shift) between the start of two successive bins, in the internal time unit (not necessarily number of sn)
         :param t_start: time step to start the binning (default: first)
@@ -489,7 +496,10 @@ class DynGraphSN(DynGraph):
 
     def snapshots(self, t=None):
         """
-        Return snapshot_affiliations as a sorted dictionary, key: the time information, value: a networkx graph. If t is provided, return graph at that particular time
+        Return all snapshot or a particular one
+        Default: return a  sorted dictionary, key: the time information, value: a networkx graph.
+        If t is provided, return graph at that particular time
+
         :param t: the time of the snapshot to return
         :return:
         """
@@ -569,3 +579,27 @@ class DynGraphSN(DynGraph):
 
     def full_copy(self):
         return deepcopy(self)
+
+
+    def normalize_to_integers(self,nodes_start_at=1,time_start_at=1):
+        """
+        Transform time IDs and nodes to Integer
+
+
+        :return: a new dynamic graph object, a dictionary of nodes {originalID:newID} and a dictionary of times {originalID:newID}
+        """
+        all_nodes = set()
+        to_return = tn.DynGraphSN()
+        for g in self.snapshots().values():
+            all_nodes.update(set(g.nodes))
+        nodes_dict = {v: (i+nodes_start_at) for i, v in enumerate(all_nodes)}
+        print(nodes_dict)
+
+        for i,g in enumerate(self.snapshots().values()):
+            to_return.add_snapshot(i+time_start_at,nx.relabel_nodes(g, nodes_dict))
+
+        times = list(self.snapshots().keys())
+        time_dict = {i+time_start_at:times[i] for i in range(len(times))}
+        nodes_dict_inv = {v:k for k,v in nodes_dict.items()}
+
+        return to_return,nodes_dict_inv,time_dict

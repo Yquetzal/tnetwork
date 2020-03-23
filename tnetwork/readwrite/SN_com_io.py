@@ -28,6 +28,23 @@ def _read_static_coms_by_node(inputFile, separator="\t"):
 
     return toReturn
 
+def _read_stable_coms_PAF_format(inputFile):
+    """
+    blabla
+    """
+    dyn_coms = tn.DynCommunitiesSN()
+    f = open(inputFile)
+    i=0
+    for line in f:
+        parts = line.split(" ")
+        timestamps = parts[0].split(",")
+        timestamps = [int(x) for x in timestamps]
+        nodes = parts[1].split(",")
+        nodes = set(nodes)
+        dyn_coms.add_affiliation(nodes,i,timestamps)
+        i+=1
+    return dyn_coms
+
 
 
 def read_SN_by_com(inputDir, sn_id_transformer=None, **kwargs):

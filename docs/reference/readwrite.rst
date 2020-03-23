@@ -13,7 +13,8 @@ Simple example
     sn = tn.read_snapshots("file_to_Read")
     tn.write_snapshots(sn,"file_to_write")
 
-.. automodule:: tnetwork.readwrite
+.. currentmodule:: tnetwork
+
 
 --------------------------
 Read/Write graphs

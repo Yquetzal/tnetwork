@@ -3,7 +3,7 @@ class DynGraph():
     def node_presence(self, nbunch=None):
         raise NotImplementedError("Not implemented")
 
-    def add_interaction(self,u_of_edge,v_of_edge,time):
+    def add_interaction(self,u,v,time):
         raise NotImplementedError("Not implemented")
 
     def add_interactions_from(self, nodePairs, times):
@@ -21,11 +21,20 @@ class DynGraph():
     def graph_at_time(self,t):
         raise NotImplementedError("Not implemented")
 
-    def remove_interaction(self,u_of_edge,v_of_edge,time):
+    def remove_interaction(self,u,v,time):
         raise NotImplementedError("Not implemented")
 
-    def remove_interactions_from(self, nodePairs, periods):
+    def remove_interactions_from(self, nodePairs, times):
         raise NotImplementedError("Not implemented")
 
     def cumulated_graph(self,times=None):
+        raise NotImplementedError("Not implemented")
+
+    def slice(self,start, end):
+        raise NotImplementedError("Not implemented")
+
+    def start(self):
+        raise NotImplementedError("Not implemented")
+
+    def end(self):
         raise NotImplementedError("Not implemented")

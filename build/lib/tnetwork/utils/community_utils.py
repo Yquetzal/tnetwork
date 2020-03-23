@@ -1,8 +1,7 @@
 from tnetwork.utils.read_write import write_list_of_list
 import pandas as pd
 import pkg_resources
-import os
-
+import numbers
 
 def nodesets2affiliations(communities):
     """
@@ -26,7 +25,7 @@ def affiliations2nodesets(communities):
     """
     Transform community format to "nodesets"
 
-    Representation expected in input: dictionary, key=node, value=list/set of snapshot_affiliations ID
+    Representation expected in input: dictionary, key=node, value=list/set of communities ID
     Representation in output: bidict, key=community ID , value=set of nodes
 
     :param partition:
@@ -42,7 +41,7 @@ def affiliations2nodesets(communities):
         return asNodeSets
 
     for n, coms in communities.items():
-        if isinstance(coms,str) or isinstance(coms,int):
+        if isinstance(coms,str) or isinstance(coms,numbers.Number):
             coms=[coms]
         for c in coms:
             asNodeSets.setdefault(c, set())

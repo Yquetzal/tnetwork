@@ -140,7 +140,7 @@ class Community(_AbstractStructure):
         return chosenEdges
 
     def __repr__(self):
-        return "(" + self.name() + ":n=" + str(len(self._nodes)) + ",m=" + str(len(self._intern_edges())) + ")"
+        return "(" + self.name() + ":n=" + str(len(self._nodes)) + ",m=" + str(len(self._intern_edges())) + ")"#+str(id(self))
 
 
     def __str__(self):
@@ -324,11 +324,10 @@ class _Operation(_AbstractStructure):
 
 
 
-    def _intern_edges(self, variant="ignored"):
+    def _intern_edges(self):
         """
              Return edges present inside the structure. If the structure is an ongoing operation, also increment in the ongoing process by adding/removing an edge,
              i.e. the next call to this function will give a different result.
-             :param variant: used to chose how edges are drawn. Currently, only "deterministic" is fully supported, (see article)
              :return: [frozenset((str,str))]
              """
 

@@ -1,4 +1,6 @@
-function [S,Q] = genlouvain(B,limit,verbose,randord,randmove,S0)
+function [S,Q] = genlouvain(B_file,result_file,limit,verbose,randord,randmove,S0)
+    load(B_file)
+
 %GENLOUVAIN  Louvain-like community detection, specified quality function.
 %
 % Version: 2.1.1
@@ -158,7 +160,7 @@ function [S,Q] = genlouvain(B,limit,verbose,randord,randmove,S0)
 %   See also iterated_genlouvain HelperFunctions
 
 %set default for maximum size of modularity matrix
-if nargin<2||isempty(limit)
+if nargin<3||isempty(limit)
     limit = 10000;
 end
 
@@ -351,6 +353,9 @@ while ~isequal(Sb,S2) %loop around each "pass" (in language of Blondel et al) wi
         Q=full(sum(sum((P*M).*P)));
         clear('group_handler');
         clear('metanetwork_reduce');
+
+        save(result_file,'S')
+
         return
     end
     
@@ -358,6 +363,9 @@ while ~isequal(Sb,S2) %loop around each "pass" (in language of Blondel et al) wi
     y = unique(S2);  %unique also puts elements in ascending order
 end
 
+mydisp('here')
+mydisp(S)
+save(result_file,'S')
 end
 
 %-----%

@@ -1,0 +1,629 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Dynamic Network Classes &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="tnetwork.DynGraphSN.add_node_presence" href="generated/tnetwork.DynGraphSN.add_node_presence.html" />
+    <link rel="prev" title="tnetwork.write_IGC" href="iof/tnetwork.write_IGC.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#who-uses-tnetwork">Who uses tnetwork?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#free-software">Free software</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installing.html#quick-install">Quick install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installing.html#installing-from-source">Installing from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installing.html#github">GitHub</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../installing.html#requirements">Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installing.html#python">Python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dyn_communities.html">Dynamic Communities Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dyn_communities.html#sequences-of-snapshots-snapshot-communities">Sequences of snapshots snapshot_communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.set_communities.html">tnetwork.DynCommunitiesSN.set_communities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dyn_communities.html#accessing-snapshot-affiliations">Accessing snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.affiliations.html">tnetwork.DynCommunitiesSN.affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.communities.html">tnetwork.DynCommunitiesSN.communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.snapshot_affiliations.html">tnetwork.DynCommunitiesSN.snapshot_affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.snapshot_communities.html">tnetwork.DynCommunitiesSN.snapshot_communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.affiliations_durations.html">tnetwork.DynCommunitiesSN.affiliations_durations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dyn_communities.html#converting">Converting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html">tnetwork.DynCommunitiesSN.to_DynCommunitiesIG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dyn_communities.html#interval-graph-snapshot-communities">Interval graph snapshot_communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dyn_communities.html#id1">Adding and removing snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.add_affiliation.html">tnetwork.DynCommunitiesIG.add_affiliation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.add_affiliations_from.html">tnetwork.DynCommunitiesIG.add_affiliations_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.remove_affiliation.html">tnetwork.DynCommunitiesIG.remove_affiliation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dyn_communities.html#id2">Accessing snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.affiliations.html">tnetwork.DynCommunitiesIG.affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.communities.html">tnetwork.DynCommunitiesIG.communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.affiliations_durations.html">tnetwork.DynCommunitiesIG.affiliations_durations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dyn_communities.html#other-functions">Other functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.nodes_main_com.html">tnetwork.DynCommunitiesIG.nodes_main_com</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.nodes_natural_order.html">tnetwork.DynCommunitiesIG.nodes_natural_order</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynCommunitiesIG.nodes_ordered_by_com.html">tnetwork.DynCommunitiesIG.nodes_ordered_by_com</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readwrite.html">Read/Write</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readwrite.html#simple-example">Simple example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readwrite.html#read-write-graphs">Read/Write graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="readwrite.html#read-write-snapshot-graphs">Read/Write snapshot graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.write_snapshots.html">tnetwork.write_snapshots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.read_snapshots.html">tnetwork.read_snapshots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.read_graph_link_stream.html">tnetwork.read_graph_link_stream</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="readwrite.html#read-write-interval-graphs">Read/Write interval graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.write_IG.html">tnetwork.write_IG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.write_ordered_changes.html">tnetwork.write_ordered_changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.read_IG.html">tnetwork.read_IG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="readwrite.html#read-write-communities">Read/Write Communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="readwrite.html#read-write-snapshot-snapshot-affiliations">Read/Write snapshot snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.write_com_SN.html">tnetwork.write_com_SN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.read_SN_by_com.html">tnetwork.read_SN_by_com</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="readwrite.html#read-write-interval-graph-snapshot-affiliations">Read/Write interval graph snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.write_IGC.html">tnetwork.write_IGC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Dynamic Network Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sequences-of-snapshots">Sequences of snapshots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adding-and-removing-nodes-and-edges">Adding and removing nodes and edges</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_node_presence.html">tnetwork.DynGraphSN.add_node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_nodes_presence_from.html">tnetwork.DynGraphSN.add_nodes_presence_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_interaction.html">tnetwork.DynGraphSN.add_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_interactions_from.html">tnetwork.DynGraphSN.add_interactions_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#accessing-the-graph">Accessing the graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.node_presence.html">tnetwork.DynGraphSN.node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.graph_at_time.html">tnetwork.DynGraphSN.graph_at_time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.snapshots_timesteps.html">tnetwork.DynGraphSN.snapshots_timesteps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.last_snapshot.html">tnetwork.DynGraphSN.last_snapshot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#conversion-to-different-formats">Conversion to different formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.to_DynGraphIG.html">tnetwork.DynGraphSN.to_DynGraphIG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.to_tensor.html">tnetwork.DynGraphSN.to_tensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#aggregation">Aggregation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.cumulated_graph.html">tnetwork.DynGraphSN.cumulated_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.aggregate_sliding_window.html">tnetwork.DynGraphSN.aggregate_sliding_window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.aggregate_time_period.html">tnetwork.DynGraphSN.aggregate_time_period</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#other-graph-operations">Other graph operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphSN.apply_nx_function.html">tnetwork.DynGraphSN.apply_nx_function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#interval-graphs">Interval graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Adding and removing nodes and edges</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.add_node_presence.html">tnetwork.DynGraphIG.add_node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.add_nodes_presence_from.html">tnetwork.DynGraphIG.add_nodes_presence_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.add_interaction.html">tnetwork.DynGraphIG.add_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.add_interactions_from.html">tnetwork.DynGraphIG.add_interactions_from</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Accessing the graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.node_presence.html">tnetwork.DynGraphIG.node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.graph_at_time.html">tnetwork.DynGraphIG.graph_at_time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.interactions.html">tnetwork.DynGraphIG.interactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.change_times.html">tnetwork.DynGraphIG.change_times</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Conversion to different formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.to_DynGraphSN.html">tnetwork.DynGraphIG.to_DynGraphSN</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Aggregation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DynGraphIG.cumulated_graph.html">tnetwork.DynGraphIG.cumulated_graph</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Intervals.html">Intervals Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Intervals.html#adding-and-removing-intervals">Adding and removing intervals</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.__init__.html">tnetwork.utils.Intervals.__init__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.add_interval.html">tnetwork.utils.Intervals.add_interval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.__add__.html">tnetwork.utils.Intervals.__add__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.__sub__.html">tnetwork.utils.Intervals.__sub__</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Intervals.html#accessing-intervals-properties">Accessing Intervals properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.contains_t.html">tnetwork.utils.Intervals.contains_t</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.contains.html">tnetwork.utils.Intervals.contains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.__contains__.html">tnetwork.utils.Intervals.__contains__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.periods.html">tnetwork.utils.Intervals.periods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.duration.html">tnetwork.utils.Intervals.duration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.start.html">tnetwork.utils.Intervals.start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.end.html">tnetwork.utils.Intervals.end</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Intervals.html#operations">Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.intersection.html">tnetwork.utils.Intervals.intersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.union.html">tnetwork.utils.Intervals.union</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.utils.Intervals.__eq__.html">tnetwork.utils.Intervals.__eq__</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="DCD.html">Dynamic Community Detection</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.iterative_match.html">tnetwork.iterative_match</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.match_survival_graph.html">tnetwork.match_survival_graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.rollingCPM.html">tnetwork.rollingCPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.track_communities.html">tnetwork.track_communities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.generate_multi_temporal_scale.html">tnetwork.generate_multi_temporal_scale</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vizu.html">Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.plot_as_graph.html">tnetwork.plot_as_graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.plot_longitudinal.html">tnetwork.plot_longitudinal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.plot_longitudinal_sn_clusters.html">tnetwork.plot_longitudinal_sn_clusters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="generation.html">Visualization</a><ul class="simple">
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Dynamic Network Classes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/reference/dyn_graph.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="dynamic-network-classes">
+<h1>Dynamic Network Classes<a class="headerlink" href="#dynamic-network-classes" title="Permalink to this headline">¶</a></h1>
+<p>A simple demo of usage can be found <a class="reference external" href="https://colab.research.google.com/github/Yquetzal/tnetwork/blob/master/Network_Graph_classes.ipynb">here</a>.</p>
+<p>Dynamic graphs can be represented as:</p>
+<ul class="simple">
+<li>Sequences of snapshot_affiliations</li>
+<li>Interval Graphs</li>
+<li>Link streams (Not implemented yet)</li>
+</ul>
+<p>Each representation has strengths and weaknesses. The representation to use depends on</p>
+<ol class="arabic simple">
+<li>Algorithms we wish to use and</li>
+<li>properties of the network to represent.</li>
+</ol>
+<div class="section" id="sequences-of-snapshots">
+<h2>Sequences of snapshots<a class="headerlink" href="#sequences-of-snapshots" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="tnetwork.DynGraphSN">
+<em class="property">class </em><code class="descclassname">tnetwork.</code><code class="descname">DynGraphSN</code><span class="sig-paren">(</span><em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tnetwork/dyn_graph/dyn_graph_sn.html#DynGraphSN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DynGraphSN" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class to represent dynamic graphs as snapshot sequence.</p>
+<p>Each snapshot is represented as a networkx graph, and is associated to a time step identifier. The time step can be
+an position in the sequence (1,2,3,…) or an arbitrary temporal indicator (year, timestamp…).</p>
+<p>Snpashots are ordered according to their time step identifier using a sorted dictionary (SortedDict).</p>
+</dd></dl>
+
+<p>Examples</p>
+<div class="section" id="adding-and-removing-nodes-and-edges">
+<h3>Adding and removing nodes and edges<a class="headerlink" href="#adding-and-removing-nodes-and-edges" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_node_presence.html#tnetwork.DynGraphSN.add_node_presence" title="tnetwork.DynGraphSN.add_node_presence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.add_node_presence</span></code></a>(n,&nbsp;time)</td>
+<td>Add presence for a node at a time</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_nodes_presence_from.html#tnetwork.DynGraphSN.add_nodes_presence_from" title="tnetwork.DynGraphSN.add_nodes_presence_from"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.add_nodes_presence_from</span></code></a>(nodes,&nbsp;times)</td>
+<td>Add interactions between nodes for times</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_interaction.html#tnetwork.DynGraphSN.add_interaction" title="tnetwork.DynGraphSN.add_interaction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.add_interaction</span></code></a>(u,&nbsp;v,&nbsp;time)</td>
+<td>Add a single interaction at a single time step.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.add_interactions_from.html#tnetwork.DynGraphSN.add_interactions_from" title="tnetwork.DynGraphSN.add_interactions_from"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.add_interactions_from</span></code></a>(nodePairs,&nbsp;…)</td>
+<td>Add interactions between the provided node pairs for the provided times.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.remove_node_presence.html#tnetwork.DynGraphSN.remove_node_presence" title="tnetwork.DynGraphSN.remove_node_presence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.remove_node_presence</span></code></a>(n,&nbsp;time)</td>
+<td>Remove presence for a node at a time</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.remove_interaction.html#tnetwork.DynGraphSN.remove_interaction" title="tnetwork.DynGraphSN.remove_interaction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.remove_interaction</span></code></a>(u,&nbsp;v,&nbsp;time)</td>
+<td>Remove a single interaction at a single time step.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.remove_interactions_from.html#tnetwork.DynGraphSN.remove_interactions_from" title="tnetwork.DynGraphSN.remove_interactions_from"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.remove_interactions_from</span></code></a>(…)</td>
+<td>Remove interactions between the provided node pairs for the provided times.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="accessing-the-graph">
+<h3>Accessing the graph<a class="headerlink" href="#accessing-the-graph" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.node_presence.html#tnetwork.DynGraphSN.node_presence" title="tnetwork.DynGraphSN.node_presence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.node_presence</span></code></a>([nodes])</td>
+<td>Presence time of nodes</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.graph_at_time.html#tnetwork.DynGraphSN.graph_at_time" title="tnetwork.DynGraphSN.graph_at_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.graph_at_time</span></code></a>(t)</td>
+<td>return the graph as it is at time t</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.snapshots_timesteps.html#tnetwork.DynGraphSN.snapshots_timesteps" title="tnetwork.DynGraphSN.snapshots_timesteps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.snapshots_timesteps</span></code></a>()</td>
+<td>return the list of time steps</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.last_snapshot.html#tnetwork.DynGraphSN.last_snapshot" title="tnetwork.DynGraphSN.last_snapshot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.last_snapshot</span></code></a>()</td>
+<td>Return the last snapshot</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="conversion-to-different-formats">
+<h3>Conversion to different formats<a class="headerlink" href="#conversion-to-different-formats" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.to_DynGraphIG.html#tnetwork.DynGraphSN.to_DynGraphIG" title="tnetwork.DynGraphSN.to_DynGraphIG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.to_DynGraphIG</span></code></a>(sn_duration[,&nbsp;…])</td>
+<td>Convert the graph into a DynGraph_IG.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.to_tensor.html#tnetwork.DynGraphSN.to_tensor" title="tnetwork.DynGraphSN.to_tensor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.to_tensor</span></code></a>([always_all_nodes])</td>
+<td>Compute the list of matrices corresponding to each graph, with nodes ordered in a same order And the dic of nodes corresponding adn the list for each sn of nodes :always_all_nodes: if True, even if a note is not active during a snapshot, it is included in the matrix :return: 3 elements:(A,B,C) A: list of numpy matrices, B: a bidictionary {node name:node order in the matrix}, C: active node at each step, as a list of list of nodes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="aggregation">
+<h3>Aggregation<a class="headerlink" href="#aggregation" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.cumulated_graph.html#tnetwork.DynGraphSN.cumulated_graph" title="tnetwork.DynGraphSN.cumulated_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.cumulated_graph</span></code></a>([times])</td>
+<td>Compute the cumulated graph.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.aggregate_sliding_window.html#tnetwork.DynGraphSN.aggregate_sliding_window" title="tnetwork.DynGraphSN.aggregate_sliding_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.aggregate_sliding_window</span></code></a>([…])</td>
+<td>Return a new dynamic graph without modifying the original one, aggregated using sliding windows of the desired size.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.aggregate_time_period.html#tnetwork.DynGraphSN.aggregate_time_period" title="tnetwork.DynGraphSN.aggregate_time_period"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.aggregate_time_period</span></code></a>(period[,&nbsp;…])</td>
+<td>Aggregate graph by time period (day, year, …)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="other-graph-operations">
+<h3>Other graph operations<a class="headerlink" href="#other-graph-operations" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphSN.apply_nx_function.html#tnetwork.DynGraphSN.apply_nx_function" title="tnetwork.DynGraphSN.apply_nx_function"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphSN.apply_nx_function</span></code></a>(function[,&nbsp;…])</td>
+<td>Apply a networkx function to each snapshot and return the list of result.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="interval-graphs">
+<h2>Interval graphs<a class="headerlink" href="#interval-graphs" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="tnetwork.DynGraphIG">
+<em class="property">class </em><code class="descclassname">tnetwork.</code><code class="descname">DynGraphIG</code><span class="sig-paren">(</span><em>start=None</em>, <em>end=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tnetwork/dyn_graph/dyn_graph_ig.html#DynGraphIG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DynGraphIG" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>A class to represent dynamic graphs as interval graphs.</div></blockquote>
+<p>It is represented using a networkx Graph, using an attribute (“t”) for each node and each edge representing
+its periods of presence. The representation is done using the class Intervals (tnetwork.utils.intervals)
+Time steps are represented by integers, that can correspond to an arbitrary scale (1,2,3,…) or to timestamps in
+order to represent dates.</p>
+</dd></dl>
+
+<p>Examples</p>
+<div class="section" id="id1">
+<h3>Adding and removing nodes and edges<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphIG.add_node_presence.html#tnetwork.DynGraphIG.add_node_presence" title="tnetwork.DynGraphIG.add_node_presence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphIG.add_node_presence</span></code></a>(n,&nbsp;time)</td>
+<td>Add presence for a node for a period</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynGraphIG.add_nodes_presence_from.html#tnetwork.DynGraphIG.add_nodes_presence_from" title="tnetwork.DynGraphIG.add_nodes_presence_from"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphIG.add_nodes_presence_from</span></code></a>(nodes,&nbsp;times)</td>
+<td>Add interactions between provided pairs for the provided periods</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphIG.add_interaction.html#tnetwork.DynGraphIG.add_interaction" title="tnetwork.DynGraphIG.add_interaction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphIG.add_interaction</span></code></a>(u,&nbsp;v,&nbsp;time)</td>
+<td>Add an interaction between nodes u and v at time time</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynGraphIG.add_interactions_from.html#tnetwork.DynGraphIG.add_interactions_from" title="tnetwork.DynGraphIG.add_interactions_from"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphIG.add_interactions_from</span></code></a>(nodePairs,&nbsp;…)</td>
+<td>Add interactions between provided pairs for the provided periods</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id2">
+<h3>Accessing the graph<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphIG.node_presence.html#tnetwork.DynGraphIG.node_presence" title="tnetwork.DynGraphIG.node_presence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphIG.node_presence</span></code></a>([nodes])</td>
+<td>Presence period of nodes</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynGraphIG.graph_at_time.html#tnetwork.DynGraphIG.graph_at_time" title="tnetwork.DynGraphIG.graph_at_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphIG.graph_at_time</span></code></a>(t)</td>
+<td>Graph as it is at time t</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphIG.interactions.html#tnetwork.DynGraphIG.interactions" title="tnetwork.DynGraphIG.interactions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphIG.interactions</span></code></a>([edges])</td>
+<td>Return the periods of interactions for each pair of nodes with at least an interaction</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DynGraphIG.change_times.html#tnetwork.DynGraphIG.change_times" title="tnetwork.DynGraphIG.change_times"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphIG.change_times</span></code></a>()</td>
+<td>List of all times with a node/edge change</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id3">
+<h3>Conversion to different formats<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphIG.to_DynGraphSN.html#tnetwork.DynGraphIG.to_DynGraphSN" title="tnetwork.DynGraphIG.to_DynGraphSN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphIG.to_DynGraphSN</span></code></a>([slices])</td>
+<td>Convert to a snapshot representation.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id4">
+<h3>Aggregation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DynGraphIG.cumulated_graph.html#tnetwork.DynGraphIG.cumulated_graph" title="tnetwork.DynGraphIG.cumulated_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynGraphIG.cumulated_graph</span></code></a>([times])</td>
+<td>Compute the cumulated graph.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="generated/tnetwork.DynGraphSN.add_node_presence.html" class="btn btn-neutral float-right" title="tnetwork.DynGraphSN.add_node_presence" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="iof/tnetwork.write_IGC.html" class="btn btn-neutral float-left" title="tnetwork.write_IGC" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

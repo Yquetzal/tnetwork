@@ -42,10 +42,6 @@ Clone the tnetwork repostitory (see GitHub_ for options)
 
     git clone https://github.com/Yquetzal/tnetwork.git
 
-Change directory to NClib
-
-Run python setup.py install to build and install
-
 ============
 Requirements
 ============
@@ -54,10 +50,6 @@ Python
 ------
 
 To use tnetwork you need Python 3.6 or later.
-
-The easiest way to get Python and most optional packages is to install the Enthought Python distribution “Canopy” or using Anaconda.
-
-There are several other distributions that contain the key packages you need for scientific computing. 
 
 
 .. _pypl: https://pypi.python.org/pypi/tnetwork/

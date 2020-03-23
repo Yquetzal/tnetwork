@@ -1,6 +1,6 @@
 import networkx as nx
-from tnetwork.utils.community_utils import jaccard
 from tnetwork.DCD.computing_coms_by_sn import *
+import time
 
 
 def _match_communities_according_to_com(dynComSN, matchesGraph):
@@ -51,7 +51,7 @@ def _build_matches_graph(partitions, match_function, threshold=0.3):
 
     return graph
 
-def match_survival_graph(dynNetSN, CDalgo="louvain", match_function=jaccard, threshold=0.3):
+def match_survival_graph(dynNetSN, CDalgo="louvain", match_function=jaccard, threshold=0.3,elapsed_time=False):
     """
     Community detection by survival graph matching
 
@@ -69,6 +69,9 @@ def match_survival_graph(dynNetSN, CDalgo="louvain", match_function=jaccard, thr
     :param threshold: a threshold for match_function below which snapshot_communities are not matched
     :return: DynCommunitiesSN
     """
+    print("starting survival graph method ")
+
+    start = time.time()
     if CDalgo == "smoothedLouvain":
         dynPartitions = smoothed_louvain(dynNetSN)
     elif CDalgo == "louvain":
@@ -81,6 +84,13 @@ def match_survival_graph(dynNetSN, CDalgo="louvain", match_function=jaccard, thr
     _match_communities_according_to_com(dynPartitions, matchesGraph)
 
     dynPartitions.create_standard_event_graph()
+
+    duration = time.time()-start
+
+    if elapsed_time:
+        return dynPartitions,{"total":duration}
+
+    print("end of survival graph method ")
 
     return dynPartitions
 

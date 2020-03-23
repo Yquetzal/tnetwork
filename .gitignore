@@ -1,4 +1,11 @@
 
 .DS_Store
 .idea
-*.pyc
+.ipynb_checkpoints
+task_delta_0.05
+test_dynamo
+tnetwork/DCD/externals/temp
+tnetwork/DCD/pure_python/estrangement_master
+toremove
+saved
+old_notebooks

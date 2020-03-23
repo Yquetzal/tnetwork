@@ -7,7 +7,13 @@ from tnetwork.visualization.palette import myPalette
 import pandas as pd
 from datetime import datetime, timedelta
 import tnetwork as tn
-import copy
+
+import matplotlib.pyplot as plt
+from matplotlib.collections import PatchCollection
+from matplotlib.patches import Rectangle
+from matplotlib.dates import AutoDateFormatter, AutoDateLocator, date2num
+
+import math
 
 def _ig_graph2CDS(dynamic_net:tn.DynGraphIG, coms:tn.DynCommunitiesIG=None, to_datetime=False):
 
@@ -28,13 +34,16 @@ def _ig_graph2CDS(dynamic_net:tn.DynGraphIG, coms:tn.DynCommunitiesIG=None, to_d
 
 
     # pick a color for each community
-    allComs = list(set(data["com"]))
+    allComs = sorted(list(set(data["com"])))
+    if "no" in allComs:
+        allComs.remove("no")
     colorMap = {}
+    colorMap["no"] = "gainsboro"
     for i, c in enumerate(allComs):
-        if c=="no":
-            colorMap[c]="gainsboro"
-        else:
-            colorMap[c] = myPalette[i % 40]
+        #if c=="no":
+        #    colorMap[c]="gainsboro"
+        #else:
+        colorMap[c] = myPalette[i % 40]
     data["color"] = [colorMap[c] for c in data["com"]]
 
     CDS = bokeh.models.ColumnDataSource(data)
@@ -48,7 +57,12 @@ def _ig_graph2CDS(dynamic_net:tn.DynGraphIG, coms:tn.DynCommunitiesIG=None, to_d
 
 
 def _sn_graph2CDS(dynamic_net, coms=None, to_datetime=False,ts=None):
-
+    if coms==None:
+        allComs=["no"]
+    else:
+        allComs = sorted(list(coms.communities().keys()))
+        if "no" in allComs:
+            allComs.remove("no")
     forData = []
     dates = ts
 
@@ -91,13 +105,13 @@ def _sn_graph2CDS(dynamic_net, coms=None, to_datetime=False,ts=None):
 
 
     # pick a color for each community
-    allComs = list(set(data["com"]))
     colorMap = {}
+    colorMap["no"]="gainsboro"
     for i, c in enumerate(allComs):
-        if c=="no":
-            colorMap[c]="gainsboro"
-        else:
-            colorMap[c] = myPalette[i % 40]
+        #if c=="no":
+        #    colorMap[c]="gainsboro"
+        #else:
+        colorMap[c] = myPalette[i % 40]
     data["color"] = [colorMap[c] for c in data["com"]]
 
     CDS = bokeh.models.ColumnDataSource(data)
@@ -109,9 +123,9 @@ def _sn_graph2CDS(dynamic_net, coms=None, to_datetime=False,ts=None):
 
     return CDS
 
-def _unique_positions(dynamic_graph,ts):
+def _unique_positions(dynamic_graph,ts,**kwargs):
     cumulated = dynamic_graph.cumulated_graph(ts)
-    positions = nx.fruchterman_reingold_layout(cumulated)
+    positions = nx.spring_layout(cumulated,**kwargs)
     return(positions)
 
 def _init_net_properties(dynamic_net,CDS,unique_pos,currentT, width, height, to_datetime):
@@ -129,7 +143,7 @@ def _init_net_properties(dynamic_net,CDS,unique_pos,currentT, width, height, to_
 
     tools = [ "reset","pan","wheel_zoom","save",ht ]
 
-    plot = bokeh.plotting.figure(title="Graph Layout", x_range=(-1.1, 1.1), y_range=(-1.1, 1.1),
+    plot = bokeh.plotting.figure(title="t= "+str(currentT), x_range=(-1.1, 1.1), y_range=(-1.1, 1.1),
                        tools=tools, plot_width=width, plot_height=height,active_scroll="wheel_zoom")
     plot.output_backend = "svg"
 
@@ -187,12 +201,67 @@ def _update_net(currentT, graph_plot, dynamic_net):
             end=n2s)
 
 
-def plot_as_graph(dynamic_graph, communities=None, ts=None, slider=False, to_datetime=False, width=800, height=600, auto_show=False):
+# def _plot_as_graph_nx(ts,dynamic_graph,CDS,unique_pos,width,height,to_datetime):
+#     G = nx.grid_2d_graph(1, len(ts))
+#     list_of_figures = []
+#     for i,current_t in enumerate(ts):
+#         #(a_figure, a_graph_plot) = _init_net_properties(dynamic_graph, CDS, unique_pos, current_t, width, height,
+#                                                         #to_datetime)
+#         #list_of_figures.append(a_figure)
+#         plt.subplot(1,len(ts),i+1)
+#         graph = dynamic_graph.graph_at_time(current_t)
+#         colors = CDS["color"]
+#
+#         nx.draw_networkx(graph,pos=unique_pos,node_color=)
+#     return layout
+
+def _plot_as_graph_bokeh(ts,slider,dynamic_graph,CDS,unique_pos,width,height,to_datetime,auto_show):
+    if not slider:
+        list_of_figures = []
+        for current_t in ts:
+            (a_figure, a_graph_plot) = _init_net_properties(dynamic_graph, CDS, unique_pos, current_t, width, height, to_datetime)
+            list_of_figures.append(a_figure)
+        layout = bokeh.layouts.row(list_of_figures)
+
+    else:
+        init_t = ts[0]
+        #slider_Step = min([allTimes[i+1]-allTimes[i] for i in range(0,len(allTimes)-1)])
+        slider_Step = 1
+        slider_object = bokeh.models.Slider(start=0, end=len(ts), value=init_t,
+                                            step=1, title="Plotted_step")#,callback_policy="mouseup")
+
+        (a_figure, a_graph_plot) = _init_net_properties(dynamic_graph, CDS, unique_pos, init_t, width,
+                                                        height, to_datetime)
+
+        def update_graph(a, oldt, newt):
+            _update_net(ts[newt], a_graph_plot, dynamic_graph)
+
+        slider_object.on_change('value', update_graph)
+
+        layout = bokeh.layouts.column(slider_object, a_figure)
+
+
+
+
+    if auto_show:
+       def modify_doc(doc):
+           doc.add_root(layout)
+       bokeh.io.output_notebook()
+       bokeh.io.show(modify_doc)
+    else:
+        bokeh.io.reset_output()
+
+    return layout
+
+def plot_as_graph(dynamic_graph, communities=None, ts=None, width=800, height=600, slider=False, to_datetime=False,auto_show=False, **kwargs):
     """
     Plot to see the static graph at each snapshot
 
     can be row of graphs or an interactive graph with a slider to change snapshot.
-    In all cases, the position of nodes is the same in all snapshots
+    In all cases, the position of nodes is the same in all snapshots.
+
+    The position of nodes is determined using the networkx force directed layout, addition parameters of the function are passed
+    to this functions (e.g., iterations=100, k=2...)
 
     :param dynamic_graph: DynGraphSN
     :param communities: dynamic snapshot_affiliations of the network (can be ignored)
@@ -201,7 +270,6 @@ def plot_as_graph(dynamic_graph, communities=None, ts=None, slider=False, to_dat
     :param to_datetime: one of True/False/function. If True, step IDs are converted to dates using datetime.utcfromtimestamp. If a function, should take a step ID and return a datetime object.
     :param width: width of the figure
     :param height: height of the figure
-    :param auto_show: if True, the plot is directly displayed in a jupyter notebook. In any other setting, should be False, and the graph should be displayed as any bokeh plot, depending on the setting.
     :return: bokeh layout containing slider and plot, or only plot if no slider.
     """
 
@@ -233,63 +301,126 @@ def plot_as_graph(dynamic_graph, communities=None, ts=None, slider=False, to_dat
             temp_coms_sn = tn.DynCommunitiesSN()
             for t in ts:
                 temp_coms_sn.set_communities(t,communities.communities(t))
+            communities = temp_coms_sn
+
         dynamic_graph=temp_graph_sn
-        communities = temp_coms_sn
+
     CDS = _sn_graph2CDS(dynamic_graph, communities, to_datetime, ts=ts)
+    print(CDS)
+
+
+    unique_pos = _unique_positions(dynamic_graph,ts=ts,**kwargs)
+
+    return _plot_as_graph_bokeh(ts,slider,dynamic_graph,CDS,unique_pos,width,height,to_datetime,auto_show)
 
 
 
-    unique_pos = _unique_positions(dynamic_graph,ts=ts)
 
 
 
-    if not slider:
-        list_of_figures = []
-        for current_t in ts:
-            (a_figure, a_graph_plot) = _init_net_properties(dynamic_graph, CDS, unique_pos, current_t, width, height, to_datetime)
-            list_of_figures.append(a_figure)
-        layout = bokeh.layouts.row(list_of_figures)
 
+
+
+
+
+def _plot_longitudinal_pyplot(CDS,nodes,to_datetime,width,height):
+    fig, ax = plt.subplots(1,figsize=(width/100,height/100),dpi=100)
+    periods = []
+
+    node2y = {n:i for i,n in enumerate(nodes)}
+    # Loop over data points; create box from errors at each point
+    x_column = "time"
+
+    max_x = 0
+    min_x = math.inf
+    for i in range(len(CDS.data[x_column])):
+        if CDS.data["node"][i] in nodes:
+            start_x = CDS.data[x_column][i]
+            slot_width = CDS.data["duration"][i]
+            if to_datetime:
+                start_x=date2num(start_x)
+                slot_width = date2num(CDS.data[x_column][i]+slot_width)-start_x
+            max_x=max(max_x,start_x+slot_width)
+            min_x = min(min_x,start_x)
+            rect = Rectangle(( start_x,node2y[CDS.data["node"][i]]), width=slot_width, height=0.9,color=CDS.data["color"][i],edgecolor=None)
+
+            periods.append(rect)
+
+    pc = PatchCollection(periods,match_original=True)
+
+    # Add collection to axes
+    ax.add_collection(pc)
+
+    if to_datetime:
+        locator = AutoDateLocator(minticks=2)
+        formatter = AutoDateFormatter(locator)
+        ax.xaxis.set_major_locator(locator)
+        ax.xaxis.set_major_formatter(formatter)
+
+    ax.set(xlim=(min_x, max_x+(max_x-min_x)/50), ylim=(0, float(len(nodes))))
+
+    if to_datetime:
+        plt.xticks(rotation=50)
+
+    if len(nodes)<=30:
+        plt.yticks(np.arange(0.5,float(len(nodes))+0.5,1.0), nodes)
     else:
-        init_t = ts[0]
-        #slider_Step = min([allTimes[i+1]-allTimes[i] for i in range(0,len(allTimes)-1)])
-        slider_Step = 1
-        slider_object = bokeh.models.Slider(start=0, end=len(ts), value=init_t,
-                                            step=1, title="Plotted_step")#,callback_policy="mouseup")
-
-        (a_figure, a_graph_plot) = _init_net_properties(dynamic_graph, CDS, unique_pos, init_t, width,
-                                                        height, to_datetime)
-
-        def update_graph(a, oldt, newt):
-            _update_net(ts[newt], a_graph_plot, dynamic_graph)
-
-        slider_object.on_change('value', update_graph)
-
-        layout = bokeh.layouts.column(slider_object, a_figure)
+        ax.set_yticklabels([])
 
 
+def _plot_longitudinal_bokeh(CDS,nodes,to_datetime,width,height,auto_show):
+    tools = ["reset", "wheel_zoom", "box_zoom", "pan", "save"]
+    ht = bokeh.models.HoverTool(
+        tooltips=[
+            ("name", "@node"),
+            ("community", "@com"),
+            ("start", "@time"),
+            ("duration", "@duration_display")
+        ])
+    #        <style>
+    #        .bk-tooltip>div:not(:first-child) {display:none;}
+    #    </style>""")
+    # ht.point_policy="follow_mouse"
 
+    x_column = "time_shift"
+    # print(CDS.data["duration"],len(CDS.data["duration"]))
+    # print(CDS.data["time"],len(CDS.data["time"]))
+    # print(CDS.data["time_shift"])
+
+    x_axis_type = "auto"
+    if to_datetime != False:
+        x_axis_type = "datetime"
+        # CDS.data["time_f"] = [to_datetime(x) for x in CDS.data["time_shift"]]
+        # x_column = "time_f"
+        ht.tooltips = ht.tooltips + [("time", "@time{%F %H:%M}")]
+        ht.formatters = {
+            'start': 'datetime'
+        }
+
+    tools.append(ht)
+    longi = bokeh.plotting.figure(plot_width=width, plot_height=height, y_range=nodes, tools=tools,
+                                  x_axis_type=x_axis_type, output_backend="webgl")  # ,active_scroll="wheel_zoom"
+    longi.output_backend = "svg"
+
+    longi.rect(x=x_column, y="node", width="duration", height=0.9, fill_color="color", hover_color="grey", source=CDS,
+               line_color=None, line_width=0)
+    ends = [CDS.data["time"][i] + CDS.data["duration"][i] for i in range(len(CDS.data["duration"]))]
+    # longi.x_range =Range1d(-1,max(ends))
+
+    longi.xgrid.grid_line_color = None
+    longi.ygrid.grid_line_color = None
 
     if auto_show:
         def modify_doc(doc):
-            doc.add_root(layout)
+            doc.add_root(longi)
+
         bokeh.io.output_notebook()
         bokeh.io.show(modify_doc)
     else:
-        return layout
+        bokeh.io.reset_output()
+    return (longi)
 
-
-
-
-
-
-
-
-
-
-
-
-def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_datetime=False, nodes=None,width=800,height=600,auto_show=False):
+def plot_longitudinal(dynamic_graph=None,communities=None, sn_duration=None,to_datetime=False, nodes=None,width=800,height=600,bokeh=False,auto_show=False):
     """
     A longitudinal view of nodes/snapshot_communities
 
@@ -304,12 +435,20 @@ def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_dateti
     :param height: height of the figure
     """
 
+    if dynamic_graph==None:
+        if isinstance(communities,tn.DynCommunitiesSN):
+            dynamic_graph = tn.DynGraphSN()
+        else:
+            dynamic_graph = tn.DynGraphIG()
     if to_datetime==True:
         to_datetime=datetime.utcfromtimestamp
-
+        if sn_duration!=None and not isinstance(sn_duration,timedelta):
+            sn_duration=timedelta(seconds=sn_duration)
 
 
     if isinstance(dynamic_graph,tn.DynGraphSN):
+        if communities == None:
+            communities = tn.DynCommunitiesSN()
         t = list(dynamic_graph.snapshots_timesteps())
 
         if communities != None and isinstance(communities,tn.DynCommunitiesSN):
@@ -317,70 +456,36 @@ def plot_longitudinal(dynamic_graph,communities=None, sn_duration=None,to_dateti
             t = sorted(list(set(t)))
         CDS = _sn_graph2CDS(dynamic_graph, communities, to_datetime=to_datetime,ts=t)
     else:
+        if communities == None:
+            communities = tn.DynCommunitiesIG()
         CDS = _ig_graph2CDS(dynamic_graph, communities, to_datetime=to_datetime)
 
     if isinstance(dynamic_graph,tn.DynGraphSN) and sn_duration!=None:
         CDS.data["duration"] = [sn_duration]*len(CDS.data["time"])
 
-    if to_datetime:
+
+
+    if to_datetime!=False:
         CDS.data["duration_display"] = [x/1000 for x in CDS.data["duration"]]
     else:
         CDS.data["duration_display"]=CDS.data["duration"]
+
     #CDS.data["duration"] = [v+0.1 for v in CDS.data["duration"]]
 
     #should work for timedelta and integers
     CDS.data["time_shift"] = [CDS.data["time"][i] + CDS.data["duration"][i] / 2 for i in range(len(CDS.data["duration"]))]
 
-
-    tools = ["reset","wheel_zoom","box_zoom","pan","save"]
-    ht = bokeh.models.HoverTool(
-        tooltips=[
-            ("name", "@node"),
-            ("community", "@com"),
-            ("start", "@time"),
-            ("duration","@duration_display")
-        ])
-    #        <style>
-    #        .bk-tooltip>div:not(:first-child) {display:none;}
-    #    </style>""")
-    #ht.point_policy="follow_mouse"
     if nodes==None:
         nodes = sorted(list(set(CDS.data["node"])))
         nodes = [str(x) for x in nodes]
 
-    x_column = "time_shift"
-    x_axis_type = "auto"
-    if to_datetime!=False:
-        x_axis_type="datetime"
-        #CDS.data["time_f"] = [to_datetime(x) for x in CDS.data["time_shift"]]
-        #x_column = "time_f"
-        ht.tooltips = ht.tooltips+[ ("time", "@time{%F %H:%M}")]
-        ht.formatters={
-                'start': 'datetime'
-            }
-
-
-    tools.append(ht)
-    longi = bokeh.plotting.figure(plot_width=width, plot_height=height, y_range=nodes, tools=tools,x_axis_type=x_axis_type,output_backend="webgl")#,active_scroll="wheel_zoom"
-    longi.output_backend = "svg"
-
-    longi.rect(x=x_column, y="node", width="duration", height=0.9, fill_color="color", hover_color="grey", source=CDS,
-               line_color=None,line_width=0)
-
-
-    longi.xgrid.grid_line_color = None
-    longi.ygrid.grid_line_color = None
-
-
-
-    if auto_show:
-        def modify_doc(doc):
-            doc.add_root(longi)
-
-        bokeh.io.output_notebook()
-        bokeh.io.show(modify_doc)
+    #return _plot_longitudinal_bokeh(CDS,nodes,to_datetime,width,height,auto_show)
+    if bokeh:
+        return _plot_longitudinal_bokeh(CDS,nodes,to_datetime,width,height, auto_show)
     else:
-        return (longi)
+        _plot_longitudinal_pyplot(CDS,nodes,to_datetime,width,height)
+
+
 
 def plot_longitudinal_sn_clusters(dynamic_graph,clusters,level=None, **kwargs):
     """

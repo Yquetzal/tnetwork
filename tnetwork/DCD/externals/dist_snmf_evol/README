@@ -1,0 +1,15 @@
+SNMF_EVOL - evolutionary non-negative matrix factorization
+==========================================================
+
+Implementaion for the SNMF_EVOL algorithm described in:
+
+Yu-Ru Lin, Yun Chi, Shenghuo Zhu, Hari Sundaram and Belle Tseng (2008) "FaceNet: A Framework for Analyzing Communities and Their Evolutions in Dynamics Networks", WWW 2008
+
+The main function is snmf_evol.m that calls snmf_evol_imp.p. The implementation details are hidden for proprietary reasons.
+
+*** Usage ***
+Run toy_evol.m to see a demo for evolutionary soft clustering.
+
+--------------------------------------------------------------------------------
+Yu-Ru Lin <yu-ru.lin@asu.edu>, January 2009
+Please email me if you find bugs, or have suggestions or questions.

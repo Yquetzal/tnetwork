@@ -17,9 +17,8 @@ Adding and removing intervals
 
         Intervals.__init__
         Intervals.add_interval
-        Intervals.add_intervals
-        Intervals.add_interval_at_the_end
-        Intervals._substract_one_period
+        Intervals.__add__
+        Intervals.__sub__
 
 Accessing Intervals properties
 -----------------------------------
@@ -28,6 +27,7 @@ Accessing Intervals properties
 
         Intervals.contains_t
         Intervals.contains
+        Intervals.__contains__
         Intervals.periods
         Intervals.duration
         Intervals.start
@@ -41,4 +41,4 @@ Operations
 
         Intervals.intersection
         Intervals.union
-
+        Intervals.__eq__

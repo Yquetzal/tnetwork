@@ -1,5 +1,6 @@
 import copy
 import sortedcontainers
+import numbers
 
 class Intervals:
     """
@@ -31,7 +32,7 @@ class Intervals:
 
         Instanciate an intervals object. Can be initialized by a list of intervals
 
-        :param initial: a single interval as a pair (start, end) or an Interval object
+        :param initial: a single interval as a pair (start, end), or a list of pair or an Interval object
         """
 
         self.interv  = sortedcontainers.SortedDict()
@@ -40,7 +41,7 @@ class Intervals:
                 for start,intv in initial.interv.items():
                     self.interv[start]=intv
             else:
-                if isinstance(initial[0],int):
+                if isinstance(initial[0],numbers.Number):
                     initial = [initial]
                 for period in initial:
                     self.interv[period[0]]=period
@@ -78,6 +79,49 @@ class Intervals:
         for interval in other_Intervals.periods():
             to_return.add_interval(interval)
         return to_return
+
+    def __add__(self, o):
+        """
+        Add two Intervals using + operator
+
+        >>> a = Intervals((0,2))
+        >>> b = Intervals((1,6))
+        >>> c = a+b
+
+        :param o: other interval
+        :return:
+        """
+        return self.union(o)
+
+    def __sub__(self, o):
+        """
+       Substract an interval from other using - operator
+
+       >>> a = Intervals((0,6))
+       >>> b = Intervals((1,2))
+       >>> c = a-b
+
+       :param o: other interval
+       :return:
+       """
+        return self.difference(o)
+
+    def __contains__(self, time):
+        """
+       Defines the in operator
+
+       >>> a = Intervals((0,6))
+       >>> b = Intervals((1,2))
+       >>> if b in a:
+       >>>    print("b is contained in a")
+
+       :param o: other interval
+       :return:
+       """
+        if type(time) is Intervals:
+            return self.contains(time)
+        return self.contains_t(time)
+
 
     def difference(self,other_Intervals):
         """
@@ -127,7 +171,7 @@ class Intervals:
                 return True
         return False
 
-    def add_interval_at_the_end(self,interval):
+    def _add_interval_at_the_end(self, interval):
         """
         Add the provided interval at the end.
 
@@ -145,6 +189,9 @@ class Intervals:
         """
         Add the provided interval to the current interval object.
 
+        Note that the method is relatively slow since all cases need to be checked.
+        One could use a specific, optimized function to add specifically at the end: _add_interval_at_the_end
+
         :param interval: provided as a pair (start, end)
         """
 
@@ -157,7 +204,7 @@ class Intervals:
         start = interval[0]
         last_current = self.interv.peekitem(-1)[1][1]
         if start>=last_current:
-            self.add_interval_at_the_end(interval)
+            self._add_interval_at_the_end(interval)
             return
 
         #if interval already included, do nothing
@@ -222,7 +269,7 @@ class Intervals:
             self.interv[newIntervs[0]] = newIntervs
 
 
-    def add_intervals(self, intervals):
+    def _add_intervals(self, intervals):
         """
         Add several periods to the current periods.
 
@@ -299,6 +346,34 @@ class Intervals:
             totalDuration+=thisInterv[1]-thisInterv[0]
         return totalDuration
 
+    def _discretize(self, slices):
+        """
+        Discretize the interval according to provided slices
+
+        :param slices:
+        :return:
+        """
+        to_return={}
+        sorted_slices = sortedcontainers.SortedList(slices)
+        for period in self.periods():
+            bins = list(sorted_slices.irange(period[0],period[1],inclusive=(True,True)))
+            for i in range(len(bins)-1):
+                to_return[bins[i]]=bins[i+1]-bins[i]
+            if period[0]<bins[0]:
+                i_bin_before = sorted_slices.bisect_left(period[0])
+
+                bin_before = sorted_slices[i_bin_before-1]
+                to_return[bin_before]=bins[0]-period[0]
+
+            if period[1]>bins[-1]:
+                #i_bin_after = sorted_slices.bisect_right(period[1])
+                #bin_after = sorted_slices[i_bin_after]
+                #print(period[1],bins[-1],bin_after)
+
+                to_return[bins[-1]]=period[1]-bins[-1]
+        return to_return
+
+
     def __str__(self):
         toReturn=""
         for interv in self.interv.values():
@@ -306,6 +381,13 @@ class Intervals:
         return toReturn
 
     def  __eq__(self, other):
+        """
+        Defines the = operator
+
+        Checks if two intervals cover the same periods
+        :param other:
+        :return:
+        """
         if not isinstance(other,Intervals):
             return False
         return [x for x in self.interv.values()]==[x for x in other.interv.values()]

@@ -5,7 +5,7 @@ import tnetwork as dn
 
 from tnetwork.utils.bidict import *
 
-__all__ = ["read_snapshots", "write_snapshots", "read_graph_link_stream"]
+__all__ = ["read_snapshots", "write_snapshots", "write_snapshots_single_file", "read_graph_link_stream"]
 
 def _detectAutomaticallyFormat(networkFile):
     format = networkFile.split(".")[1]
@@ -118,13 +118,24 @@ def write_snapshots(dynGraph:DynGraphSN, outputDir:str, format:str=None):
         _write_network_file(allGraphs[g],os.path.join(outputDir,str(g)),out_format=format)
 
 
+def write_snapshots_single_file(dynGraph: DynGraphSN, outputFile: str,both_directions=False):
+    """
+    Write a single file with all edges from all steps
 
-
-
-
-
-
-
+    Format:
+    time n1 n2 1
+    :param dynGraph: a dynamic graph
+    :param outputFile: address of the file to write
+    """
+    f = open(outputFile,"w")
+    allGraphs = dynGraph.snapshots()
+    for t,g in allGraphs.items():
+        for e in g.edges():
+            weights=" "+str(1)
+            f.write(str(t)+" "+str(e[0])+" "+str(e[1])+weights+"\n")
+            if both_directions:
+                f.write(str(t) + " " + str(e[1]) + " " + str(e[0]) + weights + "\n")
+    f.close()
 
 
 def _readStaticSNByCom(inputFile, commentsChar="#", nodeSeparator=" ", nodeInBrackets=False,

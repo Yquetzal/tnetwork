@@ -3,6 +3,8 @@ Dynamic Community Detection
 *************************************
 
 Dynamic community detection is the problem of discovering snapshot_communities in dynamic networks.
+A simple demo of usage can be found `here
+<https://colab.research.google.com/github/Yquetzal/tnetwork/blob/master/demo_DCD.ipynb>`_.
 
 Currently, the following publsihed methods are implemented
 

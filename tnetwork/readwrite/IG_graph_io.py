@@ -27,7 +27,7 @@ def write_IG(theDynGraph:tn.DynGraphIG, fileOutput:str):
 
     """
     toWrite = []
-    toWrite.append(["SG", str(theDynGraph.start) + ":" + str(theDynGraph.end)])
+    toWrite.append(["SG", str(theDynGraph._start) + ":" + str(theDynGraph._end)])
     for (n, intervs) in theDynGraph.node_presence().items():
         toAdd = ["N",n]
 
@@ -63,8 +63,8 @@ def read_IG(file_address:str):
         if parts[0]=="SG":
             for period in parts[1:]:
                 times = period.split(":")
-                aDynGraph.start =int(times[0])
-                aDynGraph.end = int(times[1])
+                aDynGraph._start =int(times[0])
+                aDynGraph._end = int(times[1])
 
         if parts[0]=="N":
             nodeName = parts[1]

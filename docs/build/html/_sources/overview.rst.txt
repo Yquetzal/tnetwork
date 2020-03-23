@@ -24,7 +24,7 @@ Goals
 Free software
 -------------
 
-``NClib`` is free software; you can redistribute it and/or modify it under the terms of the BSD License.
+``tnetwork`` is free software; you can redistribute it and/or modify it under the terms of the BSD License.
 We welcome contributions from the community.
 
 
