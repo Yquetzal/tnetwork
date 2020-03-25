@@ -1,0 +1,612 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tnetwork.readwrite.SN_graph_io &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../../',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#who-uses-tnetwork">Who uses tnetwork?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#free-software">Free software</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#quick-install">Quick install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-from-source">Installing from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#github">GitHub</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#requirements">Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#python">Python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/dyn_communities.html">Dynamic Communities Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/dyn_communities.html#sequences-of-snapshots-snapshot-communities">Sequences of snapshots snapshot_communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_communities.html">tnetwork.DynCommunitiesSN.set_communities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#accessing-snapshot-affiliations">Accessing snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.affiliations.html">tnetwork.DynCommunitiesSN.affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.communities.html">tnetwork.DynCommunitiesSN.communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.snapshot_affiliations.html">tnetwork.DynCommunitiesSN.snapshot_affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.snapshot_communities.html">tnetwork.DynCommunitiesSN.snapshot_communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.affiliations_durations.html">tnetwork.DynCommunitiesSN.affiliations_durations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#converting">Converting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html">tnetwork.DynCommunitiesSN.to_DynCommunitiesIG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/dyn_communities.html#interval-graph-snapshot-communities">Interval graph snapshot_communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#id1">Adding and removing snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.add_affiliation.html">tnetwork.DynCommunitiesIG.add_affiliation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.add_affiliations_from.html">tnetwork.DynCommunitiesIG.add_affiliations_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.remove_affiliation.html">tnetwork.DynCommunitiesIG.remove_affiliation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#id2">Accessing snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.affiliations.html">tnetwork.DynCommunitiesIG.affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.communities.html">tnetwork.DynCommunitiesIG.communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.affiliations_durations.html">tnetwork.DynCommunitiesIG.affiliations_durations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#other-functions">Other functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.nodes_main_com.html">tnetwork.DynCommunitiesIG.nodes_main_com</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.nodes_natural_order.html">tnetwork.DynCommunitiesIG.nodes_natural_order</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.nodes_ordered_by_com.html">tnetwork.DynCommunitiesIG.nodes_ordered_by_com</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/readwrite.html">Read/Write</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#simple-example">Simple example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#read-write-graphs">Read/Write graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/readwrite.html#read-write-snapshot-graphs">Read/Write snapshot graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.write_snapshots.html">tnetwork.write_snapshots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.read_snapshots.html">tnetwork.read_snapshots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.read_graph_link_stream.html">tnetwork.read_graph_link_stream</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/readwrite.html#read-write-interval-graphs">Read/Write interval graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.write_IG.html">tnetwork.write_IG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.write_ordered_changes.html">tnetwork.write_ordered_changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.read_IG.html">tnetwork.read_IG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#read-write-communities">Read/Write Communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/readwrite.html#read-write-snapshot-snapshot-affiliations">Read/Write snapshot snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.write_com_SN.html">tnetwork.write_com_SN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.read_SN_by_com.html">tnetwork.read_SN_by_com</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/readwrite.html#read-write-interval-graph-snapshot-affiliations">Read/Write interval graph snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.write_IGC.html">tnetwork.write_IGC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/dyn_graph.html">Dynamic Network Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/dyn_graph.html#sequences-of-snapshots">Sequences of snapshots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#adding-and-removing-nodes-and-edges">Adding and removing nodes and edges</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.add_node_presence.html">tnetwork.DynGraphSN.add_node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.add_nodes_presence_from.html">tnetwork.DynGraphSN.add_nodes_presence_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.add_interaction.html">tnetwork.DynGraphSN.add_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.add_interactions_from.html">tnetwork.DynGraphSN.add_interactions_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.node_presence.html">tnetwork.DynGraphSN.node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.graph_at_time.html">tnetwork.DynGraphSN.graph_at_time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.snapshots_timesteps.html">tnetwork.DynGraphSN.snapshots_timesteps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.last_snapshot.html">tnetwork.DynGraphSN.last_snapshot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#conversion-to-different-formats">Conversion to different formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.to_DynGraphIG.html">tnetwork.DynGraphSN.to_DynGraphIG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.to_tensor.html">tnetwork.DynGraphSN.to_tensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#aggregation">Aggregation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.cumulated_graph.html">tnetwork.DynGraphSN.cumulated_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.aggregate_sliding_window.html">tnetwork.DynGraphSN.aggregate_sliding_window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.aggregate_time_period.html">tnetwork.DynGraphSN.aggregate_time_period</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#other-graph-operations">Other graph operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.apply_nx_function.html">tnetwork.DynGraphSN.apply_nx_function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/dyn_graph.html#interval-graphs">Interval graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#id1">Adding and removing nodes and edges</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.add_node_presence.html">tnetwork.DynGraphIG.add_node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.add_nodes_presence_from.html">tnetwork.DynGraphIG.add_nodes_presence_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.add_interaction.html">tnetwork.DynGraphIG.add_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.add_interactions_from.html">tnetwork.DynGraphIG.add_interactions_from</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#id2">Accessing the graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.node_presence.html">tnetwork.DynGraphIG.node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.graph_at_time.html">tnetwork.DynGraphIG.graph_at_time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.interactions.html">tnetwork.DynGraphIG.interactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.change_times.html">tnetwork.DynGraphIG.change_times</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#id3">Conversion to different formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.to_DynGraphSN.html">tnetwork.DynGraphIG.to_DynGraphSN</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#id4">Aggregation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.cumulated_graph.html">tnetwork.DynGraphIG.cumulated_graph</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/Intervals.html">Intervals Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/Intervals.html#adding-and-removing-intervals">Adding and removing intervals</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.__init__.html">tnetwork.utils.Intervals.__init__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.add_interval.html">tnetwork.utils.Intervals.add_interval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.__add__.html">tnetwork.utils.Intervals.__add__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.__sub__.html">tnetwork.utils.Intervals.__sub__</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/Intervals.html#accessing-intervals-properties">Accessing Intervals properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.contains_t.html">tnetwork.utils.Intervals.contains_t</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.contains.html">tnetwork.utils.Intervals.contains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.__contains__.html">tnetwork.utils.Intervals.__contains__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.periods.html">tnetwork.utils.Intervals.periods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.duration.html">tnetwork.utils.Intervals.duration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.start.html">tnetwork.utils.Intervals.start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.end.html">tnetwork.utils.Intervals.end</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/Intervals.html#operations">Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.intersection.html">tnetwork.utils.Intervals.intersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.union.html">tnetwork.utils.Intervals.union</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.__eq__.html">tnetwork.utils.Intervals.__eq__</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/DCD.html">Dynamic Community Detection</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.iterative_match.html">tnetwork.iterative_match</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.match_survival_graph.html">tnetwork.match_survival_graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.rollingCPM.html">tnetwork.rollingCPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.track_communities.html">tnetwork.track_communities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.generate_multi_temporal_scale.html">tnetwork.generate_multi_temporal_scale</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/vizu.html">Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.plot_as_graph.html">tnetwork.plot_as_graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.plot_longitudinal.html">tnetwork.plot_longitudinal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.plot_longitudinal_sn_clusters.html">tnetwork.plot_longitudinal_sn_clusters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/generation.html">Benchmark Generator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generation.html#function-to-define-events">Function to define events</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generation.html#run">Run</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>tnetwork.readwrite.SN_graph_io</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tnetwork.readwrite.SN_graph_io</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">tnetwork</span> <span class="kn">import</span> <span class="n">DynGraphSN</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">dn</span>
+
+<span class="kn">from</span> <span class="nn">tnetwork.utils.bidict</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;read_snapshots&quot;</span><span class="p">,</span> <span class="s2">&quot;write_snapshots&quot;</span><span class="p">,</span> <span class="s2">&quot;write_snapshots_single_file&quot;</span><span class="p">,</span> <span class="s2">&quot;read_graph_link_stream&quot;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">_detectAutomaticallyFormat</span><span class="p">(</span><span class="n">networkFile</span><span class="p">):</span>
+    <span class="nb">format</span> <span class="o">=</span> <span class="n">networkFile</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">format</span>
+
+
+<span class="k">def</span> <span class="nf">_write_network_file</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">out_name</span><span class="p">,</span> <span class="n">out_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write the graph representation on file using a user specified format</span>
+
+<span class="sd">    :param graph: networkx graph</span>
+<span class="sd">    :param out_name: pattern for the output filename</span>
+<span class="sd">    :param out_format: output format. Accepted values: edges(edgelist)|ncol|gefx|gml|pajek|graphML</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">out_format</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">out_format</span><span class="o">=</span><span class="s2">&quot;edges&quot;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">out_name</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1">#print(&quot;writing graph of format &quot; + out_format + &quot; at &quot; + out_name)</span>
+    <span class="k">if</span> <span class="n">out_format</span> <span class="o">==</span> <span class="s1">&#39;edges&#39;</span><span class="p">:</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">write_edgelist</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.edges&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">out_name</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">out_format</span> <span class="o">==</span> <span class="s1">&#39;gefx&#39;</span><span class="p">:</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">write_gexf</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.gefx&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">out_name</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">out_format</span> <span class="o">==</span> <span class="s1">&#39;gml&#39;</span><span class="p">:</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">write_gml</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.gml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">out_name</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">out_format</span> <span class="o">==</span> <span class="s1">&#39;pajek&#39;</span><span class="p">:</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">write_pajek</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.pajek&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">out_name</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">out_format</span> <span class="o">==</span> <span class="s1">&#39;ncol&#39;</span><span class="p">:</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">write_edgelist</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.ncol&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">out_name</span><span class="p">),</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">out_format</span> <span class="o">==</span> <span class="s1">&#39;graphML&#39;</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">write_graphml</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.graphML&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">out_name</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;UNKNOWN FORMAT &quot;</span> <span class="o">+</span> <span class="n">out_format</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_read_network_file</span><span class="p">(</span><span class="n">in_name</span><span class="p">,</span> <span class="n">in_format</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read the graph representation on file using a user specified format</span>
+
+<span class="sd">    :param in_name: pattern for the output filename</span>
+<span class="sd">    :param in_format: output format. Accepted values: edgelist|ncol|gefx|gml|pajek\graphML</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">in_format</span> <span class="o">==</span> <span class="s1">&#39;edges&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">directed</span><span class="p">:</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_edgelist</span><span class="p">(</span><span class="n">in_name</span><span class="p">,</span> <span class="n">create_using</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_edgelist</span><span class="p">(</span><span class="n">in_name</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">in_format</span> <span class="o">==</span> <span class="s1">&#39;gefx&#39;</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_gexf</span><span class="p">(</span><span class="n">in_name</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">in_format</span> <span class="o">==</span> <span class="s1">&#39;gml&#39;</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_gml</span><span class="p">(</span><span class="n">in_name</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">in_format</span> <span class="o">==</span> <span class="s1">&#39;graphML&#39;</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_graphml</span><span class="p">(</span><span class="n">in_name</span><span class="p">)</span>
+        <span class="n">nodesInfo</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">get_node_attributes</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="s2">&quot;label&quot;</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">node2Label</span> <span class="o">=</span> <span class="p">{</span><span class="n">nodeid</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">nodeid</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="ow">in</span> <span class="n">nodesInfo</span><span class="p">}</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">relabel_nodes</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">node2Label</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">in_format</span> <span class="o">==</span> <span class="s1">&#39;pajek&#39;</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_pajek</span><span class="p">(</span><span class="n">in_name</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">in_format</span> <span class="o">==</span> <span class="s1">&#39;ncol&#39;</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_edgelist</span><span class="p">(</span><span class="n">in_name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;UNKNOWN FORMAT &quot;</span> <span class="o">+</span> <span class="n">in_format</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g</span>
+
+
+<div class="viewcode-block" id="read_snapshots"><a class="viewcode-back" href="../../../reference/iof/tnetwork.read_snapshots.html#tnetwork.read_snapshots">[docs]</a><span class="k">def</span> <span class="nf">read_snapshots</span><span class="p">(</span><span class="n">inputDir</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DynGraphSN</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read as one file per snapshot</span>
+<span class="sd">    </span>
+<span class="sd">    Read a dynamic graph as a directory containing one file per snapshot. </span>
+<span class="sd">    If the format is not provided, it is infered automatically from file extensions</span>
+
+<span class="sd">    :param inputDir: directory where the files are located</span>
+<span class="sd">    :param format: a string among edges(edgelist)|ncol|gefx|gml|pajek|graphML, by default, the extension of the files</span>
+<span class="sd">    :return: a DynGraphSN object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="n">anSnGraph</span> <span class="o">=</span> <span class="n">dn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">()</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">inputDir</span><span class="p">)</span>
+    <span class="n">visibleFiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span> <span class="k">if</span> <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;.&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">format</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="nb">format</span><span class="o">=</span><span class="n">_detectAutomaticallyFormat</span><span class="p">(</span><span class="n">visibleFiles</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">visibleFiles</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">_read_network_file</span><span class="p">(</span><span class="n">inputDir</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">f</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>  <span class="c1"># type:nx.Graph</span>
+        <span class="n">anSnGraph</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">g</span><span class="p">)</span>
+
+
+    <span class="k">return</span> <span class="n">anSnGraph</span></div>
+
+
+<div class="viewcode-block" id="write_snapshots"><a class="viewcode-back" href="../../../reference/iof/tnetwork.write_snapshots.html#tnetwork.write_snapshots">[docs]</a><span class="k">def</span> <span class="nf">write_snapshots</span><span class="p">(</span><span class="n">dynGraph</span><span class="p">:</span><span class="n">DynGraphSN</span><span class="p">,</span> <span class="n">outputDir</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write one file per snapshot</span>
+<span class="sd">    </span>
+<span class="sd">    Write a dynamic graph as a directory containing one file for each snapshot. The format of files can be chosen.</span>
+<span class="sd">    </span>
+<span class="sd">    :param dynGraph: a dynamic graph</span>
+<span class="sd">    :param outputDir: address of the directory to write</span>
+<span class="sd">    :param format: default edgelist, choose among edges(edgelist)|ncol|gefx|gml|pajek|graphML</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">format</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;edges&quot;</span>
+    <span class="n">allGraphs</span> <span class="o">=</span> <span class="n">dynGraph</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">allGraphs</span><span class="p">:</span>
+        <span class="n">_write_network_file</span><span class="p">(</span><span class="n">allGraphs</span><span class="p">[</span><span class="n">g</span><span class="p">],</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outputDir</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="p">)),</span><span class="n">out_format</span><span class="o">=</span><span class="nb">format</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">write_snapshots_single_file</span><span class="p">(</span><span class="n">dynGraph</span><span class="p">:</span> <span class="n">DynGraphSN</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span><span class="n">both_directions</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write a single file with all edges from all steps</span>
+
+<span class="sd">    Format:</span>
+<span class="sd">    time n1 n2 1</span>
+<span class="sd">    :param dynGraph: a dynamic graph</span>
+<span class="sd">    :param outputFile: address of the file to write</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outputFile</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+    <span class="n">allGraphs</span> <span class="o">=</span> <span class="n">dynGraph</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">g</span> <span class="ow">in</span> <span class="n">allGraphs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
+            <span class="n">weights</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="n">weights</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">both_directions</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">weights</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_readStaticSNByCom</span><span class="p">(</span><span class="n">inputFile</span><span class="p">,</span> <span class="n">commentsChar</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="n">nodeSeparator</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">nodeInBrackets</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                       <span class="n">mainSeparator</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">comIDposition</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nodeListPosition</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    nodeSeparator: characters that separate the list of nodes</span>
+<span class="sd">    nodeInBrackets : if true, list of nodes in the community is [x y z] instead of just x y z</span>
+<span class="sd">    mainSeparator : character used to separate comID from nodesIDS</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#read community file from a static network</span>
+    <span class="c1"># if asSN:</span>
+    <span class="c1">#     theDynCom = dn.dynamicCommunitiesSN()</span>
+    <span class="c1"># if asTN:</span>
+    <span class="c1">#     theDynCom = dn.dynamicCommunitiesTN()</span>
+    <span class="n">coms</span> <span class="o">=</span> <span class="n">bidict</span><span class="p">()</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>  <span class="c1"># for each line</span>
+        <span class="n">currentCom</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">commentsChar</span><span class="p">:</span>  <span class="c1"># if it is not a comment line</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">comID</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="n">comIDposition</span><span class="p">]</span>
+            <span class="n">nodesIDs</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="n">nodeListPosition</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodesIDs</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># if nodeInBrackets:</span>
+                <span class="k">if</span> <span class="s2">&quot;[&quot;</span> <span class="ow">in</span> <span class="n">nodesIDs</span><span class="p">:</span>
+                    <span class="n">nodesIDs</span> <span class="o">=</span> <span class="n">nodesIDs</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s2">&quot;, &quot;</span> <span class="ow">in</span> <span class="n">nodesIDs</span><span class="p">:</span>
+                    <span class="n">nodeSeparator</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodesIDs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">nodeSeparator</span><span class="p">):</span>
+                    <span class="n">currentCom</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                    <span class="c1"># if asSN:</span>
+                    <span class="c1">#     theDynCom.add_affiliation(n,startTime,comID)</span>
+                    <span class="c1"># if asTN:</span>
+                    <span class="c1">#     theDynCom.add_affiliation(n,comID,startTime) #belongings without end</span>
+                <span class="n">coms</span><span class="p">[</span><span class="nb">frozenset</span><span class="p">(</span><span class="n">currentCom</span><span class="p">)]</span><span class="o">=</span><span class="n">comID</span>
+    <span class="k">return</span> <span class="n">coms</span>
+
+
+<div class="viewcode-block" id="read_graph_link_stream"><a class="viewcode-back" href="../../../reference/iof/tnetwork.read_graph_link_stream.html#tnetwork.read_graph_link_stream">[docs]</a><span class="k">def</span> <span class="nf">read_graph_link_stream</span><span class="p">(</span><span class="n">inputFile</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DynGraphSN</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Format used by SOCIOPATTERN</span>
+
+<span class="sd">    This format is a variation of snapshot_affiliations, in which all snapshot_affiliations are in a single file, adapted for occasional observations</span>
+<span class="sd">    at a high framerate (each SN is not really meaningful).</span>
+
+<span class="sd">    Format:</span>
+<span class="sd">    ::</span>
+
+<span class="sd">        DATE1	N1	N2</span>
+<span class="sd">        DATE1	N2	N3</span>
+<span class="sd">        DATE2	N1	N2</span>
+<span class="sd">        DATE3	N1	N2</span>
+<span class="sd">        DATE3	N2	N4</span>
+<span class="sd">        DATE3	N5	N2</span>
+
+<span class="sd">    :param inputFile: address of the file to read</span>
+<span class="sd">    :return: DynGraphSN</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">theDynGraph</span> <span class="o">=</span> <span class="n">DynGraphSN</span><span class="p">()</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">n1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">n2</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">theDynGraph</span><span class="o">.</span><span class="n">add_interaction</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,</span><span class="n">date</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">theDynGraph</span></div>
+
+
+
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -54,6 +54,17 @@ class _AbstractStructure():
 
 
 class Community(_AbstractStructure):
+    """
+    Class representing communities in a benchmark scenario
+
+    When generating a benchmark using the scenerio generator, communities returned by event definition functions are instances
+    of this class.
+
+    This class has some public functions to check the names, the nodes, and the number of edges of the community.
+    The edges themselves cannot be checked during the scenario description, since they are generated when calling the run function
+    of the ComScenario class.
+
+    """
 
     def __init__(self,comScenario,name=None):
         """

@@ -660,6 +660,8 @@ class ComScenario():
 
     def ASSIGN(self, comsBefore:[Community], comsAfter:[str], splittingOut:[{str}], **kwargs):
         """
+        Define a custom event
+
         Migrate nodes from a set of snapshot_affiliations to another set of snapshot_affiliations. Can be used to move a set of nodes from a community to
         another or any other more complex scenario.
 
@@ -672,8 +674,16 @@ class ComScenario():
         return self._add_action(_Operation.migrate(comsBefore, comsAfter, splittingOut), **kwargs)
 
 
-    def CONTINUE(self, com_before, **kwargs):
-        return self.ASSIGN([com_before],[com_before.name()],[com_before.nodes()],**kwargs)
+    def CONTINUE(self, com, **kwargs):
+        """
+        Keep a community unchanged
+
+        By using parameters wait and/or waitFor, CONTINUE makes the community com_before to stay unchanged for some time.
+
+        :param com: the community to keep unchanged
+        :return: the same community
+        """
+        return self.ASSIGN([com],[com.name()],[com.nodes()],**kwargs)
 
     def __repr__(self):
         coms = "current_com: " + str(self._currentCommunities)
@@ -683,33 +693,3 @@ class ComScenario():
 
     def __str__(self):
         return self.__repr__()
-
-def migrate_iterative(comFrom, comTo, nbNodes, wait=1):
-    comScen = comFrom._comScenar
-    currentFrom = comFrom
-    currentTo = comTo
-    for i in range(nbNodes):
-        migratingNode = np.random.choice(list(currentFrom.getNodes()),1)[0]
-        [currentFrom,currentTo] = comScen.migrate(
-            [currentFrom,currentTo],
-            [currentFrom.getName(), currentTo.name()],
-            [currentFrom.getNodes() - set([migratingNode]), currentTo.nodes() | set([migratingNode])],
-            wait=wait
-        )
-
-
-
-
-def shrinkIterative(com, nbNodes2Remove, waitInitial=0,waitStep=1):
-    comScen = com._comScenar
-    currentCom = com
-
-    for i in range(nbNodes2Remove):
-        waitToConsider = waitStep
-        if i==0:
-            waitToConsider = waitInitial
-
-        currentNbNodes = len(currentCom.getNodes())
-        nodesToKeep = np.random.choice(list(currentCom.getNodes()),currentNbNodes-1,replace=False)
-        [currentCom] = comScen.migrate([currentCom], [currentCom.getName()], [nodesToKeep], wait=waitToConsider)
-    return currentCom

@@ -1,0 +1,789 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tnetwork.DCD.community &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../../',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#who-uses-tnetwork">Who uses tnetwork?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#free-software">Free software</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#quick-install">Quick install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-from-source">Installing from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#github">GitHub</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#requirements">Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#python">Python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/dyn_communities.html">Dynamic Communities Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/dyn_communities.html#sequences-of-snapshots-snapshot-communities">Sequences of snapshots snapshot_communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_affiliation.html">tnetwork.DynCommunitiesSN.add_affiliation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.add_community.html">tnetwork.DynCommunitiesSN.add_community</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.set_communities.html">tnetwork.DynCommunitiesSN.set_communities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#accessing-snapshot-affiliations">Accessing snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.affiliations.html">tnetwork.DynCommunitiesSN.affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.communities.html">tnetwork.DynCommunitiesSN.communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.snapshot_affiliations.html">tnetwork.DynCommunitiesSN.snapshot_affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.snapshot_communities.html">tnetwork.DynCommunitiesSN.snapshot_communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.affiliations_durations.html">tnetwork.DynCommunitiesSN.affiliations_durations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#converting">Converting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html">tnetwork.DynCommunitiesSN.to_DynCommunitiesIG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/dyn_communities.html#interval-graph-snapshot-communities">Interval graph snapshot_communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#id1">Adding and removing snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.add_affiliation.html">tnetwork.DynCommunitiesIG.add_affiliation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.add_affiliations_from.html">tnetwork.DynCommunitiesIG.add_affiliations_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.remove_affiliation.html">tnetwork.DynCommunitiesIG.remove_affiliation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#id2">Accessing snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.affiliations.html">tnetwork.DynCommunitiesIG.affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.communities.html">tnetwork.DynCommunitiesIG.communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.affiliations_durations.html">tnetwork.DynCommunitiesIG.affiliations_durations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_communities.html#other-functions">Other functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.nodes_main_com.html">tnetwork.DynCommunitiesIG.nodes_main_com</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.nodes_natural_order.html">tnetwork.DynCommunitiesIG.nodes_natural_order</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynCommunitiesIG.nodes_ordered_by_com.html">tnetwork.DynCommunitiesIG.nodes_ordered_by_com</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/readwrite.html">Read/Write</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#simple-example">Simple example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#read-write-graphs">Read/Write graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/readwrite.html#read-write-snapshot-graphs">Read/Write snapshot graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.write_snapshots.html">tnetwork.write_snapshots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.read_snapshots.html">tnetwork.read_snapshots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.read_graph_link_stream.html">tnetwork.read_graph_link_stream</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/readwrite.html#read-write-interval-graphs">Read/Write interval graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.write_IG.html">tnetwork.write_IG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.write_ordered_changes.html">tnetwork.write_ordered_changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.read_IG.html">tnetwork.read_IG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/readwrite.html#read-write-communities">Read/Write Communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/readwrite.html#read-write-snapshot-snapshot-affiliations">Read/Write snapshot snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.write_com_SN.html">tnetwork.write_com_SN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.read_SN_by_com.html">tnetwork.read_SN_by_com</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/readwrite.html#read-write-interval-graph-snapshot-affiliations">Read/Write interval graph snapshot_affiliations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/iof/tnetwork.write_IGC.html">tnetwork.write_IGC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/dyn_graph.html">Dynamic Network Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/dyn_graph.html#sequences-of-snapshots">Sequences of snapshots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#adding-and-removing-nodes-and-edges">Adding and removing nodes and edges</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.add_node_presence.html">tnetwork.DynGraphSN.add_node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.add_nodes_presence_from.html">tnetwork.DynGraphSN.add_nodes_presence_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.add_interaction.html">tnetwork.DynGraphSN.add_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.add_interactions_from.html">tnetwork.DynGraphSN.add_interactions_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_node_presence.html">tnetwork.DynGraphSN.remove_node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interaction.html">tnetwork.DynGraphSN.remove_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html">tnetwork.DynGraphSN.remove_interactions_from</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#accessing-the-graph">Accessing the graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.node_presence.html">tnetwork.DynGraphSN.node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.graph_at_time.html">tnetwork.DynGraphSN.graph_at_time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.snapshots_timesteps.html">tnetwork.DynGraphSN.snapshots_timesteps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.last_snapshot.html">tnetwork.DynGraphSN.last_snapshot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#conversion-to-different-formats">Conversion to different formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.to_DynGraphIG.html">tnetwork.DynGraphSN.to_DynGraphIG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.to_tensor.html">tnetwork.DynGraphSN.to_tensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#aggregation">Aggregation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.cumulated_graph.html">tnetwork.DynGraphSN.cumulated_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.aggregate_sliding_window.html">tnetwork.DynGraphSN.aggregate_sliding_window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.aggregate_time_period.html">tnetwork.DynGraphSN.aggregate_time_period</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#other-graph-operations">Other graph operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphSN.apply_nx_function.html">tnetwork.DynGraphSN.apply_nx_function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/dyn_graph.html#interval-graphs">Interval graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#id1">Adding and removing nodes and edges</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.add_node_presence.html">tnetwork.DynGraphIG.add_node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.add_nodes_presence_from.html">tnetwork.DynGraphIG.add_nodes_presence_from</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.add_interaction.html">tnetwork.DynGraphIG.add_interaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.add_interactions_from.html">tnetwork.DynGraphIG.add_interactions_from</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#id2">Accessing the graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.node_presence.html">tnetwork.DynGraphIG.node_presence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.graph_at_time.html">tnetwork.DynGraphIG.graph_at_time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.interactions.html">tnetwork.DynGraphIG.interactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.change_times.html">tnetwork.DynGraphIG.change_times</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#id3">Conversion to different formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.to_DynGraphSN.html">tnetwork.DynGraphIG.to_DynGraphSN</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/dyn_graph.html#id4">Aggregation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DynGraphIG.cumulated_graph.html">tnetwork.DynGraphIG.cumulated_graph</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/Intervals.html">Intervals Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/Intervals.html#adding-and-removing-intervals">Adding and removing intervals</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.__init__.html">tnetwork.utils.Intervals.__init__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.add_interval.html">tnetwork.utils.Intervals.add_interval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.__add__.html">tnetwork.utils.Intervals.__add__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.__sub__.html">tnetwork.utils.Intervals.__sub__</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/Intervals.html#accessing-intervals-properties">Accessing Intervals properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.contains_t.html">tnetwork.utils.Intervals.contains_t</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.contains.html">tnetwork.utils.Intervals.contains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.__contains__.html">tnetwork.utils.Intervals.__contains__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.periods.html">tnetwork.utils.Intervals.periods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.duration.html">tnetwork.utils.Intervals.duration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.start.html">tnetwork.utils.Intervals.start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.end.html">tnetwork.utils.Intervals.end</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/Intervals.html#operations">Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.intersection.html">tnetwork.utils.Intervals.intersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.union.html">tnetwork.utils.Intervals.union</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.utils.Intervals.__eq__.html">tnetwork.utils.Intervals.__eq__</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/DCD.html">Dynamic Community Detection</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.iterative_match.html">tnetwork.iterative_match</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.match_survival_graph.html">tnetwork.match_survival_graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.rollingCPM.html">tnetwork.rollingCPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.track_communities.html">tnetwork.track_communities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.generate_multi_temporal_scale.html">tnetwork.generate_multi_temporal_scale</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/vizu.html">Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.plot_as_graph.html">tnetwork.plot_as_graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.plot_longitudinal.html">tnetwork.plot_longitudinal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.plot_longitudinal_sn_clusters.html">tnetwork.plot_longitudinal_sn_clusters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/generation.html">Benchmark Generator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.__init__.html">tnetwork.ComScenario.__init__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generation.html#function-to-define-events">Function to define events</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.INITIALIZE.html">tnetwork.ComScenario.INITIALIZE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.BIRTH.html">tnetwork.ComScenario.BIRTH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.DEATH.html">tnetwork.ComScenario.DEATH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.MERGE.html">tnetwork.ComScenario.MERGE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.SPLIT.html">tnetwork.ComScenario.SPLIT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.THESEUS.html">tnetwork.ComScenario.THESEUS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.RESURGENCE.html">tnetwork.ComScenario.RESURGENCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.GROW_ITERATIVE.html">tnetwork.ComScenario.GROW_ITERATIVE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.SHRINK_ITERATIVE.html">tnetwork.ComScenario.SHRINK_ITERATIVE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.MIGRATE_ITERATIVE.html">tnetwork.ComScenario.MIGRATE_ITERATIVE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.ASSIGN.html">tnetwork.ComScenario.ASSIGN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.CONTINUE.html">tnetwork.ComScenario.CONTINUE</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generation.html#run">Run</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/generation.html#commnity-class">Commnity class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.community.Community.name.html">tnetwork.DCD.community.Community.name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.community.Community.nodes.html">tnetwork.DCD.community.Community.nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.community.Community.nb_intern_edges.html">tnetwork.DCD.community.Community.nb_intern_edges</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>tnetwork.DCD.community</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tnetwork.DCD.community</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+
+<span class="k">class</span> <span class="nc">_AbstractStructure</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class can be instanciated as a community or an ongoing operation (class operation)</span>
+<span class="sd">    Be careful, structures have NAMES and IDS.</span>
+<span class="sd">    Name is a &quot;label&quot; that is used to decide which community is &quot;the same&quot; as another one, in term of identity (search &quot;ship of theseus paradox&quot; if unclear)</span>
+<span class="sd">    ID is a unique identifier created automatically after each modification. The &quot;same&quot; community before and after an event has different IDs.</span>
+<span class="sd">    An ID corresponds to a particular &quot;state&quot; of a community (note that a community keeps the same ID as long as it is not modified)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_intern_pairs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return all pairs of nodes inside the structure as a dictionary, key: frozenset of two nodes (extremities). value: Latent affinity of the pair</span>
+<span class="sd">        :return:</span>
+<span class="sd">        :rtype: {frozenset((str,str)):float}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_intern_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variant</span><span class="o">=</span><span class="s2">&quot;deterministic&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return edges present inside the structure. If the structure is an ongoing operation, also increment in the ongoing process by adding/removing an edge,</span>
+<span class="sd">        i.e. the next call to this function will give a different result.</span>
+<span class="sd">        :param variant: used to chose how edges are drawn. Currently, only &quot;deterministic&quot; is fully supported, (see article)</span>
+<span class="sd">        :return: [frozenset((str,str))]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the name (label) of this structure</span>
+<span class="sd">        :return: name</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the nodes of this structure</span>
+<span class="sd">        :return: list of nodes</span>
+<span class="sd">        :rtype: [str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_memorize_all_internal_pairs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">n2</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="n">n2</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n2</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_internPairs</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_comScenar</span><span class="o">.</span><span class="n">_pairsImportance</span> <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="Community"><a class="viewcode-back" href="../../../reference/generation.html#tnetwork.DCD.community.Community">[docs]</a><span class="k">class</span> <span class="nc">Community</span><span class="p">(</span><span class="n">_AbstractStructure</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class representing communities in a benchmark scenario</span>
+
+<span class="sd">    When generating a benchmark using the scenerio generator, communities returned by event definition functions are instances</span>
+<span class="sd">    of this class.</span>
+
+<span class="sd">    This class has some public functions to check the names, the nodes, and the number of edges of the community.</span>
+<span class="sd">    The edges themselves cannot be checked during the scenario description, since they are generated when calling the run function</span>
+<span class="sd">    of the ComScenario class.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comScenario</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a community</span>
+<span class="sd">        :param comScenario: current Scenario class this community will belong to.</span>
+<span class="sd">        :param name: the name of the community. If None, the ID is used as name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_comScenar</span> <span class="o">=</span> <span class="n">comScenario</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># generate a unique name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="n">comScenario</span><span class="o">.</span><span class="n">_get_new_ID</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;COM&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span> <span class="c1">#type: {str}</span>
+
+        <span class="c1">#For optimization purpose, the internPairs are recomputed only when needed, memorized in this variable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_internPairs</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#type: {frozenset((str,str)):float}</span>
+
+
+    <span class="k">def</span> <span class="nf">_add_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add a node to the community</span>
+<span class="sd">        :param n: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_internPairs</span><span class="o">=</span><span class="kc">None</span> <span class="c1">#for optimization</span>
+
+    <span class="k">def</span> <span class="nf">_add_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param nodes: {str}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+             <span class="bp">self</span><span class="o">.</span><span class="n">_add_node</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Community.nodes"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DCD.community.Community.nodes.html#tnetwork.DCD.community.Community.nodes">[docs]</a>    <span class="k">def</span> <span class="nf">nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_intern_pairs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        optimized to compute anew only in case of change</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_internPairs</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_memorize_all_internal_pairs</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_internPairs</span>
+
+<div class="viewcode-block" id="Community.nb_intern_edges"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DCD.community.Community.nb_intern_edges.html#tnetwork.DCD.community.Community.nb_intern_edges">[docs]</a>    <span class="k">def</span> <span class="nf">nb_intern_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return the number of edges expected in this community</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="n">nbNodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_comScenar</span><span class="o">.</span><span class="n">nb_edges_for_a_community_size</span><span class="p">(</span><span class="n">nbNodes</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Community.name"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DCD.community.Community.name.html#tnetwork.DCD.community.Community.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span></div>
+
+    <span class="k">def</span> <span class="nf">_intern_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variant</span><span class="o">=</span><span class="s2">&quot;deterministic&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return edges that we consider should exist in this community.</span>
+<span class="sd">        In the default behavior (&quot;deterministic&quot;), return a fix number of edges, and pick that number at the top of the</span>
+<span class="sd">        list of node pairs sorted by affinity score</span>
+<span class="sd">        :param variant: only &quot;deterministic&quot; (default parameter) is fully supported and tested</span>
+<span class="sd">        :return: list of edges</span>
+<span class="sd">        :rtype: [frozenset((str,str))]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#sortedPairs = sorted(self._intern_pairs().items(), key=operator.itemgetter(1), reverse=True)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">variant</span> <span class="o">==</span> <span class="s2">&quot;deterministic&quot;</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_intern_pairs</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">chosenEdges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intern_pairs</span><span class="p">()[:</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_intern_edges</span><span class="p">())]</span>
+
+        <span class="c1"># or random variant</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">variant</span> <span class="o">==</span> <span class="s2">&quot;random&quot;</span><span class="p">):</span>
+            <span class="n">chosenEdges</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_intern_pairs</span><span class="p">(),</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_intern_edges</span><span class="p">()))</span>
+
+        <span class="c1">#chosenEdges = [x[0] for x in chosenEdges]</span>
+        <span class="k">return</span> <span class="n">chosenEdges</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;:n=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;,m=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_intern_edges</span><span class="p">()))</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="c1">#+str(id(self))</span>
+
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span></div>
+
+<span class="k">class</span> <span class="nc">_Operation</span><span class="p">(</span><span class="n">_AbstractStructure</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class corresponds to an ongoing operation between snapshot_affiliations.</span>
+<span class="sd">    When the operation is finished, it disappears and is replaced by a community object (or nothing if death)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">beforeComs</span><span class="o">=</span><span class="p">[],</span> <span class="n">afterNames</span><span class="o">=</span><span class="p">[],</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param action: The type of action, as a string. One of {birth, death, migrate}</span>
+<span class="sd">        :param beforeComs: the snapshot_affiliations modified by the event.</span>
+<span class="sd">        :param afterNames: the name(s) of the snapshot_affiliations resulting of the event. A unique ID will be created</span>
+<span class="sd">        :param parameters: a dict(), necessary for migration.</span>
+<span class="sd">        it can contains 3 parameters: sizesIn, sizesOut,splittingOut</span>
+<span class="sd">        splittingOut: type:[[str]] fully controlled: list of list, each lower level list corresponds to an output community</span>
+<span class="sd">        and contains the list of the nodes to have in it. Each node in each of the input community MUST be affected to an output community</span>
+<span class="sd">        sizesIn: type:[[int]] if only some of the input nodes should move</span>
+<span class="sd">        splitting:{{n1,n2,...n5},{n6,...,n10},...,{}} , splitSize:[n/3,n/3,n/3]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="o">=</span><span class="n">action</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beforeCommunities</span> <span class="o">=</span> <span class="n">beforeComs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_afterNames</span> <span class="o">=</span> <span class="n">afterNames</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_comScenar</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span> <span class="o">=</span> <span class="n">parameters</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_afterCommunities</span><span class="o">=</span><span class="kc">None</span> <span class="c1">#type:[Community]  communities created with the names given in output</span>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_inProgress</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1">#list of ordered modifications to do to reach the final community</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentEdges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span> <span class="c1">#set of edges currently in the community</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_internPairs</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#dictionary of intern pairs, will be computed later. Stored for efficiency</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1">#we will memorize the nodes to compute the list of internal pairs of nodes</span>
+
+    <span class="c1">#TODO comment properly all function for creation</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">death</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;death&quot;</span><span class="p">,</span><span class="n">afterNames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;|DEATH|&quot;</span><span class="p">],</span> <span class="n">beforeComs</span><span class="o">=</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">birth</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="n">afterName</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">afterName</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;birth&quot;</span><span class="p">,</span> <span class="n">beforeComs</span><span class="o">=</span><span class="p">[],</span> <span class="n">afterNames</span><span class="o">=</span><span class="n">afterName</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">size</span><span class="p">})</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">migrate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">beforeIDs</span><span class="p">,</span><span class="n">afterNames</span><span class="p">,</span><span class="n">splittingOut</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;migrate&quot;</span><span class="p">,</span><span class="n">beforeComs</span><span class="o">=</span><span class="n">beforeIDs</span><span class="p">,</span><span class="n">afterNames</span><span class="o">=</span><span class="n">afterNames</span><span class="p">,</span><span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;splittingOut&quot;</span><span class="p">:</span><span class="n">splittingOut</span><span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">initialise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comScen</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function is called by the ongoing scenario as soon as it is added.</span>
+<span class="sd">        It initializes everyhting that should happen (list of modifications to reach objective state)</span>
+<span class="sd">        but do not actually do it</span>
+<span class="sd">        :param comScen: the ongoing scenario</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_comScenar</span> <span class="o">=</span> <span class="n">comScen</span>
+
+        <span class="c1">#List snapshot_affiliations object corresponding to the names and IDs provided</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_afterCommunities</span><span class="o">=</span><span class="p">[]</span>
+
+        <span class="c1">#Create new clusters with zero nodes with appropriate names</span>
+        <span class="k">for</span> <span class="n">comName</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_afterNames</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_afterCommunities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Community</span><span class="p">(</span><span class="n">comScen</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">comName</span><span class="p">))</span>
+
+
+        <span class="k">for</span> <span class="n">com</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beforeCommunities</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span> <span class="o">+=</span> <span class="n">com</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="o">==</span> <span class="s2">&quot;birth&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_birth</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="o">==</span> <span class="s2">&quot;death&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_death</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="o">==</span> <span class="s2">&quot;migrate&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_migrate</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_action</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;birth&quot;</span><span class="p">,</span> <span class="s2">&quot;death&quot;</span><span class="p">,</span> <span class="s2">&quot;migrate&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;UNKNOWN operation: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_computeEdgeModificationsToDo</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_memorize_all_internal_pairs</span><span class="p">()</span> <span class="c1">#at this point, all nodes involved by the operation are known, we compute and memorize internal edges</span>
+
+
+
+    <span class="k">def</span> <span class="nf">_computeEdgeModificationsToDo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function compute the list of modifications that should be done (progressive change until objective state is reached</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">currentEdges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">edgesAfter</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beforeCommunities</span><span class="p">:</span>
+            <span class="n">currentEdges</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">_intern_edges</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_afterCommunities</span><span class="p">:</span>
+            <span class="n">edgesAfter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">_intern_edges</span><span class="p">())</span>
+
+        <span class="n">toRemove</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">currentEdges</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">edgesAfter</span><span class="p">)</span>
+        <span class="n">toAdd</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">edgesAfter</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">currentEdges</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentEdges</span> <span class="o">=</span> <span class="n">currentEdges</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_inProgress</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_randomize_actions</span><span class="p">(</span><span class="n">toRemove</span><span class="p">,</span> <span class="n">toAdd</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_birth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function handle a birth event</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">#If no community is given, create a community with automatic name</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_afterCommunities</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_afterCommunities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Community</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_comScenar</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_afterNames</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_afterCommunities</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">()]</span>
+
+        <span class="c1">#If we do not specify the nodes that should be added to this community, create nodes</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;nodes&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="s2">&quot;nodes&quot;</span><span class="p">]</span><span class="o">=</span><span class="nb">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="s2">&quot;nodes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_comScenar</span><span class="o">.</span><span class="n">create_node</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_afterCommunities</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_add_nodes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="s2">&quot;nodes&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="s2">&quot;nodes&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_death</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        the community is removed automatically because self.before is removed and nothing is added to replace.</span>
+<span class="sd">        nodes must not be killed now because this code is called during scenario definition.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_migrate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function handle all types of migrations, including from all nodes to the same community (merge) or from a single community</span>
+<span class="sd">        to several (split)</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">#if there is no parameter, the migration is obvious from the context, i.e. several snapshot_affiliations in input, a single one in output</span>
+        <span class="c1">#so let&#39;s define sizesIn accordingly</span>
+
+
+        <span class="c1">#Case where the migration is done by giving the exact list of which node should migrate in each community</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="s2">&quot;splittingOut&quot;</span><span class="p">])):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_afterCommunities</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">_add_nodes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="s2">&quot;splittingOut&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+
+
+
+    <span class="k">def</span> <span class="nf">_randomize_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">notKept</span><span class="p">,</span> <span class="n">added</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function that shuffles edges addition and removal.</span>
+<span class="sd">        :param notKept: edges to remove</span>
+<span class="sd">        :param added: edges to keep</span>
+<span class="sd">        :return: list of edges to modify, as a couple, first element being type of operation (+/-), second being the edge</span>
+<span class="sd">        :rtype: [(str,frozenset(str,str)]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">toReturn</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">notKept</span><span class="p">:</span>
+            <span class="n">toReturn</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="n">e</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">added</span><span class="p">:</span>
+            <span class="n">toReturn</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;+&quot;</span><span class="p">,</span><span class="n">e</span><span class="p">))</span>
+
+        <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">toReturn</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">toReturn</span>
+
+
+
+    <span class="k">def</span> <span class="nf">_intern_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">             Return edges present inside the structure. If the structure is an ongoing operation, also increment in the ongoing process by adding/removing an edge,</span>
+<span class="sd">             i.e. the next call to this function will give a different result.</span>
+<span class="sd">             :return: [frozenset((str,str))]</span>
+<span class="sd">             &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_inProgress</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span> <span class="c1">#If there are still modification to do, do one</span>
+            <span class="n">modif</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inProgress</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">modif</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;-&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_currentEdges</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">modif</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">modif</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;+&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_currentEdges</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">modif</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_inProgress</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span> <span class="c1">#if no other modification to do, inform the scenerio class that this operation terminates</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_comScenar</span><span class="o">.</span><span class="n">_terminate_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentEdges</span>
+
+    <span class="k">def</span> <span class="nf">_intern_pairs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_internPairs</span>
+
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">([</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beforeCommunities</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;=&gt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_afterNames</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

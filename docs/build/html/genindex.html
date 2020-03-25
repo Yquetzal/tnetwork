@@ -284,7 +284,33 @@
 <li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.plot_longitudinal_sn_clusters.html">tnetwork.plot_longitudinal_sn_clusters</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="reference/generation.html">Generation</a><ul class="simple">
+<li class="toctree-l1"><a class="reference internal" href="reference/generation.html">Benchmark Generator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.__init__.html">tnetwork.ComScenario.__init__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/generation.html#function-to-define-events">Function to define events</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.INITIALIZE.html">tnetwork.ComScenario.INITIALIZE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.BIRTH.html">tnetwork.ComScenario.BIRTH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.DEATH.html">tnetwork.ComScenario.DEATH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.MERGE.html">tnetwork.ComScenario.MERGE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.SPLIT.html">tnetwork.ComScenario.SPLIT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.THESEUS.html">tnetwork.ComScenario.THESEUS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.RESURGENCE.html">tnetwork.ComScenario.RESURGENCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.GROW_ITERATIVE.html">tnetwork.ComScenario.GROW_ITERATIVE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.SHRINK_ITERATIVE.html">tnetwork.ComScenario.SHRINK_ITERATIVE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.MIGRATE_ITERATIVE.html">tnetwork.ComScenario.MIGRATE_ITERATIVE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.ASSIGN.html">tnetwork.ComScenario.ASSIGN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.CONTINUE.html">tnetwork.ComScenario.CONTINUE</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/generation.html#run">Run</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/generation.html#commnity-class">Commnity class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.community.Community.name.html">tnetwork.DCD.community.Community.name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.community.Community.nodes.html">tnetwork.DCD.community.Community.nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.community.Community.nb_intern_edges.html">tnetwork.DCD.community.Community.nb_intern_edges</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -355,6 +381,7 @@
 <div class="genindex-jumpbox">
  <a href="#_"><strong>_</strong></a>
  | <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
@@ -374,34 +401,22 @@
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/tnetwork.Intervals.__add__.html#tnetwork.Intervals.__add__">__add__() (tnetwork.Intervals method)</a>
-
-      <ul>
-        <li><a href="reference/generated/tnetwork.utils.Intervals.__add__.html#tnetwork.utils.Intervals.__add__">(tnetwork.utils.Intervals method)</a>
+      <li><a href="reference/generated/tnetwork.utils.Intervals.__add__.html#tnetwork.utils.Intervals.__add__">__add__() (tnetwork.utils.Intervals method)</a>
 </li>
-      </ul></li>
-      <li><a href="reference/generated/tnetwork.Intervals.__contains__.html#tnetwork.Intervals.__contains__">__contains__() (tnetwork.Intervals method)</a>
-
-      <ul>
-        <li><a href="reference/generated/tnetwork.utils.Intervals.__contains__.html#tnetwork.utils.Intervals.__contains__">(tnetwork.utils.Intervals method)</a>
+      <li><a href="reference/generated/tnetwork.utils.Intervals.__contains__.html#tnetwork.utils.Intervals.__contains__">__contains__() (tnetwork.utils.Intervals method)</a>
 </li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.utils.Intervals.__eq__.html#tnetwork.utils.Intervals.__eq__">__eq__() (tnetwork.utils.Intervals method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.Intervals.__init__.html#tnetwork.Intervals.__init__">__init__() (tnetwork.Intervals method)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.ComScenario.__init__.html#tnetwork.ComScenario.__init__">__init__() (tnetwork.ComScenario method)</a>
 
       <ul>
         <li><a href="reference/generated/tnetwork.utils.Intervals.__init__.html#tnetwork.utils.Intervals.__init__">(tnetwork.utils.Intervals method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/generated/tnetwork.Intervals.__sub__.html#tnetwork.Intervals.__sub__">__sub__() (tnetwork.Intervals method)</a>
-
-      <ul>
-        <li><a href="reference/generated/tnetwork.utils.Intervals.__sub__.html#tnetwork.utils.Intervals.__sub__">(tnetwork.utils.Intervals method)</a>
+      <li><a href="reference/generated/tnetwork.utils.Intervals.__sub__.html#tnetwork.utils.Intervals.__sub__">__sub__() (tnetwork.utils.Intervals method)</a>
 </li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -430,20 +445,16 @@
         <li><a href="reference/generated/tnetwork.DynGraphSN.add_interactions_from.html#tnetwork.DynGraphSN.add_interactions_from">(tnetwork.DynGraphSN method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/generated/tnetwork.Intervals.add_interval.html#tnetwork.Intervals.add_interval">add_interval() (tnetwork.Intervals method)</a>
-
-      <ul>
-        <li><a href="reference/generated/tnetwork.utils.Intervals.add_interval.html#tnetwork.utils.Intervals.add_interval">(tnetwork.utils.Intervals method)</a>
+      <li><a href="reference/generated/tnetwork.utils.Intervals.add_interval.html#tnetwork.utils.Intervals.add_interval">add_interval() (tnetwork.utils.Intervals method)</a>
 </li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DynGraphIG.add_node_presence.html#tnetwork.DynGraphIG.add_node_presence">add_node_presence() (tnetwork.DynGraphIG method)</a>
 
       <ul>
         <li><a href="reference/generated/tnetwork.DynGraphSN.add_node_presence.html#tnetwork.DynGraphSN.add_node_presence">(tnetwork.DynGraphSN method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DynGraphIG.add_nodes_presence_from.html#tnetwork.DynGraphIG.add_nodes_presence_from">add_nodes_presence_from() (tnetwork.DynGraphIG method)</a>
 
       <ul>
@@ -468,6 +479,16 @@
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.apply_nx_function.html#tnetwork.DynGraphSN.apply_nx_function">apply_nx_function() (tnetwork.DynGraphSN method)</a>
 </li>
+      <li><a href="reference/generated/tnetwork.ComScenario.ASSIGN.html#tnetwork.ComScenario.ASSIGN">ASSIGN() (tnetwork.ComScenario method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.ComScenario.BIRTH.html#tnetwork.ComScenario.BIRTH">BIRTH() (tnetwork.ComScenario method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -482,22 +503,18 @@
         <li><a href="reference/generated/tnetwork.DynCommunitiesSN.communities.html#tnetwork.DynCommunitiesSN.communities">(tnetwork.DynCommunitiesSN method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/generation.html#tnetwork.DCD.community.Community">Community (class in tnetwork.DCD.community)</a>
+</li>
       <li><a href="reference/generation.html#tnetwork.ComScenario">ComScenario (class in tnetwork)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.Intervals.contains.html#tnetwork.Intervals.contains">contains() (tnetwork.Intervals method)</a>
-
-      <ul>
-        <li><a href="reference/generated/tnetwork.utils.Intervals.contains.html#tnetwork.utils.Intervals.contains">(tnetwork.utils.Intervals method)</a>
-</li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/tnetwork.Intervals.contains_t.html#tnetwork.Intervals.contains_t">contains_t() (tnetwork.Intervals method)</a>
-
-      <ul>
-        <li><a href="reference/generated/tnetwork.utils.Intervals.contains_t.html#tnetwork.utils.Intervals.contains_t">(tnetwork.utils.Intervals method)</a>
+      <li><a href="reference/generated/tnetwork.utils.Intervals.contains.html#tnetwork.utils.Intervals.contains">contains() (tnetwork.utils.Intervals method)</a>
 </li>
-      </ul></li>
+      <li><a href="reference/generated/tnetwork.utils.Intervals.contains_t.html#tnetwork.utils.Intervals.contains_t">contains_t() (tnetwork.utils.Intervals method)</a>
+</li>
+      <li><a href="reference/generated/tnetwork.ComScenario.CONTINUE.html#tnetwork.ComScenario.CONTINUE">CONTINUE() (tnetwork.ComScenario method)</a>
+</li>
       <li><a href="reference/generated/tnetwork.DynGraphIG.cumulated_graph.html#tnetwork.DynGraphIG.cumulated_graph">cumulated_graph() (tnetwork.DynGraphIG method)</a>
 
       <ul>
@@ -510,12 +527,10 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/tnetwork.Intervals.duration.html#tnetwork.Intervals.duration">duration() (tnetwork.Intervals method)</a>
-
-      <ul>
-        <li><a href="reference/generated/tnetwork.utils.Intervals.duration.html#tnetwork.utils.Intervals.duration">(tnetwork.utils.Intervals method)</a>
+      <li><a href="reference/generated/tnetwork.ComScenario.DEATH.html#tnetwork.ComScenario.DEATH">DEATH() (tnetwork.ComScenario method)</a>
 </li>
-      </ul></li>
+      <li><a href="reference/generated/tnetwork.utils.Intervals.duration.html#tnetwork.utils.Intervals.duration">duration() (tnetwork.utils.Intervals method)</a>
+</li>
       <li><a href="reference/dyn_communities.html#tnetwork.DynCommunitiesIG">DynCommunitiesIG (class in tnetwork)</a>
 </li>
   </ul></td>
@@ -532,12 +547,8 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/tnetwork.Intervals.end.html#tnetwork.Intervals.end">end() (tnetwork.Intervals method)</a>
-
-      <ul>
-        <li><a href="reference/generated/tnetwork.utils.Intervals.end.html#tnetwork.utils.Intervals.end">(tnetwork.utils.Intervals method)</a>
+      <li><a href="reference/generated/tnetwork.utils.Intervals.end.html#tnetwork.utils.Intervals.end">end() (tnetwork.utils.Intervals method)</a>
 </li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -546,8 +557,6 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.generate_multi_temporal_scale.html#tnetwork.generate_multi_temporal_scale">generate_multi_temporal_scale() (in module tnetwork)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DynGraphIG.graph_at_time.html#tnetwork.DynGraphIG.graph_at_time">graph_at_time() (tnetwork.DynGraphIG method)</a>
 
       <ul>
@@ -555,21 +564,23 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.ComScenario.GROW_ITERATIVE.html#tnetwork.ComScenario.GROW_ITERATIVE">GROW_ITERATIVE() (tnetwork.ComScenario method)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.ComScenario.INITIALIZE.html#tnetwork.ComScenario.INITIALIZE">INITIALIZE() (tnetwork.ComScenario method)</a>
+</li>
       <li><a href="reference/generated/tnetwork.DynGraphIG.interactions.html#tnetwork.DynGraphIG.interactions">interactions() (tnetwork.DynGraphIG method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.Intervals.intersection.html#tnetwork.Intervals.intersection">intersection() (tnetwork.Intervals method)</a>
-
-      <ul>
-        <li><a href="reference/generated/tnetwork.utils.Intervals.intersection.html#tnetwork.utils.Intervals.intersection">(tnetwork.utils.Intervals method)</a>
-</li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.utils.Intervals.intersection.html#tnetwork.utils.Intervals.intersection">intersection() (tnetwork.utils.Intervals method)</a>
+</li>
       <li><a href="reference/Intervals.html#tnetwork.utils.Intervals">Intervals (class in tnetwork.utils)</a>
 </li>
       <li><a href="reference/generated/tnetwork.iterative_match.html#tnetwork.iterative_match">iterative_match() (in module tnetwork)</a>
@@ -591,11 +602,21 @@
       <li><a href="reference/generated/tnetwork.match_survival_graph.html#tnetwork.match_survival_graph">match_survival_graph() (in module tnetwork)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.ComScenario.MERGE.html#tnetwork.ComScenario.MERGE">MERGE() (tnetwork.ComScenario method)</a>
+</li>
+      <li><a href="reference/generated/tnetwork.ComScenario.MIGRATE_ITERATIVE.html#tnetwork.ComScenario.MIGRATE_ITERATIVE">MIGRATE_ITERATIVE() (tnetwork.ComScenario method)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.DCD.community.Community.name.html#tnetwork.DCD.community.Community.name">name() (tnetwork.DCD.community.Community method)</a>
+</li>
+      <li><a href="reference/generated/tnetwork.DCD.community.Community.nb_intern_edges.html#tnetwork.DCD.community.Community.nb_intern_edges">nb_intern_edges() (tnetwork.DCD.community.Community method)</a>
+</li>
       <li><a href="reference/generated/tnetwork.DynGraphIG.node_presence.html#tnetwork.DynGraphIG.node_presence">node_presence() (tnetwork.DynGraphIG method)</a>
 
       <ul>
@@ -604,6 +625,8 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.DCD.community.Community.nodes.html#tnetwork.DCD.community.Community.nodes">nodes() (tnetwork.DCD.community.Community method)</a>
+</li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesIG.nodes_main_com.html#tnetwork.DynCommunitiesIG.nodes_main_com">nodes_main_com() (tnetwork.DynCommunitiesIG method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesIG.nodes_natural_order.html#tnetwork.DynCommunitiesIG.nodes_natural_order">nodes_natural_order() (tnetwork.DynCommunitiesIG method)</a>
@@ -616,16 +639,12 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/tnetwork.Intervals.periods.html#tnetwork.Intervals.periods">periods() (tnetwork.Intervals method)</a>
-
-      <ul>
-        <li><a href="reference/generated/tnetwork.utils.Intervals.periods.html#tnetwork.utils.Intervals.periods">(tnetwork.utils.Intervals method)</a>
+      <li><a href="reference/generated/tnetwork.utils.Intervals.periods.html#tnetwork.utils.Intervals.periods">periods() (tnetwork.utils.Intervals method)</a>
 </li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.plot_as_graph.html#tnetwork.plot_as_graph">plot_as_graph() (in module tnetwork)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.plot_longitudinal.html#tnetwork.plot_longitudinal">plot_longitudinal() (in module tnetwork)</a>
 </li>
       <li><a href="reference/generated/tnetwork.plot_longitudinal_sn_clusters.html#tnetwork.plot_longitudinal_sn_clusters">plot_longitudinal_sn_clusters() (in module tnetwork)</a>
@@ -644,17 +663,21 @@
 </li>
       <li><a href="reference/iof/tnetwork.read_snapshots.html#tnetwork.read_snapshots">read_snapshots() (in module tnetwork)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DynCommunitiesIG.remove_affiliation.html#tnetwork.DynCommunitiesIG.remove_affiliation">remove_affiliation() (tnetwork.DynCommunitiesIG method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DynGraphSN.remove_interaction.html#tnetwork.DynGraphSN.remove_interaction">remove_interaction() (tnetwork.DynGraphSN method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html#tnetwork.DynGraphSN.remove_interactions_from">remove_interactions_from() (tnetwork.DynGraphSN method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.remove_node_presence.html#tnetwork.DynGraphSN.remove_node_presence">remove_node_presence() (tnetwork.DynGraphSN method)</a>
 </li>
+      <li><a href="reference/generated/tnetwork.ComScenario.RESURGENCE.html#tnetwork.ComScenario.RESURGENCE">RESURGENCE() (tnetwork.ComScenario method)</a>
+</li>
       <li><a href="reference/generated/tnetwork.rollingCPM.html#tnetwork.rollingCPM">rollingCPM() (in module tnetwork)</a>
+</li>
+      <li><a href="reference/generated/tnetwork.ComScenario.run.html#tnetwork.ComScenario.run">run() (tnetwork.ComScenario method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -664,26 +687,28 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DynCommunitiesSN.set_communities.html#tnetwork.DynCommunitiesSN.set_communities">set_communities() (tnetwork.DynCommunitiesSN method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.snapshot_affiliations.html#tnetwork.DynCommunitiesSN.snapshot_affiliations">snapshot_affiliations() (tnetwork.DynCommunitiesSN method)</a>
+      <li><a href="reference/generated/tnetwork.ComScenario.SHRINK_ITERATIVE.html#tnetwork.ComScenario.SHRINK_ITERATIVE">SHRINK_ITERATIVE() (tnetwork.ComScenario method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.snapshot_communities.html#tnetwork.DynCommunitiesSN.snapshot_communities">snapshot_communities() (tnetwork.DynCommunitiesSN method)</a>
+      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.snapshot_affiliations.html#tnetwork.DynCommunitiesSN.snapshot_affiliations">snapshot_affiliations() (tnetwork.DynCommunitiesSN method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.snapshot_communities.html#tnetwork.DynCommunitiesSN.snapshot_communities">snapshot_communities() (tnetwork.DynCommunitiesSN method)</a>
+</li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.snapshots_timesteps.html#tnetwork.DynGraphSN.snapshots_timesteps">snapshots_timesteps() (tnetwork.DynGraphSN method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.Intervals.start.html#tnetwork.Intervals.start">start() (tnetwork.Intervals method)</a>
-
-      <ul>
-        <li><a href="reference/generated/tnetwork.utils.Intervals.start.html#tnetwork.utils.Intervals.start">(tnetwork.utils.Intervals method)</a>
+      <li><a href="reference/generated/tnetwork.ComScenario.SPLIT.html#tnetwork.ComScenario.SPLIT">SPLIT() (tnetwork.ComScenario method)</a>
 </li>
-      </ul></li>
+      <li><a href="reference/generated/tnetwork.utils.Intervals.start.html#tnetwork.utils.Intervals.start">start() (tnetwork.utils.Intervals method)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.ComScenario.THESEUS.html#tnetwork.ComScenario.THESEUS">THESEUS() (tnetwork.ComScenario method)</a>
+</li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html#tnetwork.DynCommunitiesSN.to_DynCommunitiesIG">to_DynCommunitiesIG() (tnetwork.DynCommunitiesSN method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.to_DynGraphIG.html#tnetwork.DynGraphSN.to_DynGraphIG">to_DynGraphIG() (tnetwork.DynGraphSN method)</a>
@@ -702,12 +727,8 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/tnetwork.Intervals.union.html#tnetwork.Intervals.union">union() (tnetwork.Intervals method)</a>
-
-      <ul>
-        <li><a href="reference/generated/tnetwork.utils.Intervals.union.html#tnetwork.utils.Intervals.union">(tnetwork.utils.Intervals method)</a>
+      <li><a href="reference/generated/tnetwork.utils.Intervals.union.html#tnetwork.utils.Intervals.union">union() (tnetwork.utils.Intervals method)</a>
 </li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
