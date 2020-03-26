@@ -1,4 +1,4 @@
-function run_DYNMOGA(fileClasses,fileEdges, T)
+function run_DYNMOGA(fileClasses,fileEdges, T,outputFile)
 %T added by Remy Cazabet, number of time steps
 % The following code and comments have been written by Yu-Ru Lin. 
 % We added the call to our program run_DYNMOEAmain(W_Cube,nbCluster)
@@ -100,6 +100,7 @@ for k1 = 1:1:size(zs,1)
             fname = ['result_T_' int2str(T)  ...
                 '_bS_' int2str(blogSize) ...
                 '.mat'];
+            fname = [fileClasses "file.mat"];
 
             eval(['save ' fname]);
 

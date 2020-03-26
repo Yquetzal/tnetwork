@@ -14,7 +14,7 @@ import numpy as np
 
 from tnetwork.DCD.externals.dynamo import dynamo
 from tnetwork.DCD.externals.dynmoga import dynmoga
-from tnetwork.DCD.externals.MuchaOriginal import muchaOriginal
+from tnetwork.DCD.externals.MuchaOriginal import mucha_original
 from matlab import engine
 
 
@@ -27,10 +27,10 @@ def standard_methods_to_test():
     # methods_to_test = {"iterative":DCD.iterative_match,"dynamo":dynamo,"dynmoga":dynmoga,"smoothed_louvain":smoothed_louvain}
 
     def mucha_opti(x, elapsed_time=True):
-        return muchaOriginal(x, elapsed_time=elapsed_time, matlab_session=eng)
+        return mucha_original(x, elapsed_time=elapsed_time, matlab_session=eng)
 
     def mucha_global(x, elapsed_time=True):
-        return muchaOriginal(x, elapsed_time=elapsed_time, matlab_session=eng, form="global")
+        return mucha_original(x, elapsed_time=elapsed_time, matlab_session=eng, form="global")
 
     print("pas de mucha")
     methods_to_test = {"iterative": tn.DCD.iterative_match,

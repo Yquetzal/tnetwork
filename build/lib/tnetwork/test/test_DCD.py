@@ -2,7 +2,7 @@ import unittest
 import tnetwork as tn
 import tnetwork.DCD as DCD
 import shutil
-
+import tnetwork.DCD.externals as DCDextern
 
 class DCDTestCase(unittest.TestCase):
 
@@ -42,5 +42,25 @@ class DCDTestCase(unittest.TestCase):
 
         tn.write_com_SN(coms, "testDir")
         shutil.rmtree("testDir")
+
+    def test_dynamo(self):
+        dg = tn.DynGraphSN.graph_socioPatterns2012()
+        dg = dg.aggregate_time_period("day")
+
+        coms = DCDextern.dynamo(dg)
+
+        tn.write_com_SN(coms, "testDir")
+        shutil.rmtree("testDir")
+
+    def test_mucha(self):
+        dg = tn.DynGraphSN.graph_socioPatterns2012()
+        dg = dg.aggregate_sliding_window(60 * 60 * 24)
+
+        coms = DCDextern.mucha_original(dg)
+
+        tn.write_com_SN(coms, "testDir")
+        shutil.rmtree("testDir")
+
+
 if __name__ == '__main__':
     unittest.main()

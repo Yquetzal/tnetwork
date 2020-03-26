@@ -1,5 +1,5 @@
 import sortedcontainers
-from tnetwork.utils.bidict import *
+import bidict
 import os
 import tnetwork as tn
 from tnetwork.utils.community_utils import *
@@ -22,7 +22,7 @@ def _read_static_coms_by_node(inputFile, separator="\t"):
         for com in l[1:]:
             comID = com
             coms.setdefault(comID,set()).add(l[0])
-    toReturn = bidict()
+    toReturn = bidict.bidict()
     for com,nodes in coms.items():
         toReturn[frozenset(nodes)]=com
 

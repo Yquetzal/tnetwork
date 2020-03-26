@@ -8,7 +8,11 @@ import scipy.io
 from tnetwork.readwrite.SN_graph_io import _write_network_file
 from tnetwork.utils.community_utils import affiliations2nodesets
 
-def runMatlabCode(dummy_coms_files,graphs_files,T):
+
+#####
+#This algorithm suffer from several problems, the code is slow and has some peculiarities that makes it hard to run
+#####
+def _runMatlabCode(dummy_coms_files, graphs_files, T,ouput_file):
 
     dir = os.path.dirname(__file__)
     visuAddress = os.path.join(dir, "DYNMOGA2015b-2")
@@ -23,7 +27,7 @@ def runMatlabCode(dummy_coms_files,graphs_files,T):
     err = io.StringIO()
     #(S, Q) = eng.genlouvain('file.mat', nargout=2)
     try:
-        eng.run_DYNMOGA(dummy_coms_files,graphs_files,T, stdout=out, stderr=err,nargout=0)
+        eng.run_DYNMOGA(dummy_coms_files,graphs_files,T,ouput_file, stdout=out, stderr=err,nargout=0)
     except:
         print(err.getvalue())
         print(out.getvalue())
@@ -37,7 +41,7 @@ def runMatlabCode(dummy_coms_files,graphs_files,T):
 
     return(duration)
 
-def create_and_clean_directory(dir):
+def _create_and_clean_directory(dir):
 
     if not os.path.exists(dir):
         os.makedirs(dir, exist_ok=True)
@@ -46,10 +50,10 @@ def create_and_clean_directory(dir):
         for f in filelist:
             os.remove(os.path.join(dir, f))
 
-def write_for_dynmoga(dynGraph: tn.DynGraphSN, outputDir: str):
+def _write_for_dynmoga(dynGraph: tn.DynGraphSN, outputDir: str):
     """
     """
-    create_and_clean_directory(outputDir)
+    _create_and_clean_directory(outputDir)
 
     dyn_graph_normalized,dic_nodes,dic_time = dynGraph.normalize_to_integers(nodes_start_at=1,time_start_at=1)
 
@@ -67,7 +71,7 @@ def write_for_dynmoga(dynGraph: tn.DynGraphSN, outputDir: str):
     return dic_nodes,dic_time
 
 
-def load_dynmoga(file,dic_nodes,dic_times,dyn_graph):
+def _load_dynmoga(file, dic_nodes, dic_times, dyn_graph):
 
     to_return = tn.DynCommunitiesSN()
     res = scipy.io.loadmat(file)
@@ -82,18 +86,33 @@ def load_dynmoga(file,dic_nodes,dic_times,dyn_graph):
     return to_return
 
 def dynmoga(dynGraph: tn.DynGraphSN,elapsed_time=False):
+    """
+    Dynmoga Algorithm
+
+    Requires Matlab
+
+    :param dynGraph:
+    :param elapsed_time:
+    :return:
+    """
     dir = os.path.dirname(__file__)
     dir = os.path.join(dir,"temp","dynmoga")
 
-    dic_nodes,dic_times = write_for_dynmoga(dynGraph,dir)
+    dic_nodes,dic_times = _write_for_dynmoga(dynGraph, dir)
 
     T = len(dynGraph.snapshots())
 
-
-    duration = runMatlabCode(os.path.join(dir,"coms"),os.path.join(dir,"nets"),T)
+    output_file = os.path.join(dir,"dynmoga_output.mat")
+    duration = _runMatlabCode(os.path.join(dir, "coms"), os.path.join(dir, "nets"), T, output_file)
 
     start = time.time()
-    dyn_coms = load_dynmoga("/Users/cazabetremy/Documents/GitHub/tnetwork/result_T_" + str(T) + "_bS_" + str(len(dic_nodes)) + ".mat",dic_nodes,dic_times,dynGraph)
+    #load_address = "/Users/cazabetremy/Documents/GitHub/tnetwork/result_T_" + str(T) + "_bS_" + str(len(dic_nodes)) + ".mat"
+    load_address = output_file
+
+    print("+++++++++++++++")
+    print(load_address)
+    print(dic_times)
+    dyn_coms = _load_dynmoga(load_address, dic_nodes, dic_times, dynGraph)
 
     dyn_coms.create_standard_event_graph()
 

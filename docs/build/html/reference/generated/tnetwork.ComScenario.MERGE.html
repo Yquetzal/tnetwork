@@ -272,11 +272,19 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../DCD.html">Dynamic Community Detection</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tnetwork.iterative_match.html">tnetwork.iterative_match</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tnetwork.match_survival_graph.html">tnetwork.match_survival_graph</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tnetwork.rollingCPM.html">tnetwork.rollingCPM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tnetwork.track_communities.html">tnetwork.track_communities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tnetwork.generate_multi_temporal_scale.html">tnetwork.generate_multi_temporal_scale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCD.html#internal-algorithms">Internal algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tnetwork.DCD.iterative_match.html">tnetwork.DCD.iterative_match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tnetwork.DCD.match_survival_graph.html">tnetwork.DCD.match_survival_graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tnetwork.DCD.smoothed_louvain.html">tnetwork.DCD.smoothed_louvain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tnetwork.DCD.rollingCPM.html">tnetwork.DCD.rollingCPM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tnetwork.DCD.MSSCD.html">tnetwork.DCD.MSSCD</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../DCD.html#external-algorithms">External algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tnetwork.DCD.externals.dynamo.html">tnetwork.DCD.externals.dynamo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tnetwork.DCD.externals.mucha_original.html">tnetwork.DCD.externals.mucha_original</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../vizu.html">Visualization</a><ul>
@@ -286,27 +294,37 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="../generation.html">Benchmark Generator</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="tnetwork.ComScenario.__init__.html">tnetwork.ComScenario.__init__</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../generation.html#function-to-define-events">Function to define events</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="tnetwork.ComScenario.INITIALIZE.html">tnetwork.ComScenario.INITIALIZE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tnetwork.ComScenario.BIRTH.html">tnetwork.ComScenario.BIRTH</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tnetwork.ComScenario.DEATH.html">tnetwork.ComScenario.DEATH</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">tnetwork.ComScenario.MERGE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tnetwork.ComScenario.SPLIT.html">tnetwork.ComScenario.SPLIT</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tnetwork.ComScenario.THESEUS.html">tnetwork.ComScenario.THESEUS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tnetwork.ComScenario.RESURGENCE.html">tnetwork.ComScenario.RESURGENCE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tnetwork.ComScenario.GROW_ITERATIVE.html">tnetwork.ComScenario.GROW_ITERATIVE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tnetwork.ComScenario.SHRINK_ITERATIVE.html">tnetwork.ComScenario.SHRINK_ITERATIVE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tnetwork.ComScenario.MIGRATE_ITERATIVE.html">tnetwork.ComScenario.MIGRATE_ITERATIVE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tnetwork.ComScenario.ASSIGN.html">tnetwork.ComScenario.ASSIGN</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tnetwork.ComScenario.CONTINUE.html">tnetwork.ComScenario.CONTINUE</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../generation.html#benchmark-with-custom-communities">Benchmark with custom communities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="tnetwork.ComScenario.__init__.html">tnetwork.ComScenario.__init__</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../generation.html#function-to-define-events">Function to define events</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.ComScenario.INITIALIZE.html">tnetwork.ComScenario.INITIALIZE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.ComScenario.BIRTH.html">tnetwork.ComScenario.BIRTH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.ComScenario.DEATH.html">tnetwork.ComScenario.DEATH</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">tnetwork.ComScenario.MERGE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.ComScenario.SPLIT.html">tnetwork.ComScenario.SPLIT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.ComScenario.THESEUS.html">tnetwork.ComScenario.THESEUS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.ComScenario.RESURGENCE.html">tnetwork.ComScenario.RESURGENCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.ComScenario.GROW_ITERATIVE.html">tnetwork.ComScenario.GROW_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.ComScenario.SHRINK_ITERATIVE.html">tnetwork.ComScenario.SHRINK_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.ComScenario.MIGRATE_ITERATIVE.html">tnetwork.ComScenario.MIGRATE_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.ComScenario.ASSIGN.html">tnetwork.ComScenario.ASSIGN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.ComScenario.CONTINUE.html">tnetwork.ComScenario.CONTINUE</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../generation.html#run">Run</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../generation.html#run">Run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../generation.html#commnity-class">Commnity class</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="../generation.html#commnity-class">Commnity class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DCD.community.Community.name.html">tnetwork.DCD.community.Community.name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DCD.community.Community.nodes.html">tnetwork.DCD.community.Community.nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tnetwork.DCD.community.Community.nb_intern_edges.html">tnetwork.DCD.community.Community.nb_intern_edges</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../generation.html#benchmark-with-stable-multiple-temporal-scales-communities">Benchmark with stable, multiple temporal scales communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale.html">tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale</a></li>
 </ul>
 </li>
 </ul>

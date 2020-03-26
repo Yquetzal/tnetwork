@@ -22,5 +22,4 @@ We propose two views of the data:
 
         plot_as_graph
         plot_longitudinal
-        plot_longitudinal_sn_clusters
 

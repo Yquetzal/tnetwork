@@ -5,57 +5,15 @@ import os
 import time
 import tnetwork as tn
 import io
-import scipy.io
+import scipy
 
 
-###############################
-######For this class, it is necessary to have Matlab installed
-######And to set up the matlab for python engine, see how to there
-###### https://fr.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html
-###### (you can find the value of matlabroot by tapping matlabroot in your matlab console)
-################################
-
-# def preprocessMatrixForm(om):
-#     #initialisation inspired by http://netwiki.amath.unc.edu/GenLouvain/GenLouvain
-#
-#     Gs = [nx.karate_club_graph(), nx.karate_club_graph()]
-#     nodeOrder = list(Gs[0].nodes())
-#     N = len(nodeOrder)
-#     T = len(Gs)
-#
-#     print("N", N)
-#     print("T", T)
-#     twomu = 0
-#     B = numpy.zeros(shape=(N * T, N * T))
-#     i = 1
-#
-#     for g in Gs:
-#         gmat = nx.to_numpy_matrix(g, nodelist=nodeOrder)
-#         k = gmat.sum(axis=0)
-#         twom = k.sum(axis=1)
-#         twomu = twomu + twom
-#         indx = numpy.arange(start=0, stop=N) + numpy.array([(i - 1) * N] * N)
-#
-#         nullModel = k.transpose() * k / twom
-#         B[numpy.ix_(indx, indx)] = gmat - nullModel  # for each slice, put the modularity matrix
-#
-#         i += 1
-#
-#     twomu = twomu + 2 * om * N * (T - 1)
-#     ones = numpy.ones((2, N * T))
-#     diags = [-N, N]
-#     omegaMat = scipy.sparse.spdiags(ones, diags, N * T, N * T)
-#     numpy.savetxt("test", omegaMat.A, fmt="%.2f")
-#
-#     omegaMat = omegaMat * om
-#     B = B + omegaMat
-#
-#     # matlab code
-#     S = runMatlabCode(B)
-#     print(S)
 
 
-def runMatlabCode(matrix,matlab_session):
+
+
+
+def _runMatlabCode(matrix, matlab_session):
     #matrix = scipy.sparse.coo_matrix(matrix)
     dir = os.path.dirname(__file__)
     visuAddress = os.path.join(dir, "GenLouvain-master")
@@ -92,13 +50,32 @@ def runMatlabCode(matrix,matlab_session):
     return(S,duration)
     # S = numpy.asarray(S).reshape(2, 34)
 
-def muchaOriginal(dynNetSN:tn.DynGraphSN, om=0.5,form="local",elapsed_time=False,matlab_session=None):
-    print("INITIALISING MMUCHA ")
+def mucha_original(dyn_graph:tn.DynGraphSN, om=0.5, form="local", elapsed_time=False, matlab_session=None):
+    """
+    Multiplex community detection, Mucha et al.
 
-    #dynNetSN.remove_nodes_from(dynNetSN.isolates())
+    Algorithm described in : `Mucha, P. J., Richardson, T., Macon, K., Porter, M. A., & Onnela, J. P. (2010). Community structure in time-dependent, multiscale, and multiplex networks. science, 328(5980), 876-878.`
+
+    Brief summary: a single network is created by adding nodes between themselves in different snaphsots. A modified modularity optimization algorithm is run
+    on this network
+
+    For this function, it is necessary to have Matlab installed
+    And to set up the matlab for python engine, see how to there
+    https://fr.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html
+    (you can find the value of matlabroot by tapping matlabroot in your matlab console)
 
 
-    graphs = dynNetSN.snapshots()
+    :param dyn_graph: dynamic network
+    :param om:
+    :param form:
+    :param elapsed_time:
+    :param matlab_session:
+    :return:
+    """
+    print("INITIALISING MUCHA ")
+
+
+    graphs = dyn_graph.snapshots()
 
     nodeOrderAllSN = []
     listModularityMatrices = []
@@ -127,7 +104,7 @@ def muchaOriginal(dynNetSN:tn.DynGraphSN, om=0.5,form="local",elapsed_time=False
     #add the link between same nodes in different timestamps
     multipleAppearances={} #for each node, list of indices where it appears
 
-    ordered_real_times = dynNetSN.snapshots_timesteps()
+    ordered_real_times = dyn_graph.snapshots_timesteps()
     for (i,(t,n)) in enumerate(nodeOrderAllSN):
         multipleAppearances.setdefault(n,[]).append((i,t))
 
@@ -164,11 +141,11 @@ def muchaOriginal(dynNetSN:tn.DynGraphSN, om=0.5,form="local",elapsed_time=False
 
     #B = scipy.sparse.coo_matrix(B)
 
-    (S,duration) = runMatlabCode(B,matlab_session=matlab_session)
+    (S,duration) = _runMatlabCode(B, matlab_session=matlab_session)
     #print("transforming back to dynamic net")
 
     DCSN = tn.DynCommunitiesSN()
-    times = dynNetSN.snapshots_timesteps()
+    times = dyn_graph.snapshots_timesteps()
     for i in range(len(S)):
         DCSN.add_affiliation(nodeOrderAllSN[i][1], S[i], times[nodeOrderAllSN[i][0]])
 
@@ -177,8 +154,3 @@ def muchaOriginal(dynNetSN:tn.DynGraphSN, om=0.5,form="local",elapsed_time=False
     if elapsed_time:
         return (DCSN,{"total":duration})
     return DCSN
-
-
-
-#preprocessMatrixForm(0.5)
-#muchaOriginal("bla")

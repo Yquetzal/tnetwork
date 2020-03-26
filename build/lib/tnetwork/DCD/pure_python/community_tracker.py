@@ -41,9 +41,9 @@ def score_conductance(nodes,graph):
         return 0
 
 
-def track_communities(dyn_graph, t_granularity = 1, t_persistance=3, t_quality=0.7, t_similarity=0.3, similarity=jaccard, CD="louvain", QC=score_conductance, weighted_aggregation=True, Granularity=None, start_time=None,elapsed_time=False):
+def MSSCD(dyn_graph, t_granularity = 1, t_persistance=3, t_quality=0.7, t_similarity=0.3, similarity=jaccard, CD="louvain", QC=score_conductance, weighted_aggregation=True, Granularity=None, start_time=None, elapsed_time=False):
     """
-    Proposed method to track communities
+    Multi Scale Stable Community Detection
 
     :param dyn_graph: a dynamic graph
     :param t_granularity: (:math:`\\theta_\\gamma` min temporal granularity,scale to analyze

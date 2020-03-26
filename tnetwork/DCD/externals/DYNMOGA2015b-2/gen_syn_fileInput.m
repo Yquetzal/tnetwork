@@ -66,6 +66,7 @@ for i=1:1:T
     GT_Matrix(:,i) = GT_Cube{i}*numClass';
 end
 
-fname = ['syn_T_' int2str(T) '_bS_' int2str(blogSize) '.mat'];
+%fname = ['syn_T_' int2str(T) '_bS_' int2str(blogSize) '.mat'];
+fname = [fileClasses 'syn_T_' int2str(T) '_bS_' int2str(blogSize) '.mat']
 
 eval(['save ' fname  ' W_Cube GT_Cube GT_Matrix blogSize nbCluster T  -mat']);

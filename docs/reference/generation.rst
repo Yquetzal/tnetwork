@@ -1,13 +1,20 @@
 *************************************
 Benchmark Generator
 *************************************
-
-Some methods are proposed to visualize dynamic networks and snapshot_communities.
 A simple demo of usage can be found `here
 <https://colab.research.google.com/github/Yquetzal/tnetwork/blob/master/demo_generation.ipynb>`_.
 
+The library implements several benchmark generators.
+The aim of those benchmark is to generate both a temporal graph and a *reference*
+dynamic community structure.
+
+Currently, two benchmarks are implemented:
+ * Benchmark with custom event scenario
+ * Benchmark with stable, multiple temporal scale communities
 
 
+Benchmark with custom communities
+++++++++++++++++++++++++++++++++++++++
 
 .. currentmodule:: tnetwork
 
@@ -43,7 +50,7 @@ Run
 
         ComScenario.run
 
-Commnity class
+Community class
 -----------------------------------
 .. currentmodule:: tnetwork.DCD.community
 
@@ -55,3 +62,13 @@ Commnity class
         Community.name
         Community.nodes
         Community.nb_intern_edges
+
+
+Benchmark with stable, multiple temporal scales communities
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. currentmodule:: tnetwork.DCD.multi_temporal_scale
+
+.. autosummary::
+    :toctree: generated/
+
+        generate_multi_temporal_scale

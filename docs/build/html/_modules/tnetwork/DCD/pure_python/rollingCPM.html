@@ -270,11 +270,19 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../reference/DCD.html">Dynamic Community Detection</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../reference/generated/tnetwork.iterative_match.html">tnetwork.iterative_match</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../reference/generated/tnetwork.match_survival_graph.html">tnetwork.match_survival_graph</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../reference/generated/tnetwork.rollingCPM.html">tnetwork.rollingCPM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../reference/generated/tnetwork.track_communities.html">tnetwork.track_communities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../reference/generated/tnetwork.generate_multi_temporal_scale.html">tnetwork.generate_multi_temporal_scale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/DCD.html#internal-algorithms">Internal algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.iterative_match.html">tnetwork.DCD.iterative_match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.match_survival_graph.html">tnetwork.DCD.match_survival_graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.smoothed_louvain.html">tnetwork.DCD.smoothed_louvain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.rollingCPM.html">tnetwork.DCD.rollingCPM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.MSSCD.html">tnetwork.DCD.MSSCD</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/DCD.html#external-algorithms">External algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.externals.dynamo.html">tnetwork.DCD.externals.dynamo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.externals.mucha_original.html">tnetwork.DCD.externals.mucha_original</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../reference/vizu.html">Visualization</a><ul>
@@ -284,30 +292,37 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../reference/generation.html">Benchmark Generator</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.__init__.html">tnetwork.ComScenario.__init__</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../reference/generation.html#function-to-define-events">Function to define events</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.INITIALIZE.html">tnetwork.ComScenario.INITIALIZE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.BIRTH.html">tnetwork.ComScenario.BIRTH</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.DEATH.html">tnetwork.ComScenario.DEATH</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.MERGE.html">tnetwork.ComScenario.MERGE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.SPLIT.html">tnetwork.ComScenario.SPLIT</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.THESEUS.html">tnetwork.ComScenario.THESEUS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.RESURGENCE.html">tnetwork.ComScenario.RESURGENCE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.GROW_ITERATIVE.html">tnetwork.ComScenario.GROW_ITERATIVE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.SHRINK_ITERATIVE.html">tnetwork.ComScenario.SHRINK_ITERATIVE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.MIGRATE_ITERATIVE.html">tnetwork.ComScenario.MIGRATE_ITERATIVE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.ASSIGN.html">tnetwork.ComScenario.ASSIGN</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.CONTINUE.html">tnetwork.ComScenario.CONTINUE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/generation.html#benchmark-with-custom-communities">Benchmark with custom communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.__init__.html">tnetwork.ComScenario.__init__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generation.html#function-to-define-events">Function to define events</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.INITIALIZE.html">tnetwork.ComScenario.INITIALIZE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.BIRTH.html">tnetwork.ComScenario.BIRTH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.DEATH.html">tnetwork.ComScenario.DEATH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.MERGE.html">tnetwork.ComScenario.MERGE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.SPLIT.html">tnetwork.ComScenario.SPLIT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.THESEUS.html">tnetwork.ComScenario.THESEUS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.RESURGENCE.html">tnetwork.ComScenario.RESURGENCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.GROW_ITERATIVE.html">tnetwork.ComScenario.GROW_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.SHRINK_ITERATIVE.html">tnetwork.ComScenario.SHRINK_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.MIGRATE_ITERATIVE.html">tnetwork.ComScenario.MIGRATE_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.ASSIGN.html">tnetwork.ComScenario.ASSIGN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.CONTINUE.html">tnetwork.ComScenario.CONTINUE</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../reference/generation.html#run">Run</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generation.html#run">Run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../reference/generation.html#commnity-class">Commnity class</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.community.Community.name.html">tnetwork.DCD.community.Community.name</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.community.Community.nodes.html">tnetwork.DCD.community.Community.nodes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.community.Community.nb_intern_edges.html">tnetwork.DCD.community.Community.nb_intern_edges</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generation.html#commnity-class">Commnity class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.community.Community.name.html">tnetwork.DCD.community.Community.name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.community.Community.nodes.html">tnetwork.DCD.community.Community.nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.community.Community.nb_intern_edges.html">tnetwork.DCD.community.Community.nb_intern_edges</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/generation.html#benchmark-with-stable-multiple-temporal-scales-communities">Benchmark with stable, multiple temporal scales communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale.html">tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale</a></li>
 </ul>
 </li>
 </ul>
@@ -395,7 +410,7 @@
     <span class="k">return</span><span class="p">(</span><span class="n">snt</span><span class="p">,</span><span class="n">coms</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="rollingCPM"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.rollingCPM.html#tnetwork.rollingCPM">[docs]</a><span class="k">def</span> <span class="nf">rollingCPM</span><span class="p">(</span><span class="n">dynNetSN</span><span class="p">:</span><span class="n">DynGraphSN</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">elapsed_time</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="rollingCPM"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.rollingCPM.html#tnetwork.DCD.rollingCPM">[docs]</a><span class="k">def</span> <span class="nf">rollingCPM</span><span class="p">(</span><span class="n">dynNetSN</span><span class="p">:</span><span class="n">DynGraphSN</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">elapsed_time</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    This method is based on Palla et al[1]. It first computes overlapping snapshot_communities in each snapshot based on the</span>

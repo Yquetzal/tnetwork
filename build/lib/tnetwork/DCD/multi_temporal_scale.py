@@ -40,6 +40,16 @@ def generate_multi_temporal_scale(nb_steps=5000,nb_nodes=100,nb_com = 10,noise=N
     """
     Generate dynamic graph with stable communities
 
+    This benchmark allows to generate temporal networks as described in
+    `Detecting Stable Communities in Link Streams at Multiple Temporal Scales. Boudebza, S., Cazabet, R., Nouali, O., & Azouaou, F. (2019).`.
+
+    To sum up the method, *stable* communities are generated (i.e., no node change).
+    These communities exist for some periods, but have different *temporal scales*, i.e., some of them have a high frequency of edges (their edges appear at every step) while others have a lower frequency (i.e., each edge appear only every $t$ steps). To simplify, communities are complete cliques.(but for the low frequency ones, we might observe only a small fraction of their edges in every step)
+
+    The basic parameters are the number of steps, number of nodes and number of communities.
+    There are other parameters allowing to modify the random noise, the maximal size of communities and the maximal duration of communities,
+    that are by default assigned with values scaled according to the other parameters.
+
     :param nb_steps: steps in the graph
     :param nb_nodes: total nb nodes
     :param nb_com: nb desired communities

@@ -6,28 +6,70 @@ Dynamic community detection is the problem of discovering snapshot_communities i
 A simple demo of usage can be found `here
 <https://colab.research.google.com/github/Yquetzal/tnetwork/blob/master/demo_DCD.ipynb>`_.
 
-Currently, the following publsihed methods are implemented
+There are two types of methods implemented: those that are written in pure python
+and those who require an external tool.
 
-* Rolling CPM
-* Iterative match
-* Survival graph
+Those in pure python are part of the `tnetwork.DCD` module while others are in `tnetwork.DCD.external`.
+
+Below is a list of implemented methods, with the type of dynamic networks they are designed to manage.
+Note that this type of network is unrelated with the tnetwork representation:
+a snapshot representation can be used to encode a snapshot graph, a link stream or an interval graph.
+The possible types of dynamic networks are:
+
+* snapshot: The graph is well defined at any $t$, changes tend to occur synchronously
+* interval gaph: The graph is well defined at any $t$, but graph changes are not synchrone, changes appear edge by edge
+* link stream: graphs at any time $t$ are poorly defined, graphs can be studied only by studying a $\Delta$ period of aggregation
+
+.. list-table:: Types of dynamic networks expected by each method
+    :widths: 25 50
+    :header-rows: 1
+
+    * - Method
+      - Type of dynamic network
+    * - `iterative_match`
+      - snapshots
+    * - `match_survival_graph`
+      - snapshots
+    * - `smoothed_louvain`
+      - snapshots
+    * - `rollingCPM`
+      - snapshots
+    * - `MSSCD`
+      - link stream
+    * - `muchaOriginal`
+      - snapshots
+    * - `dynamo`
+      - interval graph
 
 
+Some external algorithms require matlab, and the matlab-python engine, ensuring the connection between both.
+How to explain it is explained on the matlab website, currenty there: https://fr.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html
 
-All of them are based on snapshots graphs. Iterative match and Survival graph are generic methods, since they can
-be parameterized by the community detection method to use at each step, and by the community similarity function to
-match snapshot_communities. They can even use a smoothed algorithm to discover snapshot_communities at each step.
+.. currentmodule:: tnetwork.DCD
 
-Two other methods, yet unpublished, are proposed, track_communities and generate_multi_temporal_scale , respectively
-to detect and generate communities at multiple temporal scale
-
-.. currentmodule:: tnetwork
+Internal algorithms
+------------------------------------------
+These algorithms are implemented in python.
 
 .. autosummary::
     :toctree: generated/
 
         iterative_match
         match_survival_graph
+        smoothed_louvain
         rollingCPM
-        track_communities
-        generate_multi_temporal_scale
+        MSSCD
+
+.. currentmodule:: tnetwork.DCD.externals
+
+External algorithms
+------------------------------------------
+These algorithms call external code provided by authors, and thus might require installing
+additional softwares (java, matlab).
+
+.. autosummary::
+    :toctree: generated/
+
+        dynamo
+        mucha_original
+

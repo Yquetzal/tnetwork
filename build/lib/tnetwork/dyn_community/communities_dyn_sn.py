@@ -1,6 +1,6 @@
 import sortedcontainers
 from tnetwork.dyn_community.communitiesEventsHandler import CommunitiesEvent
-from collections import Iterable
+from collections.abc import Iterable
 import networkx as nx
 import tnetwork as tn
 #from tnetwork.utils import bidict #### do not use bidict to avoid having to use frozenset

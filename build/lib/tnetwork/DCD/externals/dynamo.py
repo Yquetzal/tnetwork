@@ -2,14 +2,16 @@ import tnetwork as tn
 import os
 import networkx as nx
 import subprocess
-
-from tnetwork.readwrite.SN_graph_io import _write_network_file
 import time
 
 
-def launchCommandWaitAnswer(acommand, printOutput=False,timeout=10):
-    #process = subprocess.Popen(acommand, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    process = subprocess.check_output(acommand, shell=True,timeout=timeout,stderr=subprocess.STDOUT)
+def _launchCommandWaitAnswer(acommand, printOutput=False, timeout=10):
+    try:
+        process = subprocess.check_output(acommand, shell=True,timeout=timeout,stderr=subprocess.STDOUT)
+    except:
+        print("ERROR, the java code for dynamo failed, check output when running: ")
+        print(acommand)
+
     # if printOutput:
     #     while (True):
     #         retcode = process.poll()  # returns None while subprocess is running
@@ -25,7 +27,7 @@ def launchCommandWaitAnswer(acommand, printOutput=False,timeout=10):
 
 
 
-def write_for_dynamo(dynGraph: tn.DynGraphSN, outputDir: str):
+def _write_for_dynamo(dynGraph: tn.DynGraphSN, outputDir: str):
     """
     """
     allGraphs = list(dynGraph.snapshots().values())
@@ -80,7 +82,7 @@ def write_for_dynamo(dynGraph: tn.DynGraphSN, outputDir: str):
     return nodes_dict
 
 
-def read_coms_dynamo(dynGraph: tn.DynGraphSN, input_dir, nodes_dict):
+def _read_coms_dynamo(dynGraph: tn.DynGraphSN, input_dir, nodes_dict):
     nodes_dict = {v:k for k,v in nodes_dict.items()}
     coms = tn.DynCommunitiesSN()
     i=1
@@ -102,20 +104,33 @@ def read_coms_dynamo(dynGraph: tn.DynGraphSN, input_dir, nodes_dict):
     coms._relabel_coms_from_continue_events(typedEvents=False)
     return coms
 
-def dynamo(dynGraph: tn.DynGraphSN,elapsed_time=False,timeout=10):
+def dynamo(dyn_graph: tn.DynGraphSN, elapsed_time=False, timeout=10):
+    """
+    Dynamo algorithm
+
+    Requires JAVA
+
+    :param dyn_graph:
+    :param elapsed_time:
+    :param timeout:
+    :return:
+    """
     print("start dynamo")
 
-    dir = os.path.dirname(__file__)
-    dir = os.path.join(dir,"temp")
-    dict_nodes = write_for_dynamo(dynGraph,dir)
+    dir_or = os.path.dirname(__file__)
+    dir = os.path.join(dir_or,"temp")
+    dict_nodes = _write_for_dynamo(dyn_graph, dir)
     start = time.time()
 
     print("run dynamo java code")
-    launchCommandWaitAnswer("java -jar /Users/cazabetremy/ownCloud/Projects-recherche/DYNAMO/dynamo.jar "+dir+" "+dir+"/coms_dynamo",timeout)
+    command = "java -jar "+dir_or+"/DYNAMO/dynamo.jar " + dir + " " + dir + "/coms_dynamo"
+    _launchCommandWaitAnswer(command, timeout=timeout)
+
+    #_launchCommandWaitAnswer("java -jar /Users/cazabetremy/ownCloud/Projects-recherche/DYNAMO/dynamo.jar " + dir + " " + dir + "/coms_dynamo", timeout)
     print("dynamo java code run")
 
 
-    dyn_coms = read_coms_dynamo(dynGraph,os.path.join(dir,"coms_dynamo"),dict_nodes)
+    dyn_coms = _read_coms_dynamo(dyn_graph, os.path.join(dir, "coms_dynamo"), dict_nodes)
     duration = time.time() - start
 
     if elapsed_time:

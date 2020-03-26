@@ -3,7 +3,7 @@ from tnetwork.utils.intervals import *
 import operator
 import math
 from tnetwork.utils.community_utils import affiliations2nodesets
-from collections import Iterable
+from collections.abc import Iterable
 import tnetwork as tn
 from tnetwork.dyn_community.communities_dyn import DynCommunities
 import numbers

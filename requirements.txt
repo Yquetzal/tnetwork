@@ -5,3 +5,4 @@ networkx>=2.4
 pandas
 bokeh
 progressbar2
+bidict

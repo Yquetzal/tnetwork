@@ -1,9 +1,9 @@
 import sortedcontainers
-from collections import Iterable
+from collections.abc import Iterable
 
 import networkx as nx
 from copy import deepcopy
-from tnetwork.utils.bidict import bidict
+import bidict
 import pkg_resources
 
 import tnetwork as tn

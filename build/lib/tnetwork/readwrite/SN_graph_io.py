@@ -3,8 +3,7 @@ from tnetwork import DynGraphSN
 import os
 import tnetwork as dn
 
-from tnetwork.utils.bidict import *
-
+import bidict
 __all__ = ["read_snapshots", "write_snapshots", "write_snapshots_single_file", "read_graph_link_stream"]
 
 def _detectAutomaticallyFormat(networkFile):
@@ -46,7 +45,8 @@ def _read_network_file(in_name, in_format="", directed=False):
     Read the graph representation on file using a user specified format
 
     :param in_name: pattern for the output filename
-    :param in_format: output format. Accepted values: edgelist|ncol|gefx|gml|pajek\graphML
+    :param in_format: output format. Accepted values: edgelist|ncol|gefx|gml|pajek|graphML
+
     """
 
     if in_format == 'edges':
@@ -151,7 +151,7 @@ def _readStaticSNByCom(inputFile, commentsChar="#", nodeSeparator=" ", nodeInBra
     #     theDynCom = dn.dynamicCommunitiesSN()
     # if asTN:
     #     theDynCom = dn.dynamicCommunitiesTN()
-    coms = bidict()
+    coms = bidict.bidict()
     f = open(inputFile)
 
     for l in f:  # for each line

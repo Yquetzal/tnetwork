@@ -18,12 +18,14 @@ class ComScenario():
     This class manages the community evolution scenario
 
     Behavior to keep in mind:
+
     1) Any node that does not belong to a community is condered "dead". Note that it can reappear later
     if it belongs to a community again.
     As a consequence, a node alive but not belonging to any community must be represented as a node belonging to a community of size 1
 
     2)There are not really persistent community, every time a community is modified in any way, a new community is created,
-    and it is only because they have the same name (label) that they are considered part of the same dynamic community
+    and it is only because they have the same name (label) that they are considered part of the same dynamic community.
+
     As a consequence, to kill a dynamic community, one simply needs to stop using its name.
 
     """

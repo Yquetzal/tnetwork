@@ -45,7 +45,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="tnetwork.iterative_match" href="generated/tnetwork.iterative_match.html" />
+    <link rel="next" title="tnetwork.DCD.iterative_match" href="generated/tnetwork.DCD.iterative_match.html" />
     <link rel="prev" title="tnetwork.utils.Intervals.__eq__" href="generated/tnetwork.utils.Intervals.__eq__.html" /> 
 </head>
 
@@ -272,11 +272,19 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Dynamic Community Detection</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.iterative_match.html">tnetwork.iterative_match</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.match_survival_graph.html">tnetwork.match_survival_graph</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.rollingCPM.html">tnetwork.rollingCPM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.track_communities.html">tnetwork.track_communities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.generate_multi_temporal_scale.html">tnetwork.generate_multi_temporal_scale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#internal-algorithms">Internal algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.iterative_match.html">tnetwork.DCD.iterative_match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.match_survival_graph.html">tnetwork.DCD.match_survival_graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.smoothed_louvain.html">tnetwork.DCD.smoothed_louvain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.rollingCPM.html">tnetwork.DCD.rollingCPM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.MSSCD.html">tnetwork.DCD.MSSCD</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#external-algorithms">External algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.externals.dynamo.html">tnetwork.DCD.externals.dynamo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.externals.mucha_original.html">tnetwork.DCD.externals.mucha_original</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="vizu.html">Visualization</a><ul>
@@ -286,10 +294,37 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="generation.html">Benchmark Generator</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="generation.html#function-to-define-events">Function to define events</a><ul class="simple">
+<li class="toctree-l2"><a class="reference internal" href="generation.html#benchmark-with-custom-communities">Benchmark with custom communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.ComScenario.__init__.html">tnetwork.ComScenario.__init__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generation.html#function-to-define-events">Function to define events</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.INITIALIZE.html">tnetwork.ComScenario.INITIALIZE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.BIRTH.html">tnetwork.ComScenario.BIRTH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.DEATH.html">tnetwork.ComScenario.DEATH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.MERGE.html">tnetwork.ComScenario.MERGE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.SPLIT.html">tnetwork.ComScenario.SPLIT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.THESEUS.html">tnetwork.ComScenario.THESEUS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.RESURGENCE.html">tnetwork.ComScenario.RESURGENCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.GROW_ITERATIVE.html">tnetwork.ComScenario.GROW_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.SHRINK_ITERATIVE.html">tnetwork.ComScenario.SHRINK_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.MIGRATE_ITERATIVE.html">tnetwork.ComScenario.MIGRATE_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.ASSIGN.html">tnetwork.ComScenario.ASSIGN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.CONTINUE.html">tnetwork.ComScenario.CONTINUE</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="generation.html#run">Run</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="generation.html#run">Run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="generation.html#commnity-class">Commnity class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.community.Community.name.html">tnetwork.DCD.community.Community.name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.community.Community.nodes.html">tnetwork.DCD.community.Community.nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.community.Community.nb_intern_edges.html">tnetwork.DCD.community.Community.nb_intern_edges</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generation.html#benchmark-with-stable-multiple-temporal-scales-communities">Benchmark with stable, multiple temporal scales communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale.html">tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale</a></li>
 </ul>
 </li>
 </ul>
@@ -362,40 +397,101 @@
 <h1>Dynamic Community Detection<a class="headerlink" href="#dynamic-community-detection" title="Permalink to this headline">¶</a></h1>
 <p>Dynamic community detection is the problem of discovering snapshot_communities in dynamic networks.
 A simple demo of usage can be found <a class="reference external" href="https://colab.research.google.com/github/Yquetzal/tnetwork/blob/master/demo_DCD.ipynb">here</a>.</p>
-<p>Currently, the following publsihed methods are implemented</p>
+<p>There are two types of methods implemented: those that are written in pure python
+and those who require an external tool.</p>
+<p>Those in pure python are part of the <cite>tnetwork.DCD</cite> module while others are in <cite>tnetwork.DCD.external</cite>.</p>
+<p>Below is a list of implemented methods, with the type of dynamic networks they are designed to manage.
+Note that this type of network is unrelated with the tnetwork representation:
+a snapshot representation can be used to encode a snapshot graph, a link stream or an interval graph.
+The possible types of dynamic networks are:</p>
 <ul class="simple">
-<li>Rolling CPM</li>
-<li>Iterative match</li>
-<li>Survival graph</li>
+<li>snapshot: The graph is well defined at any $t$, changes tend to occur synchronously</li>
+<li>interval gaph: The graph is well defined at any $t$, but graph changes are not synchrone, changes appear edge by edge</li>
+<li>link stream: graphs at any time $t$ are poorly defined, graphs can be studied only by studying a $Delta$ period of aggregation</li>
 </ul>
-<p>All of them are based on snapshots graphs. Iterative match and Survival graph are generic methods, since they can
-be parameterized by the community detection method to use at each step, and by the community similarity function to
-match snapshot_communities. They can even use a smoothed algorithm to discover snapshot_communities at each step.</p>
-<p>Two other methods, yet unpublished, are proposed, track_communities and generate_multi_temporal_scale , respectively
-to detect and generate communities at multiple temporal scale</p>
+<table border="1" class="colwidths-given docutils" id="id1">
+<caption><span class="caption-text">Types of dynamic networks expected by each method</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Method</th>
+<th class="head">Type of dynamic network</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><cite>iterative_match</cite></td>
+<td>snapshots</td>
+</tr>
+<tr class="row-odd"><td><cite>match_survival_graph</cite></td>
+<td>snapshots</td>
+</tr>
+<tr class="row-even"><td><cite>smoothed_louvain</cite></td>
+<td>snapshots</td>
+</tr>
+<tr class="row-odd"><td><cite>rollingCPM</cite></td>
+<td>snapshots</td>
+</tr>
+<tr class="row-even"><td><cite>MSSCD</cite></td>
+<td>link stream</td>
+</tr>
+<tr class="row-odd"><td><cite>muchaOriginal</cite></td>
+<td>snapshots</td>
+</tr>
+<tr class="row-even"><td><cite>dynamo</cite></td>
+<td>interval graph</td>
+</tr>
+</tbody>
+</table>
+<p>Some external algorithms require matlab, and the matlab-python engine, ensuring the connection between both.
+How to explain it is explained on the matlab website, currenty there: <a class="reference external" href="https://fr.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html">https://fr.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html</a></p>
+<div class="section" id="internal-algorithms">
+<h2>Internal algorithms<a class="headerlink" href="#internal-algorithms" title="Permalink to this headline">¶</a></h2>
+<p>These algorithms are implemented in python.</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.iterative_match.html#tnetwork.iterative_match" title="tnetwork.iterative_match"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iterative_match</span></code></a>(dynNetSN[,&nbsp;CDalgo,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DCD.iterative_match.html#tnetwork.DCD.iterative_match" title="tnetwork.DCD.iterative_match"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iterative_match</span></code></a>(dynNetSN[,&nbsp;CDalgo,&nbsp;…])</td>
 <td>Community Detection by iterative detection and matching</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.match_survival_graph.html#tnetwork.match_survival_graph" title="tnetwork.match_survival_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">match_survival_graph</span></code></a>(dynNetSN[,&nbsp;CDalgo,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DCD.match_survival_graph.html#tnetwork.DCD.match_survival_graph" title="tnetwork.DCD.match_survival_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">match_survival_graph</span></code></a>(dynNetSN[,&nbsp;CDalgo,&nbsp;…])</td>
 <td>Community detection by survival graph matching</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.rollingCPM.html#tnetwork.rollingCPM" title="tnetwork.rollingCPM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rollingCPM</span></code></a>(dynNetSN[,&nbsp;k,&nbsp;elapsed_time])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DCD.smoothed_louvain.html#tnetwork.DCD.smoothed_louvain" title="tnetwork.DCD.smoothed_louvain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smoothed_louvain</span></code></a>(dynNetSN[,&nbsp;match_function,&nbsp;…])</td>
+<td>Community Detection using smoothed louvain</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DCD.rollingCPM.html#tnetwork.DCD.rollingCPM" title="tnetwork.DCD.rollingCPM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rollingCPM</span></code></a>(dynNetSN[,&nbsp;k,&nbsp;elapsed_time])</td>
 <td>This method is based on Palla et al[1].</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.track_communities.html#tnetwork.track_communities" title="tnetwork.track_communities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">track_communities</span></code></a>(dyn_graph[,&nbsp;…])</td>
-<td>Proposed method to track communities</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.generate_multi_temporal_scale.html#tnetwork.generate_multi_temporal_scale" title="tnetwork.generate_multi_temporal_scale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_multi_temporal_scale</span></code></a>([nb_steps,&nbsp;…])</td>
-<td>Generate dynamic graph with stable communities</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DCD.MSSCD.html#tnetwork.DCD.MSSCD" title="tnetwork.DCD.MSSCD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MSSCD</span></code></a>(dyn_graph[,&nbsp;t_granularity,&nbsp;…])</td>
+<td>Multi Scale Stable Community Detection</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section" id="external-algorithms">
+<h2>External algorithms<a class="headerlink" href="#external-algorithms" title="Permalink to this headline">¶</a></h2>
+<p>These algorithms call external code provided by authors, and thus might require installing
+additional softwares (java, matlab).</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DCD.externals.dynamo.html#module-tnetwork.DCD.externals.dynamo" title="tnetwork.DCD.externals.dynamo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dynamo</span></code></a>(dynGraph[,&nbsp;elapsed_time,&nbsp;timeout])</td>
+<td>Dynamo algorithm</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DCD.externals.mucha_original.html#tnetwork.DCD.externals.mucha_original" title="tnetwork.DCD.externals.mucha_original"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mucha_original</span></code></a>(dynNetSN[,&nbsp;om,&nbsp;form,&nbsp;…])</td>
+<td>Multiplex community detection, Mucha et al.</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 
 
@@ -406,7 +502,7 @@ to detect and generate communities at multiple temporal scale</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="generated/tnetwork.iterative_match.html" class="btn btn-neutral float-right" title="tnetwork.iterative_match" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="generated/tnetwork.DCD.iterative_match.html" class="btn btn-neutral float-right" title="tnetwork.DCD.iterative_match" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="generated/tnetwork.utils.Intervals.__eq__.html" class="btn btn-neutral float-left" title="tnetwork.utils.Intervals.__eq__" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
