@@ -96,7 +96,7 @@ def MSSCD(dyn_graph, t_granularity = 1, t_persistance=3, t_quality=0.7, t_simila
         duration = time.time() - start_timer
         start_timer = time.time()
         times[current_granularity]=duration
-        print(duration)
+        #print(duration)
 
     times["total"] = sum([v for x,v in times.items()])
     persistant_coms = sorted(persistant_coms,key=lambda x: x[3],reverse=True)
@@ -146,7 +146,7 @@ def _track_one_community(tracked_nodes, t, dyn_graph,score, t_quality,backward =
         #if interesting_node in tracked_nodes:
          #   print("-",t,current_t, "score ", the_score)
         if the_score >= t_quality:
-            print("mm ",t_quality,the_score,current_t,t,backward)
+            #print("mm ",t_quality,the_score,current_t,t,backward)
             to_return.append((current_t, the_score))
             similar_com = True
         if backward:
@@ -194,7 +194,7 @@ def _seed_discovery(pre_computed_snapshots, current_granularity, CD, QC, t_quali
     all_CC = pool.starmap_async(__find_interesting_CC,[(t,g) for t,g in pre_computed_snapshots.snapshots().items()]).get()
     pool.close()
 
-    print("CC detection done")
+    #print("CC detection done")
 
     for t,cs in all_CC:
         for c in cs:
@@ -229,7 +229,7 @@ def _seed_discovery(pre_computed_snapshots, current_granularity, CD, QC, t_quali
             if quality>=t_quality:
                 seeds.append((t, cID, frozenset(nodes), quality,
                           current_granularity))  ##structure of items in coms_and_qualities:  (t,cID,frozenset(nodes),quality,granularity)
-    print("quality computation done")
+    #print("quality computation done")
 
     seeds.sort(key=lambda x: x[3], reverse=True)
 
@@ -257,7 +257,7 @@ def seed_expansion(seed,granularity,t_quality,t_persistance,t_similarity,QC,CSS,
 
     #if the community is stable, i.e., makes sense more than t_persistance steps
     if len(similars) >= t_persistance:
-        print("----------------")
+        #print("----------------")
         similars = [similars]  # for genericity, we want to be able to deal with non-continuous intervals
         inter_presence = tn.Intervals([(sim[0][0], sim[-1][0] + granularity) for sim in similars])
 
@@ -273,7 +273,7 @@ def seed_expansion(seed,granularity,t_quality,t_persistance,t_similarity,QC,CSS,
 
         # If community not redundant, we compute its quality and add it to the list of communities
         if not redundant:
-            print(similars)
+            #print(similars)
 
             sum_quality = 0
             for stable in similars:
