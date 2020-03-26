@@ -201,19 +201,35 @@ def _update_net(currentT, graph_plot, dynamic_net):
             end=n2s)
 
 
-# def _plot_as_graph_nx(ts,dynamic_graph,CDS,unique_pos,width,height,to_datetime):
-#     G = nx.grid_2d_graph(1, len(ts))
-#     list_of_figures = []
-#     for i,current_t in enumerate(ts):
-#         #(a_figure, a_graph_plot) = _init_net_properties(dynamic_graph, CDS, unique_pos, current_t, width, height,
-#                                                         #to_datetime)
-#         #list_of_figures.append(a_figure)
-#         plt.subplot(1,len(ts),i+1)
-#         graph = dynamic_graph.graph_at_time(current_t)
-#         colors = CDS["color"]
-#
-#         nx.draw_networkx(graph,pos=unique_pos,node_color=)
-#     return layout
+def _plot_as_graph_nx(ts,dynamic_graph,CDS,unique_pos,width,height,to_datetime):
+
+    colors_all = {}
+    #extract colors for graphs
+    for i in range(len(CDS.data["color"])):
+        t = CDS.data["time"][i]
+        node = CDS.data["node"][i]
+        c = CDS.data["color"][i]
+        colors_all.setdefault(t,{})
+        colors_all[t][node]=c
+
+
+
+    for i,current_t in enumerate(ts):
+        #(a_figure, a_graph_plot) = _init_net_properties(dynamic_graph, CDS, unique_pos, current_t, width, height,
+                                                        #to_datetime)
+        #list_of_figures.append(a_figure)
+        ax = plt.subplot(1,len(ts),i+1)
+        ax.title.set_text('t='+str(current_t))
+        #fig = plt.figure(figsize=(width, height))
+        ax.figure.set_dpi(100)
+        ax.figure.set_size_inches(width/100*len(ts), height/100)
+        graph = dynamic_graph.graph_at_time(current_t)
+        nodes = graph.nodes()
+        colors = [colors_all[current_t][n] for n in nodes]
+
+        nx.draw_networkx(graph,pos=unique_pos,node_color=colors,with_labels=False,node_size=50,linewidths=1,edge_color="#CCCCCC")
+    plt.show()
+    return plt.gcf()
 
 def _plot_as_graph_bokeh(ts,slider,dynamic_graph,CDS,unique_pos,width,height,to_datetime,auto_show):
     if not slider:
@@ -253,7 +269,7 @@ def _plot_as_graph_bokeh(ts,slider,dynamic_graph,CDS,unique_pos,width,height,to_
 
     return layout
 
-def plot_as_graph(dynamic_graph, communities=None, ts=None, width=800, height=600, slider=False, to_datetime=False,auto_show=False, **kwargs):
+def plot_as_graph(dynamic_graph, communities=None, ts=None, width=800, height=600, slider=False, to_datetime=False,bokeh = False, auto_show=False, **kwargs):
     """
     Plot to see the static graph at each snapshot
 
@@ -278,7 +294,7 @@ def plot_as_graph(dynamic_graph, communities=None, ts=None, width=800, height=60
         to_datetime=datetime.utcfromtimestamp
 
 
-
+    # cleaning ts parameter
     if ts == None:
         if isinstance(dynamic_graph, tn.DynGraphIG):
             raise Exception(
@@ -292,6 +308,7 @@ def plot_as_graph(dynamic_graph, communities=None, ts=None, width=800, height=60
     if not isinstance(ts, list):
         ts = [ts]
 
+    # Obtain snapshots for desired ts (graph and communities)
     if isinstance(dynamic_graph,tn.DynGraphIG):
         temp_graph_sn = tn.DynGraphSN()
         for t in ts:
@@ -305,13 +322,17 @@ def plot_as_graph(dynamic_graph, communities=None, ts=None, width=800, height=60
 
         dynamic_graph=temp_graph_sn
 
+    #Obtain CDS for those snapshots
     CDS = _sn_graph2CDS(dynamic_graph, communities, to_datetime, ts=ts)
     print(CDS)
 
 
     unique_pos = _unique_positions(dynamic_graph,ts=ts,**kwargs)
 
-    return _plot_as_graph_bokeh(ts,slider,dynamic_graph,CDS,unique_pos,width,height,to_datetime,auto_show)
+    if bokeh:
+        return _plot_as_graph_bokeh(ts,slider,dynamic_graph,CDS,unique_pos,width,height,to_datetime,auto_show)
+    else:
+        return _plot_as_graph_nx(ts,dynamic_graph,CDS,unique_pos,width,height,to_datetime)
 
 
 
