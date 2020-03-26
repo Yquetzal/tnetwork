@@ -26,7 +26,7 @@ def iterative_match(dynNetSN, CDalgo="louvain", match_function=jaccard, threshol
     :param labels: if True, the matching of snapshot_affiliations is done using labels. If False, using an event graph.
     :return: DynCommunitiesSN
     """
-    print("start iterative_match, version: "+ str(CDalgo))
+    #print("start iterative_match, version: "+ str(CDalgo))
     time_Steps = {}
     start = time.time()
     if CDalgo=="smoothedLouvain":
@@ -48,7 +48,7 @@ def iterative_match(dynNetSN, CDalgo="louvain", match_function=jaccard, threshol
     end = time.time()
     time_Steps["total"]=end-start
 
-    print("end iterative_match")
+    #print("end iterative_match")
 
     if elapsed_time:
         return (dynPartitions,time_Steps)
