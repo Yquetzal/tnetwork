@@ -1,6 +1,3 @@
-import tnetwork as tn
-import sklearn.metrics
-import scipy
 import statistics
 from tnetwork.utils.community_utils import jaccard
 import networkx as nx

@@ -1,0 +1,18 @@
+
+This dataset was collected in 2004 by Nathan Eagle and Alex Pentland. The
+citation for this data set is:
+
+Reality mining: sensing complex social systems, Nathan Eagle, Alex (Sandy)
+Pentland, Journal Personal and Ubiquitous Computing Volume 10 Issue 4, March
+2006 Pages 255 - 268
+
+The original data is at:
+http://realitycommons.media.mit.edu/realitymining.html
+
+
+The xml file in this dir downloaded from Kwan-Liu Ma's class web page is a sanitized version
+of the original MIT reality mining dataset.
+
+Downloaded from here:
+http://wwwcsif.cs.ucdavis.edu/~ma/ECS163/
+

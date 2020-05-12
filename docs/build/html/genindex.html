@@ -281,7 +281,9 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="reference/DCD.html#external-algorithms">External algorithms</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.externals.dynamo.html">tnetwork.DCD.externals.dynamo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.externals.mucha_original.html">tnetwork.DCD.externals.mucha_original</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.externals.transversal_network_mucha_original.html">tnetwork.DCD.externals.transversal_network_mucha_original</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.externals.transversal_network_leidenalg.html">tnetwork.DCD.externals.transversal_network_leidenalg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.externals.estrangement_confinement.html">tnetwork.DCD.externals.estrangement_confinement</a></li>
 </ul>
 </li>
 </ul>
@@ -289,7 +291,6 @@
 <li class="toctree-l1"><a class="reference internal" href="reference/vizu.html">Visualization</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.plot_as_graph.html">tnetwork.plot_as_graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.plot_longitudinal.html">tnetwork.plot_longitudinal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference/generated/tnetwork.plot_longitudinal_sn_clusters.html">tnetwork.plot_longitudinal_sn_clusters</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="reference/generation.html">Benchmark Generator</a><ul>
@@ -314,8 +315,8 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="reference/generation.html#commnity-class">Commnity class</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.community.Community.name.html">tnetwork.DCD.community.Community.name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generation.html#community-class">Community class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.community.Community.label.html">tnetwork.DCD.community.Community.label</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.community.Community.nodes.html">tnetwork.DCD.community.Community.nodes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.community.Community.nb_intern_edges.html">tnetwork.DCD.community.Community.nb_intern_edges</a></li>
 </ul>
@@ -324,6 +325,18 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="reference/generation.html#benchmark-with-stable-multiple-temporal-scales-communities">Benchmark with stable, multiple temporal scales communities</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale.html">tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/DC_evaluation.html">Evaluation of Dynamic Communities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/DC_evaluation.html#internal-algorithms">Internal algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.longitudinal_similarity.html">tnetwork.DCD.analytics.longitudinal_similarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.similarity_at_each_step.html">tnetwork.DCD.analytics.similarity_at_each_step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.quality_at_each_step.html">tnetwork.DCD.analytics.quality_at_each_step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.consecutive_sn_similarity.html">tnetwork.DCD.analytics.consecutive_sn_similarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.nb_node_change.html">tnetwork.DCD.analytics.nb_node_change</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.entropy_by_node.html">tnetwork.DCD.analytics.entropy_by_node</a></li>
 </ul>
 </li>
 </ul>
@@ -406,6 +419,7 @@
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
@@ -524,6 +538,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.DCD.analytics.consecutive_sn_similarity.html#tnetwork.DCD.analytics.consecutive_sn_similarity">consecutive_sn_similarity() (in module tnetwork.DCD.analytics)</a>
+</li>
       <li><a href="reference/generated/tnetwork.utils.Intervals.contains.html#tnetwork.utils.Intervals.contains">contains() (tnetwork.utils.Intervals method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.utils.Intervals.contains_t.html#tnetwork.utils.Intervals.contains_t">contains_t() (tnetwork.utils.Intervals method)</a>
@@ -546,10 +562,12 @@
 </li>
       <li><a href="reference/generated/tnetwork.utils.Intervals.duration.html#tnetwork.utils.Intervals.duration">duration() (tnetwork.utils.Intervals method)</a>
 </li>
-      <li><a href="reference/dyn_communities.html#tnetwork.DynCommunitiesIG">DynCommunitiesIG (class in tnetwork)</a>
+      <li><a href="reference/generated/tnetwork.DCD.externals.dynamo.html#tnetwork.DCD.externals.dynamo">dynamo() (in module tnetwork.DCD.externals)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/dyn_communities.html#tnetwork.DynCommunitiesIG">DynCommunitiesIG (class in tnetwork)</a>
+</li>
       <li><a href="reference/dyn_communities.html#tnetwork.DynCommunitiesSN">DynCommunitiesSN (class in tnetwork)</a>
 </li>
       <li><a href="reference/dyn_graph.html#tnetwork.DynGraphIG">DynGraphIG (class in tnetwork)</a>
@@ -563,6 +581,12 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.utils.Intervals.end.html#tnetwork.utils.Intervals.end">end() (tnetwork.utils.Intervals method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.DCD.analytics.entropy_by_node.html#tnetwork.DCD.analytics.entropy_by_node">entropy_by_node() (in module tnetwork.DCD.analytics)</a>
+</li>
+      <li><a href="reference/generated/tnetwork.DCD.externals.estrangement_confinement.html#tnetwork.DCD.externals.estrangement_confinement">estrangement_confinement() (in module tnetwork.DCD.externals)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -606,7 +630,13 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.DCD.community.Community.label.html#tnetwork.DCD.community.Community.label">label() (tnetwork.DCD.community.Community method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DynGraphSN.last_snapshot.html#tnetwork.DynGraphSN.last_snapshot">last_snapshot() (tnetwork.DynGraphSN method)</a>
+</li>
+      <li><a href="reference/generated/tnetwork.DCD.analytics.longitudinal_similarity.html#tnetwork.DCD.analytics.longitudinal_similarity">longitudinal_similarity() (in module tnetwork.DCD.analytics)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -624,17 +654,15 @@
 </li>
       <li><a href="reference/generated/tnetwork.DCD.MSSCD.html#tnetwork.DCD.MSSCD">MSSCD() (in module tnetwork.DCD)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DCD.externals.mucha_original.html#tnetwork.DCD.externals.mucha_original">mucha_original() (in module tnetwork.DCD.externals)</a>
-</li>
   </ul></td>
 </tr></table>
 
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/tnetwork.DCD.community.Community.name.html#tnetwork.DCD.community.Community.name">name() (tnetwork.DCD.community.Community method)</a>
-</li>
       <li><a href="reference/generated/tnetwork.DCD.community.Community.nb_intern_edges.html#tnetwork.DCD.community.Community.nb_intern_edges">nb_intern_edges() (tnetwork.DCD.community.Community method)</a>
+</li>
+      <li><a href="reference/generated/tnetwork.DCD.analytics.nb_node_change.html#tnetwork.DCD.analytics.nb_node_change">nb_node_change() (in module tnetwork.DCD.analytics)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphIG.node_presence.html#tnetwork.DynGraphIG.node_presence">node_presence() (tnetwork.DynGraphIG method)</a>
 
@@ -660,13 +688,19 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.utils.Intervals.periods.html#tnetwork.utils.Intervals.periods">periods() (tnetwork.utils.Intervals method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.plot_as_graph.html#tnetwork.plot_as_graph">plot_as_graph() (in module tnetwork)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.plot_as_graph.html#tnetwork.plot_as_graph">plot_as_graph() (in module tnetwork)</a>
+</li>
       <li><a href="reference/generated/tnetwork.plot_longitudinal.html#tnetwork.plot_longitudinal">plot_longitudinal() (in module tnetwork)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.plot_longitudinal_sn_clusters.html#tnetwork.plot_longitudinal_sn_clusters">plot_longitudinal_sn_clusters() (in module tnetwork)</a>
+  </ul></td>
+</tr></table>
+
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.DCD.analytics.quality_at_each_step.html#tnetwork.DCD.analytics.quality_at_each_step">quality_at_each_step() (in module tnetwork.DCD.analytics)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -708,12 +742,14 @@
 </li>
       <li><a href="reference/generated/tnetwork.ComScenario.SHRINK_ITERATIVE.html#tnetwork.ComScenario.SHRINK_ITERATIVE">SHRINK_ITERATIVE() (tnetwork.ComScenario method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DCD.smoothed_louvain.html#tnetwork.DCD.smoothed_louvain">smoothed_louvain() (in module tnetwork.DCD)</a>
+      <li><a href="reference/generated/tnetwork.DCD.analytics.similarity_at_each_step.html#tnetwork.DCD.analytics.similarity_at_each_step">similarity_at_each_step() (in module tnetwork.DCD.analytics)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.snapshot_affiliations.html#tnetwork.DynCommunitiesSN.snapshot_affiliations">snapshot_affiliations() (tnetwork.DynCommunitiesSN method)</a>
+      <li><a href="reference/generated/tnetwork.DCD.smoothed_louvain.html#tnetwork.DCD.smoothed_louvain">smoothed_louvain() (in module tnetwork.DCD)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.DynCommunitiesSN.snapshot_affiliations.html#tnetwork.DynCommunitiesSN.snapshot_affiliations">snapshot_affiliations() (tnetwork.DynCommunitiesSN method)</a>
+</li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesSN.snapshot_communities.html#tnetwork.DynCommunitiesSN.snapshot_communities">snapshot_communities() (tnetwork.DynCommunitiesSN method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.snapshots_timesteps.html#tnetwork.DynGraphSN.snapshots_timesteps">snapshots_timesteps() (tnetwork.DynGraphSN method)</a>
@@ -730,17 +766,19 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.ComScenario.THESEUS.html#tnetwork.ComScenario.THESEUS">THESEUS() (tnetwork.ComScenario method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DCD.externals.dynamo.html#module-tnetwork.DCD.externals.dynamo">tnetwork.DCD.externals.dynamo (module)</a>
-</li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesSN.to_DynCommunitiesIG.html#tnetwork.DynCommunitiesSN.to_DynCommunitiesIG">to_DynCommunitiesIG() (tnetwork.DynCommunitiesSN method)</a>
+</li>
+      <li><a href="reference/generated/tnetwork.DynGraphSN.to_DynGraphIG.html#tnetwork.DynGraphSN.to_DynGraphIG">to_DynGraphIG() (tnetwork.DynGraphSN method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/tnetwork.DynGraphSN.to_DynGraphIG.html#tnetwork.DynGraphSN.to_DynGraphIG">to_DynGraphIG() (tnetwork.DynGraphSN method)</a>
-</li>
       <li><a href="reference/generated/tnetwork.DynGraphIG.to_DynGraphSN.html#tnetwork.DynGraphIG.to_DynGraphSN">to_DynGraphSN() (tnetwork.DynGraphIG method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.to_tensor.html#tnetwork.DynGraphSN.to_tensor">to_tensor() (tnetwork.DynGraphSN method)</a>
+</li>
+      <li><a href="reference/generated/tnetwork.DCD.externals.transversal_network_leidenalg.html#tnetwork.DCD.externals.transversal_network_leidenalg">transversal_network_leidenalg() (in module tnetwork.DCD.externals)</a>
+</li>
+      <li><a href="reference/generated/tnetwork.DCD.externals.transversal_network_mucha_original.html#tnetwork.DCD.externals.transversal_network_mucha_original">transversal_network_mucha_original() (in module tnetwork.DCD.externals)</a>
 </li>
   </ul></td>
 </tr></table>

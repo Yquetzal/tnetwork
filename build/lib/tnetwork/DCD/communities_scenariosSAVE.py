@@ -117,25 +117,25 @@ class ComScenario():
         :return:
         """
         if(self._verbose):
-            print("---------END OF OPERATION: ", operation.name())
+            print("---------END OF OPERATION: ", operation.label())
 
         #remove the operation from the list of current snapshot_affiliations
         #--- this has importnat implications: one does not need to manage manually the death of snapshot_affiliations,
         #--- as any community that has a
-        del self._currentCommunities[operation.name()]
+        del self._currentCommunities[operation.label()]
 
         #for each community modifed by the operation
         for com in operation._afterCommunities:
             self._allSeenCommunities.add(com)
 
             #add this community to the list of active snapshot_affiliations
-            if "|DEATH|" not in com.name():
-                self._currentCommunities[com.name()] = com
+            if "|DEATH|" not in com.label():
+                self._currentCommunities[com.label()] = com
 
                 ##### Management of the reference partition as an event graph #####
                 if len(operation._beforeCommunities)>0:
                     #update the name of community with the event graph now that we know the time of end of operation
-                    nx.relabel_nodes(self._dynCom.events, {com.name():(self._currentT, com.name())}, copy=False)
+                    nx.relabel_nodes(self._dynCom.events, {com.label():(self._currentT, com.label())}, copy=False)
                 ###################################################################
 
     def _generate_current_network(self):
@@ -212,24 +212,24 @@ class ComScenario():
 
     def _add_action(self, action, t=0, wait=0, waitFor=None):
         """
-        Generic function to add an action to execute, with temporal parameters. Note the difference between t and wait:
+        Generic function to add an action to execute, with temporal parameters. Note the difference between t and delay:
         we can say that we want an event to occur not before a time t, but if the comunities we are "waitfor" are not ready,
-        we wait until they are. But when they are, we might want to wait a little before triggering this event.
+        we delay until they are. But when they are, we might want to delay a little before triggering this event.
 
         :param action: the action to add
         :param t: the time at which we start to consider the activation of this action
-        :param wait: the time we should wait after all conditions are fulfilled for activating it
+        :param wait: the time we should delay after all conditions are fulfilled for activating it
         :param waitFor: the ID of the event(s) that should be finished before considering activation
         :return: the ID(s) of snapshot_affiliations created by this action (always a list)
         """
         if (self._verbose):
-            print("----request action ", action._action, action.name())
+            print("----request action ", action._action, action.label())
         action.initialise(self)
 
         if (self._verbose):
-            print("----added action ", action._action, action.name())
+            print("----added action ", action._action, action.label())
 
-        self._actions.append({"operation": action, "t": t, "wait": wait, "waitFor":waitFor})
+        self._actions.append({"operation": action, "t": t, "delay": wait, "triggers":waitFor})
         return action._afterCommunities
 
 
@@ -241,14 +241,14 @@ class ComScenario():
         :return:
         """
         if (self._verbose):
-            print("---------ACTIVATING: ", op.name())
+            print("---------ACTIVATING: ", op.label())
 
         #add the operation to the list of currently existing snapshot_affiliations
-        self._currentCommunities[op.name()] = op
+        self._currentCommunities[op.label()] = op
 
         #delete the snapshot_affiliations involved in the operation from the list of currently existing snapshot_affiliations
         for c in op._beforeCommunities:
-            del self._currentCommunities[c.name()]
+            del self._currentCommunities[c.label()]
 
 
     def _retrieve_last_community_with_name(self, anAction):
@@ -302,9 +302,9 @@ class ComScenario():
         for c in self._currentCommunities.values():
             if type(c) is Community:
                 if (self._verbose):
-                    print("list of current com: adding com ", self._currentT, " ", c.name())
+                    print("list of current com: adding com ", self._currentT, " ", c.label())
                 #self._dynCom.add_community(self._currentT, c.nodes(), c.name())
-                self._dynCom.add_affiliations_from({c.name():set(c.nodes())}, (self._currentT, self._currentT + 1))
+                self._dynCom.add_affiliations_from({c.label():set(c.nodes())}, (self._currentT, self._currentT + 1))
         self._currentT += 1
 
 
@@ -353,16 +353,16 @@ class ComScenario():
                     affectedComs = set(op._beforeCommunities) #snapshot_affiliations affected by this action
                     lockingComs= set() #IDs of events/coms used as triggers
 
-                    if action["waitFor"]!=None: #if there are triggers
-                        if type(action["waitFor"]) is Community: #(put in right format)
-                            action["waitFor"] = {action["waitFor"]}
-                        lockingComs.update(action["waitFor"])
+                    if action["triggers"]!=None: #if there are triggers
+                        if type(action["triggers"]) is Community: #(put in right format)
+                            action["triggers"] = {action["triggers"]}
+                        lockingComs.update(action["triggers"])
 
                     if len( affectedComs - readycoms)==0: #if all necessay coms are ready
                         if len (lockingComs - readycoms)==0: #and triggers are ready
-                            if action["wait"]!=0: #if user wants to wait, wait
-                                action["t"]= self._currentT + action["wait"]
-                                action["wait"]=0
+                            if action["delay"]!=0: #if user wants to delay, delay
+                                action["t"]= self._currentT + action["delay"]
+                                action["delay"]=0
                             else:
                                 self._activate_action(op)
                                 self._actions.remove(action)
@@ -376,7 +376,7 @@ class ComScenario():
                                     for after in op._afterNames:
                                         if "|DEATH|" not in after:
                                             lastCommunityPresence = self._currentT - 1
-                                            self._dynCom.events.add_event((lastCommunityPresence, before.name()), (after), lastCommunityPresence, lastCommunityPresence, type=op._action, fraction=-1)
+                                            self._dynCom.events.add_event((lastCommunityPresence, before.label()), (after), lastCommunityPresence, lastCommunityPresence, type=op._action, fraction=-1)
 
             self._memorize_current_configuration()
 
@@ -510,7 +510,7 @@ class ComScenario():
             print(com)
             [com] = self.ASSIGN(
                 [com],
-                [com.name()],
+                [com.label()],
                 [com.nodes() | set([newNode])],
                 wait=wait
             )
@@ -547,7 +547,7 @@ def migrate_iterative(comFrom, comTo, nbNodes, wait=1):
         migratingNode = np.random.choice(list(currentFrom.getNodes()),1)[0]
         [currentFrom,currentTo] = comScen.migrate(
             [currentFrom,currentTo],
-            [currentFrom.getName(), currentTo.name()],
+            [currentFrom.getName(), currentTo.label()],
             [currentFrom.getNodes() - set([migratingNode]), currentTo.nodes() | set([migratingNode])],
             wait=wait
         )

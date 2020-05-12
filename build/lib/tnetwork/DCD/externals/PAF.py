@@ -20,7 +20,7 @@ def launchCommandWaitAnswer(acommand, printOutput=False,timeout=600):
     #                 print
     #                 "FAILURE WITH : " + acommand
     #             break
-    #process.wait()
+    #process.delay()
 
 
 

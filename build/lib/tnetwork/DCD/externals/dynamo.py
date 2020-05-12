@@ -23,7 +23,7 @@ def _launchCommandWaitAnswer(acommand, printOutput=False, timeout=10):
     #                 print
     #                 "FAILURE WITH : " + acommand
     #             break
-    #process.wait()
+    #process.delay()
 
 
 
@@ -122,17 +122,17 @@ def dynamo(dyn_graph: tn.DynGraphSN, elapsed_time=False, timeout=10):
     dict_nodes = _write_for_dynamo(dyn_graph, dir)
     start = time.time()
 
-    print("run dynamo java code")
+    print("run external code")
     command = "java -jar "+dir_or+"/DYNAMO/dynamo.jar " + dir + " " + dir + "/coms_dynamo"
     _launchCommandWaitAnswer(command, timeout=timeout)
 
     #_launchCommandWaitAnswer("java -jar /Users/cazabetremy/ownCloud/Projects-recherche/DYNAMO/dynamo.jar " + dir + " " + dir + "/coms_dynamo", timeout)
-    print("dynamo java code run")
+    print("postprocess")
 
 
     dyn_coms = _read_coms_dynamo(dyn_graph, os.path.join(dir, "coms_dynamo"), dict_nodes)
     duration = time.time() - start
-
+    print("dynamo run")
     if elapsed_time:
         return dyn_coms,{"total":duration}
     else:

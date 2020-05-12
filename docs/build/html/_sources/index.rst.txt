@@ -35,6 +35,7 @@ tnetwork Dev Team
    reference/DCD.rst
    reference/vizu.rst
    reference/generation.rst
+   reference/DC_evaluation.rst
 
 
 

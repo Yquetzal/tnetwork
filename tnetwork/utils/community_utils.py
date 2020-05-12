@@ -49,6 +49,12 @@ def affiliations2nodesets(communities):
 
     return asNodeSets
 
+def single_list_community2nodesets(affiliation_list,node_ids):
+    to_return = dict()
+    for i in range(len(affiliation_list)):
+        to_return.setdefault(affiliation_list[i],set()).add(node_ids[i])
+    return to_return
+
 def jaccard(com1, com2):
     union_size = len(com1 | com2)
     if union_size==0:

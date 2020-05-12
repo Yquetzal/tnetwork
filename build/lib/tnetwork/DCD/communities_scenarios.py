@@ -120,7 +120,7 @@ class ComScenario():
         :return:
         """
         if(self._verbose):
-            print("---------END OF OPERATION: ", operation.name())
+            print("---------END OF OPERATION: ", operation.label())
 
         #remove the operation from the list of current snapshot_affiliations
         #--- this has importnat implications: one does not need to manage manually the death of snapshot_affiliations,
@@ -132,13 +132,13 @@ class ComScenario():
             self._allSeenCommunities.add(com)
 
             #add this community to the list of active snapshot_affiliations
-            if "|DEATH|" not in com.name():
+            if "|DEATH|" not in com.label():
                 self._currentCommunities.add(com)
 
                 ##### Management of the reference partition as an event graph #####
                 if len(operation._beforeCommunities)>0:
                     #update the name of community with the event graph now that we know the time of end of operation
-                    nx.relabel_nodes(self._dynCom.events, {com.name():(self._currentT, com.name())}, copy=False)
+                    nx.relabel_nodes(self._dynCom.events, {com.label():(self._currentT, com.label())}, copy=False)
                 ###################################################################
 
     def _generate_current_network(self):
@@ -216,26 +216,26 @@ class ComScenario():
 
 
 
-    def _add_action(self, action, t=0, wait=0, waitFor=None):
+    def _add_action(self, action, t=0, delay=0, triggers=None):
         """
-        Generic function to add an action to execute, with temporal parameters. Note the difference between t and wait:
+        Generic function to add an action to execute, with temporal parameters. Note the difference between t and delay:
         we can say that we want an event to occur not before a time t, but if the comunities we are "waitfor" are not ready,
-        we wait until they are. But when they are, we might want to wait a little before triggering this event.
+        we delay until they are. But when they are, we might want to delay a little before triggering this event.
 
         :param action: the action to add
         :param t: the time at which we start to consider the activation of this action
-        :param wait: the time we should wait after all conditions are fulfilled for activating it
-        :param waitFor: the ID of the event(s) that should be finished before considering activation
+        :param delay: the time we should delay after all conditions are fulfilled for activating it
+        :param triggers: the ID of the event(s) that should be finished before considering activation
         :return: the ID(s) of snapshot_affiliations created by this action (always a list)
         """
         if (self._verbose):
-            print("----request action ", action._action, action.name())
+            print("----request action ", action._action, action.label())
         action.initialise(self)
 
         if (self._verbose):
-            print("----added action ", action._action, action.name())
+            print("----added action ", action._action, action.label())
 
-        self._actions.append({"operation": action, "t": t, "wait": wait, "waitFor":waitFor})
+        self._actions.append({"operation": action, "t": t, "delay": delay, "triggers":triggers})
         return action._afterCommunities
 
 
@@ -247,7 +247,7 @@ class ComScenario():
         :return:
         """
         if (self._verbose):
-            print("---------ACTIVATING: ", op.name())
+            print("---------ACTIVATING: ", op.label())
 
         #add the operation to the list of currently existing snapshot_affiliations
         self._currentCommunities.add(op)
@@ -341,7 +341,7 @@ class ComScenario():
         for c in self._currentCommunities:
             if type(c) is Community:
                 for n in c.nodes():
-                    name = c.name()
+                    name = c.label()
                     self._dyn_com_local.setdefault(name,{}).setdefault(n,[])
                     if len(self._dyn_com_local[name][n]) > 0 and self._dyn_com_local[name][n][-1][-1] == self._currentT:
                         self._dyn_com_local[name][n][-1] = (self._dyn_com_local[name][n][-1][0], self._currentT + 1)
@@ -407,16 +407,16 @@ class ComScenario():
                     affectedComs = set(op._beforeCommunities) #snapshot_affiliations affected by this action
                     lockingComs= set() #IDs of events/coms used as triggers
 
-                    if action["waitFor"]!=None: #if there are triggers
-                        if type(action["waitFor"]) is Community: #(put in right format)
-                            action["waitFor"] = {action["waitFor"]}
-                        lockingComs.update(action["waitFor"])
+                    if action["triggers"]!=None: #if there are triggers
+                        if type(action["triggers"]) is Community: #(put in right format)
+                            action["triggers"] = {action["triggers"]}
+                        lockingComs.update(action["triggers"])
 
                     if len( affectedComs - readycoms)==0: #if all necessay coms are ready
                         if len (lockingComs - readycoms)==0: #and triggers are ready
-                            if action["wait"]!=0: #if user wants to wait, wait
-                                action["t"]= self._currentT + action["wait"]
-                                action["wait"]=0
+                            if action["delay"]!=0: #if user wants to delay, delay
+                                action["t"]= self._currentT + action["delay"]
+                                action["delay"]=0
                             else:
                                 self._activate_action(op)
                                 self._actions.remove(action)
@@ -430,7 +430,7 @@ class ComScenario():
                                     for after in op._afterNames:
                                         if "|DEATH|" not in after:
                                             lastCommunityPresence = self._currentT - 1
-                                            self._dynCom.events.add_event((lastCommunityPresence, before.name()), (after), lastCommunityPresence, lastCommunityPresence, type=op._action, fraction=-1)
+                                            self._dynCom.events.add_event((lastCommunityPresence, before.label()), (after), lastCommunityPresence, lastCommunityPresence, type=op._action, fraction=-1)
 
             self._memorize_current_configuration()
 
@@ -526,18 +526,18 @@ class ComScenario():
 
         return self._add_action(_Operation.migrate([toSplit], newComs, splittingOut), **kwargs)
 
-    def THESEUS(self, theComTh: Community, nbNodes=None, wait_step=1, wait=1, **kwargs):
+    def THESEUS(self, theComTh: Community, nbNodes=None, wait_step=1, delay=1, **kwargs):
         """
         Create a theseus ship operation.
 
         :param theComTh: the community to modify
         :param nbNodes: the number of nodes to be replaced
-        :param wait: the waiting time before the first change
+        :param delay: the waiting time before the first change
         :param wait_step: the waiting time between each node replacement
         :return: a tuple of snapshot_affiliations, current ship, new ship
         """
 
-        name = theComTh.name()
+        name = theComTh.label()
 
         initialNodes = list(theComTh.nodes())
 
@@ -549,8 +549,8 @@ class ComScenario():
         planksInStoreHouse = []
         for i in range(nbNodes):
             wait_this_step =wait_step
-            if i==0 and wait>wait_step:
-                wait_this_step=wait
+            if i==0 and delay>wait_step:
+                wait_this_step=delay
 
 
             newNode = self.create_node()
@@ -558,11 +558,11 @@ class ComScenario():
 
             [currentShip] = self.ASSIGN([currentShip], [name], splittingOut=[
                 set(currentShip.nodes()) - {nodeToRemove} | set([newNode])],
-                                        wait=wait_this_step, **kwargs)
+                                        delay=wait_this_step, **kwargs)
 
             planksInStoreHouse.append(nodeToRemove)
 
-        [newShip] = self.ASSIGN([], [self._get_new_ID(name)], splittingOut=[planksInStoreHouse], waitFor=currentShip)
+        [newShip] = self.ASSIGN([], [self._get_new_ID(name)], splittingOut=[planksInStoreHouse], triggers=currentShip)
         return (currentShip,newShip)
 
     def RESURGENCE(self, theComTh: Community, death_period=20, **kwargs):
@@ -574,49 +574,49 @@ class ComScenario():
         :return: a tuple of snapshot_affiliations, current ship, new ship
         """
 
-        name = theComTh.name()
+        name = theComTh.label()
 
         initialNodes = list(theComTh.nodes())
 
         death = self.DEATH(theComTh,**kwargs)
 
-        [theComTh] = self.ASSIGN([], [name], splittingOut=[initialNodes], waitFor=death,wait=death_period)
+        [theComTh] = self.ASSIGN([], [name], splittingOut=[initialNodes], triggers=death,delay=death_period)
 
         return theComTh
 
-    def GROW_ITERATIVE(self, com, nb_nodes2Add, wait_step=1, wait=1,**kwargs):
+    def GROW_ITERATIVE(self, com, nb_nodes2Add, wait_step=1, delay=1, **kwargs):
         """
         Make a community grow node by node
 
-        The community com add nodes2add nodes one by one, with an interval wait between each
+        The community com add nodes2add nodes one by one, with an interval delay between each
         :param com: community to grow
         :param nodes2Add: nb nodes to add
-        :param wait: the waiting time before the first change
+        :param delay: the waiting time before the first change
         :param wait_step: the waiting time between each node addition
         :return:
         """
 
         for i in range(nb_nodes2Add):
             wait_this_step = wait_step
-            if i == 0 and wait > wait_step:
-                wait_this_step = wait
+            if i == 0 and delay > wait_step:
+                wait_this_step = delay
             newNode = self.create_node()
             [com] = self.ASSIGN(
                 [com],
-                [com.name()],
+                [com.label()],
                 [com.nodes() | set([newNode])],
-                wait=wait_this_step,**kwargs
+                delay=wait_this_step,**kwargs
             )
         return com
 
-    def SHRINK_ITERATIVE(self,com,nb_nodes2remove,wait_step=1,wait=1,**kwargs):
+    def SHRINK_ITERATIVE(self, com, nb_nodes2remove, wait_step=1, delay=1, **kwargs):
         """
         Make a community shrink node by node
 
-        The community com lose nodes2add nodes one by one, with an interval wait between each
+        The community com lose nodes2add nodes one by one, with an interval delay between each
         :param com: community to shrink
         :param nodes2remove: nb nodes to remove
-        :param wait: the waiting time before the first change
+        :param delay: the waiting time before the first change
         :param wait_step: the waiting time between each node removal
         :return:
         """
@@ -624,25 +624,25 @@ class ComScenario():
 
         for i in range(nb_nodes2remove):
             wait_this_step = wait_step
-            if i == 0 and wait > wait_step:
-                wait_this_step = wait
+            if i == 0 and delay > wait_step:
+                wait_this_step = delay
 
             currentNbNodes = len(currentCom.nodes())
             nodesToKeep = np.random.choice(list(currentCom.nodes()), currentNbNodes - 1, replace=False)
-            [currentCom] = self.ASSIGN([currentCom], [currentCom.name()], [nodesToKeep], wait=wait_this_step,**kwargs)
+            [currentCom] = self.ASSIGN([currentCom], [currentCom.label()], [nodesToKeep], dealy=wait_this_step, **kwargs)
         return currentCom
 
-    def MIGRATE_ITERATIVE(self,comFrom, comTo, nbNodes,wait_step=1, wait=1, **kwargs):
+    def MIGRATE_ITERATIVE(self, comFrom, comTo, nbNodes, wait_step=1, delay=1, **kwargs):
         """
         Make nodes of a community migrate to another one
 
         The community comFrom lose nodes2add nodes one by one, that join the community comTo,
-        with an interval wait between each migration
+        with an interval delay between each migration
 
         :param comFrom: community to shrink
         :param comTo: community to grow
         :param nbNodes: nb nodes to move
-        :param wait: the waiting time before the first change
+        :param delay: the waiting time before the first change
         :param wait_step: the waiting time between each node change
         :return:
         """
@@ -650,12 +650,12 @@ class ComScenario():
         currentTo = comTo
         for i in range(nbNodes):
             wait_this_step = wait_step
-            if i == 0 and wait > wait_step:
-                wait_this_step = wait
+            if i == 0 and delay > wait_step:
+                wait_this_step = delay
             migratingNode = np.random.choice(list(currentFrom.nodes()), 1)[0]
             [currentFrom, currentTo] = self.ASSIGN(
                 [currentFrom, currentTo],
-                [currentFrom.name(), currentTo.name()],
+                [currentFrom.label(), currentTo.label()],
                 [currentFrom.nodes() - set([migratingNode]), currentTo.nodes() | set([migratingNode])],
                 wait=wait_this_step, **kwargs
             )
@@ -680,12 +680,12 @@ class ComScenario():
         """
         Keep a community unchanged
 
-        By using parameters wait and/or waitFor, CONTINUE makes the community com_before to stay unchanged for some time.
+        By using parameters delay and/or triggers, CONTINUE makes the community com_before to stay unchanged for some time.
 
         :param com: the community to keep unchanged
         :return: the same community
         """
-        return self.ASSIGN([com],[com.name()],[com.nodes()],**kwargs)
+        return self.ASSIGN([com], [com.label()], [com.nodes()], **kwargs)
 
     def __repr__(self):
         coms = "current_com: " + str(self._currentCommunities)

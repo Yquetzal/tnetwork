@@ -28,7 +28,7 @@ class _AbstractStructure():
         """
         pass
 
-    def name(self):
+    def label(self):
         """
         Get the name (label) of this structure
         :return: name
@@ -127,7 +127,7 @@ class Community(_AbstractStructure):
 
         return self._comScenar.nb_edges_for_a_community_size(nbNodes)
 
-    def name(self):
+    def label(self):
         return self._name
 
     def _intern_edges(self, variant="deterministic"):
@@ -151,7 +151,7 @@ class Community(_AbstractStructure):
         return chosenEdges
 
     def __repr__(self):
-        return "(" + self.name() + ":n=" + str(len(self._nodes)) + ",m=" + str(len(self._intern_edges())) + ")"#+str(id(self))
+        return "(" + self.label() + ":n=" + str(len(self._nodes)) + ",m=" + str(len(self._intern_edges())) + ")"#+str(id(self))
 
 
     def __str__(self):
@@ -280,7 +280,7 @@ class _Operation(_AbstractStructure):
         #If no community is given, create a community with automatic name
         if len(self._afterCommunities)==0:
             self._afterCommunities.append(Community(self._comScenar))
-            self._afterNames=[self._afterCommunities[0].name()]
+            self._afterNames=[self._afterCommunities[0].label()]
 
         #If we do not specify the nodes that should be added to this community, create nodes
         if not "nodes" in self._parameters:
@@ -356,15 +356,15 @@ class _Operation(_AbstractStructure):
     def _intern_pairs(self):
         return self._internPairs
 
-    def name(self):
-        return str([c.name() for c in self._beforeCommunities]) + "=>" + str(self._afterNames)
+    def label(self):
+        return str([c.label() for c in self._beforeCommunities]) + "=>" + str(self._afterNames)
 
     def nodes(self):
         return self._nodes
 
     def __repr__(self):
-        return self.name()
+        return self.label()
 
 
     def __str__(self):
-        return self.name()
+        return self.label()

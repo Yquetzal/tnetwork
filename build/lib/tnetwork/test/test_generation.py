@@ -10,9 +10,9 @@ class DCDTestCase(unittest.TestCase):
     def test_simple_matching(self):
         my_scenario = tn.ComScenario()
         [to_merge, absorb, to_split] = my_scenario.INITIALIZE([4, 6, 12], ["to_merge", "absorb", "to_split"])
-        absorbing = my_scenario.MERGE([to_merge, absorb], absorb.name(), t=5)
+        absorbing = my_scenario.MERGE([to_merge, absorb], absorb.label(), t=5)
         (split_large, split_small) = my_scenario.SPLIT(to_split, ["to_split", "other"], [8, 4], waitFor=absorbing)
-        my_scenario.MERGE([split_small, absorbing], absorbing.name())
+        my_scenario.MERGE([split_small, absorbing], absorbing.label())
         born = my_scenario.BIRTH(3, t=6)
         my_scenario.DEATH(born, t=22)
         (dyn_graph, dyn_com) = my_scenario.run()

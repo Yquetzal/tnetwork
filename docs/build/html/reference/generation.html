@@ -46,7 +46,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="tnetwork.ComScenario.__init__" href="generated/tnetwork.ComScenario.__init__.html" />
-    <link rel="prev" title="tnetwork.plot_longitudinal_sn_clusters" href="generated/tnetwork.plot_longitudinal_sn_clusters.html" /> 
+    <link rel="prev" title="tnetwork.plot_longitudinal" href="generated/tnetwork.plot_longitudinal.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -282,7 +282,9 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="DCD.html#external-algorithms">External algorithms</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.externals.dynamo.html">tnetwork.DCD.externals.dynamo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.externals.mucha_original.html">tnetwork.DCD.externals.mucha_original</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.externals.transversal_network_mucha_original.html">tnetwork.DCD.externals.transversal_network_mucha_original</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.externals.transversal_network_leidenalg.html">tnetwork.DCD.externals.transversal_network_leidenalg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.externals.estrangement_confinement.html">tnetwork.DCD.externals.estrangement_confinement</a></li>
 </ul>
 </li>
 </ul>
@@ -290,7 +292,6 @@
 <li class="toctree-l1"><a class="reference internal" href="vizu.html">Visualization</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.plot_as_graph.html">tnetwork.plot_as_graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.plot_longitudinal.html">tnetwork.plot_longitudinal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.plot_longitudinal_sn_clusters.html">tnetwork.plot_longitudinal_sn_clusters</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Benchmark Generator</a><ul>
@@ -315,8 +316,8 @@
 <li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#commnity-class">Commnity class</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.community.Community.name.html">tnetwork.DCD.community.Community.name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#community-class">Community class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.community.Community.label.html">tnetwork.DCD.community.Community.label</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.community.Community.nodes.html">tnetwork.DCD.community.Community.nodes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.community.Community.nb_intern_edges.html">tnetwork.DCD.community.Community.nb_intern_edges</a></li>
 </ul>
@@ -325,6 +326,18 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#benchmark-with-stable-multiple-temporal-scales-communities">Benchmark with stable, multiple temporal scales communities</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale.html">tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="DC_evaluation.html">Evaluation of Dynamic Communities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="DC_evaluation.html#internal-algorithms">Internal algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.analytics.longitudinal_similarity.html">tnetwork.DCD.analytics.longitudinal_similarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.analytics.similarity_at_each_step.html">tnetwork.DCD.analytics.similarity_at_each_step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.analytics.quality_at_each_step.html">tnetwork.DCD.analytics.quality_at_each_step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.analytics.consecutive_sn_similarity.html">tnetwork.DCD.analytics.consecutive_sn_similarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.analytics.nb_node_change.html">tnetwork.DCD.analytics.nb_node_change</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.analytics.entropy_by_node.html">tnetwork.DCD.analytics.entropy_by_node</a></li>
 </ul>
 </li>
 </ul>
@@ -395,31 +408,31 @@
             
   <div class="section" id="benchmark-generator">
 <h1>Benchmark Generator<a class="headerlink" href="#benchmark-generator" title="Permalink to this headline">¶</a></h1>
+<p>A simple demo of usage can be found <a class="reference external" href="https://colab.research.google.com/github/Yquetzal/tnetwork/blob/master/demo_generation.ipynb">here</a>.</p>
 <p>The library implements several benchmark generators.
 The aim of those benchmark is to generate both a temporal graph and a <em>reference</em>
 dynamic community structure.</p>
 <dl class="docutils">
 <dt>Currently, two benchmarks are implemented:</dt>
 <dd><ul class="first last simple">
-<li>Benchmark with custom communities</li>
+<li>Benchmark with custom event scenario</li>
 <li>Benchmark with stable, multiple temporal scale communities</li>
 </ul>
 </dd>
 </dl>
-<p>A simple demo of usage can be found <a class="reference external" href="https://colab.research.google.com/github/Yquetzal/tnetwork/blob/master/demo_generation.ipynb">here</a>.</p>
 <div class="section" id="benchmark-with-custom-communities">
 <h2>Benchmark with custom communities<a class="headerlink" href="#benchmark-with-custom-communities" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="tnetwork.ComScenario">
 <em class="property">class </em><code class="descclassname">tnetwork.</code><code class="descname">ComScenario</code><span class="sig-paren">(</span><em>variant='deterministic'</em>, <em>alpha=0.8</em>, <em>external_density_penalty=0.05</em>, <em>random_noise=0</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tnetwork/DCD/communities_scenarios.html#ComScenario"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.ComScenario" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class manages the community evolution scenario</p>
-<p>Behavior to keep in mind:
-1) Any node that does not belong to a community is condered “dead”. Note that it can reappear later
+<p>Behavior to keep in mind:</p>
+<p>1) Any node that does not belong to a community is condered “dead”. Note that it can reappear later
 if it belongs to a community again.
 As a consequence, a node alive but not belonging to any community must be represented as a node belonging to a community of size 1</p>
 <p>2)There are not really persistent community, every time a community is modified in any way, a new community is created,
-and it is only because they have the same name (label) that they are considered part of the same dynamic community
-As a consequence, to kill a dynamic community, one simply needs to stop using its name.</p>
+and it is only because they have the same name (label) that they are considered part of the same dynamic community.</p>
+<p>As a consequence, to kill a dynamic community, one simply needs to stop using its name.</p>
 </dd></dl>
 
 <table border="1" class="longtable docutils">
@@ -502,8 +515,8 @@ As a consequence, to kill a dynamic community, one simply needs to stop using it
 </tbody>
 </table>
 </div>
-<div class="section" id="commnity-class">
-<h3>Commnity class<a class="headerlink" href="#commnity-class" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="community-class">
+<h3>Community class<a class="headerlink" href="#community-class" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="tnetwork.DCD.community.Community">
 <em class="property">class </em><code class="descclassname">tnetwork.DCD.community.</code><code class="descname">Community</code><span class="sig-paren">(</span><em>comScenario</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tnetwork/DCD/community.html#Community"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DCD.community.Community" title="Permalink to this definition">¶</a></dt>
@@ -521,7 +534,7 @@ of the ComScenario class.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DCD.community.Community.name.html#tnetwork.DCD.community.Community.name" title="tnetwork.DCD.community.Community.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Community.name</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.DCD.community.Community.label.html#tnetwork.DCD.community.Community.label" title="tnetwork.DCD.community.Community.label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Community.label</span></code></a>()</td>
 <td>Get the name (label) of this structure :return: name :rtype: str</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.DCD.community.Community.nodes.html#tnetwork.DCD.community.Community.nodes" title="tnetwork.DCD.community.Community.nodes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Community.nodes</span></code></a>()</td>
@@ -561,7 +574,7 @@ of the ComScenario class.</p>
         <a href="generated/tnetwork.ComScenario.__init__.html" class="btn btn-neutral float-right" title="tnetwork.ComScenario.__init__" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="generated/tnetwork.plot_longitudinal_sn_clusters.html" class="btn btn-neutral float-left" title="tnetwork.plot_longitudinal_sn_clusters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="generated/tnetwork.plot_longitudinal.html" class="btn btn-neutral float-left" title="tnetwork.plot_longitudinal" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

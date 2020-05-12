@@ -59,7 +59,7 @@ Community class
 .. autosummary::
     :toctree: generated/
 
-        Community.name
+        Community.label
         Community.nodes
         Community.nb_intern_edges
 

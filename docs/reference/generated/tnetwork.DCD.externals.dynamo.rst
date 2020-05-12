@@ -1,22 +1,6 @@
 tnetwork.DCD.externals.dynamo
 =============================
 
-.. automodule:: tnetwork.DCD.externals.dynamo
+.. currentmodule:: tnetwork.DCD.externals
 
-   
-   
-   .. rubric:: Functions
-
-   .. autosummary::
-   
-      dynamo
-   
-   
-
-   
-   
-   
-
-   
-   
-   
+.. autofunction:: dynamo

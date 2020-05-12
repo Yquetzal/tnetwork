@@ -46,7 +46,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="tnetwork.plot_as_graph" href="generated/tnetwork.plot_as_graph.html" />
-    <link rel="prev" title="tnetwork.DCD.externals.mucha_original" href="generated/tnetwork.DCD.externals.mucha_original.html" /> 
+    <link rel="prev" title="tnetwork.DCD.externals.estrangement_confinement" href="generated/tnetwork.DCD.externals.estrangement_confinement.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -282,7 +282,9 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="DCD.html#external-algorithms">External algorithms</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.externals.dynamo.html">tnetwork.DCD.externals.dynamo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.externals.mucha_original.html">tnetwork.DCD.externals.mucha_original</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.externals.transversal_network_mucha_original.html">tnetwork.DCD.externals.transversal_network_mucha_original</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.externals.transversal_network_leidenalg.html">tnetwork.DCD.externals.transversal_network_leidenalg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.externals.estrangement_confinement.html">tnetwork.DCD.externals.estrangement_confinement</a></li>
 </ul>
 </li>
 </ul>
@@ -290,7 +292,6 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Visualization</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.plot_as_graph.html">tnetwork.plot_as_graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.plot_longitudinal.html">tnetwork.plot_longitudinal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/tnetwork.plot_longitudinal_sn_clusters.html">tnetwork.plot_longitudinal_sn_clusters</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="generation.html">Benchmark Generator</a><ul>
@@ -315,8 +316,8 @@
 <li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="generation.html#commnity-class">Commnity class</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.community.Community.name.html">tnetwork.DCD.community.Community.name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generation.html#community-class">Community class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.community.Community.label.html">tnetwork.DCD.community.Community.label</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.community.Community.nodes.html">tnetwork.DCD.community.Community.nodes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.community.Community.nb_intern_edges.html">tnetwork.DCD.community.Community.nb_intern_edges</a></li>
 </ul>
@@ -325,6 +326,18 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="generation.html#benchmark-with-stable-multiple-temporal-scales-communities">Benchmark with stable, multiple temporal scales communities</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale.html">tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="DC_evaluation.html">Evaluation of Dynamic Communities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="DC_evaluation.html#internal-algorithms">Internal algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.analytics.longitudinal_similarity.html">tnetwork.DCD.analytics.longitudinal_similarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.analytics.similarity_at_each_step.html">tnetwork.DCD.analytics.similarity_at_each_step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.analytics.quality_at_each_step.html">tnetwork.DCD.analytics.quality_at_each_step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.analytics.consecutive_sn_similarity.html">tnetwork.DCD.analytics.consecutive_sn_similarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.analytics.nb_node_change.html">tnetwork.DCD.analytics.nb_node_change</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tnetwork.DCD.analytics.entropy_by_node.html">tnetwork.DCD.analytics.entropy_by_node</a></li>
 </ul>
 </li>
 </ul>
@@ -397,11 +410,12 @@
 <h1>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h1>
 <p>Some methods are proposed to visualize dynamic networks and snapshot_communities.
 A simple demo of usage can be found <a class="reference external" href="https://colab.research.google.com/github/Yquetzal/tnetwork/blob/master/demo_visu.ipynb">here</a>.</p>
-<p>Vizualising graphs is already a difficul problem in itself, and adding the dynamic makes it an ever harder task.</p>
+<p>Vizualising graphs is already a difficul problem in itself, and adding the
+dynamic makes it an ever harder task.</p>
 <p>We propose two views of the data:</p>
 <ul class="simple">
 <li>Using static graphs at the desired step</li>
-<li>Using a lonigtudinal view of nodes only</li>
+<li>Using a longitudinal view of nodes only</li>
 </ul>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -414,9 +428,6 @@ A simple demo of usage can be found <a class="reference external" href="https://
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/tnetwork.plot_longitudinal.html#tnetwork.plot_longitudinal" title="tnetwork.plot_longitudinal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_longitudinal</span></code></a>([dynamic_graph,&nbsp;…])</td>
 <td>A longitudinal view of nodes/snapshot_communities</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/tnetwork.plot_longitudinal_sn_clusters.html#tnetwork.plot_longitudinal_sn_clusters" title="tnetwork.plot_longitudinal_sn_clusters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_longitudinal_sn_clusters</span></code></a>(dynamic_graph,&nbsp;…)</td>
-<td>A longitudinal view of snapshot clusters</td>
 </tr>
 </tbody>
 </table>
@@ -433,7 +444,7 @@ A simple demo of usage can be found <a class="reference external" href="https://
         <a href="generated/tnetwork.plot_as_graph.html" class="btn btn-neutral float-right" title="tnetwork.plot_as_graph" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="generated/tnetwork.DCD.externals.mucha_original.html" class="btn btn-neutral float-left" title="tnetwork.DCD.externals.mucha_original" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="generated/tnetwork.DCD.externals.estrangement_confinement.html" class="btn btn-neutral float-left" title="tnetwork.DCD.externals.estrangement_confinement" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -280,7 +280,9 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/DCD.html#external-algorithms">External algorithms</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.externals.dynamo.html">tnetwork.DCD.externals.dynamo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.externals.mucha_original.html">tnetwork.DCD.externals.mucha_original</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.externals.transversal_network_mucha_original.html">tnetwork.DCD.externals.transversal_network_mucha_original</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.externals.transversal_network_leidenalg.html">tnetwork.DCD.externals.transversal_network_leidenalg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.externals.estrangement_confinement.html">tnetwork.DCD.externals.estrangement_confinement</a></li>
 </ul>
 </li>
 </ul>
@@ -288,7 +290,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/vizu.html">Visualization</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.plot_as_graph.html">tnetwork.plot_as_graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.plot_longitudinal.html">tnetwork.plot_longitudinal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../reference/generated/tnetwork.plot_longitudinal_sn_clusters.html">tnetwork.plot_longitudinal_sn_clusters</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/generation.html">Benchmark Generator</a><ul>
@@ -313,8 +314,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../reference/generation.html#commnity-class">Commnity class</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.community.Community.name.html">tnetwork.DCD.community.Community.name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generation.html#community-class">Community class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.community.Community.label.html">tnetwork.DCD.community.Community.label</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.community.Community.nodes.html">tnetwork.DCD.community.Community.nodes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.community.Community.nb_intern_edges.html">tnetwork.DCD.community.Community.nb_intern_edges</a></li>
 </ul>
@@ -323,6 +324,18 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/generation.html#benchmark-with-stable-multiple-temporal-scales-communities">Benchmark with stable, multiple temporal scales communities</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale.html">tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/DC_evaluation.html">Evaluation of Dynamic Communities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/DC_evaluation.html#internal-algorithms">Internal algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.analytics.longitudinal_similarity.html">tnetwork.DCD.analytics.longitudinal_similarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.analytics.similarity_at_each_step.html">tnetwork.DCD.analytics.similarity_at_each_step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.analytics.quality_at_each_step.html">tnetwork.DCD.analytics.quality_at_each_step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.analytics.consecutive_sn_similarity.html">tnetwork.DCD.analytics.consecutive_sn_similarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.analytics.nb_node_change.html">tnetwork.DCD.analytics.nb_node_change</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/generated/tnetwork.DCD.analytics.entropy_by_node.html">tnetwork.DCD.analytics.entropy_by_node</a></li>
 </ul>
 </li>
 </ul>
@@ -593,19 +606,35 @@
             <span class="n">end</span><span class="o">=</span><span class="n">n2s</span><span class="p">)</span>
 
 
-<span class="c1"># def _plot_as_graph_nx(ts,dynamic_graph,CDS,unique_pos,width,height,to_datetime):</span>
-<span class="c1">#     G = nx.grid_2d_graph(1, len(ts))</span>
-<span class="c1">#     list_of_figures = []</span>
-<span class="c1">#     for i,current_t in enumerate(ts):</span>
-<span class="c1">#         #(a_figure, a_graph_plot) = _init_net_properties(dynamic_graph, CDS, unique_pos, current_t, width, height,</span>
-<span class="c1">#                                                         #to_datetime)</span>
-<span class="c1">#         #list_of_figures.append(a_figure)</span>
-<span class="c1">#         plt.subplot(1,len(ts),i+1)</span>
-<span class="c1">#         graph = dynamic_graph.graph_at_time(current_t)</span>
-<span class="c1">#         colors = CDS[&quot;color&quot;]</span>
-<span class="c1">#</span>
-<span class="c1">#         nx.draw_networkx(graph,pos=unique_pos,node_color=)</span>
-<span class="c1">#     return layout</span>
+<span class="k">def</span> <span class="nf">_plot_as_graph_nx</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">CDS</span><span class="p">,</span><span class="n">unique_pos</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">to_datetime</span><span class="p">):</span>
+
+    <span class="n">colors_all</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1">#extract colors for graphs</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">])):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;node&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">colors_all</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">t</span><span class="p">,{})</span>
+        <span class="n">colors_all</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">node</span><span class="p">]</span><span class="o">=</span><span class="n">c</span>
+
+
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">current_t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ts</span><span class="p">):</span>
+        <span class="c1">#(a_figure, a_graph_plot) = _init_net_properties(dynamic_graph, CDS, unique_pos, current_t, width, height,</span>
+                                                        <span class="c1">#to_datetime)</span>
+        <span class="c1">#list_of_figures.append(a_figure)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;t=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">current_t</span><span class="p">))</span>
+        <span class="c1">#fig = plt.figure(figsize=(width, height))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">set_dpi</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="n">width</span><span class="o">/</span><span class="mi">100</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span> <span class="n">height</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="n">dynamic_graph</span><span class="o">.</span><span class="n">graph_at_time</span><span class="p">(</span><span class="n">current_t</span><span class="p">)</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">colors_all</span><span class="p">[</span><span class="n">current_t</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
+
+        <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span><span class="n">pos</span><span class="o">=</span><span class="n">unique_pos</span><span class="p">,</span><span class="n">node_color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span><span class="n">with_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">node_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">linewidths</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;#CCCCCC&quot;</span><span class="p">)</span>
+    <span class="c1">#plt.show()</span>
+    <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
 
 <span class="k">def</span> <span class="nf">_plot_as_graph_bokeh</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="n">slider</span><span class="p">,</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">CDS</span><span class="p">,</span><span class="n">unique_pos</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">to_datetime</span><span class="p">,</span><span class="n">auto_show</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">slider</span><span class="p">:</span>
@@ -645,7 +674,7 @@
 
     <span class="k">return</span> <span class="n">layout</span>
 
-<div class="viewcode-block" id="plot_as_graph"><a class="viewcode-back" href="../../../reference/generated/tnetwork.plot_as_graph.html#tnetwork.plot_as_graph">[docs]</a><span class="k">def</span> <span class="nf">plot_as_graph</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span> <span class="n">communities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">slider</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">to_datetime</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">auto_show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_as_graph"><a class="viewcode-back" href="../../../reference/generated/tnetwork.plot_as_graph.html#tnetwork.plot_as_graph">[docs]</a><span class="k">def</span> <span class="nf">plot_as_graph</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span> <span class="n">communities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">slider</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">to_datetime</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">bokeh</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">auto_show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plot to see the static graph at each snapshot</span>
 
@@ -670,7 +699,7 @@
         <span class="n">to_datetime</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span>
 
 
-
+    <span class="c1"># cleaning ts parameter</span>
     <span class="k">if</span> <span class="n">ts</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
@@ -684,6 +713,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">ts</span> <span class="o">=</span> <span class="p">[</span><span class="n">ts</span><span class="p">]</span>
 
+    <span class="c1"># Obtain snapshots for desired ts (graph and communities)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">):</span>
         <span class="n">temp_graph_sn</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ts</span><span class="p">:</span>
@@ -697,13 +727,17 @@
 
         <span class="n">dynamic_graph</span><span class="o">=</span><span class="n">temp_graph_sn</span>
 
+    <span class="c1">#Obtain CDS for those snapshots</span>
     <span class="n">CDS</span> <span class="o">=</span> <span class="n">_sn_graph2CDS</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span> <span class="n">communities</span><span class="p">,</span> <span class="n">to_datetime</span><span class="p">,</span> <span class="n">ts</span><span class="o">=</span><span class="n">ts</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">CDS</span><span class="p">)</span>
 
 
     <span class="n">unique_pos</span> <span class="o">=</span> <span class="n">_unique_positions</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="n">ts</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">_plot_as_graph_bokeh</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="n">slider</span><span class="p">,</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">CDS</span><span class="p">,</span><span class="n">unique_pos</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">to_datetime</span><span class="p">,</span><span class="n">auto_show</span><span class="p">)</span></div>
+    <span class="k">if</span> <span class="n">bokeh</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_plot_as_graph_bokeh</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="n">slider</span><span class="p">,</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">CDS</span><span class="p">,</span><span class="n">unique_pos</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">to_datetime</span><span class="p">,</span><span class="n">auto_show</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_plot_as_graph_nx</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">CDS</span><span class="p">,</span><span class="n">unique_pos</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">to_datetime</span><span class="p">)</span></div>
 
 
 
@@ -758,6 +792,7 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">))</span><span class="o">+</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span> <span class="n">nodes</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
+    <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
 
 
 <span class="k">def</span> <span class="nf">_plot_longitudinal_bokeh</span><span class="p">(</span><span class="n">CDS</span><span class="p">,</span><span class="n">nodes</span><span class="p">,</span><span class="n">to_datetime</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">auto_show</span><span class="p">):</span>
@@ -875,11 +910,11 @@
     <span class="k">if</span> <span class="n">bokeh</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_plot_longitudinal_bokeh</span><span class="p">(</span><span class="n">CDS</span><span class="p">,</span><span class="n">nodes</span><span class="p">,</span><span class="n">to_datetime</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">,</span> <span class="n">auto_show</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">_plot_longitudinal_pyplot</span><span class="p">(</span><span class="n">CDS</span><span class="p">,</span><span class="n">nodes</span><span class="p">,</span><span class="n">to_datetime</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">_plot_longitudinal_pyplot</span><span class="p">(</span><span class="n">CDS</span><span class="p">,</span><span class="n">nodes</span><span class="p">,</span><span class="n">to_datetime</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">)</span></div>
 
 
 
-<div class="viewcode-block" id="plot_longitudinal_sn_clusters"><a class="viewcode-back" href="../../../reference/generated/tnetwork.plot_longitudinal_sn_clusters.html#tnetwork.plot_longitudinal_sn_clusters">[docs]</a><span class="k">def</span> <span class="nf">plot_longitudinal_sn_clusters</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">clusters</span><span class="p">,</span><span class="n">level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_longitudinal_sn_clusters</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">clusters</span><span class="p">,</span><span class="n">level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A longitudinal view of snapshot clusters</span>
 
@@ -900,7 +935,7 @@
             <span class="n">coms</span><span class="o">.</span><span class="n">add_community</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">dynamic_graph</span><span class="o">.</span><span class="n">snapshot_affiliations</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">):</span>
         <span class="n">coms</span> <span class="o">=</span> <span class="n">coms</span><span class="o">.</span><span class="n">to_DynCommunitiesIG</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">communities</span><span class="o">=</span><span class="n">coms</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">communities</span><span class="o">=</span><span class="n">coms</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
 </pre></div>

@@ -11,7 +11,7 @@ def _detectAutomaticallyFormat(networkFile):
     return format
 
 
-def _write_network_file(graph, out_name, out_format=None, data=False):
+def _write_network_file(graph, out_name, out_format=None, data=False,weight=False):
     """
     Write the graph representation on file using a user specified format
 
@@ -33,7 +33,7 @@ def _write_network_file(graph, out_name, out_format=None, data=False):
     elif out_format == 'pajek':
         nx.write_pajek(graph, "%s.pajek" % (out_name))
     elif out_format == 'ncol':
-        nx.write_edgelist(graph, "%s.ncol" % (out_name), delimiter='\t')
+            nx.write_edgelist(graph, "%s.ncol" % (out_name), delimiter='\t',data=weight)
     elif out_format == 'graphML':
         g = nx.write_graphml(graph, "%s.graphML" % (out_name))
     else:

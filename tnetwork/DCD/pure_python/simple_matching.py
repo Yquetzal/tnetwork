@@ -29,8 +29,10 @@ def iterative_match(dynNetSN, CDalgo="louvain", match_function=jaccard, threshol
     #print("start iterative_match, version: "+ str(CDalgo))
     time_Steps = {}
     start = time.time()
-    if CDalgo=="smoothedLouvain":
-        dynPartitions = smoothed_louvain(dynNetSN)
+    if callable(CDalgo):
+        dynPartitions = CDalgo(dynNetSN)
+    #if CDalgo=="smoothedLouvain":
+    #    dynPartitions = smoothed_louvain(dynNetSN)
     elif CDalgo=="louvain":
         dynPartitions = CD_each_step(dynNetSN,None)
     else:

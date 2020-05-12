@@ -228,7 +228,7 @@ def _plot_as_graph_nx(ts,dynamic_graph,CDS,unique_pos,width,height,to_datetime):
         colors = [colors_all[current_t][n] for n in nodes]
 
         nx.draw_networkx(graph,pos=unique_pos,node_color=colors,with_labels=False,node_size=50,linewidths=1,edge_color="#CCCCCC")
-    plt.show()
+    #plt.show()
     return plt.gcf()
 
 def _plot_as_graph_bokeh(ts,slider,dynamic_graph,CDS,unique_pos,width,height,to_datetime,auto_show):
@@ -387,6 +387,7 @@ def _plot_longitudinal_pyplot(CDS,nodes,to_datetime,width,height):
         plt.yticks(np.arange(0.5,float(len(nodes))+0.5,1.0), nodes)
     else:
         ax.set_yticklabels([])
+    return plt.gcf()
 
 
 def _plot_longitudinal_bokeh(CDS,nodes,to_datetime,width,height,auto_show):
@@ -504,7 +505,7 @@ def plot_longitudinal(dynamic_graph=None,communities=None, sn_duration=None,to_d
     if bokeh:
         return _plot_longitudinal_bokeh(CDS,nodes,to_datetime,width,height, auto_show)
     else:
-        _plot_longitudinal_pyplot(CDS,nodes,to_datetime,width,height)
+        return _plot_longitudinal_pyplot(CDS,nodes,to_datetime,width,height)
 
 
 

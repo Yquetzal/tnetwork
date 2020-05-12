@@ -280,7 +280,9 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../reference/DCD.html#external-algorithms">External algorithms</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.externals.dynamo.html">tnetwork.DCD.externals.dynamo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.externals.mucha_original.html">tnetwork.DCD.externals.mucha_original</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.externals.transversal_network_mucha_original.html">tnetwork.DCD.externals.transversal_network_mucha_original</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.externals.transversal_network_leidenalg.html">tnetwork.DCD.externals.transversal_network_leidenalg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.externals.estrangement_confinement.html">tnetwork.DCD.externals.estrangement_confinement</a></li>
 </ul>
 </li>
 </ul>
@@ -288,7 +290,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../reference/vizu.html">Visualization</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../reference/generated/tnetwork.plot_as_graph.html">tnetwork.plot_as_graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../reference/generated/tnetwork.plot_longitudinal.html">tnetwork.plot_longitudinal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../reference/generated/tnetwork.plot_longitudinal_sn_clusters.html">tnetwork.plot_longitudinal_sn_clusters</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../reference/generation.html">Benchmark Generator</a><ul>
@@ -313,8 +314,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generation.html#commnity-class">Commnity class</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.community.Community.name.html">tnetwork.DCD.community.Community.name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generation.html#community-class">Community class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.community.Community.label.html">tnetwork.DCD.community.Community.label</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.community.Community.nodes.html">tnetwork.DCD.community.Community.nodes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.community.Community.nb_intern_edges.html">tnetwork.DCD.community.Community.nb_intern_edges</a></li>
 </ul>
@@ -323,6 +324,18 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../reference/generation.html#benchmark-with-stable-multiple-temporal-scales-communities">Benchmark with stable, multiple temporal scales communities</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale.html">tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/DC_evaluation.html">Evaluation of Dynamic Communities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/DC_evaluation.html#internal-algorithms">Internal algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.analytics.longitudinal_similarity.html">tnetwork.DCD.analytics.longitudinal_similarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.analytics.similarity_at_each_step.html">tnetwork.DCD.analytics.similarity_at_each_step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.analytics.quality_at_each_step.html">tnetwork.DCD.analytics.quality_at_each_step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.analytics.consecutive_sn_similarity.html">tnetwork.DCD.analytics.consecutive_sn_similarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.analytics.nb_node_change.html">tnetwork.DCD.analytics.nb_node_change</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/generated/tnetwork.DCD.analytics.entropy_by_node.html">tnetwork.DCD.analytics.entropy_by_node</a></li>
 </ul>
 </li>
 </ul>
@@ -488,7 +501,7 @@
         <span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_timer</span>
         <span class="n">start_timer</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="n">times</span><span class="p">[</span><span class="n">current_granularity</span><span class="p">]</span><span class="o">=</span><span class="n">duration</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
+        <span class="c1">#print(duration)</span>
 
     <span class="n">times</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">v</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">times</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
     <span class="n">persistant_coms</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">persistant_coms</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -538,7 +551,7 @@
         <span class="c1">#if interesting_node in tracked_nodes:</span>
          <span class="c1">#   print(&quot;-&quot;,t,current_t, &quot;score &quot;, the_score)</span>
         <span class="k">if</span> <span class="n">the_score</span> <span class="o">&gt;=</span> <span class="n">t_quality</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;mm &quot;</span><span class="p">,</span><span class="n">t_quality</span><span class="p">,</span><span class="n">the_score</span><span class="p">,</span><span class="n">current_t</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">backward</span><span class="p">)</span>
+            <span class="c1">#print(&quot;mm &quot;,t_quality,the_score,current_t,t,backward)</span>
             <span class="n">to_return</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">current_t</span><span class="p">,</span> <span class="n">the_score</span><span class="p">))</span>
             <span class="n">similar_com</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="n">backward</span><span class="p">:</span>
@@ -586,7 +599,7 @@
     <span class="n">all_CC</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">starmap_async</span><span class="p">(</span><span class="n">__find_interesting_CC</span><span class="p">,[(</span><span class="n">t</span><span class="p">,</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">g</span> <span class="ow">in</span> <span class="n">pre_computed_snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CC detection done&quot;</span><span class="p">)</span>
+    <span class="c1">#print(&quot;CC detection done&quot;)</span>
 
     <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">cs</span> <span class="ow">in</span> <span class="n">all_CC</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cs</span><span class="p">:</span>
@@ -621,7 +634,7 @@
             <span class="k">if</span> <span class="n">quality</span><span class="o">&gt;=</span><span class="n">t_quality</span><span class="p">:</span>
                 <span class="n">seeds</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="p">,</span> <span class="n">cID</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">nodes</span><span class="p">),</span> <span class="n">quality</span><span class="p">,</span>
                           <span class="n">current_granularity</span><span class="p">))</span>  <span class="c1">##structure of items in coms_and_qualities:  (t,cID,frozenset(nodes),quality,granularity)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;quality computation done&quot;</span><span class="p">)</span>
+    <span class="c1">#print(&quot;quality computation done&quot;)</span>
 
     <span class="n">seeds</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -649,7 +662,7 @@
 
     <span class="c1">#if the community is stable, i.e., makes sense more than t_persistance steps</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">similars</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">t_persistance</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------&quot;</span><span class="p">)</span>
+        <span class="c1">#print(&quot;----------------&quot;)</span>
         <span class="n">similars</span> <span class="o">=</span> <span class="p">[</span><span class="n">similars</span><span class="p">]</span>  <span class="c1"># for genericity, we want to be able to deal with non-continuous intervals</span>
         <span class="n">inter_presence</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">Intervals</span><span class="p">([(</span><span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">sim</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">granularity</span><span class="p">)</span> <span class="k">for</span> <span class="n">sim</span> <span class="ow">in</span> <span class="n">similars</span><span class="p">])</span>
 
@@ -665,7 +678,7 @@
 
         <span class="c1"># If community not redundant, we compute its quality and add it to the list of communities</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">redundant</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">similars</span><span class="p">)</span>
+            <span class="c1">#print(similars)</span>
 
             <span class="n">sum_quality</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">stable</span> <span class="ow">in</span> <span class="n">similars</span><span class="p">:</span>

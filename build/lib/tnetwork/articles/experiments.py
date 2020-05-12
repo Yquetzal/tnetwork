@@ -14,7 +14,7 @@ import numpy as np
 
 from tnetwork.DCD.externals.dynamo import dynamo
 from tnetwork.DCD.externals.dynmoga import dynmoga
-from tnetwork.DCD.externals.MuchaOriginal import mucha_original
+from tnetwork.DCD.externals.MuchaOriginal import transversal_network_mucha_original
 from matlab import engine
 
 
@@ -27,10 +27,10 @@ def standard_methods_to_test():
     # methods_to_test = {"iterative":DCD.iterative_match,"dynamo":dynamo,"dynmoga":dynmoga,"smoothed_louvain":smoothed_louvain}
 
     def mucha_opti(x, elapsed_time=True):
-        return mucha_original(x, elapsed_time=elapsed_time, matlab_session=eng)
+        return transversal_network_mucha_original(x, elapsed_time=elapsed_time, matlab_session=eng)
 
     def mucha_global(x, elapsed_time=True):
-        return mucha_original(x, elapsed_time=elapsed_time, matlab_session=eng, form="global")
+        return transversal_network_mucha_original(x, elapsed_time=elapsed_time, matlab_session=eng, form="global")
 
     print("pas de mucha")
     methods_to_test = {"iterative": tn.DCD.iterative_match,
@@ -55,12 +55,12 @@ def generate_graph(nb_com =6,min_size=4,max_size=15,operations=18,mu=0.1):
         if len(com1.nodes())<max_size and len(all_communities)>0: #merge
             [com2] = np.random.choice(list(all_communities),1,replace=False)
             largest_com = max([com1,com2],key=lambda x: len(x.nodes()))
-            merged = prog_scenario.MERGE([com1,com2],largest_com.name(),wait=20)
+            merged = prog_scenario.MERGE([com1,com2], largest_com.label(), wait=20)
             all_communities.remove(com2)
             all_communities.add(merged)
         else: #split
             smallest_size = int(len(com1.nodes())/3)
-            (com2,com3) = prog_scenario.SPLIT(com1,[prog_scenario._get_new_ID("CUSTOM"),com1.name()],[smallest_size,len(com1.nodes())-smallest_size],wait=20)
+            (com2,com3) = prog_scenario.SPLIT(com1, [prog_scenario._get_new_ID("CUSTOM"), com1.label()], [smallest_size, len(com1.nodes()) - smallest_size], wait=20)
             all_communities|= set([com2,com3])
     (dyn_graph,dyn_com) = prog_scenario.run()
 

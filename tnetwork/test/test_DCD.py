@@ -56,7 +56,7 @@ class DCDTestCase(unittest.TestCase):
         dg = tn.DynGraphSN.graph_socioPatterns2012()
         dg = dg.aggregate_sliding_window(60 * 60 * 24)
 
-        coms = DCDextern.mucha_original(dg)
+        coms = DCDextern.transversal_network_mucha_original(dg)
 
         tn.write_com_SN(coms, "testDir")
         shutil.rmtree("testDir")

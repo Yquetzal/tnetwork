@@ -1,6 +1,6 @@
 import networkx as nx
 from matlab import engine
-import scipy
+import scipy.io
 import os
 import time
 import tnetwork as tn
@@ -50,7 +50,7 @@ def _runMatlabCode(matrix, matlab_session):
     return(S,duration)
     # S = numpy.asarray(S).reshape(2, 34)
 
-def mucha_original(dyn_graph:tn.DynGraphSN, om=0.5, form="local", elapsed_time=False, matlab_session=None):
+def transversal_network_mucha_original(dyn_graph:tn.DynGraphSN, om=0.5, form="local", elapsed_time=False, matlab_session=None):
     """
     Multiplex community detection, Mucha et al.
 
@@ -72,8 +72,28 @@ def mucha_original(dyn_graph:tn.DynGraphSN, om=0.5, form="local", elapsed_time=F
     :param matlab_session:
     :return:
     """
-    print("INITIALISING MUCHA ")
+    print("preprocessing MUCHA ")
 
+    #Original example on genlouvain website
+    #N = length(A{1});
+    #T = length(A);
+    #B = spalloc(N * T, N * T, N * N * T + 2 * N * T);
+    #twomu = 0;
+    #for s=1:T
+    #     k = sum(A{s});
+    #     twom = sum(k);
+    #     twomu = twomu + twom;
+    #     indx = [1:N]+(s - 1) * N;
+    #     B(indx, indx) = A
+    #     {s} - gamma * k'*k/twom;
+    #
+    #
+    # end
+    # twomu = twomu + 2 * omega * N * (T - 1);
+    # B = B + omega * spdiags(ones(N * T, 2), [-N, N], N * T, N * T);
+    # [S, Q] = genlouvain(B);
+    # Q = Q / twomu
+    # S = reshape(S, N, T);
 
     graphs = dyn_graph.snapshots()
 
@@ -89,7 +109,7 @@ def mucha_original(dyn_graph:tn.DynGraphSN, om=0.5, form="local", elapsed_time=F
 
             gmat = nx.to_scipy_sparse_matrix(g, nodelist=nodeOrder,format="dok")
             k = gmat.sum(axis=0) #degrees of nodes
-            twom = k.sum(axis=1) #sum of degrees
+            twom = k.sum(axis=1)#sum of degrees
             nullModel  = k.transpose() * k /twom
             listModularityMatrices.append(gmat - nullModel)
 
@@ -140,6 +160,7 @@ def mucha_original(dyn_graph:tn.DynGraphSN, om=0.5, form="local", elapsed_time=F
     #print("file saved")
 
     #B = scipy.sparse.coo_matrix(B)
+    print("calling external code")
 
     (S,duration) = _runMatlabCode(B, matlab_session=matlab_session)
     #print("transforming back to dynamic net")

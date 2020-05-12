@@ -280,7 +280,7 @@ class _Operation(_AbstractStructure):
         #If no community is given, create a community with automatic name
         if len(self._afterCommunities)==0:
             self._afterCommunities.append(Community(self._comScenar))
-            self._afterNames=[self._afterCommunities[0].name()]
+            self._afterNames=[self._afterCommunities[0].label()]
 
         #If we do not specify the nodes that should be added to this community, create nodes
         if not "nodes" in self._parameters:
@@ -357,7 +357,7 @@ class _Operation(_AbstractStructure):
         return self._internPairs
 
     def name(self):
-        return str([c.name() for c in self._beforeCommunities]) + "=>" + str(self._afterNames)
+        return str([c.label() for c in self._beforeCommunities]) + "=>" + str(self._afterNames)
 
     def nodes(self):
         return self._nodes

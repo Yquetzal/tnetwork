@@ -288,7 +288,7 @@ def initialize():
     Initialize package and return a handle.
 
     Initialize a package consisting of one or more deployed MATLAB functions. The return
-    value is used as a handle on which any of the functions can be executed. To wait
+    value is used as a handle on which any of the functions can be executed. To delay
     for all graphical figures to close before continuing, call wait_for_figures_to_close() 
     on the handle. To close the package, call terminate(), quit() or exit() (which are 
     synonymous) on the handle. The terminate() function is executed automatically when the 

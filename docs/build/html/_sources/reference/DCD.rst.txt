@@ -60,16 +60,20 @@ These algorithms are implemented in python.
         rollingCPM
         MSSCD
 
-.. currentmodule:: tnetwork.DCD.externals
 
 External algorithms
 ------------------------------------------
 These algorithms call external code provided by authors, and thus might require installing
 additional softwares (java, matlab).
 
+.. currentmodule:: tnetwork.DCD.externals
+
 .. autosummary::
     :toctree: generated/
 
         dynamo
-        mucha_original
+        transversal_network_mucha_original
+        transversal_network_leidenalg
+        estrangement_confinement
+
 

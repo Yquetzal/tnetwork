@@ -1,0 +1,25 @@
+
+Senator rollcall data has been downloaded from voteview.com:
+
+http://www.voteview.com/downloads.asp#PARTYSPLITSDWNL
+
+The script download_raw_data.sh downloads the raw data as supplied by voteview.
+This has been saved in the senate_rollcall_raw directory.
+
+The rollcall.py script processes the data to create network snapshots as
+described in the estrangement paper. It can process the senate as well as the
+house rollcall data. The data is not cleanly separated into fields by delimiters
+such as a comma, space or tab. Several heuristics were thus needed to process
+the data and cross check the parsed results. The processed data has been saved
+in senate_rollcall dir.
+
+The rollcall.py script also uses the files senate_icpsr.txt and house_icpsr.txt
+that have been downloaded from http://www.voteview.com/icpsr.htm
+
+1.  Congress Number
+2.  ICPSR ID Number (Current):  corrected ID numbers
+3.  State Code:  2 digit ICPSR State Code
+4.  Congressional District Number (0 if Senate)
+5.  State Name
+6.  Party Code:  100 = Dem., 200 = Repub. (See Party3.dat)
+7.  Name (short and long form)
