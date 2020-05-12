@@ -1,5 +1,6 @@
 import networkx as nx
-import matlab
+from matlab import engine
+import scipy.io
 import os
 import time
 import tnetwork as tn
@@ -25,7 +26,7 @@ def _runMatlabCode(matrix, matlab_session):
     #print("starting matlab engine")
     eng = matlab_session
     if eng==None:
-        eng = matlab.engine.start_matlab()
+        eng = engine.start_matlab()
     eng.addpath(visuAddress, nargout=0)
     #print("matlab engine started successfully")
     start_time = time.time()

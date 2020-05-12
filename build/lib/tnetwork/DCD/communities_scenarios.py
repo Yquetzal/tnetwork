@@ -508,8 +508,7 @@ class ComScenario():
         Split a single community into several ones. Note that to control exactly which nodes are moved, one should use migrate instead
 
         :param toSplit: name of the community to split
-        :param newComs: names to give to the new snapshot_affiliations (list). The name of the community before split can be or not
-        among them
+        :param newComs: names to give to the new snapshot_affiliations (list). The name of the community before split can be or not among them
         :param sizes: sizes of the new snapshot_affiliations, in number of nodes. In the same order as names.
         :return: a list of snapshot_affiliations resulting from the split.
         """
@@ -669,8 +668,7 @@ class ComScenario():
 
         :param comBefore: Ccommunities in input
         :param comsAfter: name(s) to give to the resulting snapshot_affiliations
-        :param splittingOut: How to distribute nodes in output. It is a list of same lenght than comsAfter, and each element of the
-        list is a set of names of nodes. Note that if some nodes present in input does not appear in output, they are considered "killed"
+        :param splittingOut: How to distribute nodes in output. It is a list of same lenght than comsAfter, and each element of the list is a set of names of nodes. Note that if some nodes present in input does not appear in output, they are considered "killed"
         :return: the snapshot_affiliations resulting from the operation (list of snapshot_affiliations objects)
         """
         return self._add_action(_Operation.migrate(comsBefore, comsAfter, splittingOut), **kwargs)
