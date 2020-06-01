@@ -4,6 +4,7 @@ import math
 from tnetwork.dyn_graph.dyn_graph import DynGraph
 from tnetwork.utils.intervals import Intervals
 import tnetwork as tn
+import numpy as np
 
 class DynGraphIG(DynGraph):
     """
@@ -147,7 +148,8 @@ class DynGraphIG(DynGraph):
             self._graph.add_edge(u, v, t=Intervals())
 
         if isinstance(time,Intervals):
-            self._graph.add_edge(u,v,t=time)
+            self._graph[u][v]["t"]+=time
+            #self._graph.add_edge(u,v,t=time)
         else:
             start = time[0]
             end = time[1]
@@ -169,6 +171,8 @@ class DynGraphIG(DynGraph):
 
 
         for i,nodePair in enumerate(nodePairs):
+            #if nodePair==('1170', '1644'):
+            #    print(nodePair,times[i])
             self.add_interaction(nodePair[0], nodePair[1], times[i])
 
     def add_node_presence(self, n, time):
@@ -311,7 +315,6 @@ class DynGraphIG(DynGraph):
         for n,presence in self.node_presence().items():
             to_return.add_node_presence(n,slice_time.intersection(presence))
         for e,presence in self.interactions().items():
-            print(presence)
             to_return.add_interaction(e[0],e[1],slice_time.intersection(presence))
 
         return to_return
@@ -416,3 +419,34 @@ class DynGraphIG(DynGraph):
     #                 dgSN.snapshots(ts[0]).add_edge(e[0],e[1],weight=presence)
     #
     #     return dgSN
+
+    def code_length(self):
+
+        total_code = 0
+        #nb_nodes = len(self._graph.nodes())
+        #nb_different_edges = len(self._graph.edges())
+        #code_one_node = np.log2(nb_nodes)
+        code_time = np.log2(len(self.change_times())+1)
+
+        #total_code+=code_one_node*2*nb_different_edges
+
+
+
+        #g_cumulated = self.cumulated_graph()
+        node_encoding = np.log2(len(self._graph.nodes()))
+        edge_encoding = node_encoding * 2
+        nb_time = len(self.change_times())
+
+        nb_unique_edges = len(self._graph.edges())
+        nb_periods = 0
+        for e,ts in self.interactions().items():
+            nb_periods+=len(ts.periods())
+        #time_encoding = np.log2(nb_time)
+        time_encoding = np.log2(nb_periods*2)
+
+        #(N1,N2)_(T1,T2)_(T3,T4)_STOP_(N2,N3)
+
+        total_code = edge_encoding*nb_unique_edges + 2*nb_periods*time_encoding + nb_unique_edges*time_encoding
+        print("ig: ",edge_encoding,time_encoding,nb_unique_edges,nb_periods)
+
+        return total_code

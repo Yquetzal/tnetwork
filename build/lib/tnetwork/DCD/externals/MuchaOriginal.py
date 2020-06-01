@@ -54,7 +54,7 @@ def transversal_network_mucha_original(dyn_graph:tn.DynGraphSN, om=0.5, form="lo
     """
     Multiplex community detection, Mucha et al.
 
-    Algorithm described in : `Mucha, P. J., Richardson, T., Macon, K., Porter, M. A., & Onnela, J. P. (2010). Community structure in time-dependent, multiscale, and multiplex networks. science, 328(5980), 876-878.`
+    Algorithm described in [1]
 
     Brief summary: a single network is created by adding nodes between themselves in different snaphsots. A modified modularity optimization algorithm is run
     on this network
@@ -64,6 +64,11 @@ def transversal_network_mucha_original(dyn_graph:tn.DynGraphSN, om=0.5, form="lo
     https://fr.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html
     (you can find the value of matlabroot by tapping matlabroot in your matlab console)
 
+    If you do not have matlab, you can try to use the transversal_network_leidenalg which is slower but requires only a package installation
+
+    [1] Mucha, P. J., Richardson, T., Macon, K., Porter, M. A., & Onnela, J. P. (2010).
+    Community structure in time-dependent, multiscale, and multiplex networks.
+    science, 328(5980), 876-878.
 
     :param dyn_graph: dynamic network
     :param om:

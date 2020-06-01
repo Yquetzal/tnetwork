@@ -11,20 +11,22 @@ import numbers
 
 class DynCommunitiesIG(DynCommunities):
     """
-    Dynamic snapshot_affiliations as interval graphs
+    Dynamic communities as interval graphs
 
-    This class maintains a redondant representation for faster access: 
-    _by_node: for each node, for each community, Interval of affectation
-    _by_com: for each com, for each node, Interval of affectation
+    This class maintains a redondant representation for faster access:
+
+    * _by_node: for each node, for each community, Interval of affectation (affectations)
+    * _by_com: for each com, for each node, Interval of affectation (communities)
+
     Note that they are hidden for this reason, if you modify one, you need to be careful maintaining the other one.
-    You can however access them without problem directly, or use the corresponding functions (snapshot_affiliations and snapshot_affiliations)
+    You can however access them without problem directly, or use the corresponding functions (affiliation and communities)
     
     """
     def __init__(self,start=None,end=None):
         """
         Instanciate a dynamic community structure
 
-        A start end end dates can be used to give a "duration" to the graph independently from its nodes and edges
+        Start and end dates can be used to give a "duration" to the graph independently from its nodes and edges
         (for instance, to study activity during a whole year, the graph might start on January 1st at 00:00 while
         the first recorded activity occurs in the afternoon or on another day)
 
@@ -45,8 +47,9 @@ class DynCommunitiesIG(DynCommunities):
         """
         Keep only the selected period
 
-        :param start:
-        :param end:
+        :param start: start of the period to keep
+        :param end: end of the period to keep
+        :return: a dynamic graph over the period
         """
 
         to_return = tn.DynCommunitiesIG()
@@ -77,7 +80,7 @@ class DynCommunitiesIG(DynCommunities):
         """
         Affiliations by nodes
 
-        :param t: time of the snapshot_affiliations ro return. Default: all
+        :param t: time of the affiliations ro return. Default: all
         :return: either a dictionary (by node) of dictionaries (by community) of Intervals if t==None or a dictionary (by node) of list of snapshot_communities
         """
         if t==None:
@@ -87,9 +90,9 @@ class DynCommunitiesIG(DynCommunities):
     
     def communities(self, t=None):
         """
-        Affiliations by snapshot_communities
+        Affiliations by communities
 
-        :param t: time of the snapshot_affiliations ro return. Default: all
+        :param t: time of the community ro return. Default: all
         :return: either a dictionary (by community) of dictionaries (by node) of Intervals if t==None or a dictionary (by community) of Intervals
         """
         if t == None:
@@ -98,7 +101,7 @@ class DynCommunitiesIG(DynCommunities):
         affils = self.affiliations(t)
         return affiliations2nodesets(affils)
 
-    def fast_set_affiliations(self,affils_by_communities):
+    def _fast_set_affiliations(self, affils_by_communities):
         self._by_com = affils_by_communities
         for c in self._by_com:
             for n in self._by_com[c]:
@@ -120,7 +123,7 @@ class DynCommunitiesIG(DynCommunities):
         Affiliate node n to community com for period times
 
         :param nodes: node or list/set of nodes
-        :param cIDs: community or list/set of snapshot_communities. snapshot_communities are str
+        :param cIDs: community or list/set of communities. str
         :param times: period as an Interval object, or a pair (start,end) or list of pairs
 
         """
@@ -144,27 +147,27 @@ class DynCommunitiesIG(DynCommunities):
         self.start = min(self.start, times.start())
         self.end = max(self.end, times.end())
 
-    def add_affiliations_from(self, clusters, times):
+    def add_affiliations_from(self, communities, times):
         """
-        Add snapshot_affiliations provided as a cluster
+        Add communities provided as a cluster
 
-        Given a cluster provided as a dict id:{set of nodes} , add it for the period times (intervals)
+        Given a community provided as a dict id:{set of nodes} , add it for the period times (intervals)
 
-        :param clusters: dict id:{set of nodes}
+        :param communities: dict id:{set of nodes}
         :param times: an Intervals object or a single period as a pair (start, end)
         """
 
         if not isinstance(times,Intervals):
             times = Intervals(times)
-        for id,affils in clusters.items():
+        for id,affils in communities.items():
             for n in affils:
                 self.add_affiliation(n, id, times)
 
     def remove_affiliation(self, n:str, com, times:Intervals):
         """
-        Remove snapshot_affiliations
+        Remove affiliations
 
-        remove snapshot_affiliations of node n from community com between the period times
+        remove affiliations of node n from community com between the period times
 
         :param n: node
         :param com: community
@@ -177,13 +180,13 @@ class DynCommunitiesIG(DynCommunities):
 
     def affiliations_durations(self, nodes=None, communities=None):
         """
-        Durations of snapshot_affiliations
+        Durations of affiliations
 
-        Return the duration in each community (for non-zero values) for the provided nodes and the provided snapshot_affiliations (default: all)
+        Return the duration in each community (for non-zero values) for the provided nodes and the provided communities (default: all)
         return set of triplets (n,c,duration), or set of pairs of one if the parameters has a single value, or a single value if single node and single com
 
         :param nodes: node(s) for which we want durations. single node or set of nodes
-        :param communities: snapshot_communities(s) for which we want durations. single community or set of snapshot_communities
+        :param communities: communities(s) for which we want durations. single community or set of communities
         :return: set of triplets (n,c,duration), or set of pairs of one if the parameters has a single value, or a single value if single node and single com
 
         """
@@ -244,8 +247,8 @@ class DynCommunitiesIG(DynCommunities):
         """
         Nodes ordered by their main community
 
-        return nodes such as those with the same main community are close to each other.
-        By default, use the main community according to function nodes_main_com
+        Return nodes such as those with the same main community are close to each other.
+        By default, use the main community according to internal function nodes_main_com
         Another order can be passed in parameter.
 
         :param node2Com: a dictionary associating a node to its main affiliation
@@ -268,11 +271,11 @@ class DynCommunitiesIG(DynCommunities):
 
             :param slices: can be one of
 
-            - None, snapshot_affiliations are created such as a new snapshot is created at every node/edge change,
-            - an integer, snapshot_affiliations are created using a sliding window
+            - None, snapshots are created such as a new snapshot is created at every node/edge change,
+            - an integer, snapshots are created using a sliding window
             - a list of periods, represented as pairs (start, end), each period yielding a snapshot
 
-            :return: a dynamic graph represented as snapshot_affiliations, the weight of nodes/edges correspond to their presence time during the snapshot
+            :return: a dynamic graph represented as snapshots, the weight of nodes/edges correspond to their presence time during the snapshot
 
         """
         dgSN = tn.DynCommunitiesSN()

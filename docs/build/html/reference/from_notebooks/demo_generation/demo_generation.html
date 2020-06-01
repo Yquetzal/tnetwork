@@ -1,0 +1,1054 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Generation of dynamic networks with communities &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Dynamic Communities detection and evaluation" href="../demo_DCD/demo_DCD.html" />
+    <link rel="prev" title="Visualization" href="../demo_visu/demo_visu.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#who-uses-tnetwork">Who uses tnetwork?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#free-software">Free software</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#quick-install">Quick install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-from-source">Installing from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#github">GitHub</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#requirements">Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#python">Python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_intro/demo_intro.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../demo_intro/demo_intro.html#creating-a-dynamic-graph">Creating a dynamic graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_intro/demo_intro.html#visualizing-your-graph">Visualizing your graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_intro/demo_intro.html#accessing-graph-information">Accessing graph information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_intro/demo_intro.html#conversion-between-snapshots-interval-representations">Conversion between snapshots&lt;-&gt;interval representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_intro/demo_intro.html#slicing-aggregating">Slicing, aggregating</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../demo_intro/demo_intro.html#generate-and-detect-dynamic-community-structures">Generate and detect dynamic community structures</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html">Dynamic Network Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html#table-of-contents">Table of Contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html#using-a-snapshot-representation">Using a snapshot representation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html#using-an-interval-graph-representation">Using an interval graph representation.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html#accessing-functions">Accessing functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html#visualization">Visualization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html#conversion-between-snapshots-and-interval-graphs">Conversion between snapshots and interval graphs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html#aggregation-slicing">Aggregation/Slicing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html#slicing">Slicing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html#creating-cumulated-graphs">Creating cumulated graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html#resampling">Resampling</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_community_classes/demo_community_classes.html">Dynamic Community classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../demo_community_classes/demo_community_classes.html#table-of-contents">Table of Contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../demo_community_classes/demo_community_classes.html#with-interval-graphs">With Interval graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../demo_community_classes/demo_community_classes.html#accessing-properties-of-communities">Accessing properties of communities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../demo_community_classes/demo_community_classes.html#check-communities">Check communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_community_classes/demo_community_classes.html#in-each-snapshot">In each snapshot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../demo_community_classes/demo_community_classes.html#duration-frequencies-of-relations-between-nodes-and-communities">Duration/frequencies of relations between nodes and communities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../demo_community_classes/demo_community_classes.html#visualization">Visualization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../demo_community_classes/demo_community_classes.html#conversion-between-snapshots-and-interval-representation">Conversion between snapshots and interval representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../demo_community_classes/demo_community_classes.html#slicing">Slicing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_visu/demo_visu.html">Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../demo_visu/demo_visu.html#cross-section-visualization">Cross-section visualization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../demo_visu/demo_visu.html#longitudinal-visualization">Longitudinal Visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_visu/demo_visu.html#timestamps">Timestamps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_visu/demo_visu.html#snapshot-duration">Snapshot duration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_visu/demo_visu.html#bokeh-longitudinal-plots">Bokeh longitudinal plots</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Generation of dynamic networks with communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#introduction-simple-generation">Introduction: simple generation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initialization">Initialization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#merge">Merge</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run">Run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#conservation-of-identity-of-communities">Conservation of identity of communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#events-chaining">Events chaining</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#events">Events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generating-random-scenarios">Generating random scenarios</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#benchmark-for-multiple-temporal-scales">Benchmark for Multiple Temporal Scales</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_DCD/demo_DCD.html">Dynamic Communities detection and evaluation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../demo_DCD/demo_DCD.html#creating-an-example-dynamic-graph-with-changing-community-structure">Creating an example dynamic graph with changing community structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../demo_DCD/demo_DCD.html#first-algorithm-iterative-match">First algorithm: Iterative match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../demo_DCD/demo_DCD.html#visualizing-communities">Visualizing communities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../demo_DCD/demo_DCD.html#survival-graph">Survival Graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_DCD/demo_DCD.html#smoothed-louvain">Smoothed louvain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_DCD/demo_DCD.html#smoothed-graph">Smoothed graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_DCD/demo_DCD.html#matching-with-a-custom-function">Matching with a custom function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_DCD/demo_DCD.html#another-algoritm-in-python-cpm">Another algoritm in python: CPM</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../demo_DCD/demo_DCD.html#dynamic-partition-evaluation">Dynamic partition evaluation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../demo_DCD/demo_DCD.html#quality-at-each-step">Quality at each step</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_DCD/demo_DCD.html#average-values">Average values</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_DCD/demo_DCD.html#similarity-at-each-step">Similarity at each step</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../demo_DCD/demo_DCD.html#smoothness-evaluation">Smoothness Evaluation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../demo_DCD/demo_DCD.html#global-scores">Global scores</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../demo_DCD/demo_DCD.html#longitudinal-similarity">Longitudinal Similarity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../demo_DCD/demo_DCD.html#global-smoothness">Global Smoothness</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dyn_communities.html">Dynamic Communities Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dyn_communities.html#sequences-of-snapshots-representations">Sequences of snapshots representations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_communities.html#adding-and-removing-affiliations">Adding and removing affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_communities.html#accessing-affiliations">Accessing affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_communities.html#statistics">Statistics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_communities.html#converting">Converting</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../dyn_communities.html#interval-graph-representations">Interval graph representations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_communities.html#accessing-snapshot-affiliations">Accessing snapshot_affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_communities.html#other-functions">Other functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../readwrite.html">Read/Write</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../readwrite.html#simple-example">Simple example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../readwrite.html#read-write-graphs">Read/Write graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../readwrite.html#read-write-snapshot-graphs">Read/Write snapshot graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../readwrite.html#read-write-interval-graphs">Read/Write interval graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../readwrite.html#read-write-communities">Read/Write Communities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../readwrite.html#read-write-snapshot-snapshot-affiliations">Read/Write snapshot snapshot_affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../readwrite.html#read-write-interval-graph-snapshot-affiliations">Read/Write interval graph snapshot_affiliations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dyn_graph.html">Dynamic Network Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dyn_graph.html#sequences-of-snapshots">Sequences of snapshots</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_graph.html#adding-and-removing-nodes-and-edges">Adding and removing nodes and edges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_graph.html#accessing-the-graph">Accessing the graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_graph.html#conversion-to-different-formats">Conversion to different formats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_graph.html#aggregation">Aggregation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_graph.html#other-graph-operations">Other graph operations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../dyn_graph.html#interval-graphs">Interval graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_graph.html#id1">Adding and removing nodes and edges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_graph.html#id2">Accessing the graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_graph.html#id3">Conversion to different formats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dyn_graph.html#id4">Aggregation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Intervals.html">Intervals Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Intervals.html#adding-and-removing-intervals">Adding and removing intervals</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.utils.Intervals.__init__.html">tnetwork.utils.Intervals.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.utils.Intervals.add_interval.html">tnetwork.utils.Intervals.add_interval</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.utils.Intervals.__add__.html">tnetwork.utils.Intervals.__add__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.utils.Intervals.__sub__.html">tnetwork.utils.Intervals.__sub__</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intervals.html#accessing-intervals-properties">Accessing Intervals properties</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.utils.Intervals.contains_t.html">tnetwork.utils.Intervals.contains_t</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.utils.Intervals.contains.html">tnetwork.utils.Intervals.contains</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.utils.Intervals.__contains__.html">tnetwork.utils.Intervals.__contains__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.utils.Intervals.periods.html">tnetwork.utils.Intervals.periods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.utils.Intervals.duration.html">tnetwork.utils.Intervals.duration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.utils.Intervals.start.html">tnetwork.utils.Intervals.start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.utils.Intervals.end.html">tnetwork.utils.Intervals.end</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intervals.html#operations">Operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.utils.Intervals.intersection.html">tnetwork.utils.Intervals.intersection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.utils.Intervals.union.html">tnetwork.utils.Intervals.union</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.utils.Intervals.__eq__.html">tnetwork.utils.Intervals.__eq__</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../DCD.html">Dynamic Community Detection</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DCD.html#internal-algorithms">Internal algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.iterative_match.html">tnetwork.DCD.iterative_match</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.label_smoothing.html">tnetwork.DCD.label_smoothing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.smoothed_louvain.html">tnetwork.DCD.smoothed_louvain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.rollingCPM.html">tnetwork.DCD.rollingCPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.smoothed_graph.html">tnetwork.DCD.smoothed_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.MSSCD.html">tnetwork.DCD.MSSCD</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../DCD.html#external-algorithms">External algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.externals.dynamo.html">tnetwork.DCD.externals.dynamo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.externals.transversal_network_mucha_original.html">tnetwork.DCD.externals.transversal_network_mucha_original</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.externals.transversal_network_leidenalg.html">tnetwork.DCD.externals.transversal_network_leidenalg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.externals.estrangement_confinement.html">tnetwork.DCD.externals.estrangement_confinement</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vizu.html">Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../generated/tnetwork.plot_as_graph.html">tnetwork.plot_as_graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../generated/tnetwork.plot_longitudinal.html">tnetwork.plot_longitudinal</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../generation.html">Benchmark Generator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../generation.html#example-of-custom-scenario">Example of custom scenario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../generation.html#example-of-stable-communities">Example of stable communities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../generation.html#benchmark-with-custom-communities">Benchmark with custom communities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../generation.html#function-to-define-events">Function to define events</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.ComScenario.INITIALIZE.html">tnetwork.ComScenario.INITIALIZE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.ComScenario.BIRTH.html">tnetwork.ComScenario.BIRTH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.ComScenario.DEATH.html">tnetwork.ComScenario.DEATH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.ComScenario.MERGE.html">tnetwork.ComScenario.MERGE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.ComScenario.SPLIT.html">tnetwork.ComScenario.SPLIT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.ComScenario.THESEUS.html">tnetwork.ComScenario.THESEUS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.ComScenario.RESURGENCE.html">tnetwork.ComScenario.RESURGENCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.ComScenario.GROW_ITERATIVE.html">tnetwork.ComScenario.GROW_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.ComScenario.SHRINK_ITERATIVE.html">tnetwork.ComScenario.SHRINK_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.ComScenario.MIGRATE_ITERATIVE.html">tnetwork.ComScenario.MIGRATE_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.ComScenario.ASSIGN.html">tnetwork.ComScenario.ASSIGN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.ComScenario.CONTINUE.html">tnetwork.ComScenario.CONTINUE</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../generation.html#run">Run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../generation.html#toy-example">Toy example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.generate_toy_random_network.html">tnetwork.generate_toy_random_network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.generate_simple_random_graph.html">tnetwork.generate_simple_random_graph</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../generation.html#community-class">Community class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.community.Community.label.html">tnetwork.DCD.community.Community.label</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.community.Community.nodes.html">tnetwork.DCD.community.Community.nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.community.Community.nb_intern_edges.html">tnetwork.DCD.community.Community.nb_intern_edges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generation.html#benchmark-with-stable-multiple-temporal-scales-communities">Benchmark with stable, multiple temporal scales communities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../DC_evaluation.html">Evaluation of Dynamic Communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DC_evaluation.html#main-evaluation-functions">Main evaluation functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.analytics.dynamic_partition.similarity_at_each_step.html">tnetwork.DCD.analytics.dynamic_partition.similarity_at_each_step</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.analytics.dynamic_partition.quality_at_each_step.html">tnetwork.DCD.analytics.dynamic_partition.quality_at_each_step</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.analytics.dynamic_partition.SM_L.html">tnetwork.DCD.analytics.dynamic_partition.SM_L</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.analytics.dynamic_partition.SM_N.html">tnetwork.DCD.analytics.dynamic_partition.SM_N</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.analytics.dynamic_partition.SM_P.html">tnetwork.DCD.analytics.dynamic_partition.SM_P</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.analytics.dynamic_partition.longitudinal_similarity.html">tnetwork.DCD.analytics.dynamic_partition.longitudinal_similarity</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../DC_evaluation.html#helper-functions-that-could-be-used-to-evaluate-smoothness">Helper functions that could be used to evaluate smoothness</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.analytics.dynamic_partition.nb_node_change.html">tnetwork.DCD.analytics.dynamic_partition.nb_node_change</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.analytics.dynamic_partition.entropy_by_node.html">tnetwork.DCD.analytics.dynamic_partition.entropy_by_node</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.analytics.dynamic_partition.consecutive_sn_similarity.html">tnetwork.DCD.analytics.dynamic_partition.consecutive_sn_similarity</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../DC_evaluation.html#benchmark">Benchmark</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../generated/tnetwork.DCD.benchmarking.DCD_benchmark.html">tnetwork.DCD.benchmarking.DCD_benchmark</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../tutorials.html">Tutorials</a> &raquo;</li>
+        
+      <li>Generation of dynamic networks with communities</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/reference/from_notebooks/demo_generation/demo_generation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="generation-of-dynamic-networks-with-communities">
+<h1>Generation of dynamic networks with communities<a class="headerlink" href="#generation-of-dynamic-networks-with-communities" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="#Introduction">Introduction: simple generation</a></p></li>
+</ol>
+<ul class="simple">
+<li><p><a class="reference external" href="#Introduction">Initialization</a></p></li>
+<li><p><a class="reference external" href="#Introduction">Merge</a></p></li>
+<li><p><a class="reference external" href="#Introduction">Run</a></p></li>
+<li><p><a class="reference external" href="#Introduction">Conservation of identity of communities</a></p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><a class="reference external" href="#chaining">Events chaining</a></p></li>
+</ol>
+<ul class="simple">
+<li><p><a class="reference external" href="#chaining">Natural Chaining</a></p></li>
+<li><p><a class="reference external" href="#chaining">Fix Delay</a></p></li>
+<li><p><a class="reference external" href="#chaining">Triggers</a></p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><a class="reference external" href="#Events">Events</a></p></li>
+</ol>
+<ul class="simple">
+<li><p><a class="reference external" href="#Events">MERGE/SPLIT</a></p></li>
+<li><p><a class="reference external" href="#Events">BIRTH/DEATH</a></p></li>
+<li><p><a class="reference external" href="#Events">Iterative GROW/SHRINK</a></p></li>
+<li><p><a class="reference external" href="#Events">Iterative Node MIGRATION</a></p></li>
+<li><p><a class="reference external" href="#Events">RESURGENCE</a></p></li>
+<li><p><a class="reference external" href="#Events">Ship of Theseus</a></p></li>
+<li><p><a class="reference external" href="#Events">CONTINUE</a></p></li>
+<li><p><a class="reference external" href="#Events">Custom Event: ASSIGN</a></p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p><a class="reference external" href="#Random">Generating random scenarios</a></p></li>
+<li><p><a class="reference external" href="#Mixing">Mixing parameters</a></p></li>
+</ol>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%capture #avoid printing output</span>
+<span class="c1">#!pip install --upgrade git+https://github.com/Yquetzal/tnetwork.git</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+
+<span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">tn</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="introduction-simple-generation">
+<h2>Introduction: simple generation<a class="headerlink" href="#introduction-simple-generation" title="Permalink to this headline">¶</a></h2>
+<p>The generation process works in 2 phases: 1. Define the scenario that
+you want 2. Run the generation</p>
+<p>Everything is done on a community scenario <code class="docutils literal notranslate"><span class="pre">ComScenario</span></code> instance</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#First, we create an instance of community scenario</span>
+<span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="initialization">
+<h3>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline">¶</a></h3>
+<p>We can define the original community structure. We set the size of
+communities and, optionnaly, their names. The function returns objects
+that represent those communities</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="s2">&quot;com1&quot;</span><span class="p">,</span><span class="s2">&quot;com2&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>As soon as we have declared those communities, we can check their number
+of nodes <code class="docutils literal notranslate"><span class="pre">n</span></code> and number of internal edges <code class="docutils literal notranslate"><span class="pre">m</span></code>. The number of edges
+is automatically determined by a density function that depends on the
+size of the community and a global parameter that can be specified when
+creating the scenario, more on that in the <em>mixing parameters</em> section</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">com1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">com2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">com1</span><span class="p">:</span><span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">m</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="p">(</span><span class="n">com2</span><span class="p">:</span><span class="n">n</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span><span class="n">m</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="merge">
+<h3>Merge<a class="headerlink" href="#merge" title="Permalink to this headline">¶</a></h3>
+<p>Let’s define a first operation on these communities. It will be a merge
+operation, using the function <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#We merge com1 and com2.</span>
+<span class="n">absorbing</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">MERGE</span><span class="p">([</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">],</span><span class="s2">&quot;merged&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="run">
+<h3>Run<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h3>
+<p>To better understand what is going on, let’s run the generation, by
+calling the function <code class="docutils literal notranslate"><span class="pre">run</span></code>. This has two consequences: 1. It generates
+a network corresponding to the described community structure 2. It fixes
+the details of the number of steps required to do an operation. This is
+not known in advance, since it depends on a stochastic process</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">1</span> <span class="n">of</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<p>We can now plot the community structre and the state of the graphs at
+some times. We can observe that: since the merge is progressive, nodes
+belong to no community while the operation is in progress (grey color).
+We can also observe the topology of the graph evolving from two
+communities to one.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">numpy</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">numeric</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">2327</span><span class="p">:</span> <span class="ne">FutureWarning</span><span class="p">:</span> <span class="n">elementwise</span> <span class="n">comparison</span> <span class="n">failed</span><span class="p">;</span> <span class="n">returning</span> <span class="n">scalar</span> <span class="n">instead</span><span class="p">,</span> <span class="n">but</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">future</span> <span class="n">will</span> <span class="n">perform</span> <span class="n">elementwise</span> <span class="n">comparison</span>
+  <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">asarray</span><span class="p">(</span><span class="n">a1</span> <span class="o">==</span> <span class="n">a2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_15_1.png" src="../../../_images/output_15_1.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_time</span> <span class="o">=</span> <span class="n">generated_network</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+<span class="n">times_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">last_time</span><span class="o">/</span><span class="mi">3</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">last_time</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span><span class="n">last_time</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="n">times_to_plot</span><span class="p">,</span><span class="n">auto_show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_16_01.png" src="../../../_images/output_16_01.png" />
+</div>
+<div class="section" id="conservation-of-identity-of-communities">
+<h3>Conservation of identity of communities<a class="headerlink" href="#conservation-of-identity-of-communities" title="Permalink to this headline">¶</a></h3>
+<p>Note that the label/name we give to communities is important, it
+corresponds to their <em>identity</em>, i.e., two communities with the same
+label have the same identity (=same community).</p>
+<p>If we reuse the same scenario, only changing the label of the merged
+community from “merged” to “com1”, we observe in the visualization that
+the community after the merge has now the same color (i.e., is “the same
+community”) as one of the original ones.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">()</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="s2">&quot;com1&quot;</span><span class="p">,</span><span class="s2">&quot;com2&quot;</span><span class="p">])</span>
+<span class="n">absorbing</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">MERGE</span><span class="p">([</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">],</span><span class="s2">&quot;com1&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">1</span> <span class="n">of</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_18_1.png" src="../../../_images/output_18_1.png" />
+</div>
+<div class="section" id="events-chaining">
+<h3>Events chaining<a class="headerlink" href="#events-chaining" title="Permalink to this headline">¶</a></h3>
+<p>Several options are available to control the chaining of operations.</p>
+<div class="section" id="natural-chaining">
+<h4>Natural chaining<a class="headerlink" href="#natural-chaining" title="Permalink to this headline">¶</a></h4>
+<p>First, each operation takes some communities as input. In order for the
+event to start, the communities required in input must be ready.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">()</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">,</span><span class="n">com3</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">])</span>
+<span class="n">absorbing</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">MERGE</span><span class="p">([</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">],</span><span class="s2">&quot;c1&quot;</span><span class="p">)</span>
+<span class="n">absorbing</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">MERGE</span><span class="p">([</span><span class="n">absorbing</span><span class="p">,</span><span class="n">com3</span><span class="p">],</span><span class="s2">&quot;c1&quot;</span><span class="p">)</span>
+
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="n">of</span> <span class="mi">2</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_20_11.png" src="../../../_images/output_20_11.png" />
+</div>
+<div class="section" id="fix-delay">
+<h4>Fix delay<a class="headerlink" href="#fix-delay" title="Permalink to this headline">¶</a></h4>
+<p>It is possible to explicitely require to wait for a given period before
+starting the event using the <code class="docutils literal notranslate"><span class="pre">delay</span></code> argument of any event</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">()</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">,</span><span class="n">com3</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">])</span>
+<span class="n">absorbing</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">MERGE</span><span class="p">([</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">],</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">absorbing</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">MERGE</span><span class="p">([</span><span class="n">absorbing</span><span class="p">,</span><span class="n">com3</span><span class="p">],</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="n">of</span> <span class="mi">2</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_22_11.png" src="../../../_images/output_22_11.png" />
+</div>
+<div class="section" id="triggers">
+<h4>Triggers<a class="headerlink" href="#triggers" title="Permalink to this headline">¶</a></h4>
+<p>One can also use triggers to define that an event can start only when
+another (unrelated) operations finished. This can be done using the
+keywork <code class="docutils literal notranslate"><span class="pre">triggers</span></code>.</p>
+<p>In the following example, the second merge, completely unrelated to the
+first one, is triggered by its end</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">()</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">,</span><span class="n">com3</span><span class="p">,</span><span class="n">com4</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="s2">&quot;c4&quot;</span><span class="p">])</span>
+<span class="n">absorbing1</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">MERGE</span><span class="p">([</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">],</span><span class="s2">&quot;c1&quot;</span><span class="p">)</span>
+<span class="n">absorbing2</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">MERGE</span><span class="p">([</span><span class="n">com3</span><span class="p">,</span><span class="n">com4</span><span class="p">],</span><span class="s2">&quot;c3&quot;</span><span class="p">,</span><span class="n">triggers</span><span class="o">=</span><span class="p">[</span><span class="n">absorbing1</span><span class="p">])</span>
+
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="n">of</span> <span class="mi">2</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_24_11.png" src="../../../_images/output_24_11.png" />
+</div>
+</div>
+<div class="section" id="events">
+<h3>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h3>
+<p>Let’s now go through the different existing events</p>
+<div class="section" id="merge-split">
+<h4>MERGE/SPLIT<a class="headerlink" href="#merge-split" title="Permalink to this headline">¶</a></h4>
+<p>We have alredy seen the <code class="docutils literal notranslate"><span class="pre">MERGE</span></code> event, there is a symmetric <code class="docutils literal notranslate"><span class="pre">SPLIT</span></code>
+event.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">()</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">])</span>
+<span class="n">merged</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">MERGE</span><span class="p">([</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">],</span><span class="s2">&quot;c1&quot;</span><span class="p">)</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">SPLIT</span><span class="p">(</span><span class="n">merged</span><span class="p">,[</span><span class="s2">&quot;split1&quot;</span><span class="p">,</span><span class="s2">&quot;split2&quot;</span><span class="p">,</span><span class="s2">&quot;split3&quot;</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="n">delay</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="n">of</span> <span class="mi">2</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_26_1.png" src="../../../_images/output_26_1.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_time</span> <span class="o">=</span> <span class="n">generated_network</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+<span class="n">times_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">last_time</span><span class="o">/</span><span class="mi">3</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">last_time</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span><span class="n">last_time</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="n">times_to_plot</span><span class="p">,</span><span class="n">auto_show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_27_0.png" src="../../../_images/output_27_0.png" />
+</div>
+<div class="section" id="birth-death">
+<h4>BIRTH/DEATH<a class="headerlink" href="#birth-death" title="Permalink to this headline">¶</a></h4>
+<p>Communities can appear and disappear. Note that communities appear
+progressively, edge by edge.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">()</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">])</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">BIRTH</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s2">&quot;born&quot;</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">DEATH</span><span class="p">(</span><span class="n">com1</span><span class="p">)</span>
+
+<span class="c1">#visualization</span>
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="n">of</span> <span class="mi">2</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_29_1.png" src="../../../_images/output_29_1.png" />
+</div>
+<div class="section" id="iterative-grow-shrink">
+<h4>Iterative GROW/SHRINK<a class="headerlink" href="#iterative-grow-shrink" title="Permalink to this headline">¶</a></h4>
+<p>It is possible to make a community grow (creating new nodes) or shring
+(nodes disappear), one node after the other, node by node. It can be
+used to add/remove a single node too, of course.</p>
+<p>A parameter allow to tune the time between each addition/removal</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">()</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">10</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">])</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">GROW_ITERATIVE</span><span class="p">(</span><span class="n">com1</span><span class="p">,</span><span class="n">nb_nodes2Add</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">wait_step</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">SHRINK_ITERATIVE</span><span class="p">(</span><span class="n">com2</span><span class="p">,</span><span class="n">nb_nodes2remove</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">wait_step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1">#visualization</span>
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">8</span> <span class="n">of</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_31_1.png" src="../../../_images/output_31_1.png" />
+</div>
+<div class="section" id="iterative-node-migration">
+<h4>Iterative node MIGRATION<a class="headerlink" href="#iterative-node-migration" title="Permalink to this headline">¶</a></h4>
+<p>Most of the time, in the real world, when a community change size, it is
+not by integrating nodes newly created, but by taking nodes from
+existing communities. This is one this event corresponds to: nodes are
+moving from one community to another one, one after the other</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">()</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">])</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">MIGRATE_ITERATIVE</span><span class="p">(</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="n">wait_step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1">#visualization</span>
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">6</span> <span class="n">of</span> <span class="mi">6</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_33_1.png" src="../../../_images/output_33_1.png" />
+</div>
+<div class="section" id="resurgence">
+<h4>RESURGENCE<a class="headerlink" href="#resurgence" title="Permalink to this headline">¶</a></h4>
+<p>Resurgence is a type of event in which a community disappear for some
+time, and reappear later, identical to its state before the
+disappearance. Think of seasonal events for instance, with groups of
+people/animals/keywords observed together at regular periods.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">()</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">])</span>
+<span class="n">com2</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">RESURGENCE</span><span class="p">(</span><span class="n">com2</span><span class="p">,</span><span class="n">death_period</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">com2</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">RESURGENCE</span><span class="p">(</span><span class="n">com2</span><span class="p">,</span><span class="n">death_period</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">RESURGENCE</span><span class="p">(</span><span class="n">com2</span><span class="p">,</span><span class="n">death_period</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+
+
+<span class="c1">#visualization</span>
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">6</span> <span class="n">of</span> <span class="mi">6</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_35_1.png" src="../../../_images/output_35_1.png" />
+</div>
+<div class="section" id="ship-of-theseus">
+<h4>Ship of theseus<a class="headerlink" href="#ship-of-theseus" title="Permalink to this headline">¶</a></h4>
+<p>The ship of theseus is a typical example of the problem of community
+identity attribution: starting with a community A, all the nodes are
+replaced by new ones, one after the other, until none of the original
+remains. A new community B then appears with exactly the same nodes as
+the ones originally composing A. Which one is the <em>correct</em> A, the
+community currently labeled A but having no node in common with the
+original state of A, or the one labelled B ?</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">()</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">])</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">THESEUS</span><span class="p">(</span><span class="n">com2</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1">#visualization</span>
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">7</span> <span class="n">of</span> <span class="mi">7</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_37_1.png" src="../../../_images/output_37_1.png" />
+</div>
+<div class="section" id="continue">
+<h4>CONTINUE<a class="headerlink" href="#continue" title="Permalink to this headline">¶</a></h4>
+<p>The CONTINUE event allows to define a period without change for a
+community. It is mostly useful to add some period without any change at
+the end of the scenario.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">()</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">])</span>
+<span class="n">com2</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">RESURGENCE</span><span class="p">(</span><span class="n">com2</span><span class="p">,</span><span class="n">death_period</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">CONTINUE</span><span class="p">(</span><span class="n">com2</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+
+
+<span class="c1">#visualization</span>
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">plot</span><span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">3</span> <span class="n">of</span> <span class="mi">3</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_39_1.png" src="../../../_images/output_39_1.png" />
+</div>
+<div class="section" id="custom-event-assign">
+<h4>Custom event: ASSIGN<a class="headerlink" href="#custom-event-assign" title="Permalink to this headline">¶</a></h4>
+<p>Most typical scenarios can be described by combining events described
+above. However, real community evolution might be even more complex than
+that. For instance, a community of 10 nodes might split in 2 communities
+of size 4, while 2 of its nodes merge with two nodes leaving another
+community to create a new community !</p>
+<p>We can define any such scenario using the ASSIGN event. Note that in
+this case, we have to take care of a lower level and describe the event
+<em>node by node</em></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">()</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">])</span>
+<span class="n">nodesC1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">com1</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+<span class="n">nodesC2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">com2</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+<span class="n">new_split</span> <span class="o">=</span> <span class="p">[</span><span class="n">nodesC1</span><span class="p">[:</span><span class="mi">4</span><span class="p">],</span><span class="n">nodesC1</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">],</span><span class="n">nodesC1</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="o">+</span><span class="n">nodesC2</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span><span class="n">nodesC2</span><span class="p">[</span><span class="mi">2</span><span class="p">:]]</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">ASSIGN</span><span class="p">(</span><span class="n">comsBefore</span><span class="o">=</span><span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">],</span><span class="n">comsAfter</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;C1_split1&quot;</span><span class="p">,</span><span class="s2">&quot;C1_split2&quot;</span><span class="p">,</span><span class="s2">&quot;new_com&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">],</span><span class="n">splittingOut</span><span class="o">=</span><span class="n">new_split</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+
+
+<span class="c1">#visualization</span>
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">nodes</span><span class="o">=</span><span class="n">nodesC1</span><span class="o">+</span><span class="n">nodesC2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">1</span> <span class="n">of</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_41_1.png" src="../../../_images/output_41_1.png" />
+<p>Let’s check that the generated network structure do match the described
+community structure:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_time</span> <span class="o">=</span> <span class="n">generated_network</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+<span class="n">times_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">last_time</span><span class="o">/</span><span class="mi">3</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">last_time</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span><span class="n">last_time</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="n">times_to_plot</span><span class="p">,</span><span class="n">auto_show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_43_0.png" src="../../../_images/output_43_0.png" />
+</div>
+</div>
+<div class="section" id="generating-random-scenarios">
+<h3>Generating random scenarios<a class="headerlink" href="#generating-random-scenarios" title="Permalink to this headline">¶</a></h3>
+<p>In what we have seen until now, the scenario was generated manually, by
+describing precisely the chaining of events.</p>
+<p>In typical benchmarks, we want more flexibility, and generate several
+scenarios with random variations. This can easily been done by writing
+some code, as examplified below. Of course, all choices made have
+consequences, but the goal of this benchmark is to provide the atomic
+tools to provide good high level generators…</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">generate_graph</span><span class="p">(</span><span class="n">nb_com</span> <span class="o">=</span><span class="mi">6</span><span class="p">,</span><span class="n">min_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">max_size</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">operations</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;generating graph with nb_com = &quot;</span><span class="p">,</span><span class="n">nb_com</span><span class="p">)</span>
+    <span class="n">prog_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">external_density_penalty</span><span class="o">=</span><span class="n">mu</span><span class="p">)</span>
+    <span class="n">all_communities</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">prog_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">min_size</span><span class="p">,</span><span class="n">max_size</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">nb_com</span><span class="p">)))</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">operations</span><span class="p">):</span>
+        <span class="p">[</span><span class="n">com1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">all_communities</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">all_communities</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">com1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">com1</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span><span class="o">&lt;</span><span class="n">max_size</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_communities</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span> <span class="c1">#merge</span>
+            <span class="p">[</span><span class="n">com2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">all_communities</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">largest_com</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">],</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">nodes</span><span class="p">()))</span>
+            <span class="n">merged</span> <span class="o">=</span> <span class="n">prog_scenario</span><span class="o">.</span><span class="n">MERGE</span><span class="p">([</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">],</span><span class="n">largest_com</span><span class="o">.</span><span class="n">label</span><span class="p">(),</span><span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+            <span class="n">all_communities</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">com2</span><span class="p">)</span>
+            <span class="n">all_communities</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">merged</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1">#split</span>
+            <span class="n">smallest_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">com1</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">com2</span><span class="p">,</span><span class="n">com3</span><span class="p">)</span> <span class="o">=</span> <span class="n">prog_scenario</span><span class="o">.</span><span class="n">SPLIT</span><span class="p">(</span><span class="n">com1</span><span class="p">,[</span><span class="n">prog_scenario</span><span class="o">.</span><span class="n">_get_new_ID</span><span class="p">(</span><span class="s2">&quot;CUSTOM&quot;</span><span class="p">),</span><span class="n">com1</span><span class="o">.</span><span class="n">label</span><span class="p">()],[</span><span class="n">smallest_size</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">com1</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span><span class="o">-</span><span class="n">smallest_size</span><span class="p">],</span><span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+            <span class="n">all_communities</span><span class="o">|=</span> <span class="nb">set</span><span class="p">([</span><span class="n">com2</span><span class="p">,</span><span class="n">com3</span><span class="p">])</span>
+    <span class="p">(</span><span class="n">dyn_graph</span><span class="p">,</span><span class="n">dyn_com</span><span class="p">)</span> <span class="o">=</span> <span class="n">prog_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+
+    <span class="k">return</span><span class="p">(</span><span class="n">dyn_graph</span><span class="p">,</span><span class="n">dyn_com</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">generate_graph</span><span class="p">(</span><span class="n">nb_com</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span><span class="n">max_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">operations</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">70</span><span class="o">%</span> <span class="p">(</span><span class="mi">7</span> <span class="n">of</span> <span class="mi">10</span><span class="p">)</span> <span class="o">|</span><span class="c1">#################        | Elapsed Time: 0:00:00 ETA:   0:00:00</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">generating</span> <span class="n">graph</span> <span class="k">with</span> <span class="n">nb_com</span> <span class="o">=</span>  <span class="mi">6</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">10</span> <span class="n">of</span> <span class="mi">10</span><span class="p">)</span> <span class="o">|</span><span class="c1">########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#visualization</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>the community structure in term of network topology * <code class="docutils literal notranslate"><span class="pre">alpha</span></code>
+determines the internal density of communities. The average degree
+inside a community is approximately$ (n_{c}-1)^:raw-latex:<cite>alpha `$
+with :math:`n_c</cite> the number of nodes of community <span class="math notranslate nohighlight">\(c\)</span>. More
+precisely, the number of edges inside a community is equal to
+<span class="math notranslate nohighlight">\(d_c=\lceil \frac{n_c(n_c-1)^\alpha}{2} \rceil\)</span>. *
+<code class="docutils literal notranslate"><span class="pre">external_density_penalty</span></code> corresponds to a penalty applied to the
+formula above for the density of the whole graph. The density among all
+nodes not in a community is defined as
+<code class="docutils literal notranslate"><span class="pre">external_density_penalty</span></code><em>:math:`d_G`. Beware, with small graphs,
+larger values often yield poor community structures. Note that edges
+added using this function are</em>stable<em>, i.e., if the community
+structure do not change, those nodes to not change either, contrary to
+the next option</em> <code class="docutils literal notranslate"><span class="pre">random_noise</span></code> corresponds to a different way to add
+randomness: this time, for each generated snapshot, a fraction of edges
+taken at random are rewired. It therefore adds randomness both inside an
+between communities. Unlike the previous one, choosing this parameter
+will lead to less edges inside communities than what has been set
+according to <code class="docutils literal notranslate"><span class="pre">alpha</span></code>.</p>
+<p>We can illustrate this difference by generating a scenario without any
+community change and plotting the graph at some points.</p>
+<p>First, all internal edges exist, no external edges exist</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">external_density_penalty</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">random_noise</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">,</span><span class="n">com3</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">])</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">CONTINUE</span><span class="p">(</span><span class="n">com1</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="n">times_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="n">times_to_plot</span><span class="p">,</span><span class="n">auto_show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">1</span> <span class="n">of</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_49_1.png" src="../../../_images/output_49_1.png" />
+<p>By decreasing <code class="docutils literal notranslate"><span class="pre">alpha</span></code>, communities become less dense.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span><span class="n">external_density_penalty</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">random_noise</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">,</span><span class="n">com3</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">])</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">CONTINUE</span><span class="p">(</span><span class="n">com1</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="n">times_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="n">times_to_plot</span><span class="p">,</span><span class="n">auto_show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">1</span> <span class="n">of</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_51_1.png" src="../../../_images/output_51_1.png" />
+<p>By increasing external_density, some edges appear between communities.
+Note that, since the community structure do not evolves, the edges
+between communities do not change (see the article describing the
+benchmark for more details)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span><span class="n">external_density_penalty</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">random_noise</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">,</span><span class="n">com3</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">])</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">CONTINUE</span><span class="p">(</span><span class="n">com1</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="n">times_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="n">times_to_plot</span><span class="p">,</span><span class="n">auto_show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">1</span> <span class="n">of</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_53_1.png" src="../../../_images/output_53_1.png" />
+<p>Instead, if we increase the <code class="docutils literal notranslate"><span class="pre">random_noise</span></code>, edges modifications are
+present but they differ from one snaphsots to the next, despite the
+community structure being unchanged</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">external_density_penalty</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">random_noise</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">,</span><span class="n">com3</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">])</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">CONTINUE</span><span class="p">(</span><span class="n">com1</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="n">times_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="n">times_to_plot</span><span class="p">,</span><span class="n">auto_show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">1</span> <span class="n">of</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_55_1.png" src="../../../_images/output_55_1.png" />
+<p>We can set all three parameters, but be careful when interpreting the
+results ! The community structure might quickly degrade</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span><span class="n">external_density_penalty</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">random_noise</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">,</span><span class="n">com3</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c3&quot;</span><span class="p">])</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">CONTINUE</span><span class="p">(</span><span class="n">com1</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="n">times_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="n">times_to_plot</span><span class="p">,</span><span class="n">auto_show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">1</span> <span class="n">of</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_57_1.png" src="../../../_images/output_57_1.png" />
+</div>
+</div>
+<div class="section" id="benchmark-for-multiple-temporal-scales">
+<h2>Benchmark for Multiple Temporal Scales<a class="headerlink" href="#benchmark-for-multiple-temporal-scales" title="Permalink to this headline">¶</a></h2>
+<p>This benchmark allows to generate temporal networks as described in
+<code class="docutils literal notranslate"><span class="pre">Detecting</span> <span class="pre">Stable</span> <span class="pre">Communities</span> <span class="pre">in</span> <span class="pre">Link</span> <span class="pre">Streams</span> <span class="pre">at</span> <span class="pre">Multiple</span> <span class="pre">Temporal</span> <span class="pre">Scales.</span> <span class="pre">Boudebza,</span> <span class="pre">S.,</span> <span class="pre">Cazabet,</span> <span class="pre">R.,</span> <span class="pre">Nouali,</span> <span class="pre">O.,</span> <span class="pre">&amp;</span> <span class="pre">Azouaou,</span> <span class="pre">F.</span> <span class="pre">(2019).</span></code>.</p>
+<p>To sum up the method, <em>stable</em> communities are generated (i.e., no node
+change). These communities exist for some periods, but have different
+<em>temporal scales</em>, i.e., some of them have a high frequency of edges
+(their edges appear at every step) while others have a lower frequency
+(i.e., each edge appear only every <span class="math notranslate nohighlight">\(t\)</span> steps). To simplify,
+communities are complete cliques.(but for the low frequency ones, we
+might observe only a small fraction of their edges in every step)</p>
+<p>The basic parameters are the number of steps, number of nodes and number
+of communities. There are other parameters allowing to modify the random
+noise, the maximal size of communities and the maximal duration of
+communities, that are by default assigned with values scaled according
+to the other parameters. Check documentation for details.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">)</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">generate_multi_temporal_scale</span><span class="p">(</span><span class="n">nb_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="n">nb_nodes</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">nb_com</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">communities</span><span class="o">=</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">sn_duration</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_59_0.png" src="../../../_images/output_59_0.png" />
+<p>We can observe that communities are not well defined on a given
+particular snapshot</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_time</span> <span class="o">=</span> <span class="n">generated_network</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+<span class="n">times_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">last_time</span><span class="o">/</span><span class="mi">4</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">last_time</span><span class="o">/</span><span class="mi">3</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">last_time</span><span class="o">/</span><span class="mi">2</span><span class="p">)]</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network</span><span class="p">,</span><span class="n">generated_comunities</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="n">times_to_plot</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_61_0.png" src="../../../_images/output_61_0.png" />
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../demo_DCD/demo_DCD.html" class="btn btn-neutral float-right" title="Dynamic Communities detection and evaluation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../demo_visu/demo_visu.html" class="btn btn-neutral float-left" title="Visualization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

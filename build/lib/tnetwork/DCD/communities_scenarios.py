@@ -17,6 +17,8 @@ class ComScenario():
     """
     This class manages the community evolution scenario
 
+    It implements the benchmark described in XXX
+
     Behavior to keep in mind:
 
     1) Any node that does not belong to a community is condered "dead". Note that it can reappear later
@@ -30,14 +32,17 @@ class ComScenario():
 
     """
 
-    def __init__(self, variant="deterministic", alpha = 0.80, external_density_penalty=0.05, random_noise=0, verbose=False):
+    def __init__(self,  alpha = 0.80, external_density_penalty=0.05, random_noise=0, verbose=False, variant="deterministic"):
         """
+        Initialize the community generation class
 
-        :param variant: the variant of the generator controls the way edges are generated. Currently, only "deterministic" is fully suported
-        :param alpha: alpha parameter that determines how
-        :param external_density_penalty: how smaller the density of outside comuninty is compared to a a community of the same size
-        :param random_noise: fraction of existing edges that are randomly rewired at each step
+        When initializing, we can set the parameters of the link generation
+
+        :param alpha: alpha parameter that determines the density of communities decrease with size
+        :param external_density_penalty: beta, how smaller the density of outside community is compared to a a community of the same size
+        :param random_noise: beta_r, fraction of existing edges that are randomly rewired at each step
         :param verbose: If true, print debugging information
+        :param variant: the variant of the generator controls the way edges are generated. Currently, only "deterministic" is fully suported
 
         """
 
@@ -376,7 +381,7 @@ class ComScenario():
             for n in self._dyn_com_local[c]:
                 self._dyn_com_local[c][n]=Intervals(self._dyn_com_local[c][n])
         to_return_com = dn.DynCommunitiesIG()
-        to_return_com.fast_set_affiliations(self._dyn_com_local)
+        to_return_com._fast_set_affiliations(self._dyn_com_local)
         return to_return_graph,to_return_com
 
     def run(self):
@@ -628,7 +633,7 @@ class ComScenario():
 
             currentNbNodes = len(currentCom.nodes())
             nodesToKeep = np.random.choice(list(currentCom.nodes()), currentNbNodes - 1, replace=False)
-            [currentCom] = self.ASSIGN([currentCom], [currentCom.label()], [nodesToKeep], dealy=wait_this_step, **kwargs)
+            [currentCom] = self.ASSIGN([currentCom], [currentCom.label()], [nodesToKeep], delay=wait_this_step, **kwargs)
         return currentCom
 
     def MIGRATE_ITERATIVE(self, comFrom, comTo, nbNodes, wait_step=1, delay=1, **kwargs):
@@ -656,7 +661,7 @@ class ComScenario():
                 [currentFrom, currentTo],
                 [currentFrom.label(), currentTo.label()],
                 [currentFrom.nodes() - set([migratingNode]), currentTo.nodes() | set([migratingNode])],
-                wait=wait_this_step, **kwargs
+                delay=wait_this_step, **kwargs
             )
 
     def ASSIGN(self, comsBefore:[Community], comsAfter:[str], splittingOut:[{str}], **kwargs):
@@ -693,3 +698,91 @@ class ComScenario():
 
     def __str__(self):
         return self.__repr__()
+
+def generate_toy_random_network(**kwargs):
+    """
+    Generate a small, toy dynamic graph
+
+    Generate a toy dynamic graph with evolving communities, following scenario described in XXX
+    Optional parameters are the same as those passed to the ComScenario class to generate custom scenarios
+
+    :return: pair, (dynamic graph, dynamic reference partition) (as snapshots)
+    """
+    my_scenario = ComScenario(**kwargs)
+
+    # Initialization with 4 communities of different sizes
+    [to_merge, absorb, to_split, thes] = my_scenario.INITIALIZE([5, 8, 20, 8],
+                                                                ["to_merge", "absorb", "to_split", "theseus"])
+    # Create a theseus ship after 20 steps
+    my_scenario.THESEUS(thes, delay=20)
+
+    # Merge two of the original communities after 30 steps
+    absorbing = my_scenario.MERGE([to_merge, absorb], absorb.label(), delay=30)
+
+    # Split a community of size 20 in 2 communities of size 15 and 5
+    (split_large, splitted1) = my_scenario.SPLIT(to_split, ["to_split", "splitted1"], [15, 5], delay=75)
+
+    # Split again the largest one, 40 steps after the end of the first split
+    (splitted1, splitted2) = my_scenario.SPLIT(split_large, ["to_split", "splitted2"], [10, 5], delay=40)
+
+    # Merge the smallest community created by the split, and the one created by the first merge
+    my_scenario.MERGE([splitted2, absorbing], absorbing.label(), delay=20)
+
+    # Make a new community appear with 5 nodes, disappear and reappear twice, grow by 5 nodes and disappear
+    born = my_scenario.BIRTH(5, t=25, name="resurgent_grow")
+    born = my_scenario.RESURGENCE(born, delay=10)
+    born = my_scenario.RESURGENCE(born, delay=10)
+    born = my_scenario.RESURGENCE(born, delay=10)
+
+    # Make the resurgent community grow by 5 nodes 4 timesteps after being ready
+    born = my_scenario.GROW_ITERATIVE(born, 5, delay=4)
+
+    # Kill the community grown above, 10 steps after the end of the addition of the last node
+    my_scenario.DEATH(born, delay=10)
+
+    (dyn_graph, dyn_com) = my_scenario.run()
+    dyn_graph_sn = dyn_graph.to_DynGraphSN(slices=1)
+    GT_as_sn = dyn_com.to_DynCommunitiesSN(slices=1)
+    return dyn_graph_sn, GT_as_sn
+
+
+def generate_simple_random_graph(nb_com =10, min_size=5, max_size=15, operations=20, mu=0, mu_noise=0.01):
+    """
+    Generate a simple random dynamic graph with community structure
+
+    This is the generator described in XXX. It generates a graph with dynamic community structure which is a combination
+    of successive merge and splits.
+
+    :param nb_com: number of initial communities
+    :param min_size: size below which communities cannot be split
+    :param max_size: size above which community split
+    :param operations: number of operations (merge/split) to execute (involves random communities)
+    :param mu: parameter to set how well defined is the community structure (0=>perfect community structure) more precisely, it defines: alpha=1-mu, beta=mu
+    :param mu_noise: set the mu_r, i.e., fraction of edges randomly rewired at each snapshot
+    :return: pair (graph, communities)
+    """
+    print("generating graph with nb_com = ",nb_com)
+    prog_scenario = ComScenario(verbose=False, alpha=1-mu, external_density_penalty=mu,random_noise=mu_noise)
+
+    #prog_scenario = tn.ComScenario(verbose=False, alpha=0.9, external_density_penalty=mu,random_noise=mu_noise)
+    all_communities = set(prog_scenario.INITIALIZE(np.random.randint(min_size,max_size,size=nb_com)))
+
+    for i in range(operations):
+        [com1] = np.random.choice(list(all_communities),1,replace=False)
+        all_communities.remove(com1)
+
+        if len(com1.nodes())<max_size and len(all_communities)>0: #merge
+            [com2] = np.random.choice(list(all_communities),1,replace=False)
+            largest_com = max([com1,com2],key=lambda x: len(x.nodes()))
+            merged = prog_scenario.MERGE([com1,com2], largest_com.label(), delay=20)
+            all_communities.remove(com2)
+            all_communities.add(merged)
+        else: #split
+            smallest_size = int(len(com1.nodes())/3)
+            (com2,com3) = prog_scenario.SPLIT(com1, [prog_scenario._get_new_ID("CUSTOM"), com1.label()], [smallest_size, len(com1.nodes()) - smallest_size], delay=20)
+            all_communities|= set([com2,com3])
+
+    (dyn_graph,dyn_com) = prog_scenario.run()
+
+
+    return(dyn_graph,dyn_com)

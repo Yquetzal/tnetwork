@@ -123,7 +123,7 @@ def onmi(cover,coverRef,allNodes=None,variant="LFK"): #cover and coverRef should
     elif variant=="MGH":
         IXY = 0.5*(HX-HXY+HY-HYX)
         NMI =  IXY/(max(HX,HY))
-    if NMI<0 or NMI>1 or math.isnan(NMI):
+    if NMI<-1 or NMI>1.01 or math.isnan(NMI):
         print("NMI: %s  from %s %s %s %s "%(NMI,HXY,HYX,HX,HY))
-        raise Exception("incorrect NMI")
+        raise Exception("incorrect NMI: "+str(NMI))
     return NMI

@@ -1,6 +1,6 @@
 import networkx as nx
 from tnetwork.DCD.computing_coms_by_sn import *
-import time
+from tnetwork.DCD.algorithm_template import DCD_algorithm
 
 
 def _match_communities_according_to_com(dynComSN, matchesGraph):
@@ -51,11 +51,11 @@ def _build_matches_graph(partitions, match_function, threshold=0.3):
 
     return graph
 
-def match_survival_graph(dynNetSN, CDalgo="louvain", match_function=jaccard, threshold=0.3,elapsed_time=False):
+def label_smoothing(dynNetSN, CDalgo="louvain", match_function=jaccard, threshold=0.3, elapsed_time=False):
     """
-    Community detection by survival graph matching
+    Community detection by label smoothing
 
-    This method is based on falkowsky et al.[1]. It first detect snapshot_communities in each snapshot, then try to match
+    This method is based on falkowsky et al.[1]. It first detect communities in each snapshot, then try to match
     any community with any other one in any other snapshot, constituting a survival graph.
     A community detection algorithm is then applied on this survival graph, yielding dynamic snapshot_communities.
 
@@ -67,30 +67,23 @@ def match_survival_graph(dynNetSN, CDalgo="louvain", match_function=jaccard, thr
     :param CDalgo: community detection to apply at each step. Can be a function returning a clustering, or the string "louvain" or "smoothedLouvain"
     :param match_function: a function that gives a matching score between two snapshot_communities (two sets of nodes). Default: jaccard
     :param threshold: a threshold for match_function below which snapshot_communities are not matched
+    :param elapsed_time: if true, return also the time taken to run the algorihtm (without pre/post process)
     :return: DynCommunitiesSN
     """
-    print("starting survival graph method ")
+    print("starting label_smoothing method ")
 
-    start = time.time()
-    if CDalgo == "smoothedLouvain":
-        dynPartitions = smoothed_louvain(dynNetSN)
-    elif CDalgo == "louvain":
-        dynPartitions = CD_each_step(dynNetSN, best_partition)
-    else:
-        dynPartitions = CD_each_step(dynNetSN, CDalgo)
+    if CDalgo == "louvain":
+        CDalgo = None
+    cd_method = lambda x: CD_each_step(x, CDalgo)
 
-    matchesGraph = _build_matches_graph(dynPartitions, match_function, threshold)
 
-    _match_communities_according_to_com(dynPartitions, matchesGraph)
+    def matching_method(x):
+        matchesGraph = _build_matches_graph(x, match_function, threshold)
+        _match_communities_according_to_com(x, matchesGraph)
+        x.create_standard_event_graph()
+        return x
 
-    dynPartitions.create_standard_event_graph()
+    return DCD_algorithm(dynNetSN, detection=cd_method, label_attribution=matching_method)
 
-    duration = time.time()-start
 
-    if elapsed_time:
-        return dynPartitions,{"total":duration}
-
-    print("end of survival graph method ")
-
-    return dynPartitions
 

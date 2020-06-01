@@ -22,20 +22,18 @@ tnetwork Dev Team
 ======================= ============================
 
 
-.. toctree::
-   :maxdepth: 2
-   :hidden:
 
-   overview.rst
-   installing.rst
-   reference/dyn_communities.rst
-   reference/readwrite.rst
-   reference/dyn_graph.rst
-   reference/Intervals.rst
-   reference/DCD.rst
-   reference/vizu.rst
-   reference/generation.rst
-   reference/DC_evaluation.rst
+Documentation
+==============
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+
+    overview.rst
+    installing.rst
+    reference/from_notebooks/demo_intro/demo_intro.rst
+    reference/tutorials.rst
+    documentation.rst
 
 
 

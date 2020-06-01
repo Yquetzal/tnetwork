@@ -1,10 +1,9 @@
 from tnetwork.DCD.computing_coms_by_sn import *
 from tnetwork.utils.community_utils import jaccard, affiliations2nodesets
-from tnetwork.DCD import iterative_match
-import time
 import progressbar
 import networkx as nx
 import sys
+from tnetwork.DCD.algorithm_template import DCD_algorithm
 
 
 def _smoothed_graph(dyn_graph,alpha):
@@ -76,20 +75,38 @@ def _smoothed_graph(dyn_graph,alpha):
     return coms
 
 
-def smoothed_graph(dynNetSN, match_function=jaccard, threshold=0.3, alpha=0.9,labels=True,elapsed_time=False):
+def smoothed_graph(dynNetSN, alpha=0.9,match_function=jaccard, **kwargs):
     """
     Smoothed graph approach
+
+    This approach is a naive implementation of the idea proposed in [1].
+    To sum up, at each snapshot, a new graph is create which is the combination of the graph at this step and
+    a graph in which edges are present between any two nodes belonging to the same community in the previous step.
+    Note than in the original paper, a method is proposed to greatly reduce the complexity of the solution, but this
+    method is not implemented here.
+
+    Alpha is a parameter to tune how important is the weight of the current topology compared with previous partition.
+
+    The label attribution process is the same described in the paper XXX, see method simple_matching for details.
+
+    Internally, it calls the simple_matching method, the same parameters can be passed to it.
+
+    [1]Guo, C., Wang, J., & Zhang, Z. (2014).
+    Evolutionary community structure discovery in dynamic weighted networks.
+    Physica A: Statistical Mechanics and its Applications, 413, 565-576.
+
     :param dynNetSN:
-    :param match_function:
-    :param threshold:
     :param alpha: parameter setting relative importance of past VS current graph. 1: only current, 0: only previous
-    :param labels:
-    :param elapsed_time:
+
     :return:
     """
-    print("start smoothed graph")
-    sys.stdout.flush()
+    matching_method = None
+    if match_function != None:
+        def matching_method(x):
+            x.create_standard_event_graph(**kwargs)
+            x._relabel_coms_from_continue_events(typedEvents=False, rename=False)
+            return x
 
-    def temp_func(x):
+    def detection_method(x):
         return _smoothed_graph(x,alpha)
-    return iterative_match(dynNetSN,temp_func,match_function,threshold,labels,elapsed_time)
+    return DCD_algorithm(dynNetSN, detection=detection_method, label_attribution=matching_method)

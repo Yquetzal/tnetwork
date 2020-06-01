@@ -5,6 +5,7 @@ import networkx as nx
 from copy import deepcopy
 import bidict
 import pkg_resources
+import numpy as np
 
 import tnetwork as tn
 import numbers
@@ -43,9 +44,19 @@ class DynGraphSN(DynGraph):
 
 
     def start(self):
+        """
+        Time of the first snapshot
+
+        :return:
+        """
         return self.snapshots_timesteps()[0]
 
     def end(self):
+        """
+        Time of the last snapshot
+
+        :return:
+        """
         return self.snapshots_timesteps()[-1]
 
     @staticmethod
@@ -192,7 +203,7 @@ class DynGraphSN(DynGraph):
         """
         Remove interactions between the provided node pairs for the provided times.
 
-        If of the two parameters is a single element,
+        If one of the two parameters is a single element,
         will remove the node pair at all provided time steps, or all the node pairs at the provided time step.
 
         :param nodePairs: list of pairs of nodes, or a single pair of nodes
@@ -214,7 +225,7 @@ class DynGraphSN(DynGraph):
 
     def graph_at_time(self,t):
         """
-        return the graph as it is at time t
+        Return the graph as it is at time t
 
         :param t: a time step identifier
         :return: the graph as a networkx graph
@@ -243,7 +254,7 @@ class DynGraphSN(DynGraph):
 
     def snapshots_timesteps(self):
         """
-        return the list of time steps
+        Return the list of time steps
 
         :return: list of time steps
         """
@@ -283,7 +294,7 @@ class DynGraphSN(DynGraph):
         """
         Convert the graph into a DynGraph_IG.
 
-        By default, snapshot_affiliations last from their time ID to the time ID of the next snapshot.
+        By default, snapshots last from their time ID to the time ID of the next snapshot.
         Be careful, for the last snaphsot, we cannot know his duration, therefore, if sn_duration is not provided, it has a default duration equal to the min
         of all durations
 
@@ -325,7 +336,7 @@ class DynGraphSN(DynGraph):
 
     def _combine_weighted_graphs(self,graphList, weight=1.0):
         """
-        function to aggregate several graphs into a weighted graph
+        Function to aggregate several graphs into a weighted graph
 
         :param graphList: enumerable of graphs
         :param weight: default weight
@@ -496,7 +507,8 @@ class DynGraphSN(DynGraph):
 
     def snapshots(self, t=None):
         """
-        Return all snapshot or a particular one
+        Return all snapshots or a particular one
+
         Default: return a  sorted dictionary, key: the time information, value: a networkx graph.
         If t is provided, return graph at that particular time
 
@@ -540,10 +552,12 @@ class DynGraphSN(DynGraph):
 
     def to_tensor(self,always_all_nodes=True):
         """
+        Return a tensor representation
+
         Compute the list of matrices corresponding to each graph, with nodes ordered in a same order
         And the dic of nodes corresponding
-        adn the list for each sn of nodes
-        :always_all_nodes: if True, even if a note is not active during a snapshot, it is included in the matrix
+        and the list for each sn of nodes
+        :param always_all_nodes: if True, even if a node is not active during a snapshot, it is included in the matrix
         :return: 3 elements:(A,B,C) A: list of numpy matrices, B: a bidictionary {node name:node order in the matrix}, C: active node at each step, as a list of list of nodes
         """
         allNodes = list(self.aggregate().nodes().keys())
@@ -603,3 +617,52 @@ class DynGraphSN(DynGraph):
         nodes_dict_inv = {v:k for k,v in nodes_dict.items()}
 
         return to_return,nodes_dict_inv,time_dict
+
+    def code_length(self,as_ls=False):
+        if as_ls:
+            return self.code_length_ls()
+        else:
+            return self.code_length_sn()
+
+    def code_length_sn(self):
+        """
+        Time info should not be repeated
+        2 versions:
+        - edges are little repeated => each interaction encoded explicitly
+        - edges are strongly repeated => matrix form
+        :return:
+        """
+        #we ignore the code of edges identical for all
+        g_cumulated = self.cumulated_graph()
+        node_encoding = np.log2(len(g_cumulated.nodes()))
+        edge_encoding = node_encoding*2
+        time_encoding =  np.log2(len(self.snapshots()))# +1 for stop
+        nb_time = len([x for x in self.snapshots().values() if len(x.edges())>0])
+        nb_unique_edges = len(g_cumulated.edges())
+        nb_interactions = sum([len(x.edges()) for x in self.snapshots().values()])
+
+        #if "matrix_form":
+        #matrix form
+        total_code_matrix = nb_unique_edges*nb_time+edge_encoding*nb_unique_edges+time_encoding*nb_time
+        print("sn_m: ",edge_encoding,time_encoding,nb_unique_edges,nb_time)
+        #else:
+        print("sn_e: ",edge_encoding,time_encoding,nb_interactions,nb_time)
+        #T1_(N1,N2)_(N3,N4)_STOP_T2_...
+        total_code_edges = nb_interactions*edge_encoding + nb_time*time_encoding + nb_time*edge_encoding
+        return total_code_matrix,total_code_edges
+
+    def code_length_ls(self):
+        g_cumulated = self.cumulated_graph()
+        node_encoding = np.log2(len(g_cumulated.nodes()))
+        edge_encoding = node_encoding * 2
+        nb_time = len([x for x in self.snapshots().values() if len(x.edges()) > 0])
+        #time_encoding = np.log2(len(self.snapshots()))  # +1 for stop
+        nb_unique_edges = len(g_cumulated.edges())
+        nb_interactions = sum([len(x.edges()) for x in self.snapshots().values()])
+        #time_encoding = np.log2(nb_time)
+        time_encoding = np.log2(nb_interactions)
+        #(N1,N2)_T1_T2_STOP_(N2,N3)
+        total_code = edge_encoding*nb_unique_edges + nb_interactions*time_encoding + time_encoding*nb_unique_edges
+        print("ls: ",edge_encoding,time_encoding,nb_unique_edges,nb_interactions)
+
+        return total_code

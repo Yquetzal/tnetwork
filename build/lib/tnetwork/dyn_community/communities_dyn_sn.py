@@ -463,7 +463,7 @@ class DynCommunitiesSN(DynCommunities):
             for n in dyn_com_local[c]:
                 dyn_com_local[c][n]=Intervals(dyn_com_local[c][n])
 
-        to_return_com.fast_set_affiliations(dyn_com_local)
+        to_return_com._fast_set_affiliations(dyn_com_local)
         return to_return_com
 
     def to_DynCommunitiesIG(self, sn_duration, convertTimeToInteger=False):

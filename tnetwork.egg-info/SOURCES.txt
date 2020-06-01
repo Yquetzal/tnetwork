@@ -8,6 +8,8 @@ tnetwork.egg-info/dependency_links.txt
 tnetwork.egg-info/requires.txt
 tnetwork.egg-info/top_level.txt
 tnetwork/DCD/__init__.py
+tnetwork/DCD/algorithm_template.py
+tnetwork/DCD/benchmarking.py
 tnetwork/DCD/communities_scenarios.py
 tnetwork/DCD/community.py
 tnetwork/DCD/computing_coms_by_sn.py

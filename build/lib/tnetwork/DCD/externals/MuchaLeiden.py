@@ -81,11 +81,15 @@ def transversal_network_leidenalg(dyn_graph:tn.DynGraphSN, interslice_weight=1,e
     """
     Multiplex community detection reimplemented in leidenalg
 
-    Algorithm described in : `Mucha, P. J., Richardson, T., Macon, K., Porter, M. A., & Onnela, J. P. (2010). Community structure in time-dependent, multiscale, and multiplex networks. science, 328(5980), 876-878.`
+    Algorithm described in [1]
     (see method `mucha_original` for more information)
     This function use the implementation in the leidenalg library instead of the original matlab implementation.
-    It requires the installation of the leidenalg library (including igraph)
+    It requires the installation of the leidenalg library (including igraph).
+    It is usually slower than the original implementation (but does not require matlab)
 
+    [1]Mucha, P. J., Richardson, T., Macon, K., Porter, M. A., & Onnela, J. P. (2010).
+    Community structure in time-dependent, multiscale, and multiplex networks.
+    science, 328(5980), 876-878.
 
     :param dyn_graph: dynamic network
     :param interslice_weight:

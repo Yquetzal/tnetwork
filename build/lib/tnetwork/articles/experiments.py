@@ -37,7 +37,7 @@ def standard_methods_to_test():
                        "dynamo": dynamo,
                        "smoothed_louvain": smoothed_louvain,
                        "mucha": mucha_opti,  # "mucha_global":mucha_global,
-                       "survival_graph": tn.DCD.match_survival_graph}  # ,"dynmoga":dynmoga}#
+                       "survival_graph": tn.DCD.label_smoothing}  # ,"dynmoga":dynmoga}#
 
     # methods_to_test = {"smoothed_louvain":smoothed_louvain}#,"dynmoga":dynmoga}#
     return methods_to_test

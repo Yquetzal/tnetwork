@@ -57,9 +57,10 @@ def _ig_graph2CDS(dynamic_net:tn.DynGraphIG, coms:tn.DynCommunitiesIG=None, to_d
 
 
 def _sn_graph2CDS(dynamic_net, coms=None, to_datetime=False,ts=None):
-    if coms==None:
-        allComs=["no"]
-    else:
+    #if coms==None:
+    #    allComs=["no"]
+    allComs=[]
+    if coms!=None:
         allComs = sorted(list(coms.communities().keys()))
         if "no" in allComs:
             allComs.remove("no")
@@ -225,7 +226,7 @@ def _plot_as_graph_nx(ts,dynamic_graph,CDS,unique_pos,width,height,to_datetime):
         ax.figure.set_size_inches(width/100*len(ts), height/100)
         graph = dynamic_graph.graph_at_time(current_t)
         nodes = graph.nodes()
-        colors = [colors_all[current_t][n] for n in nodes]
+        colors = [colors_all[current_t][str(n)] for n in nodes]
 
         nx.draw_networkx(graph,pos=unique_pos,node_color=colors,with_labels=False,node_size=50,linewidths=1,edge_color="#CCCCCC")
     #plt.show()
@@ -324,7 +325,6 @@ def plot_as_graph(dynamic_graph, communities=None, ts=None, width=800, height=60
 
     #Obtain CDS for those snapshots
     CDS = _sn_graph2CDS(dynamic_graph, communities, to_datetime, ts=ts)
-    print(CDS)
 
 
     unique_pos = _unique_positions(dynamic_graph,ts=ts,**kwargs)

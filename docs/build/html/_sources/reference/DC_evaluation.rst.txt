@@ -4,25 +4,46 @@ Evaluation of Dynamic Communities
 
 This section contains functions useful to evaluate the quality of dynamic communities.
 
-They were introduced in ...
+They were introduced in XXX.
 
 They can be split in 3 categories:
- * Evaluation of an average value at each step (`similarity_at_each_step`,similarity_at_each_step`)
- * Evaluation of smoothness (`nb_node_change`,`entropy_by_node`,`consecutive_sn_similarity`)
+ * Evaluation of an average value at each step (`similarity_at_each_step`,`quality_at_each_step`)
+ * Evaluation of smoothness (`SM_L`,`SM_N`,`SM_P`)
  * Longitudinal evaluation (`longitudinal_similarity`)
 
-.. currentmodule:: tnetwork.DCD.analytics
 
-Internal algorithms
+A benchmark is also proposed that can be used to reproduce the results presented in the paper XXX.
+
+.. currentmodule:: tnetwork.DCD.analytics.dynamic_partition
+
+Main evaluation functions
 ------------------------------------------
-These algorithms are implemented in python.`
 
 .. autosummary::
     :toctree: generated/
 
-         longitudinal_similarity
-         similarity_at_each_step
-         quality_at_each_step
-         consecutive_sn_similarity
-         nb_node_change
-         entropy_by_node
+        similarity_at_each_step
+        quality_at_each_step
+        SM_L
+        SM_N
+        SM_P
+        longitudinal_similarity
+
+
+Helper functions that could be used to evaluate smoothness
+-------------------------------------------------------------
+.. autosummary::
+    :toctree: generated/
+
+        nb_node_change
+        entropy_by_node
+        consecutive_sn_similarity
+
+Benchmark
+-------------------------------------------------------------
+.. currentmodule:: tnetwork.DCD.benchmarking
+
+.. autosummary::
+    :toctree: generated/
+
+         DCD_benchmark

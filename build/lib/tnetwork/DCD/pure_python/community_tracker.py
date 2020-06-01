@@ -7,6 +7,18 @@ import multiprocessing as mp
 import time
 
 
+def convert_stable_communities(persistant_coms,nb_coms=None,duration_min=0,duration_max=10000000):
+    visu_blocks = tn.DynCommunitiesIG()
+    if nb_coms==None:
+        nb_coms = len(persistant_coms)
+    for nodes,period,current_granularity,score in persistant_coms[:nb_coms]:
+        if period.duration()>duration_min and period.duration()<duration_max:
+            #we give a unique name to each community, since colors are attributed according to community names
+            name = str(period.start()).zfill(5)+","+str(nodes)+","+str(current_granularity)
+            visu_blocks.add_affiliation(nodes,name,period)
+    return visu_blocks
+
+
 def score_conductance(nodes,graph):
     weight="weight"
 
@@ -41,9 +53,22 @@ def score_conductance(nodes,graph):
         return 0
 
 
-def MSSCD(dyn_graph, t_granularity = 1, t_persistance=3, t_quality=0.7, t_similarity=0.3, similarity=jaccard, CD="louvain", QC=score_conductance, weighted_aggregation=True, Granularity=None, start_time=None, elapsed_time=False):
+def MSSCD(dyn_graph, t_granularity = 1, t_persistance=3, t_quality=0.7, t_similarity=0.3, similarity=jaccard, CD="louvain", QC=score_conductance, weighted_aggregation=True, Granularity=None, start_time=None, elapsed_time=False,as_dyn_com=True):
     """
     Multi Scale Stable Community Detection
+
+    Method described in [1].
+    This method allows to find stable communities accross multiple temporal scales.
+    In summary, it creates new snapshots by aggregating the existing ones. At each granularity level, it discover stabel communities by
+
+    * 1) applying a community detection algorithm at each step
+    * 2) keeping communities with the highest quality score as seeds
+    * 3) Expand those seeds to neighbor snashots as long as they remain relevant accordin to the quality score
+    * 4) keep as stable only communities that are present in several successive snapshots
+
+    [1] Boudebza, S., Cazabet, R., Nouali, O., & Azouaou, F. (2019).
+    Detecting Stable Communities in Link Streams at Multiple Temporal Scales.
+    LEG workshop, @ECML-PKDD 2019
 
     :param dyn_graph: a dynamic graph
     :param t_granularity: (:math:`\\theta_\\gamma` min temporal granularity,scale to analyze
@@ -56,7 +81,8 @@ def MSSCD(dyn_graph, t_granularity = 1, t_persistance=3, t_quality=0.7, t_simila
     :param weighted_aggregation: if true, the aggregation over time periods is done using weighted networks
     :param Granularity: (:math:`\Gamma`) can be used to replace the default scales. List of int.
     :param start_time: the date at which to start the analysis. Can be useful, for instance, to start analysis at 00:00
-
+    :param as_dyn_com: if true, return a dynamic community object. If False, a custom format with quadruplets (nodes, duration, granularity, quality)
+    :return: a dynamic community object (default) or a list of quadruplets, see parameter as_dyn_com
     """
 
 
@@ -100,6 +126,11 @@ def MSSCD(dyn_graph, t_granularity = 1, t_persistance=3, t_quality=0.7, t_simila
 
     times["total"] = sum([v for x,v in times.items()])
     persistant_coms = sorted(persistant_coms,key=lambda x: x[3],reverse=True)
+
+    if as_dyn_com:
+        persistant_coms = convert_stable_communities(persistant_coms)
+    if elapsed_time:
+        return (persistant_coms,times)
     return persistant_coms
 
 

@@ -1,9 +1,8 @@
 from tnetwork.DCD.computing_coms_by_sn import *
-from tnetwork.utils.community_utils import jaccard
-from tnetwork.DCD import iterative_match
-import time
 import progressbar
 import sys
+from tnetwork.DCD.algorithm_template import DCD_algorithm
+
 
 def _smoothed_louvain(dyn_graph):
     """
@@ -60,19 +59,34 @@ def _smoothed_louvain(dyn_graph):
     sys.stdout.flush()
     return coms
 
-def smoothed_louvain(dynNetSN,match_function=jaccard, threshold=0.3, labels=True,elapsed_time=False):
+def smoothed_louvain(dynNetSN,match_function=jaccard,**kwargs):
     """
       Community Detection using smoothed louvain
 
-      This algorithm is inspired by [1], ...
+      This algorithm is a naive implementation of the method proposed by [1]. The idea is that for each snapshots,
+      the louvain algorithm is ran, but instead of being initialized with each node in its own community as usual, the partition
+      obtained in the previous partition is used.
+
+      The label attribution process is the same described in the paper XXX, see method simple_matching for details.
+
+      Internally, it calls the simple_matching method, the same parameters can be passed to it.
+
+
+      [1]Aynaud, T., & Guillaume, J. L. (2010, May).
+      Static community detection algorithms for evolving networks.
+      In 8th International symposium on modeling and optimization in mobile, Ad Hoc, and wireless networks (pp. 513-519). IEEE.
 
       :param dynNetSN: a dynamic network
-      :param match_function: a function that gives a matching score between two snapshot_communities (two sets of nodes). Default: jaccard. If None, no matching is done
-      :param threshold: a threshold for match_function below which snapshot_communities are not matched
-      :param labels: if True, the matching of snapshot_affiliations is done using labels. If False, using an event graph.
+
       :return: DynCommunitiesSN
       """
-    print("start smoothed louvain")
-    sys.stdout.flush()
 
-    return iterative_match(dynNetSN,_smoothed_louvain,match_function,threshold,labels,elapsed_time)
+
+    matching_method = None
+    if match_function != None:
+        def matching_method(x):
+            x.create_standard_event_graph(**kwargs)
+            x._relabel_coms_from_continue_events(typedEvents=False, rename=False)
+            return x
+
+    return DCD_algorithm(dynNetSN, detection=_smoothed_louvain, label_attribution=matching_method)

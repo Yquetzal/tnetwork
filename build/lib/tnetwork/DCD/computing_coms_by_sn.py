@@ -61,7 +61,8 @@ def CD_each_step(dynNetSN:tn.DynGraphSN,method=None):
 
     coms = DynCommunitiesSN()
 
-    procs_to_use = mp.cpu_count()
+    procs_to_use = int(mp.cpu_count())
+
     #procs_to_use = 1
 
     #print("Multi-thread, number of processors: ", procs_to_use)

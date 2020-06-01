@@ -12,6 +12,19 @@ Currently, two benchmarks are implemented:
  * Benchmark with custom event scenario
  * Benchmark with stable, multiple temporal scale communities
 
+Example of custom scenario
+----------------------------------
+
+.. image:: img/scenario.png
+   :width: 600
+
+Example of stable communities
+----------------------------------
+
+.. image:: img/stable_com.png
+   :width: 400
+
+
 
 Benchmark with custom communities
 ++++++++++++++++++++++++++++++++++++++
@@ -49,6 +62,16 @@ Run
     :toctree: generated/
 
         ComScenario.run
+
+Toy example
+-----------------------------------
+This is the generator of toy examples used in the original paper.
+
+.. autosummary::
+    :toctree: generated/
+
+        generate_toy_random_network
+        generate_simple_random_graph
 
 Community class
 -----------------------------------

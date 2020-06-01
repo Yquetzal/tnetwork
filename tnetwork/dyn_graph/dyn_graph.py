@@ -38,3 +38,6 @@ class DynGraph():
 
     def end(self):
         raise NotImplementedError("Not implemented")
+
+    def code_length(self):
+        raise NotImplementedError("Not implemented")

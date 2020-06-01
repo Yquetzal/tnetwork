@@ -2,9 +2,10 @@
 Dynamic Community Detection
 *************************************
 
-Dynamic community detection is the problem of discovering snapshot_communities in dynamic networks.
 A simple demo of usage can be found `here
 <https://colab.research.google.com/github/Yquetzal/tnetwork/blob/master/demo_DCD.ipynb>`_.
+
+Dynamic community detection is the problem of discovering snapshot_communities in dynamic networks.
 
 There are two types of methods implemented: those that are written in pure python
 and those who require an external tool.
@@ -28,7 +29,9 @@ The possible types of dynamic networks are:
       - Type of dynamic network
     * - `iterative_match`
       - snapshots
-    * - `match_survival_graph`
+    * - `smoothed_graph`
+      - snapshots
+    * - `label_smoothing`
       - snapshots
     * - `smoothed_louvain`
       - snapshots
@@ -55,9 +58,10 @@ These algorithms are implemented in python.
     :toctree: generated/
 
         iterative_match
-        match_survival_graph
+        label_smoothing
         smoothed_louvain
         rollingCPM
+        smoothed_graph
         MSSCD
 
 

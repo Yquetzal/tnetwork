@@ -8,7 +8,7 @@ A simple demo of usage can be found `here
 
 Dynamic graphs can be represented as:
 
-* Sequences of snapshot_affiliations
+* Sequences of snapshots
 * Interval Graphs
 * Link streams (Not implemented yet)
 
@@ -27,7 +27,6 @@ Sequences of snapshots
 
 .. autoclass:: DynGraphSN
 
-Examples
 
 Adding and removing nodes and edges
 -----------------------------------

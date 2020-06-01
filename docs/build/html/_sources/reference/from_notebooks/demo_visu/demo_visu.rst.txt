@@ -1,0 +1,307 @@
+Visualization
+=============
+
+In this notebook, we will introduce the different types of visualization
+available in tnetwork.
+
+There are two types: visualization of graphs at particular time (e.g., a
+particular snapshot), and visualization of the evolution of the
+community structure (longitudinal visualization)
+
+If tnerwork library is not installed, you need to install it, for
+instance using the following command
+
+.. code:: ipython3
+
+    #%%capture #avoid printing output
+    #!pip install --upgrade git+https://github.com/Yquetzal/tnetwork.git
+
+.. code:: ipython3
+
+    import tnetwork as tn
+    import seaborn as sns
+    import pandas as pd
+    import networkx as nx
+    import numpy as np
+
+Let’s start with a toy example generated using tnetwork generator (see
+the corresponding documentation for details)
+
+.. code:: ipython3
+
+    my_scenario = tn.ComScenario()
+    [com1,com2] = my_scenario.INITIALIZE([6,6],["c1","c2"])
+    (com2,com3)=my_scenario.THESEUS(com2,delay=20)
+    my_scenario.DEATH(com2,delay=10)
+    
+    (generated_network_IG,generated_comunities_IG) = my_scenario.run()
+
+
+.. parsed-literal::
+
+    100% (8 of 8) |##########################| Elapsed Time: 0:00:00 ETA:  00:00:00
+
+Cross-section visualization
+---------------------------
+
+One way to see a dynamic graph is to plot it as a series of standard
+static graph. We can start by plotting a single graph at a single time.
+
+There are two libraries that can be used to render the plot: networkx
+(using matplotlib) or bokeh. matplotlib has the advantage of being more
+standard, while bokeh has the advantage of providing interactive graphs.
+This is especially useful to check who is each particular node or
+community in real datasets.
+
+But Bokeh also has weaknesses: \* It can alter the responsiveness of the
+netbook if large visualization are embedded in it \* In some online
+notebooks e.g., google colab, embedding bokeh pictures in the notebook
+does not work well.
+
+As a consequence, it is recommended to embed bokeh visualization in
+notebooks only for small graphs, and to open them in new windows for
+larger ones.
+
+Let’s start by plotting the networks in timestep 1 (ts=1). First, using
+matplotlib, the default option.
+
+.. code:: ipython3
+
+    tn.plot_as_graph(generated_network_IG,ts=1,width=300,height=200)
+
+
+.. parsed-literal::
+
+    /usr/local/lib/python3.7/site-packages/numpy/core/numeric.py:2327: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+      return bool(asarray(a1 == a2).all())
+
+
+
+
+.. image:: output_7_1.png
+
+
+
+
+.. image:: output_7_2.png
+
+
+Then, using bokeh and the ``auto_show`` option. It won’t work in google
+colab, see a solution below.
+
+.. code:: ipython3
+
+    tn.plot_as_graph(generated_network_IG,ts=1,width=600,height=300,bokeh=True,auto_show=True)
+
+
+
+.. raw:: html
+
+    
+    <div class="bk-root">
+        <a href="https://bokeh.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
+        <span id="1081">Loading BokehJS ...</span>
+    </div>
+
+
+
+
+
+.. raw:: html
+
+    
+    <script id="1082">
+      var xhr = new XMLHttpRequest()
+      xhr.responseType = 'blob';
+      xhr.open('GET', "http://localhost:57034/autoload.js?bokeh-autoload-element=1082&bokeh-absolute-url=http://localhost:57034&resources=none", true);
+    
+      xhr.onload = function (event) {
+        var script = document.createElement('script'),
+        src = URL.createObjectURL(event.target.response);
+        script.src = src;
+        document.body.appendChild(script);
+      };
+    xhr.send();
+    </script>
+
+
+
+
+.. raw:: html
+
+    <div style="display: table;"><div style="display: table-row;"><div style="display: table-cell;"><b title="bokeh.models.layouts.Row">Row</b>(</div><div style="display: table-cell;">id&nbsp;=&nbsp;'1080', <span id="1084" style="cursor: pointer;">&hellip;)</span></div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">align&nbsp;=&nbsp;'start',</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">aspect_ratio&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">background&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">children&nbsp;=&nbsp;[Figure(id='1004', ...)],</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">cols&nbsp;=&nbsp;'auto',</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">css_classes&nbsp;=&nbsp;[],</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">disabled&nbsp;=&nbsp;False,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">height&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">height_policy&nbsp;=&nbsp;'auto',</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">js_event_callbacks&nbsp;=&nbsp;{},</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">js_property_callbacks&nbsp;=&nbsp;{},</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">margin&nbsp;=&nbsp;(0, 0, 0, 0),</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">max_height&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">max_width&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">min_height&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">min_width&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">name&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">sizing_mode&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">spacing&nbsp;=&nbsp;0,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">subscribed_events&nbsp;=&nbsp;[],</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">tags&nbsp;=&nbsp;[],</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">visible&nbsp;=&nbsp;True,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">width&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">width_policy&nbsp;=&nbsp;'auto')</div></div></div>
+    <script>
+    (function() {
+      var expanded = false;
+      var ellipsis = document.getElementById("1084");
+      ellipsis.addEventListener("click", function() {
+        var rows = document.getElementsByClassName("1083");
+        for (var i = 0; i < rows.length; i++) {
+          var el = rows[i];
+          el.style.display = expanded ? "none" : "table-row";
+        }
+        ellipsis.innerHTML = expanded ? "&hellip;)" : "&lsaquo;&lsaquo;&lsaquo;";
+        expanded = !expanded;
+      });
+    })();
+    </script>
+
+
+
+
+One can plot in a new window (and/or in a file) by ignoring the
+auto_show option, and instead receiving a figure, that we can manipulate
+as usual with bokeh
+
+.. code:: ipython3
+
+    from bokeh.plotting import figure, output_file, show
+    fig = tn.plot_as_graph(generated_network_IG,ts=1,width=600,height=300,bokeh=True)
+    output_file("fig.html")
+    show(fig)
+
+Instead of plotting a single graph, we can plot several ones in a single
+call. Note that in this case, the position of nodes is common to all
+plots, and is decided based on the cumulated network
+
+.. code:: ipython3
+
+    from bokeh.plotting import figure, output_file, show
+    fig = tn.plot_as_graph(generated_network_IG,ts=[1,30,60,80,generated_network_IG.end()-1],width=200,height=300)
+
+
+.. parsed-literal::
+
+    /usr/local/lib/python3.7/site-packages/numpy/core/numeric.py:2327: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+      return bool(asarray(a1 == a2).all())
+
+
+
+.. image:: output_13_1.png
+
+
+If we have dynamic communities associated with this dynamic graph, we
+can plot them too. Note that the same function accepts snapshots and
+interval graphs, but both the graph and the community structure must
+have the same format (SN or IG)
+
+.. code:: ipython3
+
+    from bokeh.plotting import figure, output_file, show
+    fig = tn.plot_as_graph(generated_network_IG,generated_comunities_IG,ts=[1,30,60,80,generated_network_IG.end()-1],auto_show=True,width=200,height=300)
+
+
+
+.. image:: output_15_0.png
+
+
+Longitudinal Visualization
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The second type of visualization plots only nodes and not edges.
+
+Time corresponds to the x axis, while each node has a fixed position on
+the y axis.
+
+It is possible to plot only a dynamic graphs, without communities. White
+means that the node is not present or has no edges
+
+.. code:: ipython3
+
+    plot = tn.plot_longitudinal(generated_network_IG,height=300)
+
+
+
+
+.. image:: output_17_0.png
+
+
+Or only communities, without a graph:
+
+.. code:: ipython3
+
+    plot = tn.plot_longitudinal(communities=generated_comunities_IG,height=300)
+
+
+
+.. image:: output_19_0.png
+
+
+Or both on the same graph. The grey color always corresponds to nodes
+whithout communities. Other colors corresponds to communities
+
+.. code:: ipython3
+
+    plot = tn.plot_longitudinal(generated_network_IG,communities=generated_comunities_IG,height=300)
+
+
+
+.. image:: output_21_0.png
+
+
+It is possible to plot only a subset of nodes, and/or to plot them in a
+particular order
+
+.. code:: ipython3
+
+    plot = tn.plot_longitudinal(generated_network_IG,communities=generated_comunities_IG,height=300,nodes=["n_t_0000_0008","n_t_0000_0002"])
+
+
+
+.. image:: output_23_0.png
+
+
+Timestamps
+~~~~~~~~~~
+
+It is common, when manipulating real data, to have dates in the form of
+timestamps. There is an option to automatically transform timestamps to
+dates on the x axis : ``to_datetime``
+
+We give an example using the sociopatterns dataset
+
+.. code:: ipython3
+
+    sociopatterns = tn.DynGraphSN.graph_socioPatterns2012()
+
+.. code:: ipython3
+
+    #It takes a few seconds
+    to_plot_SN = tn.plot_longitudinal(sociopatterns,height=500,to_datetime=True)
+
+Snapshot duration
+~~~~~~~~~~~~~~~~~
+
+By default, snapshots last until the next snapshot. If snapshots have a
+fix duration, there is a parameter to indicate this duration :
+``sn_duration``
+
+.. code:: ipython3
+
+    #in sociopatterns, there is an observed snapshot every 20 seconds.
+    to_plot_SN = tn.plot_longitudinal(sociopatterns,height=500,to_datetime=True,sn_duration=20)
+
+Bokeh longitudinal plots
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Longitudinal plots can also use bokeh. It is clearly interesting to have
+ineractive plots in order to zoom on details or to check the name of
+communities or nodes. However, bokeh plots with large number of elements
+can quickly become unresponsive, that is why there are not used by
+default.
+
+By adding the parameter ``bokeh=True``, you can obtain a bokeh plot
+exactly like for the cross-section graphs, with or without the
+``auto_show`` option.
+
+.. code:: ipython3
+
+    tn.plot_longitudinal(generated_network_IG,communities=generated_comunities_IG,height=300,bokeh=True,auto_show=True)
+
+.. code:: ipython3
+
+    from bokeh.plotting import figure, output_file, show
+    fig = tn.plot_longitudinal(sociopatterns,bokeh=True)
+    output_file("fig.html")
+    show(fig)
+

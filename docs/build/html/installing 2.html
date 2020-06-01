@@ -1,0 +1,414 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installation &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorials" href="reference/tutorials.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#who-uses-tnetwork">Who uses tnetwork?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#free-software">Free software</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-install">Quick install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-from-source">Installing from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#github">GitHub</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#python">Python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/tutorials.html">Tutorials</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/dyn_communities.html">Dynamic Communities Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_communities.html#sequences-of-snapshots-representations">Sequences of snapshots representations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_communities.html#adding-and-removing-affiliations">Adding and removing affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_communities.html#accessing-affiliations">Accessing affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_communities.html#statistics">Statistics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_communities.html#converting">Converting</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_communities.html#interval-graph-representations">Interval graph representations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_communities.html#adding-and-removing-snapshot-affiliations">Adding and removing snapshot_affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_communities.html#accessing-snapshot-affiliations">Accessing snapshot_affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_communities.html#other-functions">Other functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/readwrite.html">Read/Write</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/readwrite.html#simple-example">Simple example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/readwrite.html#read-write-graphs">Read/Write graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/readwrite.html#read-write-snapshot-graphs">Read/Write snapshot graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/readwrite.html#read-write-interval-graphs">Read/Write interval graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/readwrite.html#read-write-communities">Read/Write Communities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/readwrite.html#read-write-snapshot-snapshot-affiliations">Read/Write snapshot snapshot_affiliations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/readwrite.html#read-write-interval-graph-snapshot-affiliations">Read/Write interval graph snapshot_affiliations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/dyn_graph.html">Dynamic Network Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_graph.html#sequences-of-snapshots">Sequences of snapshots</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_graph.html#adding-and-removing-nodes-and-edges">Adding and removing nodes and edges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_graph.html#accessing-the-graph">Accessing the graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_graph.html#conversion-to-different-formats">Conversion to different formats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_graph.html#aggregation">Aggregation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_graph.html#other-graph-operations">Other graph operations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/dyn_graph.html#interval-graphs">Interval graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_graph.html#id1">Adding and removing nodes and edges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_graph.html#id2">Accessing the graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_graph.html#id3">Conversion to different formats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/dyn_graph.html#id4">Aggregation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/Intervals.html">Intervals Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/Intervals.html#adding-and-removing-intervals">Adding and removing intervals</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.__init__.html">tnetwork.utils.Intervals.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.add_interval.html">tnetwork.utils.Intervals.add_interval</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.__add__.html">tnetwork.utils.Intervals.__add__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.__sub__.html">tnetwork.utils.Intervals.__sub__</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/Intervals.html#accessing-intervals-properties">Accessing Intervals properties</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.contains_t.html">tnetwork.utils.Intervals.contains_t</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.contains.html">tnetwork.utils.Intervals.contains</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.__contains__.html">tnetwork.utils.Intervals.__contains__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.periods.html">tnetwork.utils.Intervals.periods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.duration.html">tnetwork.utils.Intervals.duration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.start.html">tnetwork.utils.Intervals.start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.end.html">tnetwork.utils.Intervals.end</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/Intervals.html#operations">Operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.intersection.html">tnetwork.utils.Intervals.intersection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.union.html">tnetwork.utils.Intervals.union</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.utils.Intervals.__eq__.html">tnetwork.utils.Intervals.__eq__</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/DCD.html">Dynamic Community Detection</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/DCD.html#internal-algorithms">Internal algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.iterative_match.html">tnetwork.DCD.iterative_match</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.label_smoothing.html">tnetwork.DCD.label_smoothing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.smoothed_louvain.html">tnetwork.DCD.smoothed_louvain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.rollingCPM.html">tnetwork.DCD.rollingCPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.smoothed_graph.html">tnetwork.DCD.smoothed_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.MSSCD.html">tnetwork.DCD.MSSCD</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/DCD.html#external-algorithms">External algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.externals.dynamo.html">tnetwork.DCD.externals.dynamo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.externals.transversal_network_mucha_original.html">tnetwork.DCD.externals.transversal_network_mucha_original</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.externals.transversal_network_leidenalg.html">tnetwork.DCD.externals.transversal_network_leidenalg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.externals.estrangement_confinement.html">tnetwork.DCD.externals.estrangement_confinement</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/vizu.html">Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.plot_as_graph.html">tnetwork.plot_as_graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/tnetwork.plot_longitudinal.html">tnetwork.plot_longitudinal</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/generation.html">Benchmark Generator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generation.html#example-of-custom-scenario">Example of custom scenario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generation.html#example-of-stable-communities">Example of stable communities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generation.html#benchmark-with-custom-communities">Benchmark with custom communities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generation.html#function-to-define-events">Function to define events</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.INITIALIZE.html">tnetwork.ComScenario.INITIALIZE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.BIRTH.html">tnetwork.ComScenario.BIRTH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.DEATH.html">tnetwork.ComScenario.DEATH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.MERGE.html">tnetwork.ComScenario.MERGE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.SPLIT.html">tnetwork.ComScenario.SPLIT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.THESEUS.html">tnetwork.ComScenario.THESEUS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.RESURGENCE.html">tnetwork.ComScenario.RESURGENCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.GROW_ITERATIVE.html">tnetwork.ComScenario.GROW_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.SHRINK_ITERATIVE.html">tnetwork.ComScenario.SHRINK_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.MIGRATE_ITERATIVE.html">tnetwork.ComScenario.MIGRATE_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.ASSIGN.html">tnetwork.ComScenario.ASSIGN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.CONTINUE.html">tnetwork.ComScenario.CONTINUE</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generation.html#run">Run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generation.html#toy-example">Toy example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.generate_toy_random_network.html">tnetwork.generate_toy_random_network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.generate_simple_random_graph.html">tnetwork.generate_simple_random_graph</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generation.html#community-class">Community class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.community.Community.label.html">tnetwork.DCD.community.Community.label</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.community.Community.nodes.html">tnetwork.DCD.community.Community.nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.community.Community.nb_intern_edges.html">tnetwork.DCD.community.Community.nb_intern_edges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generation.html#benchmark-with-stable-multiple-temporal-scales-communities">Benchmark with stable, multiple temporal scales communities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/DC_evaluation.html">Evaluation of Dynamic Communities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/DC_evaluation.html#main-evaluation-functions">Main evaluation functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.dynamic_partition.similarity_at_each_step.html">tnetwork.DCD.analytics.dynamic_partition.similarity_at_each_step</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.dynamic_partition.quality_at_each_step.html">tnetwork.DCD.analytics.dynamic_partition.quality_at_each_step</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.dynamic_partition.SM_L.html">tnetwork.DCD.analytics.dynamic_partition.SM_L</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.dynamic_partition.SM_N.html">tnetwork.DCD.analytics.dynamic_partition.SM_N</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.dynamic_partition.SM_P.html">tnetwork.DCD.analytics.dynamic_partition.SM_P</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.dynamic_partition.longitudinal_similarity.html">tnetwork.DCD.analytics.dynamic_partition.longitudinal_similarity</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/DC_evaluation.html#helper-functions-that-could-be-used-to-evaluate-smoothness">Helper functions that could be used to evaluate smoothness</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.dynamic_partition.nb_node_change.html">tnetwork.DCD.analytics.dynamic_partition.nb_node_change</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.dynamic_partition.entropy_by_node.html">tnetwork.DCD.analytics.dynamic_partition.entropy_by_node</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.analytics.dynamic_partition.consecutive_sn_similarity.html">tnetwork.DCD.analytics.dynamic_partition.consecutive_sn_similarity</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/DC_evaluation.html#benchmark">Benchmark</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/tnetwork.DCD.benchmarking.DCD_benchmark.html">tnetwork.DCD.benchmarking.DCD_benchmark</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Installation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/installing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="quick-install">
+<h2>Quick install<a class="headerlink" href="#quick-install" title="Permalink to this headline">¶</a></h2>
+<p>Get <code class="docutils literal notranslate"><span class="pre">tnetwork</span></code> from the Python Package Index at <a class="reference external" href="https://pypi.python.org/pypi/tnetwork/">pypl</a>.</p>
+<p>or install it with</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">tnetwork</span>
+</pre></div>
+</div>
+<p>and an attempt will be made to find and install an appropriate version that matches your operating system and Python version.</p>
+<p>You can install the development version with</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">Yquetzal</span><span class="o">/</span><span class="n">tnetwork</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-from-source">
+<h2>Installing from source<a class="headerlink" href="#installing-from-source" title="Permalink to this headline">¶</a></h2>
+<p>You can install from source by downloading a source archive file (tar.gz or zip) or by checking out the source files from the GitHub source code repository.</p>
+<p><code class="docutils literal notranslate"><span class="pre">tnetwork</span></code> is a pure Python package; you don’t need a compiler to build or install it.</p>
+<div class="section" id="github">
+<h3>GitHub<a class="headerlink" href="#github" title="Permalink to this headline">¶</a></h3>
+<p>Clone the tnetwork repostitory (see <a class="reference external" href="https://github.com/Yquetzal/tnetwork/">GitHub</a> for options)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">Yquetzal</span><span class="o">/</span><span class="n">tnetwork</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="python">
+<h3>Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h3>
+<p>To use tnetwork you need Python 3.6 or later.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reference/tutorials.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

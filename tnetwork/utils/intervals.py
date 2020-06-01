@@ -12,9 +12,10 @@ class Intervals:
     right, we would be confronted to ponctual overlaps (without duration), which cause troubles. Furthermore,
     intervals are often used to represent discrete time events. If we want to express that an edge exist
     during one hour, from 8a.m. to 9a.m, representing it as [8,9[ gives the following results:
-    Does the edge exist at 8a.m? -> answer YES
-    Does the edge exist at 9a.m? -> answer NO
-    Duration -> 1h
+
+    * Does the edge exist at 8a.m? -> answer YES
+    * Does the edge exist at 9a.m? -> answer NO
+    * Duration -> 1h
 
     When intervals are added, overlapping ones are merged, i.e. if the current Intervals contains
     [0,3[ and [4,5[

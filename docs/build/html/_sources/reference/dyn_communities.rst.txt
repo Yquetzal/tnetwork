@@ -2,24 +2,24 @@
 Dynamic Communities Classes
 *************************************
 
-For each representation of dynamic graphs, there is a corresponding representation of dynamic snapshot_affiliations:
+For each representation of dynamic graphs, there is a corresponding representation of dynamic partitions:
 
-* DynGraphSN == DynCommunitiesSN (snapshot_affiliations)
+* DynGraphSN == DynCommunitiesSN (snapshots)
 * DynGraphIG == DynCommunitiesIG (interval graphs)
 
-Dynamic snapshot_communities are (currently) identified by labels, i.e. each community is associated with a unique label,
+Dynamic communities are (currently) identified by labels, i.e. each community is associated with a unique label,
 and two nodes that have the same labels (in the same or in different time steps) belongs to the same (dynamic) community.
 
 .. currentmodule:: tnetwork
 
 
-Sequences of snapshots snapshot_communities
+Sequences of snapshots representations
 ===============================================
 
 .. autoclass:: DynCommunitiesSN
 
 
-Adding and removing snapshot_affiliations
+Adding and removing affiliations
 ------------------------------------------
 .. autosummary::
     :toctree: generated/
@@ -28,7 +28,7 @@ Adding and removing snapshot_affiliations
         DynCommunitiesSN.add_community
         DynCommunitiesSN.set_communities
 
-Accessing snapshot_affiliations
+Accessing affiliations
 -----------------------------------
 .. autosummary::
     :toctree: generated/
@@ -37,9 +37,15 @@ Accessing snapshot_affiliations
         DynCommunitiesSN.communities
         DynCommunitiesSN.snapshot_affiliations
         DynCommunitiesSN.snapshot_communities
+
+
+Statistics
+-----------------------------------
+.. autosummary::
+    :toctree: generated/
+
+        DynCommunitiesSN.communities_duration
         DynCommunitiesSN.affiliations_durations
-
-
 
 Converting
 -----------------------------------
@@ -51,7 +57,7 @@ Converting
 
 -----------
 
-Interval graph snapshot_communities
+Interval graph representations
 =====================================
 
 .. autoclass:: DynCommunitiesIG

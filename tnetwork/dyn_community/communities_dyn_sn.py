@@ -5,7 +5,6 @@ import networkx as nx
 import tnetwork as tn
 #from tnetwork.utils import bidict #### do not use bidict to avoid having to use frozenset
 from tnetwork.utils.community_utils import nodesets2affiliations
-import statistics
 from tnetwork.utils.community_utils import jaccard
 from tnetwork.utils.intervals import Intervals
 from tnetwork.dyn_community.communities_dyn import DynCommunities
@@ -13,10 +12,9 @@ from tnetwork.dyn_community.communities_dyn import DynCommunities
 
 class DynCommunitiesSN(DynCommunities):
     """
-    Dynamic snapshot_affiliations as sequences of snapshot_affiliations
+    Dynamic communities as sequences of snapshots
 
     Communities are represented as a SortedDict, key:time, value: dict id:{set of nodes}
-    -----------TODO
     """
     def __init__(self,snapshots=None):
         """
@@ -62,9 +60,9 @@ class DynCommunitiesSN(DynCommunities):
 
     def snapshot_communities(self, t=None):
         """
-        Affiliations by snapshot_communities
+        Affiliations by communities
 
-        If t is given, return affiliation at this t as a bidict id:{set of nodes}
+        If t is given, return communities at this t as a bidict id:{set of nodes}
         else, return a sorted dict, key:time, value: dict id:{set of nodes}
 
         :param t: time
@@ -93,7 +91,7 @@ class DynCommunitiesSN(DynCommunities):
         """
         Communities
 
-        If t is given, return affiliation at this t as a dict, key=node, value=set of snapshot_communities
+        If t is given, return communities at this t as a dict, key=node, value=set of communities
         else, return a dict, key:node, value: dict community:list of times
 
         :param t: time
@@ -116,7 +114,7 @@ class DynCommunitiesSN(DynCommunities):
         """
         Affiliations by nodes
 
-        If t is given, return affiliation at this t as a dict, key=node, value=set of snapshot_communities
+        If t is given, return affiliation at this t as a dict, key=node, value=set of communities
         else, return a dict, key:node, value: dict community:list of times
 
         :param t: time
@@ -139,13 +137,13 @@ class DynCommunitiesSN(DynCommunities):
 
     def affiliations_durations(self, nodes=None, communities=None):
         """
-        Durations of snapshot_affiliations
+        Duration of affiliations
 
-        Return the duration in each community (for non-zero values) for the provided nodes and the provided snapshot_affiliations (default: all)
+        Return the duration in each community (for non-zero values) for the provided nodes and the provided communities (default: all)
         return set of triplets (n,c,duration), or set of pairs of one if the parameters has a single value, or a single value if single node and single com
 
         :param nodes: node(s) for which we want durations. single node or set of nodes
-        :param communities: snapshot_communities(s) for which we want durations. single community or set of snapshot_communities
+        :param communities: communities(s) for which we want durations. single community or set of communities
         :return: set of triplets (n,c,duration), or set of pairs of one if the parameters has a single value, or a single value if single node and single com
 
         """
@@ -183,13 +181,13 @@ class DynCommunitiesSN(DynCommunities):
 
     def snapshot_affiliations(self, t=None):
         """
-        Affiliations by nodes
+        Affiliations by snapshots
 
-        If t is given, return affiliation at this t as a dict, key=node, value=set of snapshot_communities
-        else, return a sorted dict, key:time, value: dict node:snapshot_communities
+        If t is given, return affiliation at this t as a dict, key=node, value=set of communities
+        else, return a sorted dict, key:time, value: dict node:communities
 
         :param t: time
-        :return: sorted dict, key:time, value: dict node:snapshot_communities or key=node, value=set of snapshot_communities
+        :return: sorted dict, key:time, value: dict node:communities or key=node, value=set of communities
         """
         if t==None:
             return sortedcontainers.SortedDict({k:nodesets2affiliations(v) for k,v in self.snapshot_communities().items()})
@@ -204,8 +202,8 @@ class DynCommunitiesSN(DynCommunities):
         Affiliate node(s) to community(ies) at time(s)
 
         Add belonging for the provided node(s) to the provided communitie(s) at the provided time(s).
-        (all nodes, at all times, in all snapshot_affiliations)
-        If snapshot_affiliations do not exist, they are created.
+        (all nodes, at all times, in all communities)
+        If communities do not exist, they are created.
 
         :param nodes: accept set/list of nodes or single node
         :param times: accept list of times or single time
@@ -241,7 +239,8 @@ class DynCommunitiesSN(DynCommunities):
         Given a clustering provided as a dict  id:{set of nodes} , set this clustering at the
         provided time (replace any existing clustering at that time)
 
-        :param clusters: dict or bidict{id:frozenset of nodes}
+        :param t: a time instant
+        :param communities: communitie as  dict  id:{set of nodes}
         """
 
         if communities==None:
@@ -287,14 +286,14 @@ class DynCommunitiesSN(DynCommunities):
         if len(to_return)==0:
             raise Exception("no community found")
         if len(to_return)>1:
-            raise Exception("several matching snapshot_communities found")
+            raise Exception("several matching communities found")
         return to_return[0]
 
 
 
     def _compute_fraction_identity(self, com1, com2):
         """
-        compute a fraction of identity between two snapshot_affiliations
+        compute a fraction of identity between two communities
 
         :param com1: a com
         :param com2: another com
@@ -305,11 +304,11 @@ class DynCommunitiesSN(DynCommunities):
 
     def create_standard_event_graph(self, keepingPreviousEvents=False,threshold=0.3,score=None):
         """
-        From a set of static snapshot_affiliations, do a standard matching process such as all snapshot_affiliations in consecutive steps with at least a node in common are linked by an event, and compute a similarity score
+        From a set of static communities, do a standard matching process such as all communities in consecutive steps with at least a node in common are linked by an event, and compute a similarity score
 
         :param keepingPreviousEvents: if true, if events were already present, we keep them and compute their score
         :param threshold: a minimal value of score under which a link is not created. Default: 0
-        :param score: a function describing how to compute the score. Takes 2 snapshot_affiliations as input and return the score.
+        :param score: a function describing how to compute the score. Takes 2 communities as input and return the score.
         """
         if score==None:
             score = jaccard
@@ -321,7 +320,7 @@ class DynCommunitiesSN(DynCommunities):
                 fraction = score(communities[t1][com1], communities[t2][com2])
                 self.events[(t1, com1)][(t2, com2)]["fraction"]=fraction
 
-        #compute events between consecutive snapshot_affiliations
+        #compute events between consecutive communities
         communities = self.snapshot_communities()
         for i in range(1,len(communities),1):
             (t1,comsBefore) = communities.peekitem(i-1)
@@ -463,14 +462,15 @@ class DynCommunitiesSN(DynCommunities):
             for n in dyn_com_local[c]:
                 dyn_com_local[c][n]=Intervals(dyn_com_local[c][n])
 
-        to_return_com.fast_set_affiliations(dyn_com_local)
+        to_return_com._fast_set_affiliations(dyn_com_local)
         return to_return_com
 
     def to_DynCommunitiesIG(self, sn_duration, convertTimeToInteger=False):
         """
-        Convert to SG snapshot_affiliations
+        Convert to SG communities
+
         :param sn_duration: time of a snapshot, or None for automatic: each snapshot last until start of the next
-        :param convertTimeToInteger: if True, snapshot_affiliations IDs will be forgottent and replaced by consecutive integers
+        :param convertTimeToInteger: if True, communities IDs will be forgottent and replaced by consecutive integers
         :return: DynamicCommunitiesIG
         """
 
@@ -501,7 +501,7 @@ class DynCommunitiesSN(DynCommunities):
 
         #convert also events
         for (u,v,d) in self.events.edges(data=True):
-            if d["type"]!="continue": #if snapshot_affiliations have different IDs
+            if d["type"]!="continue": #if communities have different IDs
                 dynComTN.events.add_event(u[1],v[1],d["time"][0],d["time"][1],d["type"])
         return dynComTN
 
@@ -510,7 +510,7 @@ class DynCommunitiesSN(DynCommunities):
         """
         reseampling a dynamic community at higher frequency
 
-        :param bin_size: desired size of bins, in the internal time unit (not necessarily equals to the number of snapshot_affiliations)
+        :param bin_size: desired size of bins, in the internal time unit
         :param t_start: time step to start the binning (default: first)
         :param t_end: time step (not included) to stop the binning (default: last)
         :return: a DynCommunitiesSN object
@@ -541,6 +541,11 @@ class DynCommunitiesSN(DynCommunities):
 
 
     def communities_duration(self):
+        """
+        Duration of each community
+
+        :return:  {id:duration}
+        """
         to_return = {}
         all_coms = self.communities_sn_by_sn()
         for com_ID, evol in all_coms.items():

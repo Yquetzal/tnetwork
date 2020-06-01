@@ -1,22 +1,26 @@
 import tnetwork as tn
 import sklearn
+import sklearn.metrics
 import scipy
 import statistics
-from tnetwork.utils.community_utils import jaccard
 import networkx as nx
 from tnetwork.DCD.analytics.onmi import onmi
+import numpy as np
 
+__all__ = ["longitudinal_similarity", "consecutive_sn_similarity", "similarity_at_each_step", "entropy_by_node","nb_node_change","quality_at_each_step","SM_N","SM_P","SM_L"]
 
 def longitudinal_similarity(dynamicCommunityReference:tn.DynCommunitiesSN, dynamicCommunityObserved:tn.DynCommunitiesSN, score=None,convert_coms_sklearn_format=True):
     """
     Longitudinal similarity
 
     The longitudinal similarity between two dynamic clusters is computed by considering each couple (node,time) as an element belong to a cluster, a cluster containing therefore nodes in differnt times
-    It takes into account the fact that the reference might by incomplete.
+    It takes into account the fact that the reference might by incomplete by removing from the partition to evaluate all (node,time) not present in the reference.
 
-    :param dynamicCommunityReference: the dynamic partition used as reference
-    :param dynamicCommunityObserved: the dynamic partition to evaluate
-    :return:
+    :param dynamicCommunityReference: the dynamic partition used as reference (ground truth)
+    :param dynamicCommunityObserved: the dynamic partition to evaluate (result of an algorithm)
+    :param score: community comparison score, by default the adjsted NMI. (sklearn)
+    :param convert_coms_sklearn_format: if the score expect in input clusters represented as in sklearn, True. if False, score will receive in input lists of sets of nodes
+    :return: score
     """
 
     if score==None:
@@ -36,10 +40,11 @@ def longitudinal_similarity(dynamicCommunityReference:tn.DynCommunitiesSN, dynam
                 #for each node
                 for n,comId in affils.items():
                     affilReference.append(str(list(comId)[0]))
-                    #if n in comsToEvaluate[t]:
-                    affilToEvaluate.append(str(list(comsToEvaluate[t][n])[0]))
-                    #else:
-                    #    affilToEvaluate.append("-1")
+                    if n in comsToEvaluate[t]:
+                        affilToEvaluate.append(str(list(comsToEvaluate[t][n])[0]))
+                    else:
+                        print("node not in partition to evaluate: ",str(n)," ",str(t))
+                        affilToEvaluate.append("-1")
     else:
 
         affilReference={}
@@ -64,14 +69,16 @@ def longitudinal_similarity(dynamicCommunityReference:tn.DynCommunitiesSN, dynam
 
 def consecutive_sn_similarity(dynamicCommunity:tn.DynCommunitiesSN,score=None):
     """
-       Similarity between partitions in consecutive snapshots
+       Similarity between partitions in consecutive snapshots.
 
+        Compute the average of a similarity score between all pair of successive partitions
 
        :param dynamicCommunity: the dynamic partition to evaluate
-       :return:
+       :param score: the score to use for computing the similarity between each pair of snapshots. default: Overlapping NMI
+       :return: pair (list of scores, list of partition sizes (avg both partitions))
        """
     if score==None:
-        score=onmi
+        score=onmi #We use onmi because the number of labels can be different
     scores=[]
     sizes=[]
 
@@ -96,13 +103,14 @@ def consecutive_sn_similarity(dynamicCommunity:tn.DynCommunitiesSN,score=None):
 
 def similarity_at_each_step(dynamicCommunityReference:tn.DynCommunitiesSN, dynamicCommunityObserved:tn.DynCommunitiesSN, score=None):
     """
-    Compute a similarity score at each step
+    Compute similarity at each step
 
-    It takes into account the fact that the reference might by incomplete.
+    It takes into account the fact that the reference might by incomplete. (remove from the observations all nodes/time not present in the reference)
 
     :param dynamicCommunityReference: the dynamic partition to use as reference
     :param dynamicCommunityObserved: the dynamic partition to evaluate
-    :return:
+    :param score: score to use, default adjusted NMI
+    :return: pair (list of scores, list of sizes)
     """
 
     if score==None:
@@ -138,7 +146,8 @@ def quality_at_each_step(dynamicCommunities:tn.DynCommunitiesSN,dynamicGraph:tn.
     Compute a community quality at each step
 
     :param dynamicCommunities: dynamic communities as SN
-    :return: scores, sizes
+    :param score: score to use, default: Modularity
+    :return: pair(scores, sizes)
     """
 
     if score==None:
@@ -155,6 +164,7 @@ def quality_at_each_step(dynamicCommunities:tn.DynCommunitiesSN,dynamicGraph:tn.
             sc = score(g,partition)
             scores.append(sc)
         except:
+            #print("problem to compute with partition: ",partition," nodes",g.nodes())
             scores.append(None)
         sizes.append(len(g.nodes))
 
@@ -162,12 +172,12 @@ def quality_at_each_step(dynamicCommunities:tn.DynCommunitiesSN,dynamicGraph:tn.
 
 def nb_node_change(dyn_com:tn.DynCommunitiesSN):
     """
-    Compute the total number of node changes.
+    Compute the total number of node changes
 
-    This score does not take into account the duration of the changes.
+    Measure of smoothness at the level of nodes, adapated to evaluate glitches
 
-    :param dyn_com:
-    :return:
+    :param dyn_com: The dynamic community
+    :return: total number of node changes
     """
     coms_by_nodes={}
     for t,coms in dyn_com.snapshot_communities().items():
@@ -220,19 +230,12 @@ def entropy_by_node(dyn_com,sn_duration=1,fast_on_sn=False):
     """
     Compute the entropy by node.
 
-    TO REWRITE
-
-    Consider each community label as a data value. The probability of observing this data value is the frequency of a random node to belong to the corresponding community.
-
-    Interpretation: The less communities, the lower the score. The less homogeneous the community sizes, the lower the score.
-
-    This score does not take into account the order of the community changes.
-
-    Be careful, convert SN graph into IG.
+    For each node, compute the shannon entropy of its labels. (always same label=min entropy, every step a new label=max entropy)
+    return the average value for all nodes
 
 
     :param dyn_com: dynamic community to evaluate, can be SN or IG
-    :param sn_duration: if graph is SN, used to
+    :param sn_duration: if graph is SN, used to discretize
     :return:
     """
     dc2 = dyn_com
@@ -255,3 +258,35 @@ def entropy_by_node(dyn_com,sn_duration=1,fast_on_sn=False):
         all_entropies.append(ent_this_node)
 
     return statistics.mean(all_entropies)
+
+def SM_N(dyn_com):
+    """
+    Smoothness for nodes
+
+    Inverse of the number of node changes
+    :param dyn_com: dynamic partition
+    :return: SM-N score
+    """
+    return 1/nb_node_change(dyn_com)
+
+def SM_P(dyn_com):
+    """
+    Smoothness for partitions
+
+    Averge of the NMI between successive snapshots
+    :param dyn_com: dynamic partition
+    :return: SM-P score
+    """
+    consecutive_NMIs = consecutive_sn_similarity(dyn_com)
+    return np.average(consecutive_NMIs[0], weights=consecutive_NMIs[1])
+
+def SM_L(dyn_com,sn_duration=1):
+    """
+    Smoothness for labels
+
+    Inverse of the entropy by node
+    :param dyn_com: dyanamic partition
+    :param sn_duration: used to indicate the duration of snapshots if provided graph is a snapshot graph
+    :return:  SM-L score
+    """
+    return 1/entropy_by_node(dyn_com,sn_duration=sn_duration)

@@ -16,15 +16,17 @@ def estrangement_confinement(dyn_graph:tn.DynGraphSN, tolerance=0.00001,converge
     """
     Estrangement confinement
 
+    Algorithm introduced in [1]. Uses original code.
 
-    :param dyn_graph:
-    :param tolerance:
-    :param convergence_tolerance:
-    :param delta:
-    :param minrepeats:
-    :param increpeats:
-    :param maxfun:
-    :param write_stats:
+
+
+    [1]Kawadia, V., & Sreenivasan, S. (2012).
+    Sequential detection of temporal communities by estrangement confinement.
+    Scientific reports, 2, 794.
+
+    :param delta: see original article
+    :param convergence_tolerance: see original article
+    :param tolerance: see original article
     :return:
     """
     print("preprocessing estrangement confinement")
