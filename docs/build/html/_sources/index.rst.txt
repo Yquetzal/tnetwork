@@ -26,7 +26,6 @@ tnetwork Dev Team
 Documentation
 ==============
 .. toctree::
-    :maxdepth: 1
     :hidden:
 
     installing.rst
