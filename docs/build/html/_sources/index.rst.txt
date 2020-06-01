@@ -26,10 +26,9 @@ tnetwork Dev Team
 Documentation
 ==============
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
     :hidden:
 
-    overview.rst
     installing.rst
     reference/from_notebooks/demo_intro/demo_intro.rst
     reference/tutorials.rst

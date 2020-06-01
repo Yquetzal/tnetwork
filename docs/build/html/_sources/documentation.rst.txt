@@ -1,7 +1,7 @@
 Documentation
 ==============
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 0
 
    reference/dyn_communities.rst
    reference/readwrite.rst

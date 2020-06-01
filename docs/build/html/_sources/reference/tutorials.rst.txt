@@ -1,5 +1,8 @@
 Tutorials
 ==============
+
+All tutorials can be accessed as jupyter notebooks
+
 .. toctree::
     :maxdepth: 1
 
