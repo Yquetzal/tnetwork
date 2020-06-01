@@ -1,0 +1,424 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Benchmark Generator &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="tnetwork.ComScenario.__init__" href="generated/tnetwork.ComScenario.__init__.html" />
+    <link rel="prev" title="tnetwork.plot_longitudinal" href="generated/tnetwork.plot_longitudinal.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="from_notebooks/demo_intro/demo_intro.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dyn_communities.html">Dynamic Communities Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readwrite.html">Read/Write</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dyn_graph.html">Dynamic Network Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Intervals.html">Intervals Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DCD.html">Dynamic Community Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vizu.html">Visualization</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Benchmark Generator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-of-custom-scenario">Example of custom scenario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-of-stable-communities">Example of stable communities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#benchmark-with-custom-communities">Benchmark with custom communities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#function-to-define-events">Function to define events</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.INITIALIZE.html">tnetwork.ComScenario.INITIALIZE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.BIRTH.html">tnetwork.ComScenario.BIRTH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.DEATH.html">tnetwork.ComScenario.DEATH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.MERGE.html">tnetwork.ComScenario.MERGE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.SPLIT.html">tnetwork.ComScenario.SPLIT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.THESEUS.html">tnetwork.ComScenario.THESEUS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.RESURGENCE.html">tnetwork.ComScenario.RESURGENCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.GROW_ITERATIVE.html">tnetwork.ComScenario.GROW_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.SHRINK_ITERATIVE.html">tnetwork.ComScenario.SHRINK_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.MIGRATE_ITERATIVE.html">tnetwork.ComScenario.MIGRATE_ITERATIVE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.ASSIGN.html">tnetwork.ComScenario.ASSIGN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.CONTINUE.html">tnetwork.ComScenario.CONTINUE</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#run">Run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.ComScenario.run.html">tnetwork.ComScenario.run</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#toy-example">Toy example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.generate_toy_random_network.html">tnetwork.generate_toy_random_network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.generate_simple_random_graph.html">tnetwork.generate_simple_random_graph</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#community-class">Community class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.community.Community.label.html">tnetwork.DCD.community.Community.label</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.community.Community.nodes.html">tnetwork.DCD.community.Community.nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.community.Community.nb_intern_edges.html">tnetwork.DCD.community.Community.nb_intern_edges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#benchmark-with-stable-multiple-temporal-scales-communities">Benchmark with stable, multiple temporal scales communities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="DC_evaluation.html">Evaluation of Dynamic Communities</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../documentation.html">Documentation</a> &raquo;</li>
+        
+      <li>Benchmark Generator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/reference/generation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="benchmark-generator">
+<h1>Benchmark Generator<a class="headerlink" href="#benchmark-generator" title="Permalink to this headline">¶</a></h1>
+<p>A simple demo of usage can be found <a class="reference external" href="https://colab.research.google.com/github/Yquetzal/tnetwork/blob/master/demo_generation.ipynb">here</a>.</p>
+<p>The library implements several benchmark generators.
+The aim of those benchmark is to generate both a temporal graph and a <em>reference</em>
+dynamic community structure.</p>
+<dl class="simple">
+<dt>Currently, two benchmarks are implemented:</dt><dd><ul class="simple">
+<li><p>Benchmark with custom event scenario</p></li>
+<li><p>Benchmark with stable, multiple temporal scale communities</p></li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="example-of-custom-scenario">
+<h2>Example of custom scenario<a class="headerlink" href="#example-of-custom-scenario" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="../_images/scenario.png"><img alt="../_images/scenario.png" src="../_images/scenario.png" style="width: 600px;" /></a>
+</div>
+<div class="section" id="example-of-stable-communities">
+<h2>Example of stable communities<a class="headerlink" href="#example-of-stable-communities" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="../_images/stable_com.png"><img alt="../_images/stable_com.png" src="../_images/stable_com.png" style="width: 400px;" /></a>
+<div class="section" id="benchmark-with-custom-communities">
+<h3>Benchmark with custom communities<a class="headerlink" href="#benchmark-with-custom-communities" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="tnetwork.ComScenario">
+<em class="property">class </em><code class="sig-prename descclassname">tnetwork.</code><code class="sig-name descname">ComScenario</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">0.8</span></em>, <em class="sig-param"><span class="n">external_density_penalty</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">random_noise</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">variant</span><span class="o">=</span><span class="default_value">'deterministic'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tnetwork/DCD/communities_scenarios.html#ComScenario"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.ComScenario" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class manages the community evolution scenario</p>
+<p>It implements the benchmark described in XXX</p>
+<p>Behavior to keep in mind:</p>
+<p>1) Any node that does not belong to a community is condered “dead”. Note that it can reappear later
+if it belongs to a community again.
+As a consequence, a node alive but not belonging to any community must be represented as a node belonging to a community of size 1</p>
+<p>2)There are not really persistent community, every time a community is modified in any way, a new community is created,
+and it is only because they have the same name (label) that they are considered part of the same dynamic community.</p>
+<p>As a consequence, to kill a dynamic community, one simply needs to stop using its name.</p>
+</dd></dl>
+
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.__init__.html#tnetwork.ComScenario.__init__" title="tnetwork.ComScenario.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.__init__</span></code></a>([alpha, …])</p></td>
+<td><p>Initialize the community generation class</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="function-to-define-events">
+<h2>Function to define events<a class="headerlink" href="#function-to-define-events" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.INITIALIZE.html#tnetwork.ComScenario.INITIALIZE" title="tnetwork.ComScenario.INITIALIZE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.INITIALIZE</span></code></a>(sizes[, names])</p></td>
+<td><p>Function to initialize the dynamic networks with snapshot_affiliations that already exist at the beginning</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.BIRTH.html#tnetwork.ComScenario.BIRTH" title="tnetwork.ComScenario.BIRTH"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.BIRTH</span></code></a>(size[, name])</p></td>
+<td><p>Creates a new community</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.DEATH.html#tnetwork.ComScenario.DEATH" title="tnetwork.ComScenario.DEATH"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.DEATH</span></code></a>(com, **kwargs)</p></td>
+<td><p>Kill a community</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.MERGE.html#tnetwork.ComScenario.MERGE" title="tnetwork.ComScenario.MERGE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.MERGE</span></code></a>(toMerge, merged, **kwargs)</p></td>
+<td><p>Merge the snapshot_affiliations in input into a single community with the name (label) provided in output</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.SPLIT.html#tnetwork.ComScenario.SPLIT" title="tnetwork.ComScenario.SPLIT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.SPLIT</span></code></a>(toSplit, newComs, sizes, …)</p></td>
+<td><p>Split a single community into several ones.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.THESEUS.html#tnetwork.ComScenario.THESEUS" title="tnetwork.ComScenario.THESEUS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.THESEUS</span></code></a>(theComTh[, nbNodes, …])</p></td>
+<td><p>Create a theseus ship operation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.RESURGENCE.html#tnetwork.ComScenario.RESURGENCE" title="tnetwork.ComScenario.RESURGENCE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.RESURGENCE</span></code></a>(theComTh[, death_period])</p></td>
+<td><p>Create a resurgence operation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.GROW_ITERATIVE.html#tnetwork.ComScenario.GROW_ITERATIVE" title="tnetwork.ComScenario.GROW_ITERATIVE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.GROW_ITERATIVE</span></code></a>(com, nb_nodes2Add)</p></td>
+<td><p>Make a community grow node by node</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.SHRINK_ITERATIVE.html#tnetwork.ComScenario.SHRINK_ITERATIVE" title="tnetwork.ComScenario.SHRINK_ITERATIVE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.SHRINK_ITERATIVE</span></code></a>(com, …[, …])</p></td>
+<td><p>Make a community shrink node by node</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.MIGRATE_ITERATIVE.html#tnetwork.ComScenario.MIGRATE_ITERATIVE" title="tnetwork.ComScenario.MIGRATE_ITERATIVE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.MIGRATE_ITERATIVE</span></code></a>(comFrom, …)</p></td>
+<td><p>Make nodes of a community migrate to another one</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.ASSIGN.html#tnetwork.ComScenario.ASSIGN" title="tnetwork.ComScenario.ASSIGN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.ASSIGN</span></code></a>(comsBefore, comsAfter, …)</p></td>
+<td><p>Define a custom event</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.CONTINUE.html#tnetwork.ComScenario.CONTINUE" title="tnetwork.ComScenario.CONTINUE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.CONTINUE</span></code></a>(com, **kwargs)</p></td>
+<td><p>Keep a community unchanged</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="run">
+<h2>Run<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.run.html#tnetwork.ComScenario.run" title="tnetwork.ComScenario.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.run</span></code></a>()</p></td>
+<td><p>Function to call when the scenario has been defined to actually execute it.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="toy-example">
+<h2>Toy example<a class="headerlink" href="#toy-example" title="Permalink to this headline">¶</a></h2>
+<p>This is the generator of toy examples used in the original paper.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.generate_toy_random_network.html#tnetwork.generate_toy_random_network" title="tnetwork.generate_toy_random_network"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_toy_random_network</span></code></a>(**kwargs)</p></td>
+<td><p>Generate a small, toy dynamic graph</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.generate_simple_random_graph.html#tnetwork.generate_simple_random_graph" title="tnetwork.generate_simple_random_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_simple_random_graph</span></code></a>([nb_com, …])</p></td>
+<td><p>Generate a simple random dynamic graph with community structure</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="community-class">
+<h2>Community class<a class="headerlink" href="#community-class" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="tnetwork.DCD.community.Community">
+<em class="property">class </em><code class="sig-prename descclassname">tnetwork.DCD.community.</code><code class="sig-name descname">Community</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">comScenario</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tnetwork/DCD/community.html#Community"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DCD.community.Community" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing communities in a benchmark scenario</p>
+<p>When generating a benchmark using the scenerio generator, communities returned by event definition functions are instances
+of this class.</p>
+<p>This class has some public functions to check the names, the nodes, and the number of edges of the community.
+The edges themselves cannot be checked during the scenario description, since they are generated when calling the run function
+of the ComScenario class.</p>
+</dd></dl>
+
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.DCD.community.Community.label.html#tnetwork.DCD.community.Community.label" title="tnetwork.DCD.community.Community.label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Community.label</span></code></a>()</p></td>
+<td><p>Get the name (label) of this structure :return: name :rtype: str</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.DCD.community.Community.nodes.html#tnetwork.DCD.community.Community.nodes" title="tnetwork.DCD.community.Community.nodes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Community.nodes</span></code></a>()</p></td>
+<td><p>Get the nodes of this structure :return: list of nodes :rtype: [str]</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.DCD.community.Community.nb_intern_edges.html#tnetwork.DCD.community.Community.nb_intern_edges" title="tnetwork.DCD.community.Community.nb_intern_edges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Community.nb_intern_edges</span></code></a>()</p></td>
+<td><p>return the number of edges expected in this community :return:</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="benchmark-with-stable-multiple-temporal-scales-communities">
+<h3>Benchmark with stable, multiple temporal scales communities<a class="headerlink" href="#benchmark-with-stable-multiple-temporal-scales-communities" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale.html#tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale" title="tnetwork.DCD.multi_temporal_scale.generate_multi_temporal_scale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_multi_temporal_scale</span></code></a>([nb_steps, …])</p></td>
+<td><p>Generate dynamic graph with stable communities</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="generated/tnetwork.ComScenario.__init__.html" class="btn btn-neutral float-right" title="tnetwork.ComScenario.__init__" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="generated/tnetwork.plot_longitudinal.html" class="btn btn-neutral float-left" title="tnetwork.plot_longitudinal" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

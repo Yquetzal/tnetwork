@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Dynamic Community Detection &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="tnetwork.DCD.iterative_match" href="generated/tnetwork.DCD.iterative_match.html" />
+    <link rel="prev" title="tnetwork.utils.Intervals.__eq__" href="generated/tnetwork.utils.Intervals.__eq__.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="from_notebooks/demo_intro/demo_intro.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dyn_communities.html">Dynamic Communities Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readwrite.html">Read/Write</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dyn_graph.html">Dynamic Network Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Intervals.html">Intervals Class</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Dynamic Community Detection</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#internal-algorithms">Internal algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.iterative_match.html">tnetwork.DCD.iterative_match</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.label_smoothing.html">tnetwork.DCD.label_smoothing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.smoothed_louvain.html">tnetwork.DCD.smoothed_louvain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.rollingCPM.html">tnetwork.DCD.rollingCPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.smoothed_graph.html">tnetwork.DCD.smoothed_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.MSSCD.html">tnetwork.DCD.MSSCD</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#external-algorithms">External algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.externals.dynamo.html">tnetwork.DCD.externals.dynamo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.externals.transversal_network_mucha_original.html">tnetwork.DCD.externals.transversal_network_mucha_original</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.externals.transversal_network_leidenalg.html">tnetwork.DCD.externals.transversal_network_leidenalg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/tnetwork.DCD.externals.estrangement_confinement.html">tnetwork.DCD.externals.estrangement_confinement</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="vizu.html">Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generation.html">Benchmark Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DC_evaluation.html">Evaluation of Dynamic Communities</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../documentation.html">Documentation</a> &raquo;</li>
+        
+      <li>Dynamic Community Detection</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/reference/DCD.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="dynamic-community-detection">
+<h1>Dynamic Community Detection<a class="headerlink" href="#dynamic-community-detection" title="Permalink to this headline">¶</a></h1>
+<p>A simple demo of usage can be found <a class="reference external" href="https://colab.research.google.com/github/Yquetzal/tnetwork/blob/master/demo_DCD.ipynb">here</a>.</p>
+<p>Dynamic community detection is the problem of discovering snapshot_communities in dynamic networks.</p>
+<p>There are two types of methods implemented: those that are written in pure python
+and those who require an external tool.</p>
+<p>Those in pure python are part of the <cite>tnetwork.DCD</cite> module while others are in <cite>tnetwork.DCD.external</cite>.</p>
+<p>Below is a list of implemented methods, with the type of dynamic networks they are designed to manage.
+Note that this type of network is unrelated with the tnetwork representation:
+a snapshot representation can be used to encode a snapshot graph, a link stream or an interval graph.
+The possible types of dynamic networks are:</p>
+<ul class="simple">
+<li><p>snapshot: The graph is well defined at any $t$, changes tend to occur synchronously</p></li>
+<li><p>interval gaph: The graph is well defined at any $t$, but graph changes are not synchrone, changes appear edge by edge</p></li>
+<li><p>link stream: graphs at any time $t$ are poorly defined, graphs can be studied only by studying a $Delta$ period of aggregation</p></li>
+</ul>
+<table class="colwidths-given docutils align-default" id="id1">
+<caption><span class="caption-text">Types of dynamic networks expected by each method</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Type of dynamic network</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><cite>iterative_match</cite></p></td>
+<td><p>snapshots</p></td>
+</tr>
+<tr class="row-odd"><td><p><cite>smoothed_graph</cite></p></td>
+<td><p>snapshots</p></td>
+</tr>
+<tr class="row-even"><td><p><cite>label_smoothing</cite></p></td>
+<td><p>snapshots</p></td>
+</tr>
+<tr class="row-odd"><td><p><cite>smoothed_louvain</cite></p></td>
+<td><p>snapshots</p></td>
+</tr>
+<tr class="row-even"><td><p><cite>rollingCPM</cite></p></td>
+<td><p>snapshots</p></td>
+</tr>
+<tr class="row-odd"><td><p><cite>MSSCD</cite></p></td>
+<td><p>link stream</p></td>
+</tr>
+<tr class="row-even"><td><p><cite>muchaOriginal</cite></p></td>
+<td><p>snapshots</p></td>
+</tr>
+<tr class="row-odd"><td><p><cite>dynamo</cite></p></td>
+<td><p>interval graph</p></td>
+</tr>
+</tbody>
+</table>
+<p>Some external algorithms require matlab, and the matlab-python engine, ensuring the connection between both.
+How to explain it is explained on the matlab website, currenty there: <a class="reference external" href="https://fr.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html">https://fr.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html</a></p>
+<div class="section" id="internal-algorithms">
+<h2>Internal algorithms<a class="headerlink" href="#internal-algorithms" title="Permalink to this headline">¶</a></h2>
+<p>These algorithms are implemented in python.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.DCD.iterative_match.html#tnetwork.DCD.iterative_match" title="tnetwork.DCD.iterative_match"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iterative_match</span></code></a>(dynNetSN[, CDalgo, …])</p></td>
+<td><p>Community Detection by iterative detection and matching</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.DCD.label_smoothing.html#tnetwork.DCD.label_smoothing" title="tnetwork.DCD.label_smoothing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label_smoothing</span></code></a>(dynNetSN[, CDalgo, …])</p></td>
+<td><p>Community detection by label smoothing</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.DCD.smoothed_louvain.html#tnetwork.DCD.smoothed_louvain" title="tnetwork.DCD.smoothed_louvain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smoothed_louvain</span></code></a>(dynNetSN[, match_function])</p></td>
+<td><p>Community Detection using smoothed louvain</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.DCD.rollingCPM.html#tnetwork.DCD.rollingCPM" title="tnetwork.DCD.rollingCPM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rollingCPM</span></code></a>(dynNetSN[, k, elapsed_time])</p></td>
+<td><p>This method is based on Palla et al[1].</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.DCD.smoothed_graph.html#tnetwork.DCD.smoothed_graph" title="tnetwork.DCD.smoothed_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smoothed_graph</span></code></a>(dynNetSN[, alpha, match_function])</p></td>
+<td><p>Smoothed graph approach</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.DCD.MSSCD.html#tnetwork.DCD.MSSCD" title="tnetwork.DCD.MSSCD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MSSCD</span></code></a>(dyn_graph[, t_granularity, …])</p></td>
+<td><p>Multi Scale Stable Community Detection</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="external-algorithms">
+<h2>External algorithms<a class="headerlink" href="#external-algorithms" title="Permalink to this headline">¶</a></h2>
+<p>These algorithms call external code provided by authors, and thus might require installing
+additional softwares (java, matlab).</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.DCD.externals.dynamo.html#tnetwork.DCD.externals.dynamo" title="tnetwork.DCD.externals.dynamo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dynamo</span></code></a>(dyn_graph[, elapsed_time, timeout])</p></td>
+<td><p>DynaMo algorithm</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.DCD.externals.transversal_network_mucha_original.html#tnetwork.DCD.externals.transversal_network_mucha_original" title="tnetwork.DCD.externals.transversal_network_mucha_original"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transversal_network_mucha_original</span></code></a>(dyn_graph)</p></td>
+<td><p>Multiplex community detection, Mucha et al.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.DCD.externals.transversal_network_leidenalg.html#tnetwork.DCD.externals.transversal_network_leidenalg" title="tnetwork.DCD.externals.transversal_network_leidenalg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transversal_network_leidenalg</span></code></a>(dyn_graph[, …])</p></td>
+<td><p>Multiplex community detection reimplemented in leidenalg</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.DCD.externals.estrangement_confinement.html#tnetwork.DCD.externals.estrangement_confinement" title="tnetwork.DCD.externals.estrangement_confinement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estrangement_confinement</span></code></a>(dyn_graph[, …])</p></td>
+<td><p>Estrangement confinement</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="generated/tnetwork.DCD.iterative_match.html" class="btn btn-neutral float-right" title="tnetwork.DCD.iterative_match" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="generated/tnetwork.utils.Intervals.__eq__.html" class="btn btn-neutral float-left" title="tnetwork.utils.Intervals.__eq__" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
