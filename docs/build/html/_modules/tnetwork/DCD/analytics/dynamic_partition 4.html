@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tnetwork.DCD.analytics.dynamic_partition &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/from_notebooks/demo_intro/demo_intro.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../documentation.html">Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>tnetwork.DCD.analytics.dynamic_partition</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tnetwork.DCD.analytics.dynamic_partition</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">tn</span>
+<span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="kn">import</span> <span class="nn">sklearn.metrics</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">statistics</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">tnetwork.DCD.analytics.onmi</span> <span class="kn">import</span> <span class="n">onmi</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;longitudinal_similarity&quot;</span><span class="p">,</span> <span class="s2">&quot;consecutive_sn_similarity&quot;</span><span class="p">,</span> <span class="s2">&quot;similarity_at_each_step&quot;</span><span class="p">,</span> <span class="s2">&quot;entropy_by_node&quot;</span><span class="p">,</span><span class="s2">&quot;nb_node_change&quot;</span><span class="p">,</span><span class="s2">&quot;quality_at_each_step&quot;</span><span class="p">,</span><span class="s2">&quot;SM_N&quot;</span><span class="p">,</span><span class="s2">&quot;SM_P&quot;</span><span class="p">,</span><span class="s2">&quot;SM_L&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="longitudinal_similarity"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.analytics.dynamic_partition.longitudinal_similarity.html#tnetwork.DCD.analytics.dynamic_partition.longitudinal_similarity">[docs]</a><span class="k">def</span> <span class="nf">longitudinal_similarity</span><span class="p">(</span><span class="n">dynamicCommunityReference</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">,</span> <span class="n">dynamicCommunityObserved</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">convert_coms_sklearn_format</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Longitudinal similarity</span>
+
+<span class="sd">    The longitudinal similarity between two dynamic clusters is computed by considering each couple (node,time) as an element belong to a cluster, a cluster containing therefore nodes in differnt times</span>
+<span class="sd">    It takes into account the fact that the reference might by incomplete by removing from the partition to evaluate all (node,time) not present in the reference.</span>
+
+<span class="sd">    :param dynamicCommunityReference: the dynamic partition used as reference (ground truth)</span>
+<span class="sd">    :param dynamicCommunityObserved: the dynamic partition to evaluate (result of an algorithm)</span>
+<span class="sd">    :param score: community comparison score, by default the adjsted NMI. (sklearn)</span>
+<span class="sd">    :param convert_coms_sklearn_format: if the score expect in input clusters represented as in sklearn, True. if False, score will receive in input lists of sets of nodes</span>
+<span class="sd">    :return: score</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">score</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">score</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="p">:</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">adjusted_mutual_info_score</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">average_method</span><span class="o">=</span><span class="s2">&quot;arithmetic&quot;</span><span class="p">)</span>
+
+    <span class="n">affilReference</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">affilToEvaluate</span><span class="o">=</span><span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">convert_coms_sklearn_format</span><span class="p">:</span>
+
+        <span class="n">comsToEvaluate</span> <span class="o">=</span> <span class="n">dynamicCommunityObserved</span><span class="o">.</span><span class="n">snapshot_affiliations</span><span class="p">()</span>
+
+        <span class="c1">#for each step</span>
+        <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">affils</span> <span class="ow">in</span> <span class="n">dynamicCommunityReference</span><span class="o">.</span><span class="n">snapshot_affiliations</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+
+                <span class="c1">#for each node</span>
+                <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">comId</span> <span class="ow">in</span> <span class="n">affils</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">affilReference</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">comId</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>
+                    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">comsToEvaluate</span><span class="p">[</span><span class="n">t</span><span class="p">]:</span>
+                        <span class="n">affilToEvaluate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">comsToEvaluate</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">n</span><span class="p">])[</span><span class="mi">0</span><span class="p">]))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;node not in partition to evaluate: &quot;</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+                        <span class="n">affilToEvaluate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;-1&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+
+        <span class="n">affilReference</span><span class="o">=</span><span class="p">{}</span>
+        <span class="n">affilToEvaluate</span><span class="o">=</span><span class="p">{}</span>
+        <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">coms</span> <span class="ow">in</span> <span class="n">dynamicCommunityReference</span><span class="o">.</span><span class="n">snapshot_communities</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">all_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="nb">id</span><span class="p">,</span><span class="n">nodes</span> <span class="ow">in</span> <span class="n">coms</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">node_sn</span> <span class="o">=</span> <span class="p">{(</span><span class="n">n</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">}</span>
+                <span class="n">all_nodes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">node_sn</span><span class="p">)</span>
+                <span class="n">affilReference</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span><span class="nb">set</span><span class="p">())</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">node_sn</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="nb">id</span><span class="p">,</span><span class="n">nodes</span> <span class="ow">in</span> <span class="n">dynamicCommunityObserved</span><span class="o">.</span><span class="n">snapshot_communities</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">node_sn</span> <span class="o">=</span> <span class="p">{(</span><span class="n">n</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">}</span>
+
+                <span class="n">affilToEvaluate</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span><span class="nb">set</span><span class="p">())</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">node_sn</span> <span class="o">&amp;</span> <span class="n">all_nodes</span><span class="p">)</span>
+
+        <span class="n">affilReference</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">affilReference</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">affilToEvaluate</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">affilToEvaluate</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+
+    <span class="k">return</span> <span class="n">score</span><span class="p">(</span><span class="n">affilReference</span><span class="p">,</span><span class="n">affilToEvaluate</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="consecutive_sn_similarity"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.analytics.dynamic_partition.consecutive_sn_similarity.html#tnetwork.DCD.analytics.dynamic_partition.consecutive_sn_similarity">[docs]</a><span class="k">def</span> <span class="nf">consecutive_sn_similarity</span><span class="p">(</span><span class="n">dynamicCommunity</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">,</span><span class="n">score</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">       Similarity between partitions in consecutive snapshots.</span>
+
+<span class="sd">        Compute the average of a similarity score between all pair of successive partitions</span>
+
+<span class="sd">       :param dynamicCommunity: the dynamic partition to evaluate</span>
+<span class="sd">       :param score: the score to use for computing the similarity between each pair of snapshots. default: Overlapping NMI</span>
+<span class="sd">       :return: pair (list of scores, list of partition sizes (avg both partitions))</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">score</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">score</span><span class="o">=</span><span class="n">onmi</span> <span class="c1">#We use onmi because the number of labels can be different</span>
+    <span class="n">scores</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">sizes</span><span class="o">=</span><span class="p">[]</span>
+
+
+    <span class="c1">#for each step</span>
+    <span class="n">com_snapshots</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dynamicCommunity</span><span class="o">.</span><span class="n">snapshot_communities</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="c1">#print(com_snapshots)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">com_snapshots</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+
+        <span class="n">partition_before</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">com_snapshots</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">partition_after</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">com_snapshots</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+        <span class="n">elts_before</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">partition_before</span><span class="p">])</span>
+        <span class="n">elts_after</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">partition_after</span><span class="p">])</span>
+
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">(</span><span class="n">partition_before</span><span class="p">,</span><span class="n">partition_after</span><span class="p">))</span>
+        <span class="n">sizes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">elts_after</span><span class="o">+</span><span class="n">elts_before</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">scores</span><span class="p">,</span><span class="n">sizes</span></div>
+
+
+
+<div class="viewcode-block" id="similarity_at_each_step"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.analytics.dynamic_partition.similarity_at_each_step.html#tnetwork.DCD.analytics.dynamic_partition.similarity_at_each_step">[docs]</a><span class="k">def</span> <span class="nf">similarity_at_each_step</span><span class="p">(</span><span class="n">dynamicCommunityReference</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">,</span> <span class="n">dynamicCommunityObserved</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute similarity at each step</span>
+
+<span class="sd">    It takes into account the fact that the reference might by incomplete. (remove from the observations all nodes/time not present in the reference)</span>
+
+<span class="sd">    :param dynamicCommunityReference: the dynamic partition to use as reference</span>
+<span class="sd">    :param dynamicCommunityObserved: the dynamic partition to evaluate</span>
+<span class="sd">    :param score: score to use, default adjusted NMI</span>
+<span class="sd">    :return: pair (list of scores, list of sizes)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">score</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">score</span><span class="o">=</span><span class="n">sklearn</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">adjusted_mutual_info_score</span>
+    <span class="n">scores</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">sizes</span><span class="o">=</span><span class="p">[]</span>
+
+
+    <span class="n">comsToEvaluate</span> <span class="o">=</span> <span class="n">dynamicCommunityObserved</span><span class="o">.</span><span class="n">snapshot_affiliations</span><span class="p">()</span>
+
+    <span class="c1">#for each step</span>
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">affils</span> <span class="ow">in</span> <span class="n">dynamicCommunityReference</span><span class="o">.</span><span class="n">snapshot_affiliations</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">affilReference</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">affilToEvaluate</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1">#for each node</span>
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">comId</span> <span class="ow">in</span> <span class="n">affils</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">affilReference</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">comId</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">comsToEvaluate</span><span class="p">[</span><span class="n">t</span><span class="p">]:</span>
+                <span class="n">affilToEvaluate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">comsToEvaluate</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">n</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">affilToEvaluate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;-1&quot;</span><span class="p">)</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">(</span><span class="n">affilReference</span><span class="p">,</span><span class="n">affilToEvaluate</span><span class="p">))</span>
+        <span class="n">sizes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">affilReference</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">scores</span><span class="p">,</span><span class="n">sizes</span></div>
+
+
+
+
+<div class="viewcode-block" id="quality_at_each_step"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.analytics.dynamic_partition.quality_at_each_step.html#tnetwork.DCD.analytics.dynamic_partition.quality_at_each_step">[docs]</a><span class="k">def</span> <span class="nf">quality_at_each_step</span><span class="p">(</span><span class="n">dynamicCommunities</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">,</span><span class="n">dynamicGraph</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute a community quality at each step</span>
+
+<span class="sd">    :param dynamicCommunities: dynamic communities as SN</span>
+<span class="sd">    :param score: score to use, default: Modularity</span>
+<span class="sd">    :return: pair(scores, sizes)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">score</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">score</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">algorithms</span><span class="o">.</span><span class="n">community</span><span class="o">.</span><span class="n">modularity</span>
+    <span class="n">scores</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">sizes</span><span class="o">=</span><span class="p">[]</span>
+
+
+    <span class="c1">#for each step</span>
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">affils</span> <span class="ow">in</span> <span class="n">dynamicCommunities</span><span class="o">.</span><span class="n">snapshot_communities</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">dynamicGraph</span><span class="o">.</span><span class="n">snapshots</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">partition</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">affils</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">sc</span> <span class="o">=</span> <span class="n">score</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">partition</span><span class="p">)</span>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sc</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="c1">#print(&quot;problem to compute with partition: &quot;,partition,&quot; nodes&quot;,g.nodes())</span>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">sizes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">scores</span><span class="p">,</span><span class="n">sizes</span></div>
+
+<div class="viewcode-block" id="nb_node_change"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.analytics.dynamic_partition.nb_node_change.html#tnetwork.DCD.analytics.dynamic_partition.nb_node_change">[docs]</a><span class="k">def</span> <span class="nf">nb_node_change</span><span class="p">(</span><span class="n">dyn_com</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the total number of node changes</span>
+
+<span class="sd">    Measure of smoothness at the level of nodes, adapated to evaluate glitches</span>
+
+<span class="sd">    :param dyn_com: The dynamic community</span>
+<span class="sd">    :return: total number of node changes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coms_by_nodes</span><span class="o">=</span><span class="p">{}</span>
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">coms</span> <span class="ow">in</span> <span class="n">dyn_com</span><span class="o">.</span><span class="n">snapshot_communities</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1">#print(t,coms)</span>
+        <span class="k">for</span> <span class="n">com</span><span class="p">,</span><span class="n">nodes</span> <span class="ow">in</span> <span class="n">coms</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1">#print(n,com)</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+                <span class="n">coms_by_nodes</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">n</span><span class="p">,[</span><span class="n">com</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">coms_by_nodes</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">!=</span><span class="n">com</span><span class="p">:</span>
+                    <span class="n">coms_by_nodes</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">com</span><span class="p">)</span>
+    <span class="n">nb_changes</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">coms_by_nodes</span><span class="p">:</span>
+        <span class="c1">#print(n,coms_by_nodes[n])</span>
+        <span class="n">nb_changes</span><span class="o">+=</span><span class="nb">len</span><span class="p">(</span><span class="n">coms_by_nodes</span><span class="p">[</span><span class="n">n</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span>
+    <span class="k">return</span> <span class="n">nb_changes</span></div>
+
+
+<span class="c1"># def entropy(dyn_com,sn_duration=1):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Compute the entropy.</span>
+<span class="c1">#</span>
+<span class="c1">#     Consider each community label as a data value. The probability of observing this data value is the frequency of a random node to belong to the corresponding community.</span>
+<span class="c1">#</span>
+<span class="c1">#     Interpretation: The less communities, the lower the score. The less homogeneous the community sizes, the lower the score.</span>
+<span class="c1">#</span>
+<span class="c1">#     This score does not take into account the order of the community changes.</span>
+<span class="c1">#</span>
+<span class="c1">#     Be careful, convert SN graph into IG.</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">#     :param dyn_com: dynamic community to evaluate, can be SN or IG</span>
+<span class="c1">#     :param sn_duration: if graph is SN, used to</span>
+<span class="c1">#     :return:</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     dc2 = dyn_com</span>
+<span class="c1">#     fractions = []</span>
+<span class="c1">#     if isinstance(dc2,tn.DynCommunitiesSN):</span>
+<span class="c1">#         dc2 = dc2.to_DynCommunitiesIG(sn_duration=sn_duration)</span>
+<span class="c1">#     for com,nodes in dc2.communities().items():</span>
+<span class="c1">#         this_com_cumulated = 0</span>
+<span class="c1">#         for n,times in nodes.items():</span>
+<span class="c1">#             this_com_cumulated += times.duration()</span>
+<span class="c1">#         fractions.append(this_com_cumulated)</span>
+<span class="c1">#     sum_durations = sum(fractions)</span>
+<span class="c1">#     fractions = [x/sum_durations for x in fractions]</span>
+<span class="c1">#</span>
+<span class="c1">#     return scipy.stats.entropy(fractions)</span>
+
+<div class="viewcode-block" id="entropy_by_node"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.analytics.dynamic_partition.entropy_by_node.html#tnetwork.DCD.analytics.dynamic_partition.entropy_by_node">[docs]</a><span class="k">def</span> <span class="nf">entropy_by_node</span><span class="p">(</span><span class="n">dyn_com</span><span class="p">,</span><span class="n">sn_duration</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">fast_on_sn</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the entropy by node.</span>
+
+<span class="sd">    For each node, compute the shannon entropy of its labels. (always same label=min entropy, every step a new label=max entropy)</span>
+<span class="sd">    return the average value for all nodes</span>
+
+
+<span class="sd">    :param dyn_com: dynamic community to evaluate, can be SN or IG</span>
+<span class="sd">    :param sn_duration: if graph is SN, used to discretize</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dc2</span> <span class="o">=</span> <span class="n">dyn_com</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">fast_on_sn</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dc2</span><span class="p">,</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">sn_duration</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">dc2</span> <span class="o">=</span> <span class="n">dc2</span><span class="o">.</span><span class="n">_to_DynCommunitiesIG_fast</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dc2</span> <span class="o">=</span> <span class="n">dc2</span><span class="o">.</span><span class="n">to_DynCommunitiesIG</span><span class="p">(</span><span class="n">sn_duration</span><span class="o">=</span><span class="n">sn_duration</span><span class="p">)</span>
+    <span class="n">all_entropies</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">coms</span> <span class="ow">in</span> <span class="n">dc2</span><span class="o">.</span><span class="n">affiliations</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">fractions</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">com</span><span class="p">,</span><span class="n">times</span> <span class="ow">in</span> <span class="n">coms</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">fractions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">times</span><span class="o">.</span><span class="n">duration</span><span class="p">())</span>
+        <span class="n">sum_durations</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">fractions</span><span class="p">)</span>
+        <span class="n">fractions</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">/</span><span class="n">sum_durations</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fractions</span><span class="p">]</span>
+        <span class="n">ent_this_node</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">fractions</span><span class="p">)</span>
+        <span class="n">all_entropies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ent_this_node</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">all_entropies</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SM_N"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.analytics.dynamic_partition.SM_N.html#tnetwork.DCD.analytics.dynamic_partition.SM_N">[docs]</a><span class="k">def</span> <span class="nf">SM_N</span><span class="p">(</span><span class="n">dyn_com</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Smoothness for nodes</span>
+
+<span class="sd">    Inverse of the number of node changes</span>
+<span class="sd">    :param dyn_com: dynamic partition</span>
+<span class="sd">    :return: SM-N score</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="n">nb_node_change</span><span class="p">(</span><span class="n">dyn_com</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SM_P"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.analytics.dynamic_partition.SM_P.html#tnetwork.DCD.analytics.dynamic_partition.SM_P">[docs]</a><span class="k">def</span> <span class="nf">SM_P</span><span class="p">(</span><span class="n">dyn_com</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Smoothness for partitions</span>
+
+<span class="sd">    Averge of the NMI between successive snapshots</span>
+<span class="sd">    :param dyn_com: dynamic partition</span>
+<span class="sd">    :return: SM-P score</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">consecutive_NMIs</span> <span class="o">=</span> <span class="n">consecutive_sn_similarity</span><span class="p">(</span><span class="n">dyn_com</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">consecutive_NMIs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">weights</span><span class="o">=</span><span class="n">consecutive_NMIs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="SM_L"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.analytics.dynamic_partition.SM_L.html#tnetwork.DCD.analytics.dynamic_partition.SM_L">[docs]</a><span class="k">def</span> <span class="nf">SM_L</span><span class="p">(</span><span class="n">dyn_com</span><span class="p">,</span><span class="n">sn_duration</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Smoothness for labels</span>
+
+<span class="sd">    Inverse of the entropy by node</span>
+<span class="sd">    :param dyn_com: dyanamic partition</span>
+<span class="sd">    :param sn_duration: used to indicate the duration of snapshots if provided graph is a snapshot graph</span>
+<span class="sd">    :return:  SM-L score</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="n">entropy_by_node</span><span class="p">(</span><span class="n">dyn_com</span><span class="p">,</span><span class="n">sn_duration</span><span class="o">=</span><span class="n">sn_duration</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

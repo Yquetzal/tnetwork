@@ -1,0 +1,597 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Dynamic Communities detection and evaluation &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Documentation" href="../../../documentation.html" />
+    <link rel="prev" title="Generation of dynamic networks with communities" href="../demo_generation/demo_generation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_intro/demo_intro.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html">Dynamic Network Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_community_classes/demo_community_classes.html">Dynamic Community classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_visu/demo_visu.html">Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_generation/demo_generation.html">Generation of dynamic networks with communities</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Dynamic Communities detection and evaluation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-an-example-dynamic-graph-with-changing-community-structure">Creating an example dynamic graph with changing community structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#first-algorithm-iterative-match">First algorithm: Iterative match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualizing-communities">Visualizing communities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#survival-graph">Survival Graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#smoothed-louvain">Smoothed louvain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#smoothed-graph">Smoothed graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#matching-with-a-custom-function">Matching with a custom function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#another-algoritm-in-python-cpm">Another algoritm in python: CPM</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dynamic-partition-evaluation">Dynamic partition evaluation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#quality-at-each-step">Quality at each step</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#average-values">Average values</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#similarity-at-each-step">Similarity at each step</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#smoothness-evaluation">Smoothness Evaluation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#global-scores">Global scores</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#longitudinal-similarity">Longitudinal Similarity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#global-smoothness">Global Smoothness</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../tutorials.html">Tutorials</a> &raquo;</li>
+        
+      <li>Dynamic Communities detection and evaluation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/reference/from_notebooks/demo_DCD/demo_DCD.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="dynamic-communities-detection-and-evaluation">
+<h1>Dynamic Communities detection and evaluation<a class="headerlink" href="#dynamic-communities-detection-and-evaluation" title="Permalink to this headline">¶</a></h1>
+<p>If tnerwork library is not installed, you need to install it, for
+instance using the following command</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%capture #avoid printing output</span>
+<span class="c1">#!pip install --upgrade git+https://github.com/Yquetzal/tnetwork.git</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+<span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">tn</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+<div class="section" id="creating-an-example-dynamic-graph-with-changing-community-structure">
+<h2>Creating an example dynamic graph with changing community structure<a class="headerlink" href="#creating-an-example-dynamic-graph-with-changing-community-structure" title="Permalink to this headline">¶</a></h2>
+<p>We create a simple example of dynamic community evolution using the
+generator provided in the library. We generate a simple ship of Theseus
+scenario. Report to the corresponding tutorial to fully understand the
+generation part if needed.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span><span class="n">random_noise</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">])</span>
+<span class="p">(</span><span class="n">com2</span><span class="p">,</span><span class="n">com3</span><span class="p">)</span><span class="o">=</span><span class="n">my_scenario</span><span class="o">.</span><span class="n">THESEUS</span><span class="p">(</span><span class="n">com2</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">CONTINUE</span><span class="p">(</span><span class="n">com3</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1">#visualization</span>
+<span class="p">(</span><span class="n">generated_network_IG</span><span class="p">,</span><span class="n">generated_comunities_IG</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network_IG</span><span class="p">,</span><span class="n">generated_comunities_IG</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">generated_network_SN</span> <span class="o">=</span> <span class="n">generated_network_IG</span><span class="o">.</span><span class="n">to_DynGraphSN</span><span class="p">(</span><span class="n">slices</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">generated_communities_SN</span> <span class="o">=</span> <span class="n">generated_comunities_IG</span><span class="o">.</span><span class="n">to_DynCommunitiesSN</span><span class="p">(</span><span class="n">slices</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">8</span> <span class="n">of</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00/usr/local/lib/python3.7/site-packages/numpy/core/numeric.py:2327: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison</span>
+  <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">asarray</span><span class="p">(</span><span class="n">a1</span> <span class="o">==</span> <span class="n">a2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_5_1.png" src="../../../_images/output_5_1.png" />
+<p>Let’s look at the graph at different stages. There are no communities.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_time</span> <span class="o">=</span> <span class="n">generated_network_IG</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">last_time</span><span class="p">)</span>
+<span class="n">times_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">last_time</span><span class="o">/</span><span class="mi">3</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">last_time</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span><span class="n">last_time</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network_IG</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="n">times_to_plot</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">102</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_7_1.png" src="../../../_images/output_7_1.png" />
+<p>Algorithms for community detection are located in the tnetwork.DCD
+package</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tnetwork.DCD</span> <span class="k">as</span> <span class="nn">DCD</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="first-algorithm-iterative-match">
+<h2>First algorithm: Iterative match<a class="headerlink" href="#first-algorithm-iterative-match" title="Permalink to this headline">¶</a></h2>
+<p>Iterative match consists in applying a static algorithm at each step and
+matching communities in successive snapshots if they are similar. Check
+the doc for more details.</p>
+<p>Without particular parameters, it uses the louvain method and the
+jaccard coefficient.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">com_iterative</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">iterative_match</span><span class="p">(</span><span class="n">generated_network_SN</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The static algorithm, the similarity function and the threashold to
+consider similar can be changed</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">custom_match_function</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">&amp;</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="n">com_custom</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">iterative_match</span><span class="p">(</span><span class="n">generated_network_SN</span><span class="p">,</span><span class="n">match_function</span><span class="o">=</span><span class="n">custom_match_function</span><span class="p">,</span><span class="n">CDalgo</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">community</span><span class="o">.</span><span class="n">greedy_modularity_communities</span><span class="p">,</span><span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="visualizing-communities">
+<h2>Visualizing communities<a class="headerlink" href="#visualizing-communities" title="Permalink to this headline">¶</a></h2>
+<p>One way to visualize the evolution of communities is to plot the graph
+at some snapshots. By calling the <code class="docutils literal notranslate"><span class="pre">plot_as_graph</span></code> function with
+several timestamps, we plot graphs at those timestamps while ensuring:</p>
+<ul class="simple">
+<li><p>That the position of nodes stay the same between snapshots</p></li>
+<li><p>That the same color in different plots means that nodes belong to the
+same dynamic communities</p></li>
+</ul>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_time</span> <span class="o">=</span> <span class="n">generated_network_IG</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+<span class="n">times_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">last_time</span><span class="o">/</span><span class="mi">3</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">last_time</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span><span class="n">last_time</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network_IG</span><span class="p">,</span><span class="n">com_iterative</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="n">times_to_plot</span><span class="p">,</span><span class="n">auto_show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_16_0.png" src="../../../_images/output_16_0.png" />
+<p>Another solution is to plot a longitudinal visualization: each
+horizontal line corresponds to a node, time is on the x axis, and colors
+correspond to communities. Grey means that a node corresponds to no
+community, white that the node is not present in the graph (or has no
+edges)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">to_plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network_SN</span><span class="p">,</span><span class="n">com_iterative</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_18_0.png" src="../../../_images/output_18_0.png" />
+<div class="section" id="survival-graph">
+<h3>Survival Graph<a class="headerlink" href="#survival-graph" title="Permalink to this headline">¶</a></h3>
+<p>This method matches communities not only between successive snaphsots,
+but between any snapshot, constituting a survival graph on which a
+community detection algorithm detects communities of communities =&gt;
+Dynamic communities</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">com_survival</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">label_smoothing</span><span class="p">(</span><span class="n">generated_network_SN</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network_SN</span><span class="p">,</span><span class="n">com_survival</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">starting</span> <span class="n">label_smoothing</span> <span class="n">method</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_20_1.png" src="../../../_images/output_20_1.png" />
+</div>
+<div class="section" id="smoothed-louvain">
+<h3>Smoothed louvain<a class="headerlink" href="#smoothed-louvain" title="Permalink to this headline">¶</a></h3>
+<p>The smoothed Louvain algorihm is very similar to the simple iterative
+match, at the difference that, at each step, it initializes the
+partition of the Louvain algorithm with the previous partition instead
+of having each node in its own community as in usual Louvain.</p>
+<p>It has the same options as iterative match, since only the community
+detection process at each step changes, not the matching</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">com_smoothed</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">smoothed_louvain</span><span class="p">(</span><span class="n">generated_network_SN</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network_SN</span><span class="p">,</span><span class="n">com_smoothed</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">98</span><span class="o">%</span> <span class="p">(</span><span class="mi">100</span> <span class="n">of</span> <span class="mi">102</span><span class="p">)</span> <span class="o">|</span><span class="c1">##################### | Elapsed Time: 0:00:00 ETA:   0:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_22_1.png" src="../../../_images/output_22_1.png" />
+</div>
+<div class="section" id="smoothed-graph">
+<h3>Smoothed graph<a class="headerlink" href="#smoothed-graph" title="Permalink to this headline">¶</a></h3>
+<p>The smoothed-graph algorithm is similar to the previous ones, but the
+graph at each step is <em>smoothed</em> by the community structure found in the
+previous step. (An edge with a small weight is added between any pair of
+nodes that where in the same community previously. This weight is
+determined by a parameter <code class="docutils literal notranslate"><span class="pre">alpha</span></code>)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">com_smoothed_graph</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">smoothed_graph</span><span class="p">(</span><span class="n">generated_network_SN</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network_SN</span><span class="p">,</span><span class="n">com_smoothed_graph</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">97</span><span class="o">%</span> <span class="p">(</span><span class="mi">99</span> <span class="n">of</span> <span class="mi">102</span><span class="p">)</span> <span class="o">|</span><span class="c1">###################### | Elapsed Time: 0:00:00 ETA:   0:00:00</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_24_1.png" src="../../../_images/output_24_1.png" />
+</div>
+<div class="section" id="matching-with-a-custom-function">
+<h3>Matching with a custom function<a class="headerlink" href="#matching-with-a-custom-function" title="Permalink to this headline">¶</a></h3>
+<p>The iterative match and survival graph methods can also be instantiated
+with any custom community detection algorithm at each step, and any
+matching function, as we can see below. The match function takes as
+input the list of nodes of both communities, while the community
+algorithm must follow the signature of networkx community detection
+algorithms</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">custom_match_function</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">&amp;</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="n">com_custom2</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">iterative_match</span><span class="p">(</span><span class="n">generated_network_SN</span><span class="p">,</span><span class="n">match_function</span><span class="o">=</span><span class="n">custom_match_function</span><span class="p">,</span><span class="n">CDalgo</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">community</span><span class="o">.</span><span class="n">greedy_modularity_communities</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network_SN</span><span class="p">,</span><span class="n">com_custom2</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_26_0.png" src="../../../_images/output_26_0.png" />
+</div>
+<div class="section" id="another-algoritm-in-python-cpm">
+<h3>Another algoritm in python: CPM<a class="headerlink" href="#another-algoritm-in-python-cpm" title="Permalink to this headline">¶</a></h3>
+<p>CPM stands for Clique Percolation Method. An originality of this
+approach is that it yiealds overlapping communities.</p>
+<p>Be careful, the visualization is not currently adapted to overlapping
+clusters…</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">com_CPM</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">rollingCPM</span><span class="p">(</span><span class="n">generated_network_SN</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network_SN</span><span class="p">,</span><span class="n">com_CPM</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CD</span> <span class="n">detection</span> <span class="n">done</span> <span class="mi">102</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_28_1.png" src="../../../_images/output_28_1.png" />
+</div>
+</div>
+<div class="section" id="dynamic-partition-evaluation">
+<h2>Dynamic partition evaluation<a class="headerlink" href="#dynamic-partition-evaluation" title="Permalink to this headline">¶</a></h2>
+<p>The goal of this section is to present the different types of dynamic
+community evalutation implemented in tnetwork.</p>
+<p>For all evaluations below, no conclusion should be drawn about the
+quality of algorithms… .</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Visualization</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">communities</span><span class="o">=</span><span class="n">generated_comunities_IG</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span><span class="n">sn_duration</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_30_0.png" src="../../../_images/output_30_0.png" />
+<div class="section" id="quality-at-each-step">
+<h3>Quality at each step<a class="headerlink" href="#quality-at-each-step" title="Permalink to this headline">¶</a></h3>
+<p>The first type of evaluation we can do is simply to compute, at each
+type, a quality measure. By default, the method uses Modularity, but one
+can provide to the function its favorite quality function instead. It is
+the simplest adaptation of <em>internal evaluation</em>.</p>
+<p>Note that * The result of an iterative approach is identical to the
+result of simply applying a static algorithm at each step * Smoothing
+therefore tends to lesser the scores. * The result migth or might not
+be computable at each step depending on the quality function used (e.g.,
+modularity requires a complete partition of the networks to be computed)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quality_ref</span><span class="p">,</span><span class="n">sizes_ref</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">quality_at_each_step</span><span class="p">(</span><span class="n">generated_communities_SN</span><span class="p">,</span><span class="n">generated_network_SN</span><span class="p">)</span>
+<span class="n">quality_iter</span><span class="p">,</span><span class="n">sizes_iter</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">quality_at_each_step</span><span class="p">(</span><span class="n">com_iterative</span><span class="p">,</span><span class="n">generated_network_SN</span><span class="p">)</span>
+<span class="n">quality_survival</span><span class="p">,</span><span class="n">sizes_survival</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">quality_at_each_step</span><span class="p">(</span><span class="n">com_survival</span><span class="p">,</span><span class="n">generated_network_SN</span><span class="p">)</span>
+<span class="n">quality_smoothed</span><span class="p">,</span><span class="n">sizes_smoothed</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">quality_at_each_step</span><span class="p">(</span><span class="n">com_smoothed</span><span class="p">,</span><span class="n">generated_network_SN</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;reference&quot;</span><span class="p">:</span><span class="n">quality_ref</span><span class="p">,</span><span class="s2">&quot;iterative&quot;</span><span class="p">:</span><span class="n">quality_iter</span><span class="p">,</span><span class="s2">&quot;survival&quot;</span><span class="p">:</span><span class="n">quality_survival</span><span class="p">,</span><span class="s2">&quot;smoothed&quot;</span><span class="p">:</span><span class="n">quality_smoothed</span><span class="p">})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_subplots</span><span class="o">.</span><span class="n">AxesSubplot</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x11f1bd8d0</span><span class="o">&gt;</span><span class="p">,</span>
+       <span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_subplots</span><span class="o">.</span><span class="n">AxesSubplot</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x11f5aa6d0</span><span class="o">&gt;</span><span class="p">,</span>
+       <span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_subplots</span><span class="o">.</span><span class="n">AxesSubplot</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x11e993e10</span><span class="o">&gt;</span><span class="p">,</span>
+       <span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_subplots</span><span class="o">.</span><span class="n">AxesSubplot</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x108343d10</span><span class="o">&gt;</span><span class="p">],</span>
+      <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_32_1.png" src="../../../_images/output_32_1.png" />
+</div>
+<div class="section" id="average-values">
+<h3>Average values<a class="headerlink" href="#average-values" title="Permalink to this headline">¶</a></h3>
+<p>One can of course compute average values over all steps. Be careful
+however when interpreting such values, as there are many potential
+biases: * Some scores (such as modularity) are not comparable between
+graphs of different sizes/density, so averaging values obtained on
+different timesteps might be incorrect * The <em>clarity</em> of the community
+structure might not be homogeneous, and your score might end up
+depending mostly on results on a specific period * Since the number of
+nodes change in every step, we have the choice of weighting the values
+by the size of the network * etc.</p>
+<p>Since the process is the same for all later functions, we won’t repeat
+it for the others in this tutorial</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iterative=&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">quality_iter</span><span class="p">),</span><span class="s2">&quot;weighted:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">quality_iter</span><span class="p">,</span><span class="n">weights</span><span class="o">=</span><span class="n">sizes_iter</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;survival=&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">quality_survival</span><span class="p">),</span><span class="s2">&quot;weighted:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">quality_survival</span><span class="p">,</span><span class="n">weights</span><span class="o">=</span><span class="n">sizes_survival</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;smoothed=&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">quality_smoothed</span><span class="p">),</span><span class="s2">&quot;weighted:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">quality_smoothed</span><span class="p">,</span><span class="n">weights</span><span class="o">=</span><span class="n">sizes_smoothed</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">iterative</span><span class="o">=</span> <span class="mf">0.4289862014179952</span> <span class="n">weighted</span><span class="p">:</span> <span class="mf">0.4357461539951767</span>
+<span class="n">survival</span><span class="o">=</span> <span class="mf">0.39927872978552464</span> <span class="n">weighted</span><span class="p">:</span> <span class="mf">0.39689292217118277</span>
+<span class="n">smoothed</span><span class="o">=</span> <span class="mf">0.42992554634769103</span> <span class="n">weighted</span><span class="p">:</span> <span class="mf">0.4365993079467363</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="similarity-at-each-step">
+<h3>Similarity at each step<a class="headerlink" href="#similarity-at-each-step" title="Permalink to this headline">¶</a></h3>
+<p>A second type of evaluation consists in adaptating <em>external
+evaluation</em>, i.e., comparison with a known reference truth.</p>
+<p>It simply computes at each step the similarity between the computed
+communities and the ground truth. By default, the function uses the
+Adjusted Mutual Information (AMI or aNMI), but again, any similarity
+measure can be provided to the function.</p>
+<p>Note that, as for quality at each step, smoothing is not an advantage,
+community identities accross steps has no impact.</p>
+<p>There is a subtility here: since, often, the dynamic ground truth might
+have some nodes without affiliations, we make the choice of comparing
+only what is known in the ground truth, i.e., if only 5 nodes out of 10
+have a community in the ground truth at time t, the score of the
+proposed solution will depends only on those 5 nodes, and the
+affiliations of the 5 others is ignored</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quality_iter</span><span class="p">,</span><span class="n">sizes</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">similarity_at_each_step</span><span class="p">(</span><span class="n">generated_communities_SN</span><span class="p">,</span><span class="n">com_iterative</span><span class="p">)</span>
+<span class="n">quality_survival</span><span class="p">,</span><span class="n">sizes</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">similarity_at_each_step</span><span class="p">(</span><span class="n">generated_communities_SN</span><span class="p">,</span><span class="n">com_survival</span><span class="p">)</span>
+<span class="n">quality_smoothed</span><span class="p">,</span><span class="n">sizes</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">similarity_at_each_step</span><span class="p">(</span><span class="n">generated_communities_SN</span><span class="p">,</span><span class="n">com_smoothed</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;iterative&quot;</span><span class="p">:</span><span class="n">quality_iter</span><span class="p">,</span><span class="s2">&quot;survival&quot;</span><span class="p">:</span><span class="n">quality_survival</span><span class="p">,</span><span class="s2">&quot;smoothed&quot;</span><span class="p">:</span><span class="n">quality_smoothed</span><span class="p">})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_subplots</span><span class="o">.</span><span class="n">AxesSubplot</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x11fb59290</span><span class="o">&gt;</span><span class="p">,</span>
+       <span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_subplots</span><span class="o">.</span><span class="n">AxesSubplot</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x11f90ccd0</span><span class="o">&gt;</span><span class="p">,</span>
+       <span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_subplots</span><span class="o">.</span><span class="n">AxesSubplot</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x11eb31c50</span><span class="o">&gt;</span><span class="p">],</span>
+      <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_36_1.png" src="../../../_images/output_36_1.png" />
+</div>
+</div>
+<div class="section" id="smoothness-evaluation">
+<h2>Smoothness Evaluation<a class="headerlink" href="#smoothness-evaluation" title="Permalink to this headline">¶</a></h2>
+<p>We can evaluate the smoothness of a partition by comparing how the
+partition in each step is similar to the partition in the next. Again,
+any measure can be used, by default the overlapping NMI, because two
+adjacent partitions do not necessarily have the same nodes. * This
+evaluation is <em>internal</em>. * This time, it depends on the <em>labels</em> given
+to nodes accross steps, so a static algorithm applied at each step would
+have a score of zero. * The score does not depends at all on the
+quality of the solution, i.e., having all nodes in the same partition at
+every step would obtain a perfect score of 1</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quality_ref</span><span class="p">,</span><span class="n">sizes_ref</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">consecutive_sn_similarity</span><span class="p">(</span><span class="n">generated_communities_SN</span><span class="p">)</span>
+<span class="n">quality_iter</span><span class="p">,</span><span class="n">sizes_iter</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">consecutive_sn_similarity</span><span class="p">(</span><span class="n">com_iterative</span><span class="p">)</span>
+<span class="n">quality_survival</span><span class="p">,</span><span class="n">sizes_survival</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">consecutive_sn_similarity</span><span class="p">(</span><span class="n">com_survival</span><span class="p">)</span>
+<span class="n">quality_smoothed</span><span class="p">,</span><span class="n">sizes_smoothed</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">consecutive_sn_similarity</span><span class="p">(</span><span class="n">com_smoothed</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;reference&quot;</span><span class="p">:</span><span class="n">quality_ref</span><span class="p">,</span><span class="s2">&quot;iterative&quot;</span><span class="p">:</span><span class="n">quality_iter</span><span class="p">,</span><span class="s2">&quot;survival&quot;</span><span class="p">:</span><span class="n">quality_survival</span><span class="p">,</span><span class="s2">&quot;smoothed&quot;</span><span class="p">:</span><span class="n">quality_smoothed</span><span class="p">})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_subplots</span><span class="o">.</span><span class="n">AxesSubplot</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x11f103850</span><span class="o">&gt;</span><span class="p">,</span>
+       <span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_subplots</span><span class="o">.</span><span class="n">AxesSubplot</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x11c7af710</span><span class="o">&gt;</span><span class="p">,</span>
+       <span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_subplots</span><span class="o">.</span><span class="n">AxesSubplot</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x11fc5c7d0</span><span class="o">&gt;</span><span class="p">,</span>
+       <span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_subplots</span><span class="o">.</span><span class="n">AxesSubplot</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x11f46e610</span><span class="o">&gt;</span><span class="p">],</span>
+      <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_38_1.png" src="../../../_images/output_38_1.png" />
+</div>
+<div class="section" id="global-scores">
+<h2>Global scores<a class="headerlink" href="#global-scores" title="Permalink to this headline">¶</a></h2>
+<p>Another family of scores we can compute are not based on step by step
+computations, but rather compute directly a single score on whole
+communities</p>
+<div class="section" id="longitudinal-similarity">
+<h3>Longitudinal Similarity<a class="headerlink" href="#longitudinal-similarity" title="Permalink to this headline">¶</a></h3>
+<p>This score is computed using a usual similarity measure, by default the
+AMI. But instead of computing the score for each step independently, it
+is computed once, consider each (node,time) pair as a data point
+(instead of each node in a static network). * The evaluation is
+<em>external</em>, it requires a (longitudinal) reference partition * It takes
+into account both the similarity at each step and the labels accros
+steps * Similar to step by step similarity, only (node,time) couples
+with a known affiliation in the reference partition are used, others are
+ignored</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quality_iter</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">longitudinal_similarity</span><span class="p">(</span><span class="n">generated_communities_SN</span><span class="p">,</span><span class="n">com_iterative</span><span class="p">)</span>
+<span class="n">quality_survival</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">longitudinal_similarity</span><span class="p">(</span><span class="n">generated_communities_SN</span><span class="p">,</span><span class="n">com_survival</span><span class="p">)</span>
+<span class="n">quality_smoothed</span> <span class="o">=</span> <span class="n">DCD</span><span class="o">.</span><span class="n">longitudinal_similarity</span><span class="p">(</span><span class="n">generated_communities_SN</span><span class="p">,</span><span class="n">com_smoothed</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iterative: &quot;</span><span class="p">,</span><span class="n">quality_iter</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;survival: &quot;</span><span class="p">,</span><span class="n">quality_survival</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;smoothed: &quot;</span><span class="p">,</span><span class="n">quality_smoothed</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">iterative</span><span class="p">:</span>  <span class="mf">0.9451292907933111</span>
+<span class="n">survival</span><span class="p">:</span>  <span class="mf">0.8234124633781458</span>
+<span class="n">smoothed</span><span class="p">:</span>  <span class="mf">0.9868504021347683</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="global-smoothness">
+<h3>Global Smoothness<a class="headerlink" href="#global-smoothness" title="Permalink to this headline">¶</a></h3>
+<p>Trhee methods are proposed to evaluate the smoothness at the global
+level.</p>
+<p>The first is the average value of partition smoothness as presented
+earlier, and is called <code class="docutils literal notranslate"><span class="pre">SM-P</span></code> for Partition Smoothness</p>
+<p>The second one computes how many changes in affiliation there are, and
+the score <code class="docutils literal notranslate"><span class="pre">SM-N</span></code> (Node Smoothness) is 1/number of changes * It
+penalizes methods with many <em>glitches</em>, i.e., transient affiliation
+change. * It does not penalize long term changes</p>
+<p>The third computes instead the entropy per node, and the score <code class="docutils literal notranslate"><span class="pre">SM-L</span></code>
+(Label smoothness) is 1/average node entropy. * It does not penalize
+much glitches * It advantages solutions in which nodes tend to belong
+to few communities</p>
+<p>For all 3 scores, higher is better.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iterative: SM-P&quot;</span> <span class="p">,</span><span class="n">DCD</span><span class="o">.</span><span class="n">SM_P</span><span class="p">(</span><span class="n">com_iterative</span><span class="p">),</span> <span class="s2">&quot;SM-N:&quot;</span><span class="p">,</span><span class="n">DCD</span><span class="o">.</span><span class="n">SM_N</span><span class="p">(</span><span class="n">com_iterative</span><span class="p">),</span> <span class="s2">&quot; SM-L:&quot;</span><span class="p">,</span><span class="n">DCD</span><span class="o">.</span><span class="n">SM_L</span><span class="p">(</span><span class="n">com_iterative</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;survival: SM-P &quot;</span><span class="p">,</span><span class="n">DCD</span><span class="o">.</span><span class="n">SM_P</span><span class="p">(</span><span class="n">com_survival</span><span class="p">),</span> <span class="s2">&quot;SM-N:&quot;</span><span class="p">,</span><span class="n">DCD</span><span class="o">.</span><span class="n">SM_N</span><span class="p">(</span><span class="n">com_survival</span><span class="p">),</span> <span class="s2">&quot; SM-L:&quot;</span><span class="p">,</span><span class="n">DCD</span><span class="o">.</span><span class="n">SM_L</span><span class="p">(</span><span class="n">com_survival</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;smoothed: SM-P:&quot;</span><span class="p">,</span><span class="n">DCD</span><span class="o">.</span><span class="n">SM_P</span><span class="p">(</span><span class="n">com_smoothed</span><span class="p">),</span> <span class="s2">&quot;SM-N:&quot;</span><span class="p">,</span><span class="n">DCD</span><span class="o">.</span><span class="n">SM_N</span><span class="p">(</span><span class="n">com_smoothed</span><span class="p">),</span> <span class="s2">&quot; SM-L:&quot;</span><span class="p">,</span><span class="n">DCD</span><span class="o">.</span><span class="n">SM_L</span><span class="p">(</span><span class="n">com_smoothed</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">iterative</span><span class="p">:</span> <span class="n">SM</span><span class="o">-</span><span class="n">P</span> <span class="mf">0.9001839896381273</span> <span class="n">SM</span><span class="o">-</span><span class="n">N</span><span class="p">:</span> <span class="mf">0.023255813953488372</span>  <span class="n">SM</span><span class="o">-</span><span class="n">L</span><span class="p">:</span> <span class="mf">3.6914110221883676</span>
+<span class="n">survival</span><span class="p">:</span> <span class="n">SM</span><span class="o">-</span><span class="n">P</span>  <span class="mf">0.9026384453495243</span> <span class="n">SM</span><span class="o">-</span><span class="n">N</span><span class="p">:</span> <span class="mf">0.03333333333333333</span>  <span class="n">SM</span><span class="o">-</span><span class="n">L</span><span class="p">:</span> <span class="mf">18.48733611718878</span>
+<span class="n">smoothed</span><span class="p">:</span> <span class="n">SM</span><span class="o">-</span><span class="n">P</span><span class="p">:</span> <span class="mf">0.9470754696907387</span> <span class="n">SM</span><span class="o">-</span><span class="n">N</span><span class="p">:</span> <span class="mf">0.05555555555555555</span>  <span class="n">SM</span><span class="o">-</span><span class="n">L</span><span class="p">:</span> <span class="mf">4.416478672484498</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../../documentation.html" class="btn btn-neutral float-right" title="Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../demo_generation/demo_generation.html" class="btn btn-neutral float-left" title="Generation of dynamic networks with communities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,856 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tnetwork.dyn_graph.dyn_graph_sn &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/from_notebooks/demo_intro/demo_intro.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>tnetwork.dyn_graph.dyn_graph_sn</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tnetwork.dyn_graph.dyn_graph_sn</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sortedcontainers</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span>
+
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span> <span class="nn">bidict</span>
+<span class="kn">import</span> <span class="nn">pkg_resources</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">tn</span>
+<span class="kn">import</span> <span class="nn">numbers</span>
+<span class="kn">from</span> <span class="nn">tnetwork.dyn_graph.dyn_graph</span> <span class="kn">import</span> <span class="n">DynGraph</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+
+<div class="viewcode-block" id="DynGraphSN"><a class="viewcode-back" href="../../../reference/dyn_graph.html#tnetwork.DynGraphSN">[docs]</a><span class="k">class</span> <span class="nc">DynGraphSN</span><span class="p">(</span><span class="n">DynGraph</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to represent dynamic graphs as snapshot sequence.</span>
+
+<span class="sd">    Each snapshot is represented as a networkx graph, and is associated to a time step identifier. The time step can be</span>
+<span class="sd">    an position in the sequence (1,2,3,...) or an arbitrary temporal indicator (year, timestamp...).</span>
+
+<span class="sd">    Snpashots are ordered according to their time step identifier using a sorted dictionary (SortedDict).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instanciate a new graph, with or without initial data</span>
+
+<span class="sd">        :param data: can be a dictionary {time step:graph} or a list of graph, in which sase time steps are integers starting at 0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span> <span class="o">=</span> <span class="n">sortedcontainers</span><span class="o">.</span><span class="n">SortedDict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="nb">dict</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span> <span class="o">=</span> <span class="n">sortedcontainers</span><span class="o">.</span><span class="n">SortedDict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span> <span class="o">=</span> <span class="n">sortedcontainers</span><span class="o">.</span><span class="n">SortedDict</span><span class="p">({</span><span class="n">i</span><span class="p">:</span><span class="n">g</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">g</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">)})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;data should be a list or a dictionary&quot;</span><span class="p">)</span>
+
+
+
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Time of the first snapshot</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Time of the last snapshot</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">graph_socioPatterns2012</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function that return the graph of interactions between students in 2012, from the SocioPatterns project.</span>
+<span class="sd">        &gt;&gt;&gt; dg = DynGraphSN.graph_socioPatterns2012()</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resource_package</span> <span class="o">=</span> <span class="vm">__name__</span>
+        <span class="n">resource_path</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s1">&#39;toy_data&#39;</span><span class="p">,</span> <span class="s1">&#39;thiers_2012.csv&#39;</span><span class="p">))</span>
+        <span class="n">fileLocation</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="n">resource_package</span><span class="p">,</span> <span class="n">resource_path</span><span class="p">)</span>
+
+
+        <span class="n">dg</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">read_graph_link_stream</span><span class="p">(</span><span class="n">fileLocation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dg</span>
+
+    <span class="c1"># function to add to dyn_graph_sn.py</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">graph_socioPatterns_Primary_School</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function that return the graph of interactions between children and teachers, from the SocioPatterns project.</span>
+<span class="sd">        &gt;&gt;&gt; dg = DynGraphSN.graph_socioPatterns_Primary_School()</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resource_package</span> <span class="o">=</span> <span class="vm">__name__</span>
+        <span class="n">resource_path</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s1">&#39;toy_data&#39;</span><span class="p">,</span> <span class="s1">&#39;Primary_School.csv&#39;</span><span class="p">))</span>
+        <span class="n">fileLocation</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="n">resource_package</span><span class="p">,</span> <span class="n">resource_path</span><span class="p">)</span>
+
+        <span class="n">dg</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">read_graph_link_stream</span><span class="p">(</span><span class="n">fileLocation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dg</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">graph_socioPatterns_Hospital</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function that return the graph of interactions in the hospital of Lyon between patients and medical staff, from the SocioPatterns project.</span>
+<span class="sd">        &gt;&gt;&gt; dg = DynGraphSN.graph_socioPatterns_Hospital()</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">resource_package</span> <span class="o">=</span> <span class="vm">__name__</span>
+        <span class="n">resource_path</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s1">&#39;toy_data&#39;</span><span class="p">,</span> <span class="s1">&#39;Contacts_Hospital.csv&#39;</span><span class="p">))</span>
+        <span class="n">fileLocation</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="n">resource_package</span><span class="p">,</span> <span class="n">resource_path</span><span class="p">)</span>
+
+        <span class="n">dg</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">read_graph_link_stream</span><span class="p">(</span><span class="n">fileLocation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dg</span>
+
+<div class="viewcode-block" id="DynGraphSN.add_node_presence"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.add_node_presence.html#tnetwork.DynGraphSN.add_node_presence">[docs]</a>    <span class="k">def</span> <span class="nf">add_node_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add presence for a node at a time</span>
+
+<span class="sd">        :param n: node</span>
+<span class="sd">        :param time: a snapshot time</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">time</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">time</span><span class="p">]</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DynGraphSN.add_nodes_presence_from"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.add_nodes_presence_from.html#tnetwork.DynGraphSN.add_nodes_presence_from">[docs]</a>    <span class="k">def</span> <span class="nf">add_nodes_presence_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span><span class="n">times</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add interactions between nodes for times</span>
+
+<span class="sd">        :param nodes: list of nodes, or a single node</span>
+<span class="sd">        :param times: list of times of same length as node, or a single time</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="n">nodes</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">):</span> <span class="c1">#means it is a single time, not list of times</span>
+            <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">times</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodes</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_node_presence</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="DynGraphSN.remove_node_presence"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.remove_node_presence.html#tnetwork.DynGraphSN.remove_node_presence">[docs]</a>    <span class="k">def</span> <span class="nf">remove_node_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove presence for a node at a time</span>
+
+<span class="sd">        :param n: node</span>
+<span class="sd">        :param time: a snapshot time</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">time</span><span class="p">]</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DynGraphSN.add_interaction"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.add_interaction.html#tnetwork.DynGraphSN.add_interaction">[docs]</a>    <span class="k">def</span> <span class="nf">add_interaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a single interaction at a single time step.</span>
+
+<span class="sd">        :param u: first node</span>
+<span class="sd">        :param v: second node</span>
+<span class="sd">        :param time: time step identifier</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_interactions_from</span><span class="p">([(</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">)],[</span><span class="n">time</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="DynGraphSN.add_interactions_from"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.add_interactions_from.html#tnetwork.DynGraphSN.add_interactions_from">[docs]</a>    <span class="k">def</span> <span class="nf">add_interactions_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodePairs</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add interactions between the provided node pairs for the provided times.</span>
+
+<span class="sd">        If one the two parameters is a single element,</span>
+<span class="sd">        will add the node pair at all provided time steps, or all the node pairs at the provided time step.</span>
+
+<span class="sd">        :param nodePairs: list of pairs of nodes, or a single pair of nodes</span>
+<span class="sd">        :param times: list of times for this node, or a single time</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#note: could be optimized</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">Iterable</span><span class="p">)):</span>
+            <span class="n">nodePairs</span> <span class="o">=</span> <span class="p">[</span><span class="n">nodePairs</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">times</span><span class="p">,</span><span class="n">Iterable</span><span class="p">):</span>
+            <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">times</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">nodePair</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">):</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">apply_nx_function</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="n">t</span><span class="p">,</span><span class="n">stop</span><span class="o">=</span><span class="n">t</span><span class="p">,</span><span class="n">u_of_edge</span><span class="o">=</span><span class="n">nodePair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">v_of_edge</span><span class="o">=</span><span class="n">nodePair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="DynGraphSN.remove_interaction"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interaction.html#tnetwork.DynGraphSN.remove_interaction">[docs]</a>    <span class="k">def</span> <span class="nf">remove_interaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove a single interaction at a single time step.</span>
+
+<span class="sd">        Note: it does not remove the node</span>
+
+<span class="sd">        :param u: first node</span>
+<span class="sd">        :param v: second node</span>
+<span class="sd">        :param time: time step identifier</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_interactions_from</span><span class="p">([(</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">)],[</span><span class="n">time</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="DynGraphSN.remove_interactions_from"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html#tnetwork.DynGraphSN.remove_interactions_from">[docs]</a>    <span class="k">def</span> <span class="nf">remove_interactions_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodePairs</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove interactions between the provided node pairs for the provided times.</span>
+
+<span class="sd">        If one of the two parameters is a single element,</span>
+<span class="sd">        will remove the node pair at all provided time steps, or all the node pairs at the provided time step.</span>
+
+<span class="sd">        :param nodePairs: list of pairs of nodes, or a single pair of nodes</span>
+<span class="sd">        :param times: list of times for this node, or a single time</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#note: could be optimized</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">Iterable</span><span class="p">):</span>
+            <span class="n">nodePairs</span> <span class="o">=</span> <span class="p">[</span><span class="n">nodePairs</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">times</span><span class="p">,</span><span class="n">Iterable</span><span class="p">):</span>
+            <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">times</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">nodePair</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">):</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">apply_nx_function</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="n">t</span><span class="p">,</span><span class="n">stop</span><span class="o">=</span><span class="n">t</span><span class="p">,</span><span class="n">u</span><span class="o">=</span><span class="n">nodePair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">v</span><span class="o">=</span><span class="n">nodePair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="DynGraphSN.graph_at_time"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.graph_at_time.html#tnetwork.DynGraphSN.graph_at_time">[docs]</a>    <span class="k">def</span> <span class="nf">graph_at_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">t</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the graph as it is at time t</span>
+
+<span class="sd">        :param t: a time step identifier</span>
+<span class="sd">        :return: the graph as a networkx graph</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">(</span><span class="n">t</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="nf">add_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">graphSN</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a snapshot for a time step t</span>
+
+<span class="sd">        :param t: the time step identifier. If none, the last one + 1</span>
+<span class="sd">        :param graphSN: the graph to add (networkx object), if None, add an empty snapshot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">t</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">())</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">t</span><span class="o">=</span><span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="n">graphSN</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="n">graphSN</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">=</span><span class="n">graphSN</span>
+
+
+
+
+<div class="viewcode-block" id="DynGraphSN.snapshots_timesteps"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.snapshots_timesteps.html#tnetwork.DynGraphSN.snapshots_timesteps">[docs]</a>    <span class="k">def</span> <span class="nf">snapshots_timesteps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the list of time steps</span>
+
+<span class="sd">        :return: list of time steps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="DynGraphSN.apply_nx_function"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.apply_nx_function.html#tnetwork.DynGraphSN.apply_nx_function">[docs]</a>    <span class="k">def</span> <span class="nf">apply_nx_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">function</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">stop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply a networkx function to each snapshot and return the list of result. Parameters of the function to apply can be passed as parameter to this function.</span>
+<span class="sd">        example</span>
+<span class="sd">        &gt;&gt;&gt; dg = DynGraphSN.graph_socioPatterns2012()</span>
+<span class="sd">        &gt;&gt;&gt; dg.apply_nx_function(nx.nodes)</span>
+<span class="sd">        &gt;&gt;&gt; dg.apply_nx_function(nx.Graph.add_node,node_for_adding=&quot;nodeTest&quot;)</span>
+
+<span class="sd">        :param function: the networkx function</span>
+<span class="sd">        :return: the list of results for each snapshot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">start</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">stop</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">to_return</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">irange</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">inclusive</span><span class="o">=</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="n">theG</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">answer</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">theG</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+                <span class="n">answer</span> <span class="o">=</span> <span class="ne">Exception</span>
+            <span class="n">to_return</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">to_return</span></div>
+
+<div class="viewcode-block" id="DynGraphSN.to_DynGraphIG"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.to_DynGraphIG.html#tnetwork.DynGraphSN.to_DynGraphIG">[docs]</a>    <span class="k">def</span> <span class="nf">to_DynGraphIG</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sn_duration</span><span class="p">,</span> <span class="n">convert_time_to_integer</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the graph into a DynGraph_IG.</span>
+
+<span class="sd">        By default, snapshots last from their time ID to the time ID of the next snapshot.</span>
+<span class="sd">        Be careful, for the last snaphsot, we cannot know his duration, therefore, if sn_duration is not provided, it has a default duration equal to the min</span>
+<span class="sd">        of all durations</span>
+
+<span class="sd">        :param sn_duration: duration of sns, None for automatic behavior</span>
+<span class="sd">        :param convert_time_to_integer: if True, use the snapshot order in the list of SN rather than its time step</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">toReturn</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">()</span>
+
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">convert_time_to_integer</span><span class="p">:</span>
+                <span class="n">current_t</span><span class="o">=</span><span class="n">i</span>
+                <span class="n">tNext</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">current_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="o">.</span><span class="n">peekitem</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">sn_duration</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
+                    <span class="n">tNext</span> <span class="o">=</span> <span class="n">current_t</span><span class="o">+</span><span class="n">sn_duration</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">i</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">tNext</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="o">.</span><span class="n">peekitem</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1">#computing the min duration to choose as duration of the last period</span>
+                        <span class="n">dates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()</span>
+
+                        <span class="n">minDuration</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="n">dates</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">dates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)])</span>
+                        <span class="n">tNext</span> <span class="o">=</span> <span class="n">current_t</span><span class="o">+</span><span class="n">minDuration</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="o">.</span><span class="n">peekitem</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">nodes</span><span class="p">()))</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">toReturn</span><span class="o">.</span><span class="n">add_nodes_presence_from</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="o">.</span><span class="n">peekitem</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">nodes</span><span class="p">(),</span> <span class="p">(</span><span class="n">current_t</span><span class="p">,</span> <span class="n">tNext</span><span class="p">))</span>
+
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="o">.</span><span class="n">peekitem</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">edges</span><span class="p">()))</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                    <span class="n">toReturn</span><span class="o">.</span><span class="n">add_interactions_from</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="o">.</span><span class="n">peekitem</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">edges</span><span class="p">()),</span> <span class="p">(</span><span class="n">current_t</span><span class="p">,</span> <span class="n">tNext</span><span class="p">)</span> <span class="p">)</span>
+
+
+        <span class="k">return</span> <span class="n">toReturn</span></div>
+
+    <span class="k">def</span> <span class="nf">_combine_weighted_graphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">graphList</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to aggregate several graphs into a weighted graph</span>
+
+<span class="sd">        :param graphList: enumerable of graphs</span>
+<span class="sd">        :param weight: default weight</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">newG</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">graphList</span><span class="p">:</span>
+            <span class="n">e_weights</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">get_edge_attributes</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;weight&quot;</span><span class="p">)</span>
+            <span class="n">n_weights</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">get_node_attributes</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="s2">&quot;weight&quot;</span><span class="p">)</span>
+
+            <span class="c1"># add weight of one to unweighted graphs</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">e_weights</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">e_weights</span> <span class="o">=</span> <span class="p">{(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span> <span class="mi">1</span> <span class="k">for</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">edges</span><span class="p">()}</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">n_weights</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">n_weights</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">()}</span>
+
+            <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">n_weights</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">newG</span><span class="o">.</span><span class="n">has_node</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="n">newG</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">w</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">newG</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">w</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">e_weights</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">newG</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+                    <span class="n">newG</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">w</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">newG</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">w</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">newG</span>
+
+
+<div class="viewcode-block" id="DynGraphSN.cumulated_graph"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.cumulated_graph.html#tnetwork.DynGraphSN.cumulated_graph">[docs]</a>    <span class="k">def</span> <span class="nf">cumulated_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the cumulated graph.</span>
+
+<span class="sd">        Return a networkx graph corresponding to the cumulated graph of the given period (whole graph by default)</span>
+
+<span class="sd">        :param times: list/set of time steps ID of snapshots to cumulate. Default (None) means all snapshots</span>
+<span class="sd">        :return: a networkx (weighted) graph</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">times</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="n">snapshots</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">snapshots</span><span class="o">=</span> <span class="p">[</span><span class="n">sn</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">sn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">times</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_weighted_graphs</span><span class="p">(</span><span class="n">snapshots</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Keep only the selected period</span>
+
+<span class="sd">        :param start: time of the beginning of the slice</span>
+<span class="sd">        :param end: time of the end of the slice</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">to_return</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">()</span>
+        <span class="n">interv</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">Intervals</span><span class="p">((</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">interv</span><span class="o">.</span><span class="n">contains_t</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+                <span class="n">to_return</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">to_return</span>
+
+<div class="viewcode-block" id="DynGraphSN.aggregate_sliding_window"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.aggregate_sliding_window.html#tnetwork.DynGraphSN.aggregate_sliding_window">[docs]</a>    <span class="k">def</span> <span class="nf">aggregate_sliding_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bin_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">t_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">t_end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">weighted</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a new dynamic graph without modifying the original one, aggregated using sliding windows of the desired size. If Shift is not provided or equal to bin_size, windows are non overlapping.</span>
+<span class="sd">        If no parameter is provided, creates a single graph aggregating the whole period.</span>
+<span class="sd">        Yielded graphs are weighted (weight: number of apparition of edges during the period)</span>
+
+<span class="sd">        :param bin_size: desired size of bins, in the internal time unit (not necessarily equals to the number of snapshot_affiliations)</span>
+<span class="sd">        :param shift: time distance (shift) between the start of two successive bins, in the internal time unit (not necessarily number of sn)</span>
+<span class="sd">        :param t_start: time step to start the binning (default: first)</span>
+<span class="sd">        :param t_end: time step (not included) to stop the binning (default: last)</span>
+<span class="sd">        :return: a DynGraph_SN object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+
+
+        <span class="k">if</span> <span class="n">t_start</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="n">t_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">t_end</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="n">t_end</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">bin_size</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bin_size</span><span class="o">=</span><span class="n">t_end</span><span class="o">-</span><span class="n">t_start</span>
+
+        <span class="k">if</span> <span class="n">shift</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="n">shift</span><span class="o">=</span><span class="n">bin_size</span>
+
+
+        <span class="n">bins</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">t_start</span><span class="p">,</span> <span class="n">t_end</span><span class="p">,</span> <span class="n">shift</span><span class="p">):</span>
+            <span class="n">bins</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span> <span class="o">+</span> <span class="n">bin_size</span><span class="p">))</span>
+
+        <span class="n">toReturn</span> <span class="o">=</span> <span class="n">DynGraphSN</span><span class="p">()</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">binStart</span><span class="p">,</span><span class="n">binEnd</span><span class="p">)</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">:</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">irange</span><span class="p">(</span><span class="n">binStart</span><span class="p">,</span> <span class="n">binEnd</span><span class="p">,</span> <span class="n">inclusive</span><span class="o">=</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">weighted</span><span class="p">:</span>
+                    <span class="n">toReturn</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">binStart</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_weighted_graphs</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">toReturn</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">binStart</span><span class="p">,</span><span class="n">nx</span><span class="o">.</span><span class="n">compose_all</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">toReturn</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">binStart</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">toReturn</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_monday_from_calendar_week</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">calendar_week</span><span class="p">):</span>
+        <span class="n">monday</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{year}</span><span class="s1">-</span><span class="si">{calendar_week}</span><span class="s1">-1&#39;</span><span class="p">,</span> <span class="s2">&quot;%Y-%W-%w&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">monday</span>
+
+    <span class="k">def</span> <span class="nf">_date_threasholded</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">date</span><span class="p">,</span><span class="n">period</span><span class="p">):</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">second</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">period</span> <span class="o">==</span> <span class="s2">&quot;minute&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">date</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">period</span> <span class="o">==</span> <span class="s2">&quot;hour&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">date</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">period</span> <span class="o">==</span> <span class="s2">&quot;day&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">date</span>
+
+
+        <span class="k">if</span> <span class="n">period</span> <span class="o">==</span> <span class="s2">&quot;week&quot;</span><span class="p">:</span>
+            <span class="n">week</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">isocalendar</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_monday_from_calendar_week</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">week</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">temp</span>
+
+        <span class="n">date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">day</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">period</span> <span class="o">==</span> <span class="s2">&quot;month&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">date</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">month</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">period</span> <span class="o">==</span> <span class="s2">&quot;year&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">date</span>
+
+<div class="viewcode-block" id="DynGraphSN.aggregate_time_period"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.aggregate_time_period.html#tnetwork.DynGraphSN.aggregate_time_period">[docs]</a>    <span class="k">def</span> <span class="nf">aggregate_time_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">step_to_datetime</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Aggregate graph by time period (day, year, ...)</span>
+
+<span class="sd">        Return a new dynamic graph without modifying the original one, aggregated such as all</span>
+<span class="sd">        Yielded graphs are weighted (weight: number of apparition of edges during the period)</span>
+
+<span class="sd">        :param period: either a string (minute,hour,day,week,month,year) or a function returning the timestamp truncated to the start of the desired period</span>
+<span class="sd">        :param step_to_datetime: function to convert time step to a datetime object, default is utfromtimestamp</span>
+<span class="sd">        :return: a DynGraph_SN object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">to_return</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">()</span>
+
+
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">period</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+            <span class="n">period_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_date_threasholded</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">period</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">period_func</span> <span class="o">=</span> <span class="n">period</span>
+
+        <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">t_date</span> <span class="o">=</span> <span class="n">step_to_datetime</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+            <span class="n">new_t</span> <span class="o">=</span> <span class="n">period_func</span><span class="p">(</span><span class="n">t_date</span><span class="p">)</span>
+
+            <span class="c1">#new_t = new_t.timestamp()</span>
+            <span class="n">new_t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">new_t</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">new_t</span> <span class="ow">in</span> <span class="n">to_return</span><span class="o">.</span><span class="n">snapshots</span><span class="p">():</span>
+                <span class="n">to_return</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">new_t</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+            <span class="n">to_return</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">new_t</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_combine_weighted_graphs</span><span class="p">([</span><span class="n">to_return</span><span class="o">.</span><span class="n">snapshots</span><span class="p">(</span><span class="n">new_t</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">(</span><span class="n">t</span><span class="p">)])</span>
+
+        <span class="k">return</span> <span class="n">to_return</span></div>
+
+    <span class="k">def</span> <span class="nf">snapshots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return all snapshots or a particular one</span>
+
+<span class="sd">        Default: return a  sorted dictionary, key: the time information, value: a networkx graph.</span>
+<span class="sd">        If t is provided, return graph at that particular time</span>
+
+<span class="sd">        :param t: the time of the snapshot to return</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">t</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snapshots</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+
+<div class="viewcode-block" id="DynGraphSN.node_presence"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.node_presence.html#tnetwork.DynGraphSN.node_presence">[docs]</a>    <span class="k">def</span> <span class="nf">node_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Presence time of nodes</span>
+
+<span class="sd">         Several usages:</span>
+
+<span class="sd">        * If nodes==None (default), return a dict for each note, its existing times</span>
+<span class="sd">        * If nodes is a single node, return the interval of presence of this node</span>
+<span class="sd">        * If nodes is a set of nodes, return interval of presence of those nodes as a dictionary</span>
+
+<span class="sd">        :param nodes: list of ndoes</span>
+<span class="sd">        :return: a dictionary, key:node, value: list of time steps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+            <span class="n">nodes</span><span class="o">=</span> <span class="p">{</span><span class="n">nodes</span><span class="p">}</span>
+
+        <span class="n">toReturn</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">SNt</span><span class="p">,</span><span class="n">g</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">nodes</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+                <span class="n">nodes_this_step</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">nodes_this_step</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">nodes</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes_this_step</span><span class="p">:</span>
+                <span class="n">toReturn</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">n</span><span class="p">,[])</span>
+                <span class="n">toReturn</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SNt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nodes</span><span class="o">!=</span><span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">toReturn</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">nodes</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">toReturn</span></div>
+
+<div class="viewcode-block" id="DynGraphSN.to_tensor"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.to_tensor.html#tnetwork.DynGraphSN.to_tensor">[docs]</a>    <span class="k">def</span> <span class="nf">to_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">always_all_nodes</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a tensor representation</span>
+
+<span class="sd">        Compute the list of matrices corresponding to each graph, with nodes ordered in a same order</span>
+<span class="sd">        And the dic of nodes corresponding</span>
+<span class="sd">        and the list for each sn of nodes</span>
+<span class="sd">        :param always_all_nodes: if True, even if a node is not active during a snapshot, it is included in the matrix</span>
+<span class="sd">        :return: 3 elements:(A,B,C) A: list of numpy matrices, B: a bidictionary {node name:node order in the matrix}, C: active node at each step, as a list of list of nodes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">allNodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aggregate</span><span class="p">()</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">nodeIDdict</span> <span class="o">=</span> <span class="n">bidict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">allNodes</span><span class="p">)):</span>
+            <span class="n">nodeIDdict</span><span class="p">[</span><span class="n">allNodes</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1"># Create a dynamic network as sequence of nx graphs</span>
+        <span class="n">Gs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">nodesPresent</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">GsMat</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">nodeIdOrderedList</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nodeIDdict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">g0</span> <span class="ow">in</span> <span class="n">Gs</span><span class="p">:</span>
+            <span class="n">g2</span> <span class="o">=</span> <span class="n">g0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="c1"># get nodes of the current graph ordered according to the global order</span>
+            <span class="n">filteredOrderedNodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodeIDdict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">g2</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span>
+
+            <span class="c1"># transform to numpy matrix</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">always_all_nodes</span><span class="p">):</span>
+                <span class="n">g2</span><span class="o">.</span><span class="n">add_nodes_presence_from</span><span class="p">(</span><span class="n">nodeIdOrderedList</span><span class="p">)</span>
+            <span class="n">GsMat</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">to_numpy_matrix</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span> <span class="n">nodelist</span><span class="o">=</span><span class="n">nodeIdOrderedList</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+            <span class="n">nodesPresent</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">nodeIDdict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">filteredOrderedNodes</span><span class="p">])</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">GsMat</span><span class="p">,</span><span class="n">nodeIDdict</span><span class="p">,</span><span class="n">nodesPresent</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DynGraphSN.last_snapshot"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphSN.last_snapshot.html#tnetwork.DynGraphSN.last_snapshot">[docs]</a>    <span class="k">def</span> <span class="nf">last_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the last snapshot</span>
+
+<span class="sd">        :return: the last snapshot as a networkx graph</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()[</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span></div>
+
+    <span class="k">def</span> <span class="nf">full_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">normalize_to_integers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">nodes_start_at</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">time_start_at</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform time IDs and nodes to Integer</span>
+
+
+<span class="sd">        :return: a new dynamic graph object, a dictionary of nodes {originalID:newID} and a dictionary of times {originalID:newID}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">all_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">to_return</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">all_nodes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">))</span>
+        <span class="n">nodes_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">nodes_start_at</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_nodes</span><span class="p">)}</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">nodes_dict</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">g</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="n">to_return</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">time_start_at</span><span class="p">,</span><span class="n">nx</span><span class="o">.</span><span class="n">relabel_nodes</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">nodes_dict</span><span class="p">))</span>
+
+        <span class="n">times</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">time_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="o">+</span><span class="n">time_start_at</span><span class="p">:</span><span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">))}</span>
+        <span class="n">nodes_dict_inv</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">nodes_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+        <span class="k">return</span> <span class="n">to_return</span><span class="p">,</span><span class="n">nodes_dict_inv</span><span class="p">,</span><span class="n">time_dict</span>
+
+    <span class="k">def</span> <span class="nf">code_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">as_ls</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">as_ls</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">code_length_ls</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">code_length_sn</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">code_length_sn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Time info should not be repeated</span>
+<span class="sd">        2 versions:</span>
+<span class="sd">        - edges are little repeated =&gt; each interaction encoded explicitly</span>
+<span class="sd">        - edges are strongly repeated =&gt; matrix form</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#we ignore the code of edges identical for all</span>
+        <span class="n">g_cumulated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cumulated_graph</span><span class="p">()</span>
+        <span class="n">node_encoding</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g_cumulated</span><span class="o">.</span><span class="n">nodes</span><span class="p">()))</span>
+        <span class="n">edge_encoding</span> <span class="o">=</span> <span class="n">node_encoding</span><span class="o">*</span><span class="mi">2</span>
+        <span class="n">time_encoding</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()))</span><span class="c1"># +1 for stop</span>
+        <span class="n">nb_time</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">nb_unique_edges</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">g_cumulated</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+        <span class="n">nb_interactions</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+
+        <span class="c1">#if &quot;matrix_form&quot;:</span>
+        <span class="c1">#matrix form</span>
+        <span class="n">total_code_matrix</span> <span class="o">=</span> <span class="n">nb_unique_edges</span><span class="o">*</span><span class="n">nb_time</span><span class="o">+</span><span class="n">edge_encoding</span><span class="o">*</span><span class="n">nb_unique_edges</span><span class="o">+</span><span class="n">time_encoding</span><span class="o">*</span><span class="n">nb_time</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sn_m: &quot;</span><span class="p">,</span><span class="n">edge_encoding</span><span class="p">,</span><span class="n">time_encoding</span><span class="p">,</span><span class="n">nb_unique_edges</span><span class="p">,</span><span class="n">nb_time</span><span class="p">)</span>
+        <span class="c1">#else:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sn_e: &quot;</span><span class="p">,</span><span class="n">edge_encoding</span><span class="p">,</span><span class="n">time_encoding</span><span class="p">,</span><span class="n">nb_interactions</span><span class="p">,</span><span class="n">nb_time</span><span class="p">)</span>
+        <span class="c1">#T1_(N1,N2)_(N3,N4)_STOP_T2_...</span>
+        <span class="n">total_code_edges</span> <span class="o">=</span> <span class="n">nb_interactions</span><span class="o">*</span><span class="n">edge_encoding</span> <span class="o">+</span> <span class="n">nb_time</span><span class="o">*</span><span class="n">time_encoding</span> <span class="o">+</span> <span class="n">nb_time</span><span class="o">*</span><span class="n">edge_encoding</span>
+        <span class="k">return</span> <span class="n">total_code_matrix</span><span class="p">,</span><span class="n">total_code_edges</span>
+
+    <span class="k">def</span> <span class="nf">code_length_ls</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">g_cumulated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cumulated_graph</span><span class="p">()</span>
+        <span class="n">node_encoding</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g_cumulated</span><span class="o">.</span><span class="n">nodes</span><span class="p">()))</span>
+        <span class="n">edge_encoding</span> <span class="o">=</span> <span class="n">node_encoding</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="n">nb_time</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="c1">#time_encoding = np.log2(len(self.snapshots()))  # +1 for stop</span>
+        <span class="n">nb_unique_edges</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">g_cumulated</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+        <span class="n">nb_interactions</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+        <span class="c1">#time_encoding = np.log2(nb_time)</span>
+        <span class="n">time_encoding</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">nb_interactions</span><span class="p">)</span>
+        <span class="c1">#(N1,N2)_T1_T2_STOP_(N2,N3)</span>
+        <span class="n">total_code</span> <span class="o">=</span> <span class="n">edge_encoding</span><span class="o">*</span><span class="n">nb_unique_edges</span> <span class="o">+</span> <span class="n">nb_interactions</span><span class="o">*</span><span class="n">time_encoding</span> <span class="o">+</span> <span class="n">time_encoding</span><span class="o">*</span><span class="n">nb_unique_edges</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ls: &quot;</span><span class="p">,</span><span class="n">edge_encoding</span><span class="p">,</span><span class="n">time_encoding</span><span class="p">,</span><span class="n">nb_unique_edges</span><span class="p">,</span><span class="n">nb_interactions</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">total_code</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

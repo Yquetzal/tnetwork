@@ -1,0 +1,418 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Visualization &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Generation of dynamic networks with communities" href="../demo_generation/demo_generation.html" />
+    <link rel="prev" title="Dynamic Community classes" href="../demo_community_classes/demo_community_classes.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_intro/demo_intro.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html">Dynamic Network Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_community_classes/demo_community_classes.html">Dynamic Community classes</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cross-section-visualization">Cross-section visualization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#longitudinal-visualization">Longitudinal Visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#timestamps">Timestamps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#snapshot-duration">Snapshot duration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bokeh-longitudinal-plots">Bokeh longitudinal plots</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_generation/demo_generation.html">Generation of dynamic networks with communities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_DCD/demo_DCD.html">Dynamic Communities detection and evaluation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../tutorials.html">Tutorials</a> &raquo;</li>
+        
+      <li>Visualization</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/reference/from_notebooks/demo_visu/demo_visu.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="visualization">
+<h1>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h1>
+<p>In this notebook, we will introduce the different types of visualization
+available in tnetwork.</p>
+<p>There are two types: visualization of graphs at particular time (e.g., a
+particular snapshot), and visualization of the evolution of the
+community structure (longitudinal visualization)</p>
+<p>If tnerwork library is not installed, you need to install it, for
+instance using the following command</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%capture #avoid printing output</span>
+<span class="c1">#!pip install --upgrade git+https://github.com/Yquetzal/tnetwork.git</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">tn</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+<p>Let’s start with a toy example generated using tnetwork generator (see
+the corresponding documentation for details)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_scenario</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">ComScenario</span><span class="p">()</span>
+<span class="p">[</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">])</span>
+<span class="p">(</span><span class="n">com2</span><span class="p">,</span><span class="n">com3</span><span class="p">)</span><span class="o">=</span><span class="n">my_scenario</span><span class="o">.</span><span class="n">THESEUS</span><span class="p">(</span><span class="n">com2</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">my_scenario</span><span class="o">.</span><span class="n">DEATH</span><span class="p">(</span><span class="n">com2</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="p">(</span><span class="n">generated_network_IG</span><span class="p">,</span><span class="n">generated_comunities_IG</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">8</span> <span class="n">of</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span><span class="c1">##########################| Elapsed Time: 0:00:00 ETA:  00:00:00</span>
+</pre></div>
+</div>
+<div class="section" id="cross-section-visualization">
+<h2>Cross-section visualization<a class="headerlink" href="#cross-section-visualization" title="Permalink to this headline">¶</a></h2>
+<p>One way to see a dynamic graph is to plot it as a series of standard
+static graph. We can start by plotting a single graph at a single time.</p>
+<p>There are two libraries that can be used to render the plot: networkx
+(using matplotlib) or bokeh. matplotlib has the advantage of being more
+standard, while bokeh has the advantage of providing interactive graphs.
+This is especially useful to check who is each particular node or
+community in real datasets.</p>
+<p>But Bokeh also has weaknesses: * It can alter the responsiveness of the
+netbook if large visualization are embedded in it * In some online
+notebooks e.g., google colab, embedding bokeh pictures in the notebook
+does not work well.</p>
+<p>As a consequence, it is recommended to embed bokeh visualization in
+notebooks only for small graphs, and to open them in new windows for
+larger ones.</p>
+<p>Let’s start by plotting the networks in timestep 1 (ts=1). First, using
+matplotlib, the default option.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network_IG</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">numpy</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">numeric</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">2327</span><span class="p">:</span> <span class="ne">FutureWarning</span><span class="p">:</span> <span class="n">elementwise</span> <span class="n">comparison</span> <span class="n">failed</span><span class="p">;</span> <span class="n">returning</span> <span class="n">scalar</span> <span class="n">instead</span><span class="p">,</span> <span class="n">but</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">future</span> <span class="n">will</span> <span class="n">perform</span> <span class="n">elementwise</span> <span class="n">comparison</span>
+  <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">asarray</span><span class="p">(</span><span class="n">a1</span> <span class="o">==</span> <span class="n">a2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_7_11.png" src="../../../_images/output_7_11.png" />
+<img alt="../../../_images/output_7_2.png" src="../../../_images/output_7_2.png" />
+<p>Then, using bokeh and the <code class="docutils literal notranslate"><span class="pre">auto_show</span></code> option. It won’t work in google
+colab, see a solution below.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network_IG</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">bokeh</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">auto_show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="bk-root">
+    <a href="https://bokeh.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
+    <span id="1081">Loading BokehJS ...</span>
+</div><script id="1082">
+  var xhr = new XMLHttpRequest()
+  xhr.responseType = 'blob';
+  xhr.open('GET', "http://localhost:57034/autoload.js?bokeh-autoload-element=1082&bokeh-absolute-url=http://localhost:57034&resources=none", true);
+
+  xhr.onload = function (event) {
+    var script = document.createElement('script'),
+    src = URL.createObjectURL(event.target.response);
+    script.src = src;
+    document.body.appendChild(script);
+  };
+xhr.send();
+</script><div style="display: table;"><div style="display: table-row;"><div style="display: table-cell;"><b title="bokeh.models.layouts.Row">Row</b>(</div><div style="display: table-cell;">id&nbsp;=&nbsp;'1080', <span id="1084" style="cursor: pointer;">&hellip;)</span></div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">align&nbsp;=&nbsp;'start',</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">aspect_ratio&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">background&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">children&nbsp;=&nbsp;[Figure(id='1004', ...)],</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">cols&nbsp;=&nbsp;'auto',</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">css_classes&nbsp;=&nbsp;[],</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">disabled&nbsp;=&nbsp;False,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">height&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">height_policy&nbsp;=&nbsp;'auto',</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">js_event_callbacks&nbsp;=&nbsp;{},</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">js_property_callbacks&nbsp;=&nbsp;{},</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">margin&nbsp;=&nbsp;(0, 0, 0, 0),</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">max_height&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">max_width&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">min_height&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">min_width&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">name&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">sizing_mode&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">spacing&nbsp;=&nbsp;0,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">subscribed_events&nbsp;=&nbsp;[],</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">tags&nbsp;=&nbsp;[],</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">visible&nbsp;=&nbsp;True,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">width&nbsp;=&nbsp;None,</div></div><div class="1083" style="display: none;"><div style="display: table-cell;"></div><div style="display: table-cell;">width_policy&nbsp;=&nbsp;'auto')</div></div></div>
+<script>
+(function() {
+  var expanded = false;
+  var ellipsis = document.getElementById("1084");
+  ellipsis.addEventListener("click", function() {
+    var rows = document.getElementsByClassName("1083");
+    for (var i = 0; i < rows.length; i++) {
+      var el = rows[i];
+      el.style.display = expanded ? "none" : "table-row";
+    }
+    ellipsis.innerHTML = expanded ? "&hellip;)" : "&lsaquo;&lsaquo;&lsaquo;";
+    expanded = !expanded;
+  });
+})();
+</script><p>One can plot in a new window (and/or in a file) by ignoring the
+auto_show option, and instead receiving a figure, that we can manipulate
+as usual with bokeh</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">figure</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">show</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network_IG</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">bokeh</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">output_file</span><span class="p">(</span><span class="s2">&quot;fig.html&quot;</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Instead of plotting a single graph, we can plot several ones in a single
+call. Note that in this case, the position of nodes is common to all
+plots, and is decided based on the cumulated network</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">figure</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">show</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network_IG</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="n">generated_network_IG</span><span class="o">.</span><span class="n">end</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">numpy</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">numeric</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">2327</span><span class="p">:</span> <span class="ne">FutureWarning</span><span class="p">:</span> <span class="n">elementwise</span> <span class="n">comparison</span> <span class="n">failed</span><span class="p">;</span> <span class="n">returning</span> <span class="n">scalar</span> <span class="n">instead</span><span class="p">,</span> <span class="n">but</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">future</span> <span class="n">will</span> <span class="n">perform</span> <span class="n">elementwise</span> <span class="n">comparison</span>
+  <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">asarray</span><span class="p">(</span><span class="n">a1</span> <span class="o">==</span> <span class="n">a2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_13_1.png" src="../../../_images/output_13_1.png" />
+<p>If we have dynamic communities associated with this dynamic graph, we
+can plot them too. Note that the same function accepts snapshots and
+interval graphs, but both the graph and the community structure must
+have the same format (SN or IG)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">figure</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">show</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">generated_network_IG</span><span class="p">,</span><span class="n">generated_comunities_IG</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="n">generated_network_IG</span><span class="o">.</span><span class="n">end</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">auto_show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_15_0.png" src="../../../_images/output_15_0.png" />
+<div class="section" id="longitudinal-visualization">
+<h3>Longitudinal Visualization<a class="headerlink" href="#longitudinal-visualization" title="Permalink to this headline">¶</a></h3>
+<p>The second type of visualization plots only nodes and not edges.</p>
+<p>Time corresponds to the x axis, while each node has a fixed position on
+the y axis.</p>
+<p>It is possible to plot only a dynamic graphs, without communities. White
+means that the node is not present or has no edges</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network_IG</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_17_0.png" src="../../../_images/output_17_0.png" />
+<p>Or only communities, without a graph:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">communities</span><span class="o">=</span><span class="n">generated_comunities_IG</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_19_01.png" src="../../../_images/output_19_01.png" />
+<p>Or both on the same graph. The grey color always corresponds to nodes
+whithout communities. Other colors corresponds to communities</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network_IG</span><span class="p">,</span><span class="n">communities</span><span class="o">=</span><span class="n">generated_comunities_IG</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_21_0.png" src="../../../_images/output_21_0.png" />
+<p>It is possible to plot only a subset of nodes, and/or to plot them in a
+particular order</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network_IG</span><span class="p">,</span><span class="n">communities</span><span class="o">=</span><span class="n">generated_comunities_IG</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;n_t_0000_0008&quot;</span><span class="p">,</span><span class="s2">&quot;n_t_0000_0002&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_23_02.png" src="../../../_images/output_23_02.png" />
+</div>
+<div class="section" id="timestamps">
+<h3>Timestamps<a class="headerlink" href="#timestamps" title="Permalink to this headline">¶</a></h3>
+<p>It is common, when manipulating real data, to have dates in the form of
+timestamps. There is an option to automatically transform timestamps to
+dates on the x axis : <code class="docutils literal notranslate"><span class="pre">to_datetime</span></code></p>
+<p>We give an example using the sociopatterns dataset</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sociopatterns</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="o">.</span><span class="n">graph_socioPatterns2012</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#It takes a few seconds</span>
+<span class="n">to_plot_SN</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">sociopatterns</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span><span class="n">to_datetime</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="snapshot-duration">
+<h3>Snapshot duration<a class="headerlink" href="#snapshot-duration" title="Permalink to this headline">¶</a></h3>
+<p>By default, snapshots last until the next snapshot. If snapshots have a
+fix duration, there is a parameter to indicate this duration :
+<code class="docutils literal notranslate"><span class="pre">sn_duration</span></code></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#in sociopatterns, there is an observed snapshot every 20 seconds.</span>
+<span class="n">to_plot_SN</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">sociopatterns</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span><span class="n">to_datetime</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">sn_duration</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="bokeh-longitudinal-plots">
+<h3>Bokeh longitudinal plots<a class="headerlink" href="#bokeh-longitudinal-plots" title="Permalink to this headline">¶</a></h3>
+<p>Longitudinal plots can also use bokeh. It is clearly interesting to have
+ineractive plots in order to zoom on details or to check the name of
+communities or nodes. However, bokeh plots with large number of elements
+can quickly become unresponsive, that is why there are not used by
+default.</p>
+<p>By adding the parameter <code class="docutils literal notranslate"><span class="pre">bokeh=True</span></code>, you can obtain a bokeh plot
+exactly like for the cross-section graphs, with or without the
+<code class="docutils literal notranslate"><span class="pre">auto_show</span></code> option.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">generated_network_IG</span><span class="p">,</span><span class="n">communities</span><span class="o">=</span><span class="n">generated_comunities_IG</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span><span class="n">bokeh</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">auto_show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">figure</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">show</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">sociopatterns</span><span class="p">,</span><span class="n">bokeh</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">output_file</span><span class="p">(</span><span class="s2">&quot;fig.html&quot;</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../demo_generation/demo_generation.html" class="btn btn-neutral float-right" title="Generation of dynamic networks with communities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../demo_community_classes/demo_community_classes.html" class="btn btn-neutral float-left" title="Dynamic Community classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

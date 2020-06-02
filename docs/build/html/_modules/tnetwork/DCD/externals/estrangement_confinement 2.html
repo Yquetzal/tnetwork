@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tnetwork.DCD.externals.estrangement_confinement &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/from_notebooks/demo_intro/demo_intro.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../documentation.html">Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>tnetwork.DCD.externals.estrangement_confinement</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tnetwork.DCD.externals.estrangement_confinement</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">tn</span>
+<span class="kn">import</span> <span class="nn">leidenalg</span> <span class="k">as</span> <span class="nn">la</span>
+<span class="kn">import</span> <span class="nn">sortedcontainers</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">tnetwork.DCD.externals.estrangement_master.Estrangement.estrangement</span> <span class="kn">import</span> <span class="n">ECA</span>
+<span class="kn">from</span> <span class="nn">tnetwork.readwrite.SN_graph_io</span> <span class="kn">import</span> <span class="n">_write_network_file</span>
+<span class="kn">from</span> <span class="nn">tnetwork.DCD.externals.utils</span> <span class="kn">import</span> <span class="n">clean_create_dir</span><span class="p">,</span> <span class="n">clear_file</span>
+
+<span class="kn">from</span> <span class="nn">tnetwork.utils.community_utils</span> <span class="kn">import</span> <span class="n">single_list_community2nodesets</span>
+
+
+
+<div class="viewcode-block" id="estrangement_confinement"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.externals.estrangement_confinement.html#tnetwork.DCD.externals.estrangement_confinement">[docs]</a><span class="k">def</span> <span class="nf">estrangement_confinement</span><span class="p">(</span><span class="n">dyn_graph</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.00001</span><span class="p">,</span><span class="n">convergence_tolerance</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="n">delta</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span><span class="n">elapsed_time</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estrangement confinement</span>
+
+<span class="sd">    Algorithm introduced in [1]. Uses original code.</span>
+
+
+
+<span class="sd">    [1]Kawadia, V., &amp; Sreenivasan, S. (2012).</span>
+<span class="sd">    Sequential detection of temporal communities by estrangement confinement.</span>
+<span class="sd">    Scientific reports, 2, 794.</span>
+
+<span class="sd">    :param delta: see original article</span>
+<span class="sd">    :param convergence_tolerance: see original article</span>
+<span class="sd">    :param tolerance: see original article</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;preprocessing estrangement confinement&quot;</span><span class="p">)</span>
+
+    <span class="c1">#write files</span>
+    <span class="nb">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+    <span class="n">dir_graphs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="s2">&quot;temp&quot;</span><span class="p">,</span><span class="s2">&quot;estrangement&quot;</span><span class="p">,</span><span class="s2">&quot;graph&quot;</span><span class="p">)</span>
+    <span class="n">result_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="s2">&quot;temp&quot;</span><span class="p">,</span><span class="s2">&quot;estrangement&quot;</span><span class="p">,</span><span class="s2">&quot;result.log&quot;</span><span class="p">)</span>
+    <span class="n">clean_create_dir</span><span class="p">(</span><span class="n">dir_graphs</span><span class="p">)</span>
+    <span class="n">clear_file</span><span class="p">(</span><span class="n">result_file</span><span class="p">)</span>
+
+    <span class="n">all_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">allGraphs</span> <span class="o">=</span> <span class="n">dyn_graph</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">allGraphs</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">all_nodes</span> <span class="o">=</span> <span class="n">all_nodes</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="n">node_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_nodes</span><span class="p">)}</span>
+    <span class="n">node_dict_reversed</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">node_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">g</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">allGraphs</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">set_edge_attributes</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s2">&quot;weight&quot;</span><span class="p">)</span>
+        <span class="n">g_copy</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">relabel_nodes</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">node_dict</span><span class="p">,</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">_write_network_file</span><span class="p">(</span><span class="n">g_copy</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_graphs</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span> <span class="n">out_format</span><span class="o">=</span><span class="s2">&quot;ncol&quot;</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">])</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;calling external code&quot;</span><span class="p">)</span>
+
+    <span class="n">ECA</span><span class="p">(</span><span class="n">dir_graphs</span><span class="p">,</span><span class="n">result_file</span><span class="p">,</span><span class="n">tolerance</span><span class="o">=</span><span class="n">tolerance</span><span class="p">,</span><span class="n">convergence_tolerance</span><span class="o">=</span><span class="n">convergence_tolerance</span><span class="p">,</span><span class="n">delta</span><span class="o">=</span><span class="n">delta</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;postprocessing&quot;</span><span class="p">)</span>
+    <span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">result_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fr</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">fr</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="n">to_return</span><span class="o">=</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">affils</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">partitions</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">community_utils</span><span class="o">.</span><span class="n">affiliations2nodesets</span><span class="p">(</span><span class="n">affils</span><span class="p">)</span>
+        <span class="c1">#print(partitions)</span>
+        <span class="k">for</span> <span class="n">c</span><span class="p">,</span><span class="n">nodes</span> <span class="ow">in</span> <span class="n">partitions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">partitions</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">node_dict_reversed</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
+        <span class="n">to_return</span><span class="o">.</span><span class="n">set_communities</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">partitions</span><span class="p">)</span>
+
+
+    <span class="c1"># to_return = tn.DynCommunitiesSN()</span>
+    <span class="c1"># ts  =list(igraph_graphs.keys())</span>
+    <span class="c1"># for i in range(len(coms)):</span>
+    <span class="c1">#     t= ts[i]</span>
+    <span class="c1">#     partition = single_list_community2nodesets(coms[i],igraph_graphs[t].vs[&quot;name&quot;])</span>
+    <span class="c1">#    to_return.set_communities(t,partition)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sucessfully estrangement confinement&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">elapsed_time</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">to_return</span><span class="p">,{</span><span class="s2">&quot;total&quot;</span><span class="p">:</span><span class="n">duration</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">to_return</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

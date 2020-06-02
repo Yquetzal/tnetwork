@@ -1,0 +1,502 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tnetwork.DCD.pure_python.community_tracker &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/from_notebooks/demo_intro/demo_intro.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../documentation.html">Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>tnetwork.DCD.pure_python.community_tracker</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tnetwork.DCD.pure_python.community_tracker</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">tnetwork.utils.community_utils</span> <span class="kn">import</span> <span class="n">jaccard</span>
+<span class="kn">from</span> <span class="nn">tnetwork.DCD</span> <span class="kn">import</span> <span class="n">iterative_match</span>
+<span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">tn</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+
+<span class="k">def</span> <span class="nf">convert_stable_communities</span><span class="p">(</span><span class="n">persistant_coms</span><span class="p">,</span><span class="n">nb_coms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">duration_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">duration_max</span><span class="o">=</span><span class="mi">10000000</span><span class="p">):</span>
+    <span class="n">visu_blocks</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesIG</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">nb_coms</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">nb_coms</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">persistant_coms</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">nodes</span><span class="p">,</span><span class="n">period</span><span class="p">,</span><span class="n">current_granularity</span><span class="p">,</span><span class="n">score</span> <span class="ow">in</span> <span class="n">persistant_coms</span><span class="p">[:</span><span class="n">nb_coms</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">period</span><span class="o">.</span><span class="n">duration</span><span class="p">()</span><span class="o">&gt;</span><span class="n">duration_min</span> <span class="ow">and</span> <span class="n">period</span><span class="o">.</span><span class="n">duration</span><span class="p">()</span><span class="o">&lt;</span><span class="n">duration_max</span><span class="p">:</span>
+            <span class="c1">#we give a unique name to each community, since colors are attributed according to community names</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="p">())</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">current_granularity</span><span class="p">)</span>
+            <span class="n">visu_blocks</span><span class="o">.</span><span class="n">add_affiliation</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">period</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">visu_blocks</span>
+
+
+<span class="k">def</span> <span class="nf">score_conductance</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="n">graph</span><span class="p">):</span>
+    <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">4</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="c1">#optim</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+
+    <span class="n">nodes_in_graph</span> <span class="o">=</span> <span class="n">nodes</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes_in_graph</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">4</span><span class="p">:</span>
+         <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">total_degree</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">nodes_in_graph</span><span class="p">)</span>
+    <span class="n">threashold</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes_in_graph</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">total_degree</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes_in_graph</span><span class="p">)</span><span class="o">&lt;</span><span class="n">threashold</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">subgraph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">nodes_in_graph</span><span class="p">)</span>
+    <span class="n">avg_deg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">([</span><span class="n">val</span> <span class="k">for</span> <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="n">subgraph</span><span class="o">.</span><span class="n">degree</span><span class="p">()])</span>
+
+    <span class="k">if</span> <span class="n">avg_deg</span><span class="o">&lt;</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes_in_graph</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">try</span><span class="p">:</span>
+
+        <span class="n">inverse_cond</span> <span class="o">=</span> <span class="n">inverse_conductance</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span><span class="n">nodes_in_graph</span><span class="p">,</span><span class="n">total_degree</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inverse_cond</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="MSSCD"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.MSSCD.html#tnetwork.DCD.MSSCD">[docs]</a><span class="k">def</span> <span class="nf">MSSCD</span><span class="p">(</span><span class="n">dyn_graph</span><span class="p">,</span> <span class="n">t_granularity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">t_persistance</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">t_quality</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">t_similarity</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">similarity</span><span class="o">=</span><span class="n">jaccard</span><span class="p">,</span> <span class="n">CD</span><span class="o">=</span><span class="s2">&quot;louvain&quot;</span><span class="p">,</span> <span class="n">QC</span><span class="o">=</span><span class="n">score_conductance</span><span class="p">,</span> <span class="n">weighted_aggregation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">Granularity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">as_dyn_com</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Multi Scale Stable Community Detection</span>
+
+<span class="sd">    Method described in [1].</span>
+<span class="sd">    This method allows to find stable communities accross multiple temporal scales.</span>
+<span class="sd">    In summary, it creates new snapshots by aggregating the existing ones. At each granularity level, it discover stabel communities by</span>
+
+<span class="sd">    * 1) applying a community detection algorithm at each step</span>
+<span class="sd">    * 2) keeping communities with the highest quality score as seeds</span>
+<span class="sd">    * 3) Expand those seeds to neighbor snashots as long as they remain relevant accordin to the quality score</span>
+<span class="sd">    * 4) keep as stable only communities that are present in several successive snapshots</span>
+
+<span class="sd">    [1] Boudebza, S., Cazabet, R., Nouali, O., &amp; Azouaou, F. (2019).</span>
+<span class="sd">    Detecting Stable Communities in Link Streams at Multiple Temporal Scales.</span>
+<span class="sd">    LEG workshop, @ECML-PKDD 2019</span>
+
+<span class="sd">    :param dyn_graph: a dynamic graph</span>
+<span class="sd">    :param t_granularity: (:math:`\\theta_\\gamma` min temporal granularity,scale to analyze</span>
+<span class="sd">    :param t_persistance: :math:`\\theta_p` minimum number of successive occurences for the community to be persistant</span>
+<span class="sd">    :param t_quality: :math:`\\theta_q` threashold of community quality</span>
+<span class="sd">    :param t_similarity: :math:`\\theta_s` threashold of similarity between communities</span>
+<span class="sd">    :param similarity: (CSS)function that give a score of similarity between communities. Default: jaccard</span>
+<span class="sd">    :param CD: CD community detection algorithm. A function returning a set of set of nodes. By default, louvain algorithm</span>
+<span class="sd">    :param QC: (QC)function to determine the quality of communities. Default: inverse of conductance</span>
+<span class="sd">    :param weighted_aggregation: if true, the aggregation over time periods is done using weighted networks</span>
+<span class="sd">    :param Granularity: (:math:`\Gamma`) can be used to replace the default scales. List of int.</span>
+<span class="sd">    :param start_time: the date at which to start the analysis. Can be useful, for instance, to start analysis at 00:00</span>
+<span class="sd">    :param as_dyn_com: if true, return a dynamic community object. If False, a custom format with quadruplets (nodes, duration, granularity, quality)</span>
+<span class="sd">    :return: a dynamic community object (default) or a list of quadruplets, see parameter as_dyn_com</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="c1">#set up the list of granularity/temporal scales to analyze</span>
+    <span class="k">if</span> <span class="n">Granularity</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">Granularity</span> <span class="o">=</span> <span class="n">_studied_scales</span><span class="p">(</span><span class="n">dyn_graph</span><span class="p">,</span> <span class="n">t_granularity</span><span class="p">,</span> <span class="n">t_persistance</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Granularity</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">Granularity</span> <span class="o">=</span> <span class="p">[</span><span class="n">Granularity</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">start_time</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">dyn_graph</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">persistant_coms</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1">#C</span>
+
+    <span class="n">times</span><span class="o">=</span><span class="p">{}</span>
+    <span class="n">start_timer</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="c1">#for each granularity level</span>
+    <span class="k">for</span> <span class="n">current_granularity</span> <span class="ow">in</span> <span class="n">Granularity</span><span class="p">:</span>
+
+
+        <span class="c1">#Aggregate the graph WITH or WITHOUT weights</span>
+        <span class="n">pre_computed_snapshots</span> <span class="o">=</span> <span class="n">dyn_graph</span><span class="o">.</span><span class="n">aggregate_sliding_window</span><span class="p">(</span><span class="n">t_start</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span> <span class="n">bin_size</span><span class="o">=</span><span class="n">current_granularity</span><span class="p">,</span><span class="n">weighted</span><span class="o">=</span><span class="n">weighted_aggregation</span><span class="p">)</span>
+
+        <span class="n">seeds</span> <span class="o">=</span> <span class="n">_seed_discovery</span><span class="p">(</span><span class="n">pre_computed_snapshots</span><span class="p">,</span> <span class="n">current_granularity</span><span class="p">,</span> <span class="n">CD</span><span class="p">,</span> <span class="n">QC</span><span class="p">,</span> <span class="n">t_quality</span><span class="p">)</span>
+        <span class="n">nb_good_seeds</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">seeds</span><span class="p">)</span>
+
+        <span class="n">seeds</span> <span class="o">=</span> <span class="n">_seed_pruning</span><span class="p">(</span><span class="n">seeds</span><span class="p">,</span> <span class="n">similarity</span><span class="p">,</span> <span class="n">t_similarity</span><span class="p">,</span> <span class="n">persistant_coms</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">seeds</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">seed_expansion</span><span class="p">(</span><span class="n">seeds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">current_granularity</span><span class="p">,</span><span class="n">t_quality</span><span class="p">,</span><span class="n">t_persistance</span><span class="p">,</span><span class="n">t_similarity</span><span class="p">,</span><span class="n">QC</span><span class="p">,</span><span class="n">similarity</span><span class="p">,</span><span class="n">pre_computed_snapshots</span><span class="p">,</span><span class="n">persistant_coms</span><span class="p">)</span>
+
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------- granularity (gamma): &quot;</span><span class="p">,</span> <span class="n">current_granularity</span><span class="p">,</span><span class="s2">&quot; | &quot;</span><span class="p">,</span><span class="s2">&quot;# good seeds: &quot;</span><span class="p">,</span><span class="n">nb_good_seeds</span><span class="p">,</span><span class="s2">&quot;# persistent communities found (total): &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">persistant_coms</span><span class="p">))</span>
+
+        <span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_timer</span>
+        <span class="n">start_timer</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">times</span><span class="p">[</span><span class="n">current_granularity</span><span class="p">]</span><span class="o">=</span><span class="n">duration</span>
+        <span class="c1">#print(duration)</span>
+
+    <span class="n">times</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">v</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">times</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+    <span class="n">persistant_coms</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">persistant_coms</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">as_dyn_com</span><span class="p">:</span>
+        <span class="n">persistant_coms</span> <span class="o">=</span> <span class="n">convert_stable_communities</span><span class="p">(</span><span class="n">persistant_coms</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">elapsed_time</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">persistant_coms</span><span class="p">,</span><span class="n">times</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">persistant_coms</span></div>
+
+
+
+
+<span class="k">def</span> <span class="nf">inverse_conductance</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">S</span><span class="p">,</span><span class="n">volume_S</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">G</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1">#if all nodes in the commmunity, bad conductance (avoid /0)</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">num_cut_edges</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">cut_size</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">volume_S</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">volume_S</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
+
+
+    <span class="n">volume_T</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
+    <span class="n">volume_T</span> <span class="o">=</span> <span class="n">volume_T</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="c1">#If only a few nodes outside the community, poor score (trivial solution),</span>
+    <span class="c1">#but if many nodes outside the community, return good score. And avoid /0</span>
+
+    <span class="k">return</span> <span class="mi">1</span><span class="o">-</span> <span class="n">num_cut_edges</span> <span class="o">/</span> <span class="nb">min</span><span class="p">(</span><span class="n">volume_T</span><span class="p">,</span><span class="n">volume_S</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_track_one_community</span><span class="p">(</span><span class="n">tracked_nodes</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">dyn_graph</span><span class="p">,</span><span class="n">score</span><span class="p">,</span> <span class="n">t_quality</span><span class="p">,</span><span class="n">backward</span> <span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">to_return</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dyn_graph</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">similar_com</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">limit</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">backward</span><span class="p">:</span>
+        <span class="n">limit</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">similar_com</span><span class="p">):</span>
+        <span class="n">similar_com</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="nb">next</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="n">backward</span><span class="p">:</span>
+            <span class="nb">next</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="nb">next</span> <span class="o">==</span> <span class="n">limit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">to_return</span>
+        <span class="n">current_t</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[</span><span class="nb">next</span><span class="p">]</span>
+        <span class="n">current_g</span> <span class="o">=</span> <span class="n">dyn_graph</span><span class="o">.</span><span class="n">snapshots</span><span class="p">(</span><span class="n">current_t</span><span class="p">)</span>
+
+        <span class="n">the_score</span> <span class="o">=</span> <span class="n">score</span><span class="p">(</span><span class="n">tracked_nodes</span><span class="p">,</span> <span class="n">current_g</span><span class="p">)</span>
+        <span class="c1">#if interesting_node in tracked_nodes:</span>
+         <span class="c1">#   print(&quot;-&quot;,t,current_t, &quot;score &quot;, the_score)</span>
+        <span class="k">if</span> <span class="n">the_score</span> <span class="o">&gt;=</span> <span class="n">t_quality</span><span class="p">:</span>
+            <span class="c1">#print(&quot;mm &quot;,t_quality,the_score,current_t,t,backward)</span>
+            <span class="n">to_return</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">current_t</span><span class="p">,</span> <span class="n">the_score</span><span class="p">))</span>
+            <span class="n">similar_com</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">backward</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">to_return</span>
+
+
+<span class="k">def</span> <span class="nf">seed_contained_in_persistent_com</span><span class="p">(</span><span class="n">seed_nodes</span><span class="p">,</span> <span class="n">persistent_com_nodes</span><span class="p">,</span> <span class="n">seed_time</span><span class="p">,</span> <span class="n">persistent_com_period</span><span class="p">,</span> <span class="n">similarity</span><span class="p">,</span> <span class="n">t_similarity</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">persistent_com_period</span><span class="o">.</span><span class="n">contains_t</span><span class="p">(</span><span class="n">seed_time</span><span class="p">)</span> <span class="ow">and</span> <span class="n">similarity</span><span class="p">(</span><span class="n">seed_nodes</span><span class="p">,</span><span class="n">persistent_com_nodes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">t_similarity</span>
+
+<span class="k">def</span> <span class="nf">_studied_scales</span><span class="p">(</span><span class="n">dyn_graph</span><span class="p">,</span> <span class="n">t_granularity</span><span class="p">,</span> <span class="n">t_persistance</span><span class="p">):</span>
+    <span class="n">G_duration</span> <span class="o">=</span> <span class="n">dyn_graph</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">dyn_graph</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">a_temporal_scale</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">G_duration</span> <span class="o">/</span> <span class="n">t_persistance</span><span class="p">)</span>  <span class="c1"># \gamma</span>
+    <span class="n">all_scales</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># \Gamma</span>
+    <span class="k">while</span> <span class="n">a_temporal_scale</span> <span class="o">&gt;</span> <span class="n">t_granularity</span><span class="p">:</span>
+        <span class="n">all_scales</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a_temporal_scale</span><span class="p">)</span>
+        <span class="n">a_temporal_scale</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">a_temporal_scale</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">all_scales</span>
+
+
+<span class="k">def</span> <span class="nf">__find_interesting_CC</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">g</span><span class="p">):</span>
+    <span class="n">interesting_connected_com</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">interesting_connected_com</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">interesting_connected_com</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">interesting_connected_com</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">__compute_quality</span><span class="p">(</span><span class="n">QC</span><span class="p">,</span><span class="n">cID</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span><span class="n">current_graph</span><span class="p">):</span>
+    <span class="n">quality</span> <span class="o">=</span> <span class="n">QC</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">current_graph</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">cID</span><span class="p">,</span><span class="n">nodes</span><span class="p">,</span><span class="n">quality</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_seed_discovery</span><span class="p">(</span><span class="n">pre_computed_snapshots</span><span class="p">,</span> <span class="n">current_granularity</span><span class="p">,</span> <span class="n">CD</span><span class="p">,</span> <span class="n">QC</span><span class="p">,</span> <span class="n">t_quality</span><span class="p">):</span>
+
+    <span class="n">seeds</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1">#compute communities at each step</span>
+    <span class="n">dyn_coms</span> <span class="o">=</span> <span class="n">iterative_match</span><span class="p">(</span><span class="n">pre_computed_snapshots</span><span class="p">,</span> <span class="n">CDalgo</span><span class="o">=</span><span class="n">CD</span><span class="p">,</span><span class="n">match_function</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1"># ,CDalgo=infomap_communities)</span>
+
+    <span class="c1">#We add connected components, avoid degenerated results because of louvain who always split in communities,</span>
+    <span class="c1">#even when there is an obvious community</span>
+
+    <span class="n">procs_to_use</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
+    <span class="c1">#procs_to_use = 1</span>
+    <span class="n">pool</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">procs_to_use</span><span class="p">)</span>
+    <span class="n">all_CC</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">starmap_async</span><span class="p">(</span><span class="n">__find_interesting_CC</span><span class="p">,[(</span><span class="n">t</span><span class="p">,</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">g</span> <span class="ow">in</span> <span class="n">pre_computed_snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c1">#print(&quot;CC detection done&quot;)</span>
+
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">cs</span> <span class="ow">in</span> <span class="n">all_CC</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cs</span><span class="p">:</span>
+            <span class="n">dyn_coms</span><span class="o">.</span><span class="n">add_community</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+
+    <span class="c1"># for t, g in pre_computed_snapshots.snapshots().items():</span>
+    <span class="c1">#     interesting_connected_com = nx.connected_components(g)</span>
+    <span class="c1">#     interesting_connected_com = [x for x in interesting_connected_com if len(x) &gt;= 3]</span>
+    <span class="c1">#     for c in interesting_connected_com:</span>
+    <span class="c1">#         dyn_coms.add_community(t, c)</span>
+
+
+    <span class="c1"># computing quality for each com</span>
+
+
+
+
+
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">coms</span> <span class="ow">in</span> <span class="n">dyn_coms</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">current_graph</span> <span class="o">=</span> <span class="n">pre_computed_snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+        <span class="c1"># pool = mp.Pool(procs_to_use)</span>
+        <span class="c1"># all_qualities = pool.starmap_async(__compute_quality,</span>
+        <span class="c1">#                                    [(QC,cID, nodes, current_graph) for cID, nodes in coms.items()]).get()</span>
+        <span class="c1"># pool.close()</span>
+        <span class="c1">#</span>
+        <span class="c1"># for cID, nodes,quality in all_qualities:</span>
+        <span class="c1">#     seeds.append((t, cID, frozenset(nodes), quality,</span>
+        <span class="c1">#               current_granularity))  ##structure of items in coms_and_qualities:  (t,cID,frozenset(nodes),quality,granularity)</span>
+        <span class="k">for</span> <span class="n">cID</span><span class="p">,</span> <span class="n">nodes</span> <span class="ow">in</span> <span class="n">coms</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">quality</span> <span class="o">=</span> <span class="n">QC</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">current_graph</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">quality</span><span class="o">&gt;=</span><span class="n">t_quality</span><span class="p">:</span>
+                <span class="n">seeds</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="p">,</span> <span class="n">cID</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">nodes</span><span class="p">),</span> <span class="n">quality</span><span class="p">,</span>
+                          <span class="n">current_granularity</span><span class="p">))</span>  <span class="c1">##structure of items in coms_and_qualities:  (t,cID,frozenset(nodes),quality,granularity)</span>
+    <span class="c1">#print(&quot;quality computation done&quot;)</span>
+
+    <span class="n">seeds</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">seeds</span>
+
+<span class="k">def</span> <span class="nf">_seed_pruning</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">CSS</span><span class="p">,</span> <span class="n">t_similarity</span><span class="p">,</span> <span class="n">C</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">gran</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">C</span><span class="p">:</span>  <span class="c1"># for each already save community</span>
+        <span class="c1"># keep in the list of seeds those that are in a different period or that are sufficiently different, compared with the current one</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span> <span class="k">if</span>
+                 <span class="ow">not</span> <span class="n">seed_contained_in_persistent_com</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">period</span><span class="p">,</span> <span class="n">similarity</span><span class="o">=</span><span class="n">CSS</span><span class="p">,</span>
+                                                      <span class="n">t_similarity</span><span class="o">=</span><span class="n">t_similarity</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">S</span>
+
+<span class="k">def</span> <span class="nf">seed_expansion</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span><span class="n">granularity</span><span class="p">,</span><span class="n">t_quality</span><span class="p">,</span><span class="n">t_persistance</span><span class="p">,</span><span class="n">t_similarity</span><span class="p">,</span><span class="n">QC</span><span class="p">,</span><span class="n">CSS</span><span class="p">,</span><span class="n">pre_computed_snapshots</span><span class="p">,</span><span class="n">C</span><span class="p">):</span>
+    <span class="c1"># Find recursively snapshots in which this community still makes sense</span>
+    <span class="n">similars</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">this_seed_nodes</span> <span class="o">=</span> <span class="n">seed</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="n">similars</span> <span class="o">+=</span> <span class="n">_track_one_community</span><span class="p">(</span><span class="n">this_seed_nodes</span><span class="p">,</span> <span class="n">seed</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pre_computed_snapshots</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="n">QC</span><span class="p">,</span>
+                                     <span class="n">t_quality</span><span class="o">=</span><span class="n">t_quality</span><span class="p">,</span> <span class="n">backward</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">similars</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+    <span class="n">similars</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">seed</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">seed</span><span class="p">[</span><span class="mi">3</span><span class="p">])]</span>
+    <span class="n">similars</span> <span class="o">+=</span> <span class="n">_track_one_community</span><span class="p">(</span><span class="n">this_seed_nodes</span><span class="p">,</span> <span class="n">seed</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pre_computed_snapshots</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="n">QC</span><span class="p">,</span>
+                                     <span class="n">t_quality</span><span class="o">=</span><span class="n">t_quality</span><span class="p">)</span>
+
+    <span class="c1">#if the community is stable, i.e., makes sense more than t_persistance steps</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">similars</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">t_persistance</span><span class="p">:</span>
+        <span class="c1">#print(&quot;----------------&quot;)</span>
+        <span class="n">similars</span> <span class="o">=</span> <span class="p">[</span><span class="n">similars</span><span class="p">]</span>  <span class="c1"># for genericity, we want to be able to deal with non-continuous intervals</span>
+        <span class="n">inter_presence</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">Intervals</span><span class="p">([(</span><span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">sim</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">granularity</span><span class="p">)</span> <span class="k">for</span> <span class="n">sim</span> <span class="ow">in</span> <span class="n">similars</span><span class="p">])</span>
+
+        <span class="c1"># check that a similar community has not already been found</span>
+        <span class="n">redundant</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">gran</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">C</span><span class="p">:</span>
+
+            <span class="c1"># if the communities are similar and one of them has at least half of its duration included in the other</span>
+            <span class="k">if</span> <span class="n">CSS</span><span class="p">(</span><span class="n">this_seed_nodes</span><span class="p">,</span> <span class="n">nodes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">t_similarity</span> <span class="ow">and</span> <span class="n">inter_presence</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
+                    <span class="n">period</span><span class="p">)</span><span class="o">.</span><span class="n">duration</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="nb">min</span><span class="p">([</span><span class="n">inter_presence</span><span class="o">.</span><span class="n">duration</span><span class="p">(),</span> <span class="n">period</span><span class="o">.</span><span class="n">duration</span><span class="p">()]):</span>
+                <span class="n">redundant</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">break</span>
+
+        <span class="c1"># If community not redundant, we compute its quality and add it to the list of communities</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">redundant</span><span class="p">:</span>
+            <span class="c1">#print(similars)</span>
+
+            <span class="n">sum_quality</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">stable</span> <span class="ow">in</span> <span class="n">similars</span><span class="p">:</span>
+                <span class="n">sum_quality</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">([</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stable</span><span class="p">])</span>
+
+            <span class="n">C</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">this_seed_nodes</span><span class="p">,</span> <span class="n">inter_presence</span><span class="p">,</span> <span class="n">granularity</span><span class="p">,</span> <span class="n">sum_quality</span><span class="p">))</span>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

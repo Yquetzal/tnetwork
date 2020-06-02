@@ -1,0 +1,420 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Dynamic Community classes &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Visualization" href="../demo_visu/demo_visu.html" />
+    <link rel="prev" title="Dynamic Network Classes" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo_intro/demo_intro.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html">Dynamic Network Classes</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Dynamic Community classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#table-of-contents">Table of Contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#with-interval-graphs">With Interval graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#accessing-properties-of-communities">Accessing properties of communities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#check-communities">Check communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#in-each-snapshot">In each snapshot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#duration-frequencies-of-relations-between-nodes-and-communities">Duration/frequencies of relations between nodes and communities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization">Visualization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conversion-between-snapshots-and-interval-representation">Conversion between snapshots and interval representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#slicing">Slicing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_visu/demo_visu.html">Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_generation/demo_generation.html">Generation of dynamic networks with communities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../demo_DCD/demo_DCD.html">Dynamic Communities detection and evaluation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../tutorials.html">Tutorials</a> &raquo;</li>
+        
+      <li>Dynamic Community classes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/reference/from_notebooks/demo_community_classes/demo_community_classes.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="dynamic-community-classes">
+<h1>Dynamic Community classes<a class="headerlink" href="#dynamic-community-classes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="#creating">Initializing a dynamic community structure</a></p></li>
+</ol>
+<ul class="simple">
+<li><p>[Using a snapshot representation]</p></li>
+<li><p>[Using an interval graph representation]</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><a class="reference external" href="#accessing">Accessing properties of communities</a></p></li>
+<li><p><a class="reference external" href="#duration">Duration,frequencies of relations between nodes and
+communities</a></p></li>
+<li><p><a class="reference external" href="#visu">Visualization</a></p></li>
+<li><p><a class="reference external" href="#conversion">Conversion between snapshots and interval graphs</a></p></li>
+<li><p><a class="reference external" href="#slicing">Slicing</a></p></li>
+</ol>
+<p>If tnerwork library is not installed, you need to install it, for
+instance using the following command</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%capture #avoid printing output</span>
+<span class="c1">#!pip install --upgrade git+https://github.com/Yquetzal/tnetwork.git</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>   <span class="o">%</span><span class="k">load_ext</span> autoreload
+
+   <span class="o">%</span><span class="k">autoreload</span> 2
+   <span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">tn</span>
+
+<span class="c1">## Initializing a dynamic community structure ### With snapshots</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">com_sn</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">()</span>
+<span class="n">com_sn</span><span class="o">.</span><span class="n">add_affiliation</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;com1&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">com_sn</span><span class="o">.</span><span class="n">add_affiliation</span><span class="p">({</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="s2">&quot;c&quot;</span><span class="p">},</span><span class="s2">&quot;com2&quot;</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">com_sn</span><span class="o">.</span><span class="n">add_affiliation</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,{</span><span class="s2">&quot;com1&quot;</span><span class="p">},[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="section" id="with-interval-graphs">
+<h3>With Interval graphs<a class="headerlink" href="#with-interval-graphs" title="Permalink to this headline">¶</a></h3>
+<p>As with dynamic graphs, intervals are closed on the left and open on the
+right. Periods can be represented in different manners, as shown in the
+following example</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">com_ig</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesIG</span><span class="p">()</span>
+<span class="n">com_ig</span><span class="o">.</span><span class="n">add_affiliation</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;com1&quot;</span><span class="p">,(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">com_ig</span><span class="o">.</span><span class="n">add_affiliation</span><span class="p">({</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="s2">&quot;c&quot;</span><span class="p">},</span><span class="s2">&quot;com2&quot;</span><span class="p">,</span><span class="n">tn</span><span class="o">.</span><span class="n">Intervals</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)))</span>
+<span class="n">com_ig</span><span class="o">.</span><span class="n">add_affiliation</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,{</span><span class="s2">&quot;com1&quot;</span><span class="p">},[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="accessing-properties-of-communities">
+<h2>Accessing properties of communities<a class="headerlink" href="#accessing-properties-of-communities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="check-communities">
+<h3>Check communities<a class="headerlink" href="#check-communities" title="Permalink to this headline">¶</a></h3>
+<p>We check the sate of communities at a particular time.</p>
+<p>Static communities can be accessed in two forms</p>
+<ul class="simple">
+<li><p>in the <strong>community</strong> form (key = community ID, value = set of nodes)</p></li>
+<li><p>in <strong>affiliation</strong> form (key = a noe, value = set of communities)</p></li>
+</ul>
+<p>Example, state of communities at time 3, in <em>community</em> and
+<em>affiliation</em> forms</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">com_sn</span><span class="o">.</span><span class="n">communities</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">com_sn</span><span class="o">.</span><span class="n">affiliations</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">com_ig</span><span class="o">.</span><span class="n">communities</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">com_ig</span><span class="o">.</span><span class="n">affiliations</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;com2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">},</span> <span class="s1">&#39;com1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;d&#39;</span><span class="p">}}</span>
+<span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com2&#39;</span><span class="p">},</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com2&#39;</span><span class="p">},</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">}}</span>
+<span class="p">{</span><span class="s1">&#39;com2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">},</span> <span class="s1">&#39;com1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;d&#39;</span><span class="p">}}</span>
+<span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com2&#39;</span><span class="p">},</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com2&#39;</span><span class="p">},</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">}}</span>
+</pre></div>
+</div>
+<p>The same form exist to access dynamic communities. * communities form:
+for each community, for each of its nodes, presence time * affiliation
+form: for each node, for each of its communities, presence time</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">com_sn</span><span class="o">.</span><span class="n">communities</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">com_ig</span><span class="o">.</span><span class="n">communities</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">com_sn</span><span class="o">.</span><span class="n">affiliations</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">com_ig</span><span class="o">.</span><span class="n">affiliations</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]},</span> <span class="s1">&#39;com2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]}}</span>
+<span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">[</span> <span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">[</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">[</span> <span class="p">},</span> <span class="s1">&#39;com2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">[</span> <span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">[</span> <span class="p">}}</span>
+<span class="p">{</span><span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]},</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]},</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]},</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]}}</span>
+<span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">[</span> <span class="p">},</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">[</span> <span class="p">},</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">[</span> <span class="p">},</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">[</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">[</span> <span class="p">}}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="in-each-snapshot">
+<h3>In each snapshot<a class="headerlink" href="#in-each-snapshot" title="Permalink to this headline">¶</a></h3>
+<p>For snapshots representation, it is also possible to obtain communities
+in each snapshot</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">com_sn</span><span class="o">.</span><span class="n">snapshot_affiliations</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SortedDict</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">},</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">}},</span> <span class="mi">2</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com2&#39;</span><span class="p">},</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com2&#39;</span><span class="p">}},</span> <span class="mi">3</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com2&#39;</span><span class="p">},</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com2&#39;</span><span class="p">},</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">}}})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="duration-frequencies-of-relations-between-nodes-and-communities">
+<h2>Duration/frequencies of relations between nodes and communities<a class="headerlink" href="#duration-frequencies-of-relations-between-nodes-and-communities" title="Permalink to this headline">¶</a></h2>
+<p>One can check how long does a node belong to a community, in total</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">com_sn</span><span class="o">.</span><span class="n">affiliations_durations</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span><span class="s2">&quot;com1&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">com_ig</span><span class="o">.</span><span class="n">affiliations_durations</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span><span class="s2">&quot;com1&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2</span>
+<span class="mi">2</span>
+</pre></div>
+</div>
+<p>One can also check directly the duration of affiliations of each node to
+each community</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">com_sn</span><span class="o">.</span><span class="n">affiliations_durations</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">com_ig</span><span class="o">.</span><span class="n">affiliations_durations</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;com1&#39;</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;com2&#39;</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;com1&#39;</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;com2&#39;</span><span class="p">):</span> <span class="mi">2</span><span class="p">}</span>
+<span class="p">{(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;com2&#39;</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;com2&#39;</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;com1&#39;</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;com1&#39;</span><span class="p">):</span> <span class="mi">2</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="visualization">
+<h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h2>
+<p>A simple example of visualization. To see more possibilities, see the
+dedicated section of the documentation</p>
+<p>Note that it is the same function which is used to plot longitudinial
+graphs and communities. That is why we need to specify that what we
+provide corresponds to the <code class="docutils literal notranslate"><span class="pre">communities</span></code> parameter. One can provide
+both a graph and a dynamic community structure to this function.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">communities</span><span class="o">=</span><span class="n">com_sn</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">communities</span><span class="o">=</span><span class="n">com_ig</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">numpy</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">numeric</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">2327</span><span class="p">:</span> <span class="ne">FutureWarning</span><span class="p">:</span> <span class="n">elementwise</span> <span class="n">comparison</span> <span class="n">failed</span><span class="p">;</span> <span class="n">returning</span> <span class="n">scalar</span> <span class="n">instead</span><span class="p">,</span> <span class="n">but</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">future</span> <span class="n">will</span> <span class="n">perform</span> <span class="n">elementwise</span> <span class="n">comparison</span>
+  <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">asarray</span><span class="p">(</span><span class="n">a1</span> <span class="o">==</span> <span class="n">a2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_21_1.png" src="../../../_images/output_21_1.png" />
+<img alt="../../../_images/output_21_2.png" src="../../../_images/output_21_2.png" />
+<p>One can also plot a graph with nodes color corresponding to communities.
+In this example, we create a dynamic graph with a fix structure, and
+plot the communities we defined above</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graph_toy</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">()</span>
+<span class="n">graph_toy</span><span class="o">.</span><span class="n">add_interaction</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="p">,(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">graph_toy</span><span class="o">.</span><span class="n">add_interaction</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;c&quot;</span><span class="p">,(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">graph_toy</span><span class="o">.</span><span class="n">add_interaction</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;d&quot;</span><span class="p">,(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">graph_toy</span><span class="o">.</span><span class="n">add_interaction</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="s2">&quot;d&quot;</span><span class="p">,(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_as_graph</span><span class="p">(</span><span class="n">graph_toy</span><span class="p">,</span><span class="n">com_ig</span><span class="p">,[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span><span class="n">auto_show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_23_0.png" src="../../../_images/output_23_0.png" />
+</div>
+<div class="section" id="conversion-between-snapshots-and-interval-representation">
+<h2>Conversion between snapshots and interval representation<a class="headerlink" href="#conversion-between-snapshots-and-interval-representation" title="Permalink to this headline">¶</a></h2>
+<p>Dynamic network representations can be converted by calling the
+appropriate function. * When converting to interval graphs, we provide
+the duration of each snapshots * When converting to snapshots, we
+provide the slices to which each snapshot should correspond. Note that
+it is tehrefore possible to have snapshots corresponding to overlapping
+periods</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">converted_ig</span> <span class="o">=</span> <span class="n">com_sn</span><span class="o">.</span><span class="n">to_DynCommunitiesIG</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">converted_ig</span><span class="o">.</span><span class="n">communities</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">com_ig</span><span class="o">.</span><span class="n">communities</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">[</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">[</span> <span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">[</span> <span class="p">},</span> <span class="s1">&#39;com2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">[</span> <span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">[</span> <span class="p">}}</span>
+<span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">[</span> <span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">[</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">[</span> <span class="p">},</span> <span class="s1">&#39;com2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">[</span> <span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">[</span> <span class="p">}}</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">converted_sn</span> <span class="o">=</span> <span class="n">com_ig</span><span class="o">.</span><span class="n">to_DynCommunitiesSN</span><span class="p">(</span><span class="n">slices</span><span class="o">=</span><span class="p">[(</span><span class="n">x</span><span class="p">,</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">)])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">converted_sn</span><span class="o">.</span><span class="n">communities</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">com_sn</span><span class="o">.</span><span class="n">communities</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]},</span> <span class="s1">&#39;com2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]}}</span>
+<span class="p">{</span><span class="s1">&#39;com1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]},</span> <span class="s1">&#39;com2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]}}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="slicing">
+<h2>Slicing<a class="headerlink" href="#slicing" title="Permalink to this headline">¶</a></h2>
+<p>Slicing part of networks can be useful, for instance to visualize only a
+fraction of a large dynamic partition</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sliced</span> <span class="o">=</span> <span class="n">com_ig</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">communities</span><span class="o">=</span><span class="n">sliced</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/output_28_0.png" src="../../../_images/output_28_0.png" />
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../demo_visu/demo_visu.html" class="btn btn-neutral float-right" title="Visualization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../demo_Network_Graph_classes/demo_Network_Graph_classes.html" class="btn btn-neutral float-left" title="Dynamic Network Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

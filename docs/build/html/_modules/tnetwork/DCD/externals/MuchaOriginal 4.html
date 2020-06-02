@@ -1,0 +1,370 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tnetwork.DCD.externals.MuchaOriginal &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/from_notebooks/demo_intro/demo_intro.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../documentation.html">Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>tnetwork.DCD.externals.MuchaOriginal</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tnetwork.DCD.externals.MuchaOriginal</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">matlab</span> <span class="kn">import</span> <span class="n">engine</span>
+<span class="kn">import</span> <span class="nn">scipy.io</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">tn</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+
+
+
+
+
+
+
+<span class="k">def</span> <span class="nf">_runMatlabCode</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">matlab_session</span><span class="p">):</span>
+    <span class="c1">#matrix = scipy.sparse.coo_matrix(matrix)</span>
+    <span class="nb">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+    <span class="n">visuAddress</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="s2">&quot;GenLouvain-master&quot;</span><span class="p">)</span>
+
+    <span class="c1">#print(&quot;saving matrix for matlab &quot;)</span>
+    <span class="n">scipy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">savemat</span><span class="p">(</span><span class="n">visuAddress</span><span class="o">+</span><span class="s1">&#39;/file.mat&#39;</span><span class="p">,{</span><span class="s2">&quot;B&quot;</span><span class="p">:</span><span class="n">matrix</span><span class="p">})</span>
+    <span class="n">result_file</span> <span class="o">=</span> <span class="n">visuAddress</span><span class="o">+</span><span class="s1">&#39;/result.mat&#39;</span>
+    <span class="c1">###matFormat = matlab.double(matrix.tolist())</span>
+
+    <span class="c1">#print(&quot;starting matlab engine&quot;)</span>
+    <span class="n">eng</span> <span class="o">=</span> <span class="n">matlab_session</span>
+    <span class="k">if</span> <span class="n">eng</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">eng</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">start_matlab</span><span class="p">()</span>
+    <span class="n">eng</span><span class="o">.</span><span class="n">addpath</span><span class="p">(</span><span class="n">visuAddress</span><span class="p">,</span> <span class="n">nargout</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1">#print(&quot;matlab engine started successfully&quot;)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+    <span class="c1">#(S, Q) = eng.genlouvain(&#39;file.mat&#39;, nargout=2)</span>
+    <span class="n">eng</span><span class="o">.</span><span class="n">genlouvain</span><span class="p">(</span><span class="s1">&#39;file.mat&#39;</span><span class="p">,</span><span class="n">result_file</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">out</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">err</span><span class="p">)</span>
+
+    <span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+
+    <span class="c1">#print(&quot;matlab code ran successfully&quot;)</span>
+
+    <span class="c1">#print(err.getvalue())</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">result_file</span><span class="p">)</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;S&quot;</span><span class="p">]</span>
+
+
+
+    <span class="k">return</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="n">duration</span><span class="p">)</span>
+    <span class="c1"># S = numpy.asarray(S).reshape(2, 34)</span>
+
+<div class="viewcode-block" id="transversal_network_mucha_original"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.externals.transversal_network_mucha_original.html#tnetwork.DCD.externals.transversal_network_mucha_original">[docs]</a><span class="k">def</span> <span class="nf">transversal_network_mucha_original</span><span class="p">(</span><span class="n">dyn_graph</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">,</span> <span class="n">om</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s2">&quot;local&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">matlab_session</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Multiplex community detection, Mucha et al.</span>
+
+<span class="sd">    Algorithm described in [1]</span>
+
+<span class="sd">    Brief summary: a single network is created by adding nodes between themselves in different snaphsots. A modified modularity optimization algorithm is run</span>
+<span class="sd">    on this network</span>
+
+<span class="sd">    For this function, it is necessary to have Matlab installed</span>
+<span class="sd">    And to set up the matlab for python engine, see how to there</span>
+<span class="sd">    https://fr.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html</span>
+<span class="sd">    (you can find the value of matlabroot by tapping matlabroot in your matlab console)</span>
+
+<span class="sd">    If you do not have matlab, you can try to use the transversal_network_leidenalg which is slower but requires only a package installation</span>
+
+<span class="sd">    [1] Mucha, P. J., Richardson, T., Macon, K., Porter, M. A., &amp; Onnela, J. P. (2010).</span>
+<span class="sd">    Community structure in time-dependent, multiscale, and multiplex networks.</span>
+<span class="sd">    science, 328(5980), 876-878.</span>
+
+<span class="sd">    :param dyn_graph: dynamic network</span>
+<span class="sd">    :param om:</span>
+<span class="sd">    :param form:</span>
+<span class="sd">    :param elapsed_time:</span>
+<span class="sd">    :param matlab_session:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;preprocessing MUCHA &quot;</span><span class="p">)</span>
+
+    <span class="c1">#Original example on genlouvain website</span>
+    <span class="c1">#N = length(A{1});</span>
+    <span class="c1">#T = length(A);</span>
+    <span class="c1">#B = spalloc(N * T, N * T, N * N * T + 2 * N * T);</span>
+    <span class="c1">#twomu = 0;</span>
+    <span class="c1">#for s=1:T</span>
+    <span class="c1">#     k = sum(A{s});</span>
+    <span class="c1">#     twom = sum(k);</span>
+    <span class="c1">#     twomu = twomu + twom;</span>
+    <span class="c1">#     indx = [1:N]+(s - 1) * N;</span>
+    <span class="c1">#     B(indx, indx) = A</span>
+    <span class="c1">#     {s} - gamma * k&#39;*k/twom;</span>
+    <span class="c1">#</span>
+    <span class="c1">#</span>
+    <span class="c1"># end</span>
+    <span class="c1"># twomu = twomu + 2 * omega * N * (T - 1);</span>
+    <span class="c1"># B = B + omega * spdiags(ones(N * T, 2), [-N, N], N * T, N * T);</span>
+    <span class="c1"># [S, Q] = genlouvain(B);</span>
+    <span class="c1"># Q = Q / twomu</span>
+    <span class="c1"># S = reshape(S, N, T);</span>
+
+    <span class="n">graphs</span> <span class="o">=</span> <span class="n">dyn_graph</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span>
+
+    <span class="n">nodeOrderAllSN</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">listModularityMatrices</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1">#for each graph in order</span>
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">gT</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">graphs</span><span class="p">):</span>
+        <span class="n">g</span><span class="o">=</span><span class="n">graphs</span><span class="p">[</span><span class="n">gT</span><span class="p">]</span>
+        <span class="n">nodeOrder</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodeOrder</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">nodeOrderAllSN</span><span class="o">+=</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodeOrder</span><span class="p">]</span>
+
+            <span class="n">gmat</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">to_scipy_sparse_matrix</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">nodelist</span><span class="o">=</span><span class="n">nodeOrder</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;dok&quot;</span><span class="p">)</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">gmat</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1">#degrees of nodes</span>
+            <span class="n">twom</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="c1">#sum of degrees</span>
+            <span class="n">nullModel</span>  <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span> <span class="o">*</span> <span class="n">k</span> <span class="o">/</span><span class="n">twom</span>
+            <span class="n">listModularityMatrices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gmat</span> <span class="o">-</span> <span class="n">nullModel</span><span class="p">)</span>
+
+    <span class="c1">#Concatenate all null modularity matrices</span>
+    <span class="c1">#B = scipy.sparse.block_diag(*listModularityMatrices)</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">block_diag</span><span class="p">(</span><span class="n">listModularityMatrices</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;dok&quot;</span><span class="p">)</span>
+    <span class="n">listModularityMatrices</span><span class="o">=</span><span class="kc">None</span>
+
+    <span class="c1">#B = scipy.sparse.dok_matrix(B)</span>
+
+
+    <span class="c1">#add the link between same nodes in different timestamps</span>
+    <span class="n">multipleAppearances</span><span class="o">=</span><span class="p">{}</span> <span class="c1">#for each node, list of indices where it appears</span>
+
+    <span class="n">ordered_real_times</span> <span class="o">=</span> <span class="n">dyn_graph</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,(</span><span class="n">t</span><span class="p">,</span><span class="n">n</span><span class="p">))</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodeOrderAllSN</span><span class="p">):</span>
+        <span class="n">multipleAppearances</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">n</span><span class="p">,[])</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span><span class="n">t</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">==</span><span class="s2">&quot;global&quot;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">nAppearences</span><span class="p">)</span> <span class="ow">in</span> <span class="n">multipleAppearances</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="ow">in</span> <span class="n">nAppearences</span><span class="p">:</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="ow">in</span> <span class="n">nAppearences</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">i</span><span class="o">!=</span><span class="n">j</span><span class="p">:</span>
+                        <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">om</span>
+    <span class="k">if</span> <span class="n">form</span><span class="o">==</span><span class="s2">&quot;local&quot;</span><span class="p">:</span>
+        <span class="c1">#print(multipleAppearances)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">orderedAppearences</span><span class="p">)</span> <span class="ow">in</span> <span class="n">multipleAppearances</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1">#print(orderedAppearences)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">orderedAppearences</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="c1">#BE CAREFUL, modified recently</span>
+                <span class="n">ii</span><span class="p">,</span><span class="n">t</span> <span class="o">=</span> <span class="n">orderedAppearences</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">ii_next</span><span class="p">,</span><span class="n">t_next</span> <span class="o">=</span> <span class="n">orderedAppearences</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                <span class="c1">#index_t = ordered_real_times.index(t)</span>
+
+                <span class="k">if</span> <span class="n">ordered_real_times</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="n">ordered_real_times</span><span class="p">[</span><span class="n">t_next</span><span class="p">]:</span>
+                    <span class="n">B</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">ii_next</span><span class="p">]</span><span class="o">=</span><span class="n">om</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">==</span><span class="s2">&quot;local_relaxed&quot;</span><span class="p">:</span>
+        <span class="c1">#print(multipleAppearances)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">orderedAppearences</span><span class="p">)</span> <span class="ow">in</span> <span class="n">multipleAppearances</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">orderedAppearences</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">ii</span><span class="p">,</span><span class="n">t</span> <span class="o">=</span> <span class="n">orderedAppearences</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">ii_next</span><span class="p">,</span><span class="n">t_next</span> <span class="o">=</span> <span class="n">orderedAppearences</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">B</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">ii_next</span><span class="p">]</span><span class="o">=</span><span class="n">om</span>
+
+    <span class="c1">#print(&quot;saving temp file&quot;)</span>
+    <span class="c1">#numpy.savetxt(&quot;test.csv&quot;, B, fmt=&quot;%.2f&quot;, delimiter=&quot;,&quot;)</span>
+    <span class="c1">#print(&quot;file saved&quot;)</span>
+
+    <span class="c1">#B = scipy.sparse.coo_matrix(B)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;calling external code&quot;</span><span class="p">)</span>
+
+    <span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="n">duration</span><span class="p">)</span> <span class="o">=</span> <span class="n">_runMatlabCode</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">matlab_session</span><span class="o">=</span><span class="n">matlab_session</span><span class="p">)</span>
+    <span class="c1">#print(&quot;transforming back to dynamic net&quot;)</span>
+
+    <span class="n">DCSN</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">()</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="n">dyn_graph</span><span class="o">.</span><span class="n">snapshots_timesteps</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">)):</span>
+        <span class="n">DCSN</span><span class="o">.</span><span class="n">add_affiliation</span><span class="p">(</span><span class="n">nodeOrderAllSN</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">times</span><span class="p">[</span><span class="n">nodeOrderAllSN</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sucessfully finished MUCHA &quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">elapsed_time</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">DCSN</span><span class="p">,{</span><span class="s2">&quot;total&quot;</span><span class="p">:</span><span class="n">duration</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">DCSN</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

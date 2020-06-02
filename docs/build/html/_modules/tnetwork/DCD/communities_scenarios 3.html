@@ -1,0 +1,976 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tnetwork.DCD.communities_scenarios &mdash; tnetwork  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tnetwork
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/from_notebooks/demo_intro/demo_intro.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">tnetwork</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>tnetwork.DCD.communities_scenarios</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tnetwork.DCD.communities_scenarios</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">dn</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">progressbar</span>
+<span class="kn">from</span> <span class="nn">tnetwork.utils.intervals</span> <span class="kn">import</span> <span class="n">Intervals</span>
+<span class="kn">from</span> <span class="nn">.community</span> <span class="kn">import</span> <span class="n">_Operation</span><span class="p">,</span><span class="n">Community</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+
+
+
+
+
+
+<div class="viewcode-block" id="ComScenario"><a class="viewcode-back" href="../../../reference/generation.html#tnetwork.ComScenario">[docs]</a><span class="k">class</span> <span class="nc">ComScenario</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class manages the community evolution scenario</span>
+
+<span class="sd">    It implements the benchmark described in XXX</span>
+
+<span class="sd">    Behavior to keep in mind:</span>
+
+<span class="sd">    1) Any node that does not belong to a community is condered &quot;dead&quot;. Note that it can reappear later</span>
+<span class="sd">    if it belongs to a community again.</span>
+<span class="sd">    As a consequence, a node alive but not belonging to any community must be represented as a node belonging to a community of size 1</span>
+
+<span class="sd">    2)There are not really persistent community, every time a community is modified in any way, a new community is created,</span>
+<span class="sd">    and it is only because they have the same name (label) that they are considered part of the same dynamic community.</span>
+
+<span class="sd">    As a consequence, to kill a dynamic community, one simply needs to stop using its name.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ComScenario.__init__"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.__init__.html#tnetwork.ComScenario.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>  <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.80</span><span class="p">,</span> <span class="n">external_density_penalty</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">random_noise</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">variant</span><span class="o">=</span><span class="s2">&quot;deterministic&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the community generation class</span>
+
+<span class="sd">        When initializing, we can set the parameters of the link generation</span>
+
+<span class="sd">        :param alpha: alpha parameter that determines the density of communities decrease with size</span>
+<span class="sd">        :param external_density_penalty: beta, how smaller the density of outside community is compared to a a community of the same size</span>
+<span class="sd">        :param random_noise: beta_r, fraction of existing edges that are randomly rewired at each step</span>
+<span class="sd">        :param verbose: If true, print debugging information</span>
+<span class="sd">        :param variant: the variant of the generator controls the way edges are generated. Currently, only &quot;deterministic&quot; is fully suported</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">##################### Parameters ##########</span>
+        <span class="c1"># parameter to define how fast snapshot_affiliations are loosing in density when they grow</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_noise</span><span class="o">=</span><span class="n">random_noise</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha_com_density</span> <span class="o">=</span> <span class="n">alpha</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pairsImportance</span> <span class="o">=</span><span class="p">[]</span> <span class="c1">#List of importance for each pair of nodes in the graph</span>
+
+        <span class="c1">#dictionary containing the list of all currently active snapshot_affiliations (and operations). {name:object}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentCommunities</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c1"># type:{_AbstractStructure}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentID</span><span class="o">=</span><span class="mi">0</span> <span class="c1">#To ensure that all community IDs are different</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span><span class="o">=</span><span class="mi">0</span> <span class="c1">#keep track of time</span>
+
+        <span class="c1"># For optimization, memorize communities and graphs in a local format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_edges</span><span class="o">=</span><span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_nodes</span><span class="o">=</span><span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_com_local</span><span class="o">=</span><span class="nb">dict</span><span class="p">()</span>
+
+        <span class="c1">#self._dynCom = dn.DynamicCommunitiesSN() #Class used to memorize the dynamic snapshot_affiliations in the dynamic rerence partition&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dynCom</span> <span class="o">=</span> <span class="n">dn</span><span class="o">.</span><span class="n">DynCommunitiesIG</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_variant</span><span class="o">=</span><span class="n">variant</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_actions</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span> <span class="c1">#list of community operations to do</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="o">=</span><span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_externalDensityPenalty</span><span class="o">=</span><span class="n">external_density_penalty</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_allSeenNodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span> <span class="c1">#list of nodes that appear at least once (to manage pairsimportance)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_allSeenCommunities</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span> <span class="c1">#to manage triggers</span></div>
+
+    <span class="c1">############### Function to determine density (could be replaced by custom one) ######</span>
+    <span class="k">def</span> <span class="nf">nb_edges_for_a_community_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comSize</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given the number of nodes in a community, return the desired number of edges</span>
+
+<span class="sd">        :param comSize: number of nodes</span>
+<span class="sd">        :return: desired number of edges</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nbNodes</span> <span class="o">=</span> <span class="n">comSize</span>
+        <span class="k">if</span> <span class="n">nbNodes</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="c1">##self.alpha_com_density = 0.75</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">nbNodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_com_density</span><span class="p">)</span> <span class="o">*</span> <span class="n">nbNodes</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_current_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute list of nodes CURRENTLY active (gives differnt results for different time)</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">allNodes</span><span class="o">=</span><span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">com</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentCommunities</span><span class="p">:</span>
+            <span class="n">allNodes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">com</span><span class="o">.</span><span class="n">nodes</span><span class="p">()))</span>
+
+        <span class="k">return</span> <span class="n">allNodes</span>
+
+
+
+
+
+
+    <span class="k">def</span> <span class="nf">_get_new_ID</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fonction to generate a unique ID.</span>
+<span class="sd">        :param prefix: optional prefix, for instance to distinguish nodes from snapshot_affiliations</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">toR</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentID</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;_t_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">toR</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_terminate_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Terminate an ongoing operation</span>
+<span class="sd">        :param operation: operation to terminate</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------END OF OPERATION: &quot;</span><span class="p">,</span> <span class="n">operation</span><span class="o">.</span><span class="n">label</span><span class="p">())</span>
+
+        <span class="c1">#remove the operation from the list of current snapshot_affiliations</span>
+        <span class="c1">#--- this has importnat implications: one does not need to manage manually the death of snapshot_affiliations,</span>
+        <span class="c1">#--- as any community that has a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentCommunities</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span>
+
+        <span class="c1">#for each community modifed by the operation</span>
+        <span class="k">for</span> <span class="n">com</span> <span class="ow">in</span> <span class="n">operation</span><span class="o">.</span><span class="n">_afterCommunities</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_allSeenCommunities</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">com</span><span class="p">)</span>
+
+            <span class="c1">#add this community to the list of active snapshot_affiliations</span>
+            <span class="k">if</span> <span class="s2">&quot;|DEATH|&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">com</span><span class="o">.</span><span class="n">label</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_currentCommunities</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">com</span><span class="p">)</span>
+
+                <span class="c1">##### Management of the reference partition as an event graph #####</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">operation</span><span class="o">.</span><span class="n">_beforeCommunities</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                    <span class="c1">#update the name of community with the event graph now that we know the time of end of operation</span>
+                    <span class="n">nx</span><span class="o">.</span><span class="n">relabel_nodes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dynCom</span><span class="o">.</span><span class="n">events</span><span class="p">,</span> <span class="p">{</span><span class="n">com</span><span class="o">.</span><span class="n">label</span><span class="p">():(</span><span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span><span class="p">,</span> <span class="n">com</span><span class="o">.</span><span class="n">label</span><span class="p">())},</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="c1">###################################################################</span>
+
+    <span class="k">def</span> <span class="nf">_generate_current_network</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a graph generated according to currently active snapshot_affiliations / operations</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#g = nx.Graph()</span>
+        <span class="n">currentNodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_current_nodes</span><span class="p">()</span>
+        <span class="c1">#intercomEdges = self._pairsImportance.copy()</span>
+
+        <span class="c1">#keep only pairs between current nodes</span>
+        <span class="c1">#intercomEdges = {k:v for k,v in intercomEdges.items() if len(k &amp; currentNodes)==2}</span>
+
+        <span class="n">to_skip</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1">#for each community</span>
+        <span class="n">chosen_intern_edges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_currentCommunities</span><span class="p">):</span>
+
+            <span class="n">chosen_intern_edges</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">_intern_edges</span><span class="p">())</span>
+
+            <span class="c1">#add the selected edges to the graph</span>
+            <span class="c1">#g.add_edges_from(chosenEdges)</span>
+            <span class="c1">#REMOVE intern pairs from possible pairs for inter-com edges</span>
+            <span class="n">internPairs</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">_intern_pairs</span><span class="p">()</span>
+            <span class="n">to_skip</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">internPairs</span><span class="p">)</span>
+
+
+        <span class="c1">#Pick edges outside snapshot_affiliations</span>
+        <span class="c1">#sortedPairs = sorted(intercomEdges.items(), key=operator.itemgetter(1),reverse=True)</span>
+        <span class="n">wantedNbInterEdges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_edges_for_a_community_size</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_current_nodes</span><span class="p">()))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_externalDensityPenalty</span>
+        <span class="c1">###wantedNbInterEdges=len(chosen_intern_edges)*self._externalDensityPenalty</span>
+        <span class="n">chosen_extern_edges</span><span class="o">=</span><span class="nb">set</span><span class="p">()</span>
+        <span class="n">i</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">chosen_extern_edges</span><span class="p">)</span><span class="o">&lt;</span><span class="n">wantedNbInterEdges</span><span class="p">:</span>
+            <span class="n">candidate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pairsImportance</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">to_skip</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidate</span> <span class="o">&amp;</span> <span class="n">currentNodes</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                    <span class="n">chosen_extern_edges</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">candidate</span><span class="p">)</span>
+            <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
+        <span class="c1">#chosenEdges = sortedPairs[:math.floor(wantedNbInterEdges)]</span>
+        <span class="c1">#chosenEdges = [x[0] for x in chosenEdges]</span>
+
+        <span class="n">chosen_edges</span> <span class="o">=</span> <span class="n">chosen_intern_edges</span> <span class="o">|</span> <span class="n">chosen_extern_edges</span>
+        <span class="c1">#add the selected edges to the graph</span>
+        <span class="c1">#g.add_edges_from(chosenEdges)</span>
+        <span class="k">return</span> <span class="n">chosen_edges</span>
+
+
+    <span class="k">def</span> <span class="nf">create_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the only function allowed to create nodes. Most nodes are created automatically by a community birth,</span>
+<span class="sd">        but in some cases, it could be useful to create it manually and manage its integration manually, for instance</span>
+<span class="sd">        in the scneario of a new node appearing and being immediately integrated into an existing community, it does</span>
+<span class="sd">        not make sense to first make it appear in a community of its own which is then merged</span>
+
+<span class="sd">        :param id: a name to recognize that node (a unique ID will be created by adding a postfix)</span>
+<span class="sd">        :return: unique ID of the node. Nodes do not have existance (instanciation) appart from this name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">id</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_new_ID</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allSeenNodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pairsImportance</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_pairsImportance</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="nb">id</span><span class="p">)))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_pairsImportance</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pairsImportance</span><span class="p">)),</span><span class="nb">frozenset</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="nb">id</span><span class="p">)))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_allSeenNodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----created node &quot;</span><span class="p">,</span><span class="nb">id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">id</span>
+
+
+
+    <span class="k">def</span> <span class="nf">_add_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">triggers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generic function to add an action to execute, with temporal parameters. Note the difference between t and delay:</span>
+<span class="sd">        we can say that we want an event to occur not before a time t, but if the comunities we are &quot;waitfor&quot; are not ready,</span>
+<span class="sd">        we delay until they are. But when they are, we might want to delay a little before triggering this event.</span>
+
+<span class="sd">        :param action: the action to add</span>
+<span class="sd">        :param t: the time at which we start to consider the activation of this action</span>
+<span class="sd">        :param delay: the time we should delay after all conditions are fulfilled for activating it</span>
+<span class="sd">        :param triggers: the ID of the event(s) that should be finished before considering activation</span>
+<span class="sd">        :return: the ID(s) of snapshot_affiliations created by this action (always a list)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----request action &quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">.</span><span class="n">_action</span><span class="p">,</span> <span class="n">action</span><span class="o">.</span><span class="n">label</span><span class="p">())</span>
+        <span class="n">action</span><span class="o">.</span><span class="n">initialise</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----added action &quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">.</span><span class="n">_action</span><span class="p">,</span> <span class="n">action</span><span class="o">.</span><span class="n">label</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_actions</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;operation&quot;</span><span class="p">:</span> <span class="n">action</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="n">delay</span><span class="p">,</span> <span class="s2">&quot;triggers&quot;</span><span class="p">:</span><span class="n">triggers</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">action</span><span class="o">.</span><span class="n">_afterCommunities</span>
+
+
+    <span class="k">def</span> <span class="nf">_activate_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">op</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function called when it is time to execute an action (conditions fulfilled).</span>
+
+<span class="sd">        :param op: opeartion to activate</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------ACTIVATING: &quot;</span><span class="p">,</span> <span class="n">op</span><span class="o">.</span><span class="n">label</span><span class="p">())</span>
+
+        <span class="c1">#add the operation to the list of currently existing snapshot_affiliations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentCommunities</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
+
+        <span class="c1">#delete the snapshot_affiliations involved in the operation from the list of currently existing snapshot_affiliations</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">op</span><span class="o">.</span><span class="n">_beforeCommunities</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_currentCommunities</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_retrieve_last_community_with_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">anAction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given the name of a community, return the last community object created under that name.</span>
+<span class="sd">        :param anAction:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_actions</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">anAction</span> <span class="ow">in</span> <span class="n">action</span><span class="p">[</span><span class="s2">&quot;operation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">_afterNames</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">action</span><span class="p">[</span><span class="s2">&quot;operation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">_afterCommunities</span><span class="p">[</span><span class="n">action</span><span class="p">[</span><span class="s2">&quot;operation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">_afterNames</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">anAction</span><span class="p">)]</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;OPERATION MISSING to lead to com: &quot;</span><span class="o">+</span><span class="n">anAction</span><span class="p">)</span>
+
+
+
+
+
+
+    <span class="k">def</span> <span class="nf">_memorize_current_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        function to memorize in the dynamic graphs and dynamic snapshot_affiliations the current configuration</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_current_network</span><span class="p">()</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">{</span><span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">}</span> <span class="o">|</span> <span class="p">{</span><span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">}</span>
+        <span class="c1"># nodes=g.nodes</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_noise</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">nb_edges_original</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+
+            <span class="n">edges_to_randomize</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_noise</span><span class="o">*</span><span class="n">nb_edges_original</span><span class="p">)</span>
+            <span class="c1">#print(edges_to_randomize)</span>
+            <span class="k">if</span> <span class="n">edges_to_randomize</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">nb_edges_original</span><span class="p">,</span> <span class="n">edges_to_randomize</span><span class="p">)</span>
+
+                <span class="c1">#ee = np.array(edges)</span>
+                <span class="c1">#print(ee)</span>
+                <span class="c1">#to_remove_random = set(ee[idx])</span>
+                <span class="n">to_remove_random</span> <span class="o">=</span> <span class="p">{</span><span class="nb">list</span><span class="p">(</span><span class="n">edges</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">}</span>
+                <span class="n">edges</span> <span class="o">=</span> <span class="n">edges</span> <span class="o">-</span> <span class="n">to_remove_random</span>
+                <span class="c1">#g.remove_edges_from(to_remove_random)</span>
+                <span class="c1">#nb_nodes =  g.number_of_nodes()</span>
+                <span class="n">nb_nodes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+                <span class="n">to_adds_source</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">nb_nodes</span><span class="p">,</span> <span class="n">edges_to_randomize</span><span class="p">)</span>
+                <span class="n">to_adds_dest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">nb_nodes</span><span class="p">,</span> <span class="n">edges_to_randomize</span><span class="p">)</span>
+                <span class="c1">#to_adds_source = np.array(nodes)[to_adds_source]</span>
+                <span class="c1">#to_adds_dest = np.array(nodes)[to_adds_dest]</span>
+
+                <span class="n">to_adds_source</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">nodes</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">to_adds_source</span><span class="p">]</span>
+                <span class="n">to_adds_dest</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">nodes</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">to_adds_dest</span><span class="p">]</span>
+
+
+                <span class="n">edges</span> <span class="o">=</span> <span class="n">edges</span> <span class="o">|</span> <span class="p">{(</span><span class="n">to_adds_source</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">to_adds_dest</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">edges_to_randomize</span><span class="p">)</span> <span class="k">if</span> <span class="n">to_adds_source</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span> <span class="n">to_adds_dest</span><span class="p">[</span><span class="n">i</span><span class="p">]}</span>
+                <span class="c1">#g.add_edges_from([(to_adds_source[i],to_adds_dest[i]) for i in range(edges_to_randomize) if to_adds_source[i]!= to_adds_dest[i]])</span>
+
+
+
+        <span class="c1"># memorize the current step of the graph in the dynamic network</span>
+        <span class="c1">#self._dynGraph.set_snapshot(self._currentT, g)</span>
+        <span class="c1">#self._dynGraph.add_interactions_from(list(g.edges()),(self._currentT,self._currentT+1))</span>
+
+        <span class="c1">#edges = g.edges()</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">([</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_edges</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_edges</span><span class="p">[</span><span class="n">e</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_edges</span><span class="p">[</span><span class="n">e</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_edges</span><span class="p">[</span><span class="n">e</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_edges</span><span class="p">[</span><span class="n">e</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_edges</span><span class="p">[</span><span class="n">e</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_nodes</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_nodes</span><span class="p">[</span><span class="n">n</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_nodes</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_nodes</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_nodes</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_nodes</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;snapshot_affiliations end of step: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentCommunities</span><span class="p">)</span>
+
+        <span class="c1"># Memorize the current partition in the dynamic partition</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentCommunities</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Community</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">label</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_com_local</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">name</span><span class="p">,{})</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">n</span><span class="p">,[])</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dyn_com_local</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">n</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_com_local</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">n</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_com_local</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">n</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dyn_com_local</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">n</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_com_local</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># for c in self._currentCommunities:</span>
+        <span class="c1">#     if type(c) is Community:</span>
+        <span class="c1">#         if (self._verbose):</span>
+        <span class="c1">#             print(&quot;list of current com: adding com &quot;, self._currentT, &quot; &quot;, c.name())</span>
+        <span class="c1">#         self._dynCom.add_affiliations_from({c.name():set(c.nodes())}, (self._currentT, self._currentT + 1))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+    <span class="k">def</span> <span class="nf">_local_formats_to_dyn_structures</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">to_return_graph</span> <span class="o">=</span> <span class="n">dn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">()</span>
+        <span class="c1">#print(self._dyn_graph_nodes)</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_nodes</span><span class="p">:</span>
+            <span class="n">intv</span> <span class="o">=</span> <span class="n">Intervals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_nodes</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+            <span class="c1">#print(n,intv)</span>
+            <span class="n">to_return_graph</span><span class="o">.</span><span class="n">add_node_presence</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">intv</span><span class="p">)</span>
+        <span class="c1">#print(nx.get_node_attributes(to_return._graph,&quot;t&quot;))</span>
+
+
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_edges</span><span class="p">:</span>
+            <span class="p">[</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="n">intv</span> <span class="o">=</span> <span class="n">Intervals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_edges</span><span class="p">[</span><span class="n">e</span><span class="p">])</span>
+            <span class="n">to_return_graph</span><span class="o">.</span><span class="n">_add_interaction_safe</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,</span><span class="n">intv</span><span class="p">)</span>
+        <span class="c1">#print(to_return.node_presence())</span>
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_com_local</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_com_local</span><span class="p">[</span><span class="n">c</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_com_local</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">n</span><span class="p">]</span><span class="o">=</span><span class="n">Intervals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dyn_com_local</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">n</span><span class="p">])</span>
+        <span class="n">to_return_com</span> <span class="o">=</span> <span class="n">dn</span><span class="o">.</span><span class="n">DynCommunitiesIG</span><span class="p">()</span>
+        <span class="n">to_return_com</span><span class="o">.</span><span class="n">_fast_set_affiliations</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dyn_com_local</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">to_return_graph</span><span class="p">,</span><span class="n">to_return_com</span>
+
+<div class="viewcode-block" id="ComScenario.run"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.run.html#tnetwork.ComScenario.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to call when the scenario has been defined to actually execute it.</span>
+<span class="sd">        Return a dynamic network and the corresponding dynamic partition</span>
+
+<span class="sd">        :return: a couple, first element is the dynamic network, second element is the dynamic partition</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nb_events</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_actions</span><span class="p">)</span>
+        <span class="n">bar</span> <span class="o">=</span> <span class="n">progressbar</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">max_value</span><span class="o">=</span><span class="n">nb_events</span><span class="p">)</span>
+        <span class="c1">#While there is an action to do or there is an operation still going on</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_actions</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentCommunities</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">_Operation</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TIME : &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;snapshot_affiliations start of step: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentCommunities</span><span class="p">)</span>
+
+
+            <span class="c1">#get the list of snapshot_affiliations and events currently active</span>
+            <span class="n">readycoms</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">_allSeenCommunities</span>
+
+            <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_actions</span><span class="p">:</span> <span class="c1">#for each action (could be optimized but unnecessary on small scenarios</span>
+
+                <span class="k">if</span> <span class="n">action</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">&lt;=</span><span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span><span class="p">:</span> <span class="c1">#if static time passed</span>
+
+                    <span class="n">op</span> <span class="o">=</span> <span class="n">action</span><span class="p">[</span><span class="s2">&quot;operation&quot;</span><span class="p">]</span>
+
+                    <span class="n">affectedComs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">_beforeCommunities</span><span class="p">)</span> <span class="c1">#snapshot_affiliations affected by this action</span>
+                    <span class="n">lockingComs</span><span class="o">=</span> <span class="nb">set</span><span class="p">()</span> <span class="c1">#IDs of events/coms used as triggers</span>
+
+                    <span class="k">if</span> <span class="n">action</span><span class="p">[</span><span class="s2">&quot;triggers&quot;</span><span class="p">]</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span> <span class="c1">#if there are triggers</span>
+                        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s2">&quot;triggers&quot;</span><span class="p">])</span> <span class="ow">is</span> <span class="n">Community</span><span class="p">:</span> <span class="c1">#(put in right format)</span>
+                            <span class="n">action</span><span class="p">[</span><span class="s2">&quot;triggers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">action</span><span class="p">[</span><span class="s2">&quot;triggers&quot;</span><span class="p">]}</span>
+                        <span class="n">lockingComs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s2">&quot;triggers&quot;</span><span class="p">])</span>
+
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span> <span class="n">affectedComs</span> <span class="o">-</span> <span class="n">readycoms</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span> <span class="c1">#if all necessay coms are ready</span>
+                        <span class="k">if</span> <span class="nb">len</span> <span class="p">(</span><span class="n">lockingComs</span> <span class="o">-</span> <span class="n">readycoms</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span> <span class="c1">#and triggers are ready</span>
+                            <span class="k">if</span> <span class="n">action</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span> <span class="c1">#if user wants to delay, delay</span>
+                                <span class="n">action</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span> <span class="o">+</span> <span class="n">action</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">]</span>
+                                <span class="n">action</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_activate_action</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_actions</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+                                <span class="n">bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nb_events</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_actions</span><span class="p">))</span>
+
+
+                                <span class="c1">### Section only to manage the representation of the reference partition as an event graph ####</span>
+                                <span class="c1">#action activated, store the current event in the eventGraph with placeholders for resulting coms, since we do not know when</span>
+                                <span class="c1">#the operation will be ended</span>
+                                <span class="k">for</span> <span class="n">before</span> <span class="ow">in</span> <span class="n">op</span><span class="o">.</span><span class="n">_beforeCommunities</span><span class="p">:</span>
+                                    <span class="k">for</span> <span class="n">after</span> <span class="ow">in</span> <span class="n">op</span><span class="o">.</span><span class="n">_afterNames</span><span class="p">:</span>
+                                        <span class="k">if</span> <span class="s2">&quot;|DEATH|&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">after</span><span class="p">:</span>
+                                            <span class="n">lastCommunityPresence</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentT</span> <span class="o">-</span> <span class="mi">1</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">_dynCom</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">add_event</span><span class="p">((</span><span class="n">lastCommunityPresence</span><span class="p">,</span> <span class="n">before</span><span class="o">.</span><span class="n">label</span><span class="p">()),</span> <span class="p">(</span><span class="n">after</span><span class="p">),</span> <span class="n">lastCommunityPresence</span><span class="p">,</span> <span class="n">lastCommunityPresence</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">op</span><span class="o">.</span><span class="n">_action</span><span class="p">,</span> <span class="n">fraction</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_memorize_current_configuration</span><span class="p">()</span>
+
+        <span class="c1">######Managing the event graph reference partition ####</span>
+        <span class="c1">#self._dynCom.create_standard_event_graph(keepingPreviousEvents=True)</span>
+        <span class="n">dyn_graph</span><span class="p">,</span><span class="n">dyn_com</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_formats_to_dyn_structures</span><span class="p">()</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nb_events</span><span class="p">)</span>
+        <span class="c1">#print(nb_events)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">dyn_graph</span><span class="p">,</span> <span class="n">dyn_com</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ComScenario.INITIALIZE"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.INITIALIZE.html#tnetwork.ComScenario.INITIALIZE">[docs]</a>    <span class="k">def</span> <span class="nf">INITIALIZE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">sizes</span><span class="p">:[</span><span class="nb">int</span><span class="p">],</span><span class="n">names</span><span class="p">:[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to initialize the dynamic networks with snapshot_affiliations that already exist at the beginning</span>
+
+<span class="sd">        :param sizes: list of the snapshot_affiliations sizes (same order as names)</span>
+<span class="sd">        :param names: list of the snapshot_affiliations names (if None, unique names are given automatically)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">names</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span><span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;nb sizes do not match nb names&quot;</span><span class="p">)</span>
+
+        <span class="n">toReturn</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">size</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sizes</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">newCommunity</span> <span class="o">=</span> <span class="n">Community</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">newCommunity</span><span class="o">.</span><span class="n">_add_nodes</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">create_node</span><span class="p">()</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_currentCommunities</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">newCommunity</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_allSeenCommunities</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">newCommunity</span><span class="p">)</span>
+            <span class="n">toReturn</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newCommunity</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_memorize_current_configuration</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">toReturn</span></div>
+
+
+
+<div class="viewcode-block" id="ComScenario.BIRTH"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.BIRTH.html#tnetwork.ComScenario.BIRTH">[docs]</a>    <span class="k">def</span> <span class="nf">BIRTH</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">size</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a new community</span>
+
+<span class="sd">        :param size: number of nodes to create</span>
+<span class="sd">        :param name: name of the community (default will create a random name)</span>
+<span class="sd">        :return: the community created (community object)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_action</span><span class="p">(</span><span class="n">_Operation</span><span class="o">.</span><span class="n">birth</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">size</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ComScenario.DEATH"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.DEATH.html#tnetwork.ComScenario.DEATH">[docs]</a>    <span class="k">def</span> <span class="nf">DEATH</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">com</span><span class="p">:</span><span class="n">Community</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Kill a community</span>
+
+<span class="sd">        :param name: name of the community to kill</span>
+<span class="sd">        :return: empty list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">died</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_action</span><span class="p">(</span><span class="n">_Operation</span><span class="o">.</span><span class="n">death</span><span class="p">(</span><span class="n">com</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">died</span></div>
+
+<div class="viewcode-block" id="ComScenario.MERGE"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.MERGE.html#tnetwork.ComScenario.MERGE">[docs]</a>    <span class="k">def</span> <span class="nf">MERGE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">toMerge</span><span class="p">:</span> <span class="p">[</span><span class="n">Community</span><span class="p">],</span> <span class="n">merged</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Merge the snapshot_affiliations in input into a single community with the name (label) provided in output</span>
+
+<span class="sd">        :param toMerge: names of snapshot_affiliations to merge</span>
+<span class="sd">        :param merged: name of the merged community (can be same as one of the input or not</span>
+<span class="sd">        :return: the merged community (community object)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">allNodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">com</span> <span class="ow">in</span> <span class="n">toMerge</span><span class="p">:</span>
+            <span class="n">allNodes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">com</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_action</span><span class="p">(</span><span class="n">_Operation</span><span class="o">.</span><span class="n">migrate</span><span class="p">(</span><span class="n">toMerge</span><span class="p">,</span> <span class="p">[</span><span class="n">merged</span><span class="p">],</span> <span class="p">[</span><span class="n">allNodes</span><span class="p">]),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ComScenario.SPLIT"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.SPLIT.html#tnetwork.ComScenario.SPLIT">[docs]</a>    <span class="k">def</span> <span class="nf">SPLIT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">toSplit</span><span class="p">:</span><span class="n">Community</span><span class="p">,</span> <span class="n">newComs</span><span class="p">:[</span><span class="nb">str</span><span class="p">],</span> <span class="n">sizes</span><span class="p">:[</span><span class="nb">int</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Split a single community into several ones. Note that to control exactly which nodes are moved, one should use migrate instead</span>
+
+<span class="sd">        :param toSplit: name of the community to split</span>
+<span class="sd">        :param newComs: names to give to the new snapshot_affiliations (list). The name of the community before split can be or not among them</span>
+<span class="sd">        :param sizes: sizes of the new snapshot_affiliations, in number of nodes. In the same order as names.</span>
+<span class="sd">        :return: a list of snapshot_affiliations resulting from the split.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span><span class="o">!=</span><span class="nb">len</span><span class="p">(</span><span class="n">toSplit</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The number of nodes in resulting snapshot_affiliations does not match the number of nodes in the initial one&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">splittingOut</span><span class="o">=</span> <span class="p">[]</span>
+        <span class="n">listNodes</span> <span class="o">=</span> <span class="n">toSplit</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">nbNodes</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sizes</span><span class="p">):</span>
+            <span class="n">chosenNodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">listNodes</span><span class="p">),</span> <span class="n">nbNodes</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+            <span class="n">splittingOut</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chosenNodes</span><span class="p">)</span>
+            <span class="n">listNodes</span> <span class="o">=</span> <span class="n">listNodes</span> <span class="o">-</span> <span class="n">chosenNodes</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_action</span><span class="p">(</span><span class="n">_Operation</span><span class="o">.</span><span class="n">migrate</span><span class="p">([</span><span class="n">toSplit</span><span class="p">],</span> <span class="n">newComs</span><span class="p">,</span> <span class="n">splittingOut</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ComScenario.THESEUS"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.THESEUS.html#tnetwork.ComScenario.THESEUS">[docs]</a>    <span class="k">def</span> <span class="nf">THESEUS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theComTh</span><span class="p">:</span> <span class="n">Community</span><span class="p">,</span> <span class="n">nbNodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wait_step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a theseus ship operation.</span>
+
+<span class="sd">        :param theComTh: the community to modify</span>
+<span class="sd">        :param nbNodes: the number of nodes to be replaced</span>
+<span class="sd">        :param delay: the waiting time before the first change</span>
+<span class="sd">        :param wait_step: the waiting time between each node replacement</span>
+<span class="sd">        :return: a tuple of snapshot_affiliations, current ship, new ship</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">name</span> <span class="o">=</span> <span class="n">theComTh</span><span class="o">.</span><span class="n">label</span><span class="p">()</span>
+
+        <span class="n">initialNodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">theComTh</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">nbNodes</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">nbNodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">initialNodes</span><span class="p">)</span>
+
+        <span class="n">currentShip</span> <span class="o">=</span> <span class="n">theComTh</span>
+
+        <span class="n">planksInStoreHouse</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nbNodes</span><span class="p">):</span>
+            <span class="n">wait_this_step</span> <span class="o">=</span><span class="n">wait_step</span>
+            <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">delay</span><span class="o">&gt;</span><span class="n">wait_step</span><span class="p">:</span>
+                <span class="n">wait_this_step</span><span class="o">=</span><span class="n">delay</span>
+
+
+            <span class="n">newNode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_node</span><span class="p">()</span>
+            <span class="n">nodeToRemove</span> <span class="o">=</span> <span class="n">initialNodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="p">[</span><span class="n">currentShip</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ASSIGN</span><span class="p">([</span><span class="n">currentShip</span><span class="p">],</span> <span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">splittingOut</span><span class="o">=</span><span class="p">[</span>
+                <span class="nb">set</span><span class="p">(</span><span class="n">currentShip</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span> <span class="o">-</span> <span class="p">{</span><span class="n">nodeToRemove</span><span class="p">}</span> <span class="o">|</span> <span class="nb">set</span><span class="p">([</span><span class="n">newNode</span><span class="p">])],</span>
+                                        <span class="n">delay</span><span class="o">=</span><span class="n">wait_this_step</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="n">planksInStoreHouse</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodeToRemove</span><span class="p">)</span>
+
+        <span class="p">[</span><span class="n">newShip</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ASSIGN</span><span class="p">([],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_new_ID</span><span class="p">(</span><span class="n">name</span><span class="p">)],</span> <span class="n">splittingOut</span><span class="o">=</span><span class="p">[</span><span class="n">planksInStoreHouse</span><span class="p">],</span> <span class="n">triggers</span><span class="o">=</span><span class="n">currentShip</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">currentShip</span><span class="p">,</span><span class="n">newShip</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ComScenario.RESURGENCE"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.RESURGENCE.html#tnetwork.ComScenario.RESURGENCE">[docs]</a>    <span class="k">def</span> <span class="nf">RESURGENCE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theComTh</span><span class="p">:</span> <span class="n">Community</span><span class="p">,</span> <span class="n">death_period</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a resurgence operation.</span>
+
+<span class="sd">        :param theComTh: the community to modify</span>
+<span class="sd">        :param death_period: time to remain dead</span>
+<span class="sd">        :return: a tuple of snapshot_affiliations, current ship, new ship</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">name</span> <span class="o">=</span> <span class="n">theComTh</span><span class="o">.</span><span class="n">label</span><span class="p">()</span>
+
+        <span class="n">initialNodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">theComTh</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+
+        <span class="n">death</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEATH</span><span class="p">(</span><span class="n">theComTh</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="p">[</span><span class="n">theComTh</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ASSIGN</span><span class="p">([],</span> <span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">splittingOut</span><span class="o">=</span><span class="p">[</span><span class="n">initialNodes</span><span class="p">],</span> <span class="n">triggers</span><span class="o">=</span><span class="n">death</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="n">death_period</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">theComTh</span></div>
+
+<div class="viewcode-block" id="ComScenario.GROW_ITERATIVE"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.GROW_ITERATIVE.html#tnetwork.ComScenario.GROW_ITERATIVE">[docs]</a>    <span class="k">def</span> <span class="nf">GROW_ITERATIVE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">com</span><span class="p">,</span> <span class="n">nb_nodes2Add</span><span class="p">,</span> <span class="n">wait_step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make a community grow node by node</span>
+
+<span class="sd">        The community com add nodes2add nodes one by one, with an interval delay between each</span>
+<span class="sd">        :param com: community to grow</span>
+<span class="sd">        :param nodes2Add: nb nodes to add</span>
+<span class="sd">        :param delay: the waiting time before the first change</span>
+<span class="sd">        :param wait_step: the waiting time between each node addition</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_nodes2Add</span><span class="p">):</span>
+            <span class="n">wait_this_step</span> <span class="o">=</span> <span class="n">wait_step</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">delay</span> <span class="o">&gt;</span> <span class="n">wait_step</span><span class="p">:</span>
+                <span class="n">wait_this_step</span> <span class="o">=</span> <span class="n">delay</span>
+            <span class="n">newNode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_node</span><span class="p">()</span>
+            <span class="p">[</span><span class="n">com</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ASSIGN</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">com</span><span class="p">],</span>
+                <span class="p">[</span><span class="n">com</span><span class="o">.</span><span class="n">label</span><span class="p">()],</span>
+                <span class="p">[</span><span class="n">com</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span> <span class="o">|</span> <span class="nb">set</span><span class="p">([</span><span class="n">newNode</span><span class="p">])],</span>
+                <span class="n">delay</span><span class="o">=</span><span class="n">wait_this_step</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">com</span></div>
+
+<div class="viewcode-block" id="ComScenario.SHRINK_ITERATIVE"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.SHRINK_ITERATIVE.html#tnetwork.ComScenario.SHRINK_ITERATIVE">[docs]</a>    <span class="k">def</span> <span class="nf">SHRINK_ITERATIVE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">com</span><span class="p">,</span> <span class="n">nb_nodes2remove</span><span class="p">,</span> <span class="n">wait_step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make a community shrink node by node</span>
+
+<span class="sd">        The community com lose nodes2add nodes one by one, with an interval delay between each</span>
+<span class="sd">        :param com: community to shrink</span>
+<span class="sd">        :param nodes2remove: nb nodes to remove</span>
+<span class="sd">        :param delay: the waiting time before the first change</span>
+<span class="sd">        :param wait_step: the waiting time between each node removal</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">currentCom</span> <span class="o">=</span> <span class="n">com</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_nodes2remove</span><span class="p">):</span>
+            <span class="n">wait_this_step</span> <span class="o">=</span> <span class="n">wait_step</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">delay</span> <span class="o">&gt;</span> <span class="n">wait_step</span><span class="p">:</span>
+                <span class="n">wait_this_step</span> <span class="o">=</span> <span class="n">delay</span>
+
+            <span class="n">currentNbNodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">currentCom</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+            <span class="n">nodesToKeep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">currentCom</span><span class="o">.</span><span class="n">nodes</span><span class="p">()),</span> <span class="n">currentNbNodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="p">[</span><span class="n">currentCom</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ASSIGN</span><span class="p">([</span><span class="n">currentCom</span><span class="p">],</span> <span class="p">[</span><span class="n">currentCom</span><span class="o">.</span><span class="n">label</span><span class="p">()],</span> <span class="p">[</span><span class="n">nodesToKeep</span><span class="p">],</span> <span class="n">delay</span><span class="o">=</span><span class="n">wait_this_step</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">currentCom</span></div>
+
+<div class="viewcode-block" id="ComScenario.MIGRATE_ITERATIVE"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.MIGRATE_ITERATIVE.html#tnetwork.ComScenario.MIGRATE_ITERATIVE">[docs]</a>    <span class="k">def</span> <span class="nf">MIGRATE_ITERATIVE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comFrom</span><span class="p">,</span> <span class="n">comTo</span><span class="p">,</span> <span class="n">nbNodes</span><span class="p">,</span> <span class="n">wait_step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make nodes of a community migrate to another one</span>
+
+<span class="sd">        The community comFrom lose nodes2add nodes one by one, that join the community comTo,</span>
+<span class="sd">        with an interval delay between each migration</span>
+
+<span class="sd">        :param comFrom: community to shrink</span>
+<span class="sd">        :param comTo: community to grow</span>
+<span class="sd">        :param nbNodes: nb nodes to move</span>
+<span class="sd">        :param delay: the waiting time before the first change</span>
+<span class="sd">        :param wait_step: the waiting time between each node change</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">currentFrom</span> <span class="o">=</span> <span class="n">comFrom</span>
+        <span class="n">currentTo</span> <span class="o">=</span> <span class="n">comTo</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nbNodes</span><span class="p">):</span>
+            <span class="n">wait_this_step</span> <span class="o">=</span> <span class="n">wait_step</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">delay</span> <span class="o">&gt;</span> <span class="n">wait_step</span><span class="p">:</span>
+                <span class="n">wait_this_step</span> <span class="o">=</span> <span class="n">delay</span>
+            <span class="n">migratingNode</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">currentFrom</span><span class="o">.</span><span class="n">nodes</span><span class="p">()),</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">[</span><span class="n">currentFrom</span><span class="p">,</span> <span class="n">currentTo</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ASSIGN</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">currentFrom</span><span class="p">,</span> <span class="n">currentTo</span><span class="p">],</span>
+                <span class="p">[</span><span class="n">currentFrom</span><span class="o">.</span><span class="n">label</span><span class="p">(),</span> <span class="n">currentTo</span><span class="o">.</span><span class="n">label</span><span class="p">()],</span>
+                <span class="p">[</span><span class="n">currentFrom</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span> <span class="o">-</span> <span class="nb">set</span><span class="p">([</span><span class="n">migratingNode</span><span class="p">]),</span> <span class="n">currentTo</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span> <span class="o">|</span> <span class="nb">set</span><span class="p">([</span><span class="n">migratingNode</span><span class="p">])],</span>
+                <span class="n">delay</span><span class="o">=</span><span class="n">wait_this_step</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ComScenario.ASSIGN"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.ASSIGN.html#tnetwork.ComScenario.ASSIGN">[docs]</a>    <span class="k">def</span> <span class="nf">ASSIGN</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comsBefore</span><span class="p">:[</span><span class="n">Community</span><span class="p">],</span> <span class="n">comsAfter</span><span class="p">:[</span><span class="nb">str</span><span class="p">],</span> <span class="n">splittingOut</span><span class="p">:[{</span><span class="nb">str</span><span class="p">}],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Define a custom event</span>
+
+<span class="sd">        Migrate nodes from a set of snapshot_affiliations to another set of snapshot_affiliations. Can be used to move a set of nodes from a community to</span>
+<span class="sd">        another or any other more complex scenario.</span>
+
+<span class="sd">        :param comBefore: Ccommunities in input</span>
+<span class="sd">        :param comsAfter: name(s) to give to the resulting snapshot_affiliations</span>
+<span class="sd">        :param splittingOut: How to distribute nodes in output. It is a list of same lenght than comsAfter, and each element of the list is a set of names of nodes. Note that if some nodes present in input does not appear in output, they are considered &quot;killed&quot;</span>
+<span class="sd">        :return: the snapshot_affiliations resulting from the operation (list of snapshot_affiliations objects)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_action</span><span class="p">(</span><span class="n">_Operation</span><span class="o">.</span><span class="n">migrate</span><span class="p">(</span><span class="n">comsBefore</span><span class="p">,</span> <span class="n">comsAfter</span><span class="p">,</span> <span class="n">splittingOut</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ComScenario.CONTINUE"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.CONTINUE.html#tnetwork.ComScenario.CONTINUE">[docs]</a>    <span class="k">def</span> <span class="nf">CONTINUE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">com</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Keep a community unchanged</span>
+
+<span class="sd">        By using parameters delay and/or triggers, CONTINUE makes the community com_before to stay unchanged for some time.</span>
+
+<span class="sd">        :param com: the community to keep unchanged</span>
+<span class="sd">        :return: the same community</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ASSIGN</span><span class="p">([</span><span class="n">com</span><span class="p">],</span> <span class="p">[</span><span class="n">com</span><span class="o">.</span><span class="n">label</span><span class="p">()],</span> <span class="p">[</span><span class="n">com</span><span class="o">.</span><span class="n">nodes</span><span class="p">()],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">coms</span> <span class="o">=</span> <span class="s2">&quot;current_com: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_currentCommunities</span><span class="p">)</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="s2">&quot;events: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_actions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">coms</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">events</span>
+
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="generate_toy_random_network"><a class="viewcode-back" href="../../../reference/generated/tnetwork.generate_toy_random_network.html#tnetwork.generate_toy_random_network">[docs]</a><span class="k">def</span> <span class="nf">generate_toy_random_network</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a small, toy dynamic graph</span>
+
+<span class="sd">    Generate a toy dynamic graph with evolving communities, following scenario described in XXX</span>
+<span class="sd">    Optional parameters are the same as those passed to the ComScenario class to generate custom scenarios</span>
+
+<span class="sd">    :return: pair, (dynamic graph, dynamic reference partition) (as snapshots)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">my_scenario</span> <span class="o">=</span> <span class="n">ComScenario</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># Initialization with 4 communities of different sizes</span>
+    <span class="p">[</span><span class="n">to_merge</span><span class="p">,</span> <span class="n">absorb</span><span class="p">,</span> <span class="n">to_split</span><span class="p">,</span> <span class="n">thes</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+                                                                <span class="p">[</span><span class="s2">&quot;to_merge&quot;</span><span class="p">,</span> <span class="s2">&quot;absorb&quot;</span><span class="p">,</span> <span class="s2">&quot;to_split&quot;</span><span class="p">,</span> <span class="s2">&quot;theseus&quot;</span><span class="p">])</span>
+    <span class="c1"># Create a theseus ship after 20 steps</span>
+    <span class="n">my_scenario</span><span class="o">.</span><span class="n">THESEUS</span><span class="p">(</span><span class="n">thes</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+    <span class="c1"># Merge two of the original communities after 30 steps</span>
+    <span class="n">absorbing</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">MERGE</span><span class="p">([</span><span class="n">to_merge</span><span class="p">,</span> <span class="n">absorb</span><span class="p">],</span> <span class="n">absorb</span><span class="o">.</span><span class="n">label</span><span class="p">(),</span> <span class="n">delay</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+    <span class="c1"># Split a community of size 20 in 2 communities of size 15 and 5</span>
+    <span class="p">(</span><span class="n">split_large</span><span class="p">,</span> <span class="n">splitted1</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">SPLIT</span><span class="p">(</span><span class="n">to_split</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;to_split&quot;</span><span class="p">,</span> <span class="s2">&quot;splitted1&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">delay</span><span class="o">=</span><span class="mi">75</span><span class="p">)</span>
+
+    <span class="c1"># Split again the largest one, 40 steps after the end of the first split</span>
+    <span class="p">(</span><span class="n">splitted1</span><span class="p">,</span> <span class="n">splitted2</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">SPLIT</span><span class="p">(</span><span class="n">split_large</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;to_split&quot;</span><span class="p">,</span> <span class="s2">&quot;splitted2&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">delay</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+    <span class="c1"># Merge the smallest community created by the split, and the one created by the first merge</span>
+    <span class="n">my_scenario</span><span class="o">.</span><span class="n">MERGE</span><span class="p">([</span><span class="n">splitted2</span><span class="p">,</span> <span class="n">absorbing</span><span class="p">],</span> <span class="n">absorbing</span><span class="o">.</span><span class="n">label</span><span class="p">(),</span> <span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+    <span class="c1"># Make a new community appear with 5 nodes, disappear and reappear twice, grow by 5 nodes and disappear</span>
+    <span class="n">born</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">BIRTH</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;resurgent_grow&quot;</span><span class="p">)</span>
+    <span class="n">born</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">RESURGENCE</span><span class="p">(</span><span class="n">born</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">born</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">RESURGENCE</span><span class="p">(</span><span class="n">born</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">born</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">RESURGENCE</span><span class="p">(</span><span class="n">born</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Make the resurgent community grow by 5 nodes 4 timesteps after being ready</span>
+    <span class="n">born</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">GROW_ITERATIVE</span><span class="p">(</span><span class="n">born</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="c1"># Kill the community grown above, 10 steps after the end of the addition of the last node</span>
+    <span class="n">my_scenario</span><span class="o">.</span><span class="n">DEATH</span><span class="p">(</span><span class="n">born</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="p">(</span><span class="n">dyn_graph</span><span class="p">,</span> <span class="n">dyn_com</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="n">dyn_graph_sn</span> <span class="o">=</span> <span class="n">dyn_graph</span><span class="o">.</span><span class="n">to_DynGraphSN</span><span class="p">(</span><span class="n">slices</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">GT_as_sn</span> <span class="o">=</span> <span class="n">dyn_com</span><span class="o">.</span><span class="n">to_DynCommunitiesSN</span><span class="p">(</span><span class="n">slices</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dyn_graph_sn</span><span class="p">,</span> <span class="n">GT_as_sn</span></div>
+
+
+<div class="viewcode-block" id="generate_simple_random_graph"><a class="viewcode-back" href="../../../reference/generated/tnetwork.generate_simple_random_graph.html#tnetwork.generate_simple_random_graph">[docs]</a><span class="k">def</span> <span class="nf">generate_simple_random_graph</span><span class="p">(</span><span class="n">nb_com</span> <span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">min_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">operations</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">mu_noise</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a simple random dynamic graph with community structure</span>
+
+<span class="sd">    This is the generator described in XXX. It generates a graph with dynamic community structure which is a combination</span>
+<span class="sd">    of successive merge and splits.</span>
+
+<span class="sd">    :param nb_com: number of initial communities</span>
+<span class="sd">    :param min_size: size below which communities cannot be split</span>
+<span class="sd">    :param max_size: size above which community split</span>
+<span class="sd">    :param operations: number of operations (merge/split) to execute (involves random communities)</span>
+<span class="sd">    :param mu: parameter to set how well defined is the community structure (0=&gt;perfect community structure) more precisely, it defines: alpha=1-mu, beta=mu</span>
+<span class="sd">    :param mu_noise: set the mu_r, i.e., fraction of edges randomly rewired at each snapshot</span>
+<span class="sd">    :return: pair (graph, communities)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;generating graph with nb_com = &quot;</span><span class="p">,</span><span class="n">nb_com</span><span class="p">)</span>
+    <span class="n">prog_scenario</span> <span class="o">=</span> <span class="n">ComScenario</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="o">-</span><span class="n">mu</span><span class="p">,</span> <span class="n">external_density_penalty</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span><span class="n">random_noise</span><span class="o">=</span><span class="n">mu_noise</span><span class="p">)</span>
+
+    <span class="c1">#prog_scenario = tn.ComScenario(verbose=False, alpha=0.9, external_density_penalty=mu,random_noise=mu_noise)</span>
+    <span class="n">all_communities</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">prog_scenario</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">min_size</span><span class="p">,</span><span class="n">max_size</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">nb_com</span><span class="p">)))</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">operations</span><span class="p">):</span>
+        <span class="p">[</span><span class="n">com1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">all_communities</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">all_communities</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">com1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">com1</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span><span class="o">&lt;</span><span class="n">max_size</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_communities</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span> <span class="c1">#merge</span>
+            <span class="p">[</span><span class="n">com2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">all_communities</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">largest_com</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">],</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">nodes</span><span class="p">()))</span>
+            <span class="n">merged</span> <span class="o">=</span> <span class="n">prog_scenario</span><span class="o">.</span><span class="n">MERGE</span><span class="p">([</span><span class="n">com1</span><span class="p">,</span><span class="n">com2</span><span class="p">],</span> <span class="n">largest_com</span><span class="o">.</span><span class="n">label</span><span class="p">(),</span> <span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+            <span class="n">all_communities</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">com2</span><span class="p">)</span>
+            <span class="n">all_communities</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">merged</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1">#split</span>
+            <span class="n">smallest_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">com1</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">com2</span><span class="p">,</span><span class="n">com3</span><span class="p">)</span> <span class="o">=</span> <span class="n">prog_scenario</span><span class="o">.</span><span class="n">SPLIT</span><span class="p">(</span><span class="n">com1</span><span class="p">,</span> <span class="p">[</span><span class="n">prog_scenario</span><span class="o">.</span><span class="n">_get_new_ID</span><span class="p">(</span><span class="s2">&quot;CUSTOM&quot;</span><span class="p">),</span> <span class="n">com1</span><span class="o">.</span><span class="n">label</span><span class="p">()],</span> <span class="p">[</span><span class="n">smallest_size</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">com1</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span> <span class="o">-</span> <span class="n">smallest_size</span><span class="p">],</span> <span class="n">delay</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+            <span class="n">all_communities</span><span class="o">|=</span> <span class="nb">set</span><span class="p">([</span><span class="n">com2</span><span class="p">,</span><span class="n">com3</span><span class="p">])</span>
+
+    <span class="p">(</span><span class="n">dyn_graph</span><span class="p">,</span><span class="n">dyn_com</span><span class="p">)</span> <span class="o">=</span> <span class="n">prog_scenario</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+
+    <span class="k">return</span><span class="p">(</span><span class="n">dyn_graph</span><span class="p">,</span><span class="n">dyn_com</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Remy Cazabet
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
