@@ -173,7 +173,7 @@
 
 <span class="sd">    The attribute &quot;interv&quot; contains the interval (a SortedDict) and can be safely manipulated</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Intervals.__init__"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.__init__.html#tnetwork.utils.Intervals.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">initial</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals.__init__"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.__init__ 2.html#tnetwork.utils.Intervals.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">initial</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Instantiate intervals</span>
 
@@ -194,7 +194,7 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="p">[</span><span class="n">period</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">=</span><span class="n">period</span></div>
 
 
-<div class="viewcode-block" id="Intervals.intersection"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.intersection.html#tnetwork.utils.Intervals.intersection">[docs]</a>    <span class="k">def</span> <span class="nf">intersection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_Intervals</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals.intersection"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.intersection 2.html#tnetwork.utils.Intervals.intersection">[docs]</a>    <span class="k">def</span> <span class="nf">intersection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_Intervals</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Intersection with another Intervals</span>
 
@@ -212,7 +212,7 @@
         <span class="n">to_return</span><span class="o">.</span><span class="n">_substract_one_period</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">()))</span>
         <span class="k">return</span> <span class="n">to_return</span></div>
 
-<div class="viewcode-block" id="Intervals.union"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.union.html#tnetwork.utils.Intervals.union">[docs]</a>    <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other_Intervals</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals.union"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.union 2.html#tnetwork.utils.Intervals.union">[docs]</a>    <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other_Intervals</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Union with another Intervals</span>
 
@@ -227,7 +227,7 @@
             <span class="n">to_return</span><span class="o">.</span><span class="n">add_interval</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">to_return</span></div>
 
-<div class="viewcode-block" id="Intervals.__add__"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.__add__.html#tnetwork.utils.Intervals.__add__">[docs]</a>    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals.__add__"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.__add__ 2.html#tnetwork.utils.Intervals.__add__">[docs]</a>    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add two Intervals using + operator</span>
 
@@ -240,7 +240,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">o</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Intervals.__sub__"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.__sub__.html#tnetwork.utils.Intervals.__sub__">[docs]</a>    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals.__sub__"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.__sub__ 2.html#tnetwork.utils.Intervals.__sub__">[docs]</a>    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">       Substract an interval from other using - operator</span>
 
@@ -253,7 +253,7 @@
 <span class="sd">       &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">o</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Intervals.__contains__"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.__contains__.html#tnetwork.utils.Intervals.__contains__">[docs]</a>    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals.__contains__"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.__contains__ 2.html#tnetwork.utils.Intervals.__contains__">[docs]</a>    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">       Defines the in operator</span>
 
@@ -286,7 +286,7 @@
         <span class="k">return</span> <span class="n">to_return</span>
 
 
-<div class="viewcode-block" id="Intervals.contains"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.contains.html#tnetwork.utils.Intervals.contains">[docs]</a>    <span class="k">def</span> <span class="nf">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">period</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals.contains"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.contains 2.html#tnetwork.utils.Intervals.contains">[docs]</a>    <span class="k">def</span> <span class="nf">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">period</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Is the period contained in this Interval</span>
 
@@ -304,7 +304,7 @@
                 <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="Intervals.contains_t"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.contains_t.html#tnetwork.utils.Intervals.contains_t">[docs]</a>    <span class="k">def</span> <span class="nf">contains_t</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals.contains_t"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.contains_t 2.html#tnetwork.utils.Intervals.contains_t">[docs]</a>    <span class="k">def</span> <span class="nf">contains_t</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return True if the provided t is in the current Intervals</span>
 
@@ -332,7 +332,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="p">[</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">=</span><span class="n">interval</span>
 
-<div class="viewcode-block" id="Intervals.add_interval"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.add_interval.html#tnetwork.utils.Intervals.add_interval">[docs]</a>    <span class="k">def</span> <span class="nf">add_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals.add_interval"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.add_interval 2.html#tnetwork.utils.Intervals.add_interval">[docs]</a>    <span class="k">def</span> <span class="nf">add_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add the provided interval to the current interval object.</span>
 
@@ -428,7 +428,7 @@
         <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">intervals</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_interval</span><span class="p">(</span><span class="n">interv</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Intervals.periods"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.periods.html#tnetwork.utils.Intervals.periods">[docs]</a>    <span class="k">def</span> <span class="nf">periods</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals.periods"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.periods 2.html#tnetwork.utils.Intervals.periods">[docs]</a>    <span class="k">def</span> <span class="nf">periods</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the periods as a list of pairs (start, end)</span>
 
@@ -464,7 +464,7 @@
         <span class="k">return</span><span class="p">(</span><span class="n">left</span><span class="p">,</span><span class="n">right</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Intervals.start"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.start.html#tnetwork.utils.Intervals.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals.start"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.start 2.html#tnetwork.utils.Intervals.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        First date of the Intervals</span>
 
@@ -472,7 +472,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">peekitem</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="Intervals.end"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.end.html#tnetwork.utils.Intervals.end">[docs]</a>    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals.end"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.end 2.html#tnetwork.utils.Intervals.end">[docs]</a>    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Last date of the interval</span>
 
@@ -480,7 +480,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">peekitem</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="Intervals.duration"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.duration.html#tnetwork.utils.Intervals.duration">[docs]</a>    <span class="k">def</span> <span class="nf">duration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals.duration"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.duration 2.html#tnetwork.utils.Intervals.duration">[docs]</a>    <span class="k">def</span> <span class="nf">duration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Duration of the interval</span>
 
@@ -527,7 +527,7 @@
             <span class="n">toReturn</span><span class="o">+=</span><span class="s2">&quot;[&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">interv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">interv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;[ &quot;</span>
         <span class="k">return</span> <span class="n">toReturn</span>
 
-<div class="viewcode-block" id="Intervals.__eq__"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.__eq__.html#tnetwork.utils.Intervals.__eq__">[docs]</a>    <span class="k">def</span>  <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="Intervals.__eq__"><a class="viewcode-back" href="../../../reference/generated/tnetwork.utils.Intervals.__eq__ 2.html#tnetwork.utils.Intervals.__eq__">[docs]</a>    <span class="k">def</span>  <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Defines the = operator</span>
 

@@ -4,7 +4,7 @@ Quick Start
 This is an introduction to the key functionalities of the tnetwork
 library. Check documentation for more details
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     %load_ext autoreload
     %autoreload 2
