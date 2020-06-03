@@ -59,7 +59,7 @@ def _smoothed_louvain(dyn_graph):
     sys.stdout.flush()
     return coms
 
-def smoothed_louvain(dynNetSN,match_function=jaccard,**kwargs):
+def smoothed_louvain(dynNetSN,match_function=jaccard,threshold=0.3,**kwargs):
     """
       Community Detection using smoothed louvain
 
@@ -85,8 +85,8 @@ def smoothed_louvain(dynNetSN,match_function=jaccard,**kwargs):
     matching_method = None
     if match_function != None:
         def matching_method(x):
-            x.create_standard_event_graph(**kwargs)
+            x.create_standard_event_graph(threshold=threshold, score=match_function)
             x._relabel_coms_from_continue_events(typedEvents=False, rename=False)
             return x
 
-    return DCD_algorithm(dynNetSN, detection=_smoothed_louvain, label_attribution=matching_method)
+    return DCD_algorithm(dynNetSN, "smoothed_louvain",detection=_smoothed_louvain, label_attribution=matching_method,**kwargs)

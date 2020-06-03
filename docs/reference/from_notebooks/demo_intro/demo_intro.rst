@@ -2,7 +2,7 @@ Quick Start
 ===========
 
 This is an introduction to the key functionalities of the tnetwork
-library. Check documentation for more details
+library. Check documentation for more details.
 
 .. code-block:: ipython3
 
@@ -19,14 +19,14 @@ Creating a dynamic graph
 We create a dynamic graph object. Two types exist, using snapshot or
 interval respresentations. In this example, we use intervals
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     my_d_graph = tn.DynGraphIG()
 
 We add some nodes and edges. Intervals are inclusive on the left and non
 inclusive on the right: [start,end[
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     my_d_graph.add_node_presence("a",(1,5)) #add node a from time 1 to 5
     my_d_graph.add_nodes_presence_from(["a","b","c"],(2,3)) # add ndoes a,b,c from 2 to 3
@@ -40,7 +40,7 @@ Visualizing your graph
 
 We can visualize only nodes using a longitudinal representation
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     plot = tn.plot_longitudinal(my_d_graph,width=400,height=200)
 
@@ -51,7 +51,7 @@ We can visualize only nodes using a longitudinal representation
 
 Or visualize the whole graph at any given time
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     plot = tn.plot_as_graph(my_d_graph,ts=[2,3,4],width=300,height=300)
 
@@ -65,7 +65,7 @@ Accessing graph information
 
 We can query the graph at a given time and get a networkx object
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     my_d_graph.graph_at_time(2).nodes()
 
@@ -81,7 +81,7 @@ We can query the graph at a given time and get a networkx object
 We can also query the presence periods of some nodes, for instance.
 Check documentation for more possibilities.
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     my_d_graph.node_presence(["a","b"])
 
@@ -102,7 +102,7 @@ one, and reciprocally. We need to specify an agggregation step, i.e.,
 each snapshot of the resulting dynamic graph corresponds to a period of
 the chosen length.
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     my_d_graph_SN = my_d_graph.to_DynGraphSN(slices=1)
 
@@ -110,7 +110,7 @@ We plot the graph to check that it has not changed (each snapshot has a
 duration of 1, a continuous horizontal line corresponds to a node
 present in several adjacent snapshots)
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     to_plot = tn.plot_longitudinal(my_d_graph,width=400,height=200)
 
@@ -133,7 +133,7 @@ re-aggregate it. Note that aggregation can be done according to dates
 (week, months…) if time values are provided as timestamps (see
 documentation for details)
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     sliced = my_d_graph.slice(2,5)
     to_plot = tn.plot_longitudinal(sliced,width=400,height=200)
@@ -143,7 +143,7 @@ documentation for details)
 .. image:: output_19_0.png
 
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     aggregated = my_d_graph_SN.aggregate_sliding_window(bin_size=3)
     to_plot = tn.plot_longitudinal(aggregated,width=400,height=200)
@@ -163,7 +163,7 @@ networks.
 Let’s start by generating a random toy model and plotting it with its
 communities represented as colors
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     toy_graph,toy_ground_truth = tn.DCD.generate_toy_random_network(alpha=0.9,random_noise=0.05)
     plot = tn.plot_longitudinal(toy_graph,toy_ground_truth,height=300)
@@ -179,7 +179,7 @@ communities represented as colors
 .. image:: output_22_1.png
 
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     plot = tn.plot_as_graph(toy_graph,toy_ground_truth,ts=[1,100,150],width=300,height=300)
 
@@ -191,13 +191,13 @@ communities represented as colors
 We can then run a dynamic community detection algorithm on the graph.
 Several methods are available, check the documentation for more details
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     dynamic_communities = tn.iterative_match(toy_graph)
 
 Let’s check what the communities found look like
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     plot = tn.plot_longitudinal(communities=dynamic_communities,height=300)
 
@@ -209,7 +209,7 @@ Let’s check what the communities found look like
 Finally, we can evaluate the quality of this solution using some quality
 functions designed for dynamic communities, for instance:
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     print("longitudinal similarity to ground truth: ",tn.longitudinal_similarity(toy_ground_truth,dynamic_communities))
     print("Partition smoothness SM-P: ",tn.SM_P(dynamic_communities))

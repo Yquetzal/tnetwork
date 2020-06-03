@@ -24,7 +24,7 @@ class Mock(MagicMock):
         return MagicMock()
 
 
-MOCK_MODULESS = ["pandas","networkx","sortedcontainers","bokeh","scipy","progressbar","bokeh.plotting","sklearn","sklearn.metrics","bidict","matlab","leidenalg","scipy.io","statistics"] #,"bokeh.plotting","bokeh.models","bokeh.layouts","bokeh.io","bokeh.palettes"
+MOCK_MODULESS = ["pandas","networkx","sortedcontainers","bokeh","scipy","progressbar","bokeh.plotting","sklearn","sklearn.metrics","bidict","matlab","leidenalg","scipy.io","statistics","sklearn.decomposition"] #,"bokeh.plotting","bokeh.models","bokeh.layouts","bokeh.io","bokeh.palettes"
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULESS)
 
 

@@ -2,7 +2,7 @@ Quick Start
 ===========
 
 This is an introduction to the key functionalities of the tnetwork
-library. Check documentation for more details
+library. Check documentation for more details.
 
 .. code-block:: ipython3
 

@@ -177,7 +177,7 @@
 <h1>tnetwork.DCD.smoothed_louvain<a class="headerlink" href="#tnetwork-dcd-smoothed-louvain" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="tnetwork.DCD.smoothed_louvain">
-<code class="sig-prename descclassname">tnetwork.DCD.</code><code class="sig-name descname">smoothed_louvain</code><span class="sig-paren">(</span><em class="sig-param">dynNetSN</em>, <em class="sig-param">match_function=&lt;function jaccard&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/DCD/pure_python/smoothed_louvain.html#smoothed_louvain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DCD.smoothed_louvain" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">tnetwork.DCD.</code><code class="sig-name descname">smoothed_louvain</code><span class="sig-paren">(</span><em class="sig-param">dynNetSN</em>, <em class="sig-param">match_function=&lt;function jaccard&gt;</em>, <em class="sig-param">threshold=0.3</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/DCD/pure_python/smoothed_louvain.html#smoothed_louvain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DCD.smoothed_louvain" title="Permalink to this definition">¶</a></dt>
 <dd><p>Community Detection using smoothed louvain</p>
 <p>This algorithm is a naive implementation of the method proposed by [1]. The idea is that for each snapshots,
 the louvain algorithm is ran, but instead of being initialized with each node in its own community as usual, the partition

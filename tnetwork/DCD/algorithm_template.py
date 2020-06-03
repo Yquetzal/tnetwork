@@ -1,9 +1,9 @@
 import time
 
 
-def DCD_algorithm(dynamic_network,detection,label_attribution=None,pre_processing=None,post_processing=None,elapsed_time=False):
+def DCD_algorithm(dynamic_network,algorithm_name,detection,label_attribution=None,pre_processing=None,post_processing=None,elapsed_time=False):
+    print("starting "+algorithm_name)
     time_Steps = {}
-
     pre_processed = dynamic_network
     if pre_processing!=None:
         pre_processed = pre_processing(dynamic_network)

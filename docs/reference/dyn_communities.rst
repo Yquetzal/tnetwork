@@ -39,13 +39,15 @@ Accessing affiliations
         DynCommunitiesSN.snapshot_communities
 
 
-Statistics
+Statistics/Other
 -----------------------------------
 .. autosummary::
     :toctree: generated/
 
         DynCommunitiesSN.communities_duration
         DynCommunitiesSN.affiliations_durations
+        DynCommunitiesSN.snapshots_timesteps
+        DynCommunitiesSN.automatic_node_order
 
 Converting
 -----------------------------------

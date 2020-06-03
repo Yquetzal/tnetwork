@@ -230,7 +230,7 @@ if it belongs to a community again.
 As a consequence, a node alive but not belonging to any community must be represented as a node belonging to a community of size 1</p>
 <p>2)There are not really persistent community, every time a community is modified in any way, a new community is created,
 and it is only because they have the same name (label) that they are considered part of the same dynamic community.</p>
-<p>As a consequence, to kill a dynamic community, one simply needs to stop using its name.</p>
+<p>As a consequence, to kill a dynamic community, one simply needs to stop using its label.</p>
 </dd></dl>
 
 <table class="longtable docutils align-default">
@@ -254,17 +254,17 @@ and it is only because they have the same name (label) that they are considered 
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.INITIALIZE.html#tnetwork.ComScenario.INITIALIZE" title="tnetwork.ComScenario.INITIALIZE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.INITIALIZE</span></code></a>(sizes[, names])</p></td>
-<td><p>Function to initialize the dynamic networks with snapshot_affiliations that already exist at the beginning</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.INITIALIZE.html#tnetwork.ComScenario.INITIALIZE" title="tnetwork.ComScenario.INITIALIZE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.INITIALIZE</span></code></a>(sizes[, labels])</p></td>
+<td><p>Function to initialize the dynamic networks with communities that already exist at the beginning</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.BIRTH.html#tnetwork.ComScenario.BIRTH" title="tnetwork.ComScenario.BIRTH"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.BIRTH</span></code></a>(size[, name])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.BIRTH.html#tnetwork.ComScenario.BIRTH" title="tnetwork.ComScenario.BIRTH"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.BIRTH</span></code></a>(size[, label])</p></td>
 <td><p>Creates a new community</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.DEATH.html#tnetwork.ComScenario.DEATH" title="tnetwork.ComScenario.DEATH"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.DEATH</span></code></a>(com, **kwargs)</p></td>
 <td><p>Kill a community</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.MERGE.html#tnetwork.ComScenario.MERGE" title="tnetwork.ComScenario.MERGE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.MERGE</span></code></a>(toMerge, merged, **kwargs)</p></td>
-<td><p>Merge the snapshot_affiliations in input into a single community with the name (label) provided in output</p></td>
+<td><p>Merge the communities in input into a single community with the name (label) provided in output</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.ComScenario.SPLIT.html#tnetwork.ComScenario.SPLIT" title="tnetwork.ComScenario.SPLIT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComScenario.SPLIT</span></code></a>(toSplit, newComs, sizes, …)</p></td>
 <td><p>Split a single community into several ones.</p></td>
@@ -316,10 +316,10 @@ and it is only because they have the same name (label) that they are considered 
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.generate_toy_random_network 2.html#tnetwork.generate_toy_random_network" title="tnetwork.generate_toy_random_network"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_toy_random_network</span></code></a>(**kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tnetwork.generate_toy_random_network.html#tnetwork.generate_toy_random_network" title="tnetwork.generate_toy_random_network"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_toy_random_network</span></code></a>(**kwargs)</p></td>
 <td><p>Generate a small, toy dynamic graph</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.generate_simple_random_graph 2.html#tnetwork.generate_simple_random_graph" title="tnetwork.generate_simple_random_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_simple_random_graph</span></code></a>([nb_com, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tnetwork.generate_simple_random_graph.html#tnetwork.generate_simple_random_graph" title="tnetwork.generate_simple_random_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_simple_random_graph</span></code></a>([nb_com, …])</p></td>
 <td><p>Generate a simple random dynamic graph with community structure</p></td>
 </tr>
 </tbody>

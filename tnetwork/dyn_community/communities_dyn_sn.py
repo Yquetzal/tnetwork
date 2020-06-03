@@ -8,6 +8,10 @@ from tnetwork.utils.community_utils import nodesets2affiliations
 from tnetwork.utils.community_utils import jaccard
 from tnetwork.utils.intervals import Intervals
 from tnetwork.dyn_community.communities_dyn import DynCommunities
+import numpy as np
+from sklearn.decomposition import PCA
+
+import matplotlib.pyplot as plt
 
 
 class DynCommunitiesSN(DynCommunities):
@@ -178,6 +182,14 @@ class DynCommunitiesSN(DynCommunities):
                 toReturn = {n:t for (n,c),t in toReturn.items()}
 
         return toReturn
+
+    def snapshots_timesteps(self):
+        """
+        Return the list of time steps
+
+        :return: list of time steps
+        """
+        return list(self.snapshots.keys())
 
     def snapshot_affiliations(self, t=None):
         """
@@ -551,3 +563,23 @@ class DynCommunitiesSN(DynCommunities):
         for com_ID, evol in all_coms.items():
             to_return[com_ID]=len(evol)
         return to_return
+
+    def automatic_node_order(self):
+        """
+        Return an order of nodes optimized for longitudinal plotting
+
+        Note: code is not optimized, could be improved!
+        :return: list of nodes names
+        """
+        affil_durations = self.affiliations_durations()
+        nodes_indices = sorted(list(self.affiliations().keys()))
+        coms_indices = sorted(list(self.communities().keys()))
+        features = np.full((len(nodes_indices),len(coms_indices)),0)
+        for (n,c),duration in affil_durations.items():
+                node_position = nodes_indices.index(n)
+                com_position = coms_indices.index(c)
+                features[node_position,com_position]=duration
+
+        model = PCA(n_components=1)#,dissimilarity="precomputed")
+        positions = model.fit_transform(features)
+        return [x for _,x in sorted(zip(positions,nodes_indices))]

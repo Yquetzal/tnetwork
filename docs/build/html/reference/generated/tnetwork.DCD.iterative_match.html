@@ -177,7 +177,7 @@
 <h1>tnetwork.DCD.iterative_match<a class="headerlink" href="#tnetwork-dcd-iterative-match" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="tnetwork.DCD.iterative_match">
-<code class="sig-prename descclassname">tnetwork.DCD.</code><code class="sig-name descname">iterative_match</code><span class="sig-paren">(</span><em class="sig-param">dynNetSN</em>, <em class="sig-param">CDalgo='louvain'</em>, <em class="sig-param">match_function=&lt;function jaccard&gt;</em>, <em class="sig-param">threshold=0.3</em>, <em class="sig-param">elapsed_time=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/DCD/pure_python/simple_matching.html#iterative_match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DCD.iterative_match" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">tnetwork.DCD.</code><code class="sig-name descname">iterative_match</code><span class="sig-paren">(</span><em class="sig-param">dynNetSN</em>, <em class="sig-param">CDalgo='louvain'</em>, <em class="sig-param">match_function=&lt;function jaccard&gt;</em>, <em class="sig-param">threshold=0.3</em>, <em class="sig-param">elapsed_time=False</em>, <em class="sig-param">multithread=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/DCD/pure_python/simple_matching.html#iterative_match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DCD.iterative_match" title="Permalink to this definition">¶</a></dt>
 <dd><p>Community Detection by iterative detection and matching</p>
 <p>This algorithm is inspired by the one proposed by Greene et al., [1] but additionally to the detection of match
 between communities in consecutive snapshots, a post process assign labels to communities, based on the
@@ -196,6 +196,7 @@ following rules:</p>
 <li><p><strong>CDalgo</strong> – community detection to apply at each step. Can be a function returning a clustering, or the string “louvain” or “smoothedLouvain</p></li>
 <li><p><strong>match_function</strong> – a function that gives a matching score between two communities (two sets of nodes). Default: jaccard. If None, no matching is done</p></li>
 <li><p><strong>threshold</strong> – a threshold for match_function below which snapshot_communities are not matched</p></li>
+<li><p><strong>multithread</strong> – If true, run in parallel. Some bugs in macOs/windows.</p></li>
 </ul>
 </dd>
 </dl>

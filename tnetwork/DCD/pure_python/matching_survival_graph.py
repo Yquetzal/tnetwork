@@ -51,7 +51,7 @@ def _build_matches_graph(partitions, match_function, threshold=0.3):
 
     return graph
 
-def label_smoothing(dynNetSN, CDalgo="louvain", match_function=jaccard, threshold=0.3, elapsed_time=False):
+def label_smoothing(dynNetSN, CDalgo="louvain", match_function=jaccard, threshold=0.3,multithread=False, **kwargs):
     """
     Community detection by label smoothing
 
@@ -67,14 +67,11 @@ def label_smoothing(dynNetSN, CDalgo="louvain", match_function=jaccard, threshol
     :param CDalgo: community detection to apply at each step. Can be a function returning a clustering, or the string "louvain" or "smoothedLouvain"
     :param match_function: a function that gives a matching score between two snapshot_communities (two sets of nodes). Default: jaccard
     :param threshold: a threshold for match_function below which snapshot_communities are not matched
-    :param elapsed_time: if true, return also the time taken to run the algorihtm (without pre/post process)
     :return: DynCommunitiesSN
     """
-    print("starting label_smoothing method ")
-
     if CDalgo == "louvain":
         CDalgo = None
-    cd_method = lambda x: CD_each_step(x, CDalgo)
+    cd_method = lambda x: CD_each_step(x, CDalgo,multithread)
 
 
     def matching_method(x):
@@ -83,7 +80,7 @@ def label_smoothing(dynNetSN, CDalgo="louvain", match_function=jaccard, threshol
         x.create_standard_event_graph()
         return x
 
-    return DCD_algorithm(dynNetSN, detection=cd_method, label_attribution=matching_method)
+    return DCD_algorithm(dynNetSN,"label_smoothing", detection=cd_method, label_attribution=matching_method, **kwargs)
 
 
 

@@ -205,7 +205,7 @@
     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">coms</span>
 
-<div class="viewcode-block" id="smoothed_louvain"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.smoothed_louvain.html#tnetwork.DCD.smoothed_louvain">[docs]</a><span class="k">def</span> <span class="nf">smoothed_louvain</span><span class="p">(</span><span class="n">dynNetSN</span><span class="p">,</span><span class="n">match_function</span><span class="o">=</span><span class="n">jaccard</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="smoothed_louvain"><a class="viewcode-back" href="../../../../reference/generated/tnetwork.DCD.smoothed_louvain.html#tnetwork.DCD.smoothed_louvain">[docs]</a><span class="k">def</span> <span class="nf">smoothed_louvain</span><span class="p">(</span><span class="n">dynNetSN</span><span class="p">,</span><span class="n">match_function</span><span class="o">=</span><span class="n">jaccard</span><span class="p">,</span><span class="n">threshold</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">      Community Detection using smoothed louvain</span>
 
@@ -231,11 +231,11 @@
     <span class="n">matching_method</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">match_function</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">def</span> <span class="nf">matching_method</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-            <span class="n">x</span><span class="o">.</span><span class="n">create_standard_event_graph</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">create_standard_event_graph</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="n">match_function</span><span class="p">)</span>
             <span class="n">x</span><span class="o">.</span><span class="n">_relabel_coms_from_continue_events</span><span class="p">(</span><span class="n">typedEvents</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rename</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">x</span>
 
-    <span class="k">return</span> <span class="n">DCD_algorithm</span><span class="p">(</span><span class="n">dynNetSN</span><span class="p">,</span> <span class="n">detection</span><span class="o">=</span><span class="n">_smoothed_louvain</span><span class="p">,</span> <span class="n">label_attribution</span><span class="o">=</span><span class="n">matching_method</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">DCD_algorithm</span><span class="p">(</span><span class="n">dynNetSN</span><span class="p">,</span> <span class="s2">&quot;smoothed_louvain&quot;</span><span class="p">,</span><span class="n">detection</span><span class="o">=</span><span class="n">_smoothed_louvain</span><span class="p">,</span> <span class="n">label_attribution</span><span class="o">=</span><span class="n">matching_method</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
