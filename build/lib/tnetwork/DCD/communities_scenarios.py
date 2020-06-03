@@ -4,7 +4,7 @@ import numpy as np
 import math
 import progressbar
 from tnetwork.utils.intervals import Intervals
-from .community import _Operation,Community
+from tnetwork.DCD.community import _Operation,Community
 import time
 import sys
 
@@ -346,6 +346,7 @@ class ComScenario():
         for c in self._currentCommunities:
             if type(c) is Community:
                 for n in c.nodes():
+                    print(type(c))
                     label = c.label()
                     self._dyn_com_local.setdefault(label,{}).setdefault(n,[])
                     if len(self._dyn_com_local[label][n]) > 0 and self._dyn_com_local[label][n][-1][-1] == self._currentT:
