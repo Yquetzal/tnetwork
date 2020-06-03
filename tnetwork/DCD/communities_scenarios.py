@@ -4,7 +4,7 @@ import numpy as np
 import math
 import progressbar
 from tnetwork.utils.intervals import Intervals
-from .community import _Operation,Community
+from tnetwork.DCD.community import _Operation,Community
 import time
 import sys
 
