@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 
 def _get_return(function, x, y, return_var):
     return_var.append(function(x, elapsed_time=y))
@@ -6,9 +5,8 @@ def _get_return(function, x, y, return_var):
 from tnetwork.DCD.analytics.dynamic_partition import *
 import sklearn
 import pandas as pd
-
-import os
 import numpy as np
+import tnetwork as tn
 
 
 
@@ -30,10 +28,10 @@ def _compute_all_stats(all_infos, detailed=True):
     #LNMI = []
     #LF1 = []
 
-    nb_changes = []
+    SM_N = []
     # entropies = []
-    ent_by_nodes = []
-    S = []
+    SM_L = []
+    SM_P = []
 
     modularities = []
 
@@ -55,9 +53,7 @@ def _compute_all_stats(all_infos, detailed=True):
             results = an_experiment["result"]
         iteration = an_experiment["ID"]
 
-        print(id)
         for name, (result, time) in results.items():
-            print(name)
             for k, v in iteration.items():
                 IDs.setdefault(k,[])
                 IDs[k].append(v)
@@ -77,12 +73,11 @@ def _compute_all_stats(all_infos, detailed=True):
                 #LAMI.append(longitudinal_similarity(GT_as_sn, result))
                 LARI.append(longitudinal_similarity(GT_as_sn, result, score=sklearn.metrics.adjusted_rand_score))
 
-                nb_changes.append(nb_node_change(result))
+                SM_N.append(tn.SM_N(result))
 
-                consecutive_NMIs = consecutive_sn_similarity(result)
                 #entropies.append(entropy(result))
-                ent_by_nodes.append(entropy_by_node(result)) #####Slow
-                S.append(np.average(consecutive_NMIs[0], weights=consecutive_NMIs[1]))
+                SM_L.append(tn.SM_L(result)) #####Slow
+                SM_P.append(tn.SM_P(result))
 
                 mods = quality_at_each_step(result, dyn_graph_sn)
                 modularities.append(np.average(mods[0], weights=mods[1]))
@@ -102,9 +97,7 @@ def _compute_all_stats(all_infos, detailed=True):
     df = pd.DataFrame()
     df["algorithm"] = names
     df["running time"] = times
-    print(names)
     if detailed:
-        print(LAMI)
         df["LAMI"] = LAMI
         #df["LF1"] = LF1
 
@@ -112,10 +105,10 @@ def _compute_all_stats(all_infos, detailed=True):
         df["LARI"] = LARI
 
 
-        df["SM-N"] = nb_changes
+        df["SM-N"] = SM_N
         #df["I_old"] = entropies
-        df["SM-L"] = ent_by_nodes
-        df["SM-P"] = S
+        df["SM-L"] = SM_L
+        df["SM-P"] = SM_P
 
 
         df["Q"] = modularities
@@ -136,7 +129,7 @@ def _compute_all_stats(all_infos, detailed=True):
 
 
 
-def _run_algos_on_graph(methods_to_test, dyn_graph_sn, plot=False):
+def run_algos_on_graph(methods_to_test, dyn_graph_sn):#, plot=False,**kwargs):
     """
     :param methods_to_test:
     :param dyn_graph_sn:
@@ -150,11 +143,11 @@ def _run_algos_on_graph(methods_to_test, dyn_graph_sn, plot=False):
     for name, m in methods_this_step.items():
         results[name] = m(dyn_graph_sn, elapsed_time=True)
 
-        if plot!=False:
-            p = tn.plot_longitudinal(dyn_graph_sn, results[name][0])#.to_DynCommunitiesIG(1))
-            location = os.path.join(plot,name+".png")
-            p.savefig(location, bbox_inches='tight')
-            plt.clf()
+        # if plot!=False:
+        #     p = tn.plot_longitudinal(dyn_graph_sn, results[name][0],**kwargs)#.to_DynCommunitiesIG(1))
+        #     location = os.path.join(plot,name+".png")
+        #     p.savefig(location, bbox_inches='tight')
+        #     plt.clf()
 
     return results
 
@@ -196,17 +189,20 @@ def DCD_benchmark(methods_to_test, mus, nb_coms=[10], subsets=None, iterations=2
     if subsets == None:
         subsets = [None]
     for mu in mus:
-        print("----", mu)
+        print("mu: ", mu)
 
         for iteration in range(iterations):
+            print("iteration: ", iteration)
+
             for nb_com in nb_coms:
-                print(iteration)
-                (dyn_graph, GT) = tn.generate_toy_random_network(nb_com, min_size, max_size, operations, mu_noise=0.01, mu=mu, alpha=1)
+
+                (dyn_graph, GT) = tn.generate_simple_random_graph(nb_com, min_size, max_size, operations, mu_noise=0.01, mu=mu)
 
                 dyn_graph_sn = dyn_graph.to_DynGraphSN(slices=1)
                 GT_as_sn = GT.to_DynCommunitiesSN(slices=1)
 
                 for length in subsets:
+                    print("subset length:",length)
                     ID = (mu, iteration, nb_com, length)
                     saved_coms[ID] = {}
                     saved_coms[ID]["ID"] = {"mu": ID[0], "iteration": ID[1], "#coms": nb_com}
@@ -220,12 +216,12 @@ def DCD_benchmark(methods_to_test, mus, nb_coms=[10], subsets=None, iterations=2
                     saved_coms[ID]["GT"] = subcomsGT
 
                     try:
-                        result = _run_algos_on_graph(methods_to_test, subgraph)
+                        result = run_algos_on_graph(methods_to_test, subgraph)
                         saved_coms[ID]["result"] = result
                     except:
                         print("error computing algos")
-
-        stats = _compute_all_stats(saved_coms, detailed= not only_time_statistics)
+    print("Compute stats")
+    stats = _compute_all_stats(saved_coms, detailed= not only_time_statistics)
     return stats
 
 

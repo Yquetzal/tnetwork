@@ -6,7 +6,7 @@ import progressbar
 from tnetwork.utils.intervals import Intervals
 from .community import _Operation,Community
 import time
-
+import sys
 
 
 
@@ -28,7 +28,7 @@ class ComScenario():
     2)There are not really persistent community, every time a community is modified in any way, a new community is created,
     and it is only because they have the same name (label) that they are considered part of the same dynamic community.
 
-    As a consequence, to kill a dynamic community, one simply needs to stop using its name.
+    As a consequence, to kill a dynamic community, one simply needs to stop using its label.
 
     """
 
@@ -142,7 +142,7 @@ class ComScenario():
 
                 ##### Management of the reference partition as an event graph #####
                 if len(operation._beforeCommunities)>0:
-                    #update the name of community with the event graph now that we know the time of end of operation
+                    #update the label of community with the event graph now that we know the time of end of operation
                     nx.relabel_nodes(self._dynCom.events, {com.label():(self._currentT, com.label())}, copy=False)
                 ###################################################################
 
@@ -264,7 +264,7 @@ class ComScenario():
 
     def _retrieve_last_community_with_name(self, anAction):
         """
-        Given the name of a community, return the last community object created under that name.
+        Given the label of a community, return the last community object created under that name.
         :param anAction:
         :return:
         """
@@ -346,18 +346,13 @@ class ComScenario():
         for c in self._currentCommunities:
             if type(c) is Community:
                 for n in c.nodes():
-                    name = c.label()
-                    self._dyn_com_local.setdefault(name,{}).setdefault(n,[])
-                    if len(self._dyn_com_local[name][n]) > 0 and self._dyn_com_local[name][n][-1][-1] == self._currentT:
-                        self._dyn_com_local[name][n][-1] = (self._dyn_com_local[name][n][-1][0], self._currentT + 1)
+                    label = c.label()
+                    self._dyn_com_local.setdefault(label,{}).setdefault(n,[])
+                    if len(self._dyn_com_local[label][n]) > 0 and self._dyn_com_local[label][n][-1][-1] == self._currentT:
+                        self._dyn_com_local[label][n][-1] = (self._dyn_com_local[label][n][-1][0], self._currentT + 1)
                     else:
-                        self._dyn_com_local[name][n].append((self._currentT, self._currentT + 1))
+                        self._dyn_com_local[label][n].append((self._currentT, self._currentT + 1))
 
-        # for c in self._currentCommunities:
-        #     if type(c) is Community:
-        #         if (self._verbose):
-        #             print("list of current com: adding com ", self._currentT, " ", c.name())
-        #         self._dynCom.add_affiliations_from({c.name():set(c.nodes())}, (self._currentT, self._currentT + 1))
         self._currentT += 1
 
 
@@ -425,6 +420,8 @@ class ComScenario():
                             else:
                                 self._activate_action(op)
                                 self._actions.remove(action)
+                                sys.stdout.flush()
+
                                 bar.update(nb_events-len(self._actions))
 
 
@@ -447,22 +444,22 @@ class ComScenario():
         #print(nb_events)
         return(dyn_graph, dyn_com)
 
-    def INITIALIZE(self,sizes:[int],names:[str]=None):
+    def INITIALIZE(self, sizes:[int], labels:[str]=None):
         """
-        Function to initialize the dynamic networks with snapshot_affiliations that already exist at the beginning
+        Function to initialize the dynamic networks with communities that already exist at the beginning
 
-        :param sizes: list of the snapshot_affiliations sizes (same order as names)
-        :param names: list of the snapshot_affiliations names (if None, unique names are given automatically)
+        :param sizes: list of the communities sizes (same order as names)
+        :param labels: list of the communities labels (if None, unique labels are given automatically)
         """
-        if names==None:
-            names=[None]*len(sizes)
-        if len(sizes)!= len(names):
+        if labels==None:
+            labels= [None] * len(sizes)
+        if len(sizes)!= len(labels):
             raise Exception("nb sizes do not match nb names")
 
         toReturn=[]
         for i,size in enumerate(sizes):
-            name = names[i]
-            newCommunity = Community(self, name)
+            label = labels[i]
+            newCommunity = Community(self, label)
             newCommunity._add_nodes([self.create_node() for j in range(size)])
             self._currentCommunities.add(newCommunity)
             self._allSeenCommunities.add(newCommunity)
@@ -474,21 +471,20 @@ class ComScenario():
 
 
 
-    def BIRTH(self,size:int, name:str=None,**kwargs):
+    def BIRTH(self, size:int, label:str=None, **kwargs):
         """
         Creates a new community
 
         :param size: number of nodes to create
-        :param name: name of the community (default will create a random name)
+        :param label: label of the community (default will create a random label)
         :return: the community created (community object)
         """
-        return self._add_action(_Operation.birth(name, size), **kwargs)[0]
+        return self._add_action(_Operation.birth(label, size), **kwargs)[0]
 
     def DEATH(self, com:Community, **kwargs):
         """
         Kill a community
 
-        :param name: name of the community to kill
         :return: empty list
         """
         died = self._add_action(_Operation.death(com), **kwargs)
@@ -497,10 +493,10 @@ class ComScenario():
 
     def MERGE(self, toMerge: [Community], merged:str, **kwargs):
         """
-        Merge the snapshot_affiliations in input into a single community with the name (label) provided in output
+        Merge the communities in input into a single community with the name (label) provided in output
 
-        :param toMerge: names of snapshot_affiliations to merge
-        :param merged: name of the merged community (can be same as one of the input or not
+        :param toMerge: labels of snapshot_affiliations to merge
+        :param merged: label of the merged community (can be same as one of the input or not
         :return: the merged community (community object)
         """
         allNodes = set()
@@ -512,9 +508,9 @@ class ComScenario():
         """
         Split a single community into several ones. Note that to control exactly which nodes are moved, one should use migrate instead
 
-        :param toSplit: name of the community to split
-        :param newComs: names to give to the new snapshot_affiliations (list). The name of the community before split can be or not among them
-        :param sizes: sizes of the new snapshot_affiliations, in number of nodes. In the same order as names.
+        :param toSplit: label of the community to split
+        :param newComs: labels to give to the new snapshot_affiliations (list). The label of the community before split can be or not among them
+        :param sizes: sizes of the new snapshot_affiliations, in number of nodes. In the same order as newComs.
         :return: a list of snapshot_affiliations resulting from the split.
         """
         if sum(sizes)!=len(toSplit.nodes()):
@@ -541,7 +537,7 @@ class ComScenario():
         :return: a tuple of snapshot_affiliations, current ship, new ship
         """
 
-        name = theComTh.label()
+        label = theComTh.label()
 
         initialNodes = list(theComTh.nodes())
 
@@ -560,13 +556,13 @@ class ComScenario():
             newNode = self.create_node()
             nodeToRemove = initialNodes[i]
 
-            [currentShip] = self.ASSIGN([currentShip], [name], splittingOut=[
+            [currentShip] = self.ASSIGN([currentShip], [label], splittingOut=[
                 set(currentShip.nodes()) - {nodeToRemove} | set([newNode])],
                                         delay=wait_this_step, **kwargs)
 
             planksInStoreHouse.append(nodeToRemove)
 
-        [newShip] = self.ASSIGN([], [self._get_new_ID(name)], splittingOut=[planksInStoreHouse], triggers=currentShip)
+        [newShip] = self.ASSIGN([], [self._get_new_ID(label)], splittingOut=[planksInStoreHouse], triggers=currentShip)
         return (currentShip,newShip)
 
     def RESURGENCE(self, theComTh: Community, death_period=20, **kwargs):
@@ -578,13 +574,13 @@ class ComScenario():
         :return: a tuple of snapshot_affiliations, current ship, new ship
         """
 
-        name = theComTh.label()
+        label = theComTh.label()
 
         initialNodes = list(theComTh.nodes())
 
         death = self.DEATH(theComTh,**kwargs)
 
-        [theComTh] = self.ASSIGN([], [name], splittingOut=[initialNodes], triggers=death,delay=death_period)
+        [theComTh] = self.ASSIGN([], [label], splittingOut=[initialNodes], triggers=death,delay=death_period)
 
         return theComTh
 
@@ -672,9 +668,9 @@ class ComScenario():
         another or any other more complex scenario.
 
         :param comBefore: Ccommunities in input
-        :param comsAfter: name(s) to give to the resulting snapshot_affiliations
+        :param comsAfter: label(s) to give to the resulting communities
         :param splittingOut: How to distribute nodes in output. It is a list of same lenght than comsAfter, and each element of the list is a set of names of nodes. Note that if some nodes present in input does not appear in output, they are considered "killed"
-        :return: the snapshot_affiliations resulting from the operation (list of snapshot_affiliations objects)
+        :return: the communities resulting from the operation (list)
         """
         return self._add_action(_Operation.migrate(comsBefore, comsAfter, splittingOut), **kwargs)
 
@@ -711,34 +707,34 @@ def generate_toy_random_network(**kwargs):
     my_scenario = ComScenario(**kwargs)
 
     # Initialization with 4 communities of different sizes
-    [to_merge, absorb, to_split, thes] = my_scenario.INITIALIZE([5, 8, 20, 8],
-                                                                ["to_merge", "absorb", "to_split", "theseus"])
+    [A, B, C, T] = my_scenario.INITIALIZE([5, 8, 20, 8],
+                                                                ["A", "B", "C", "T"])
     # Create a theseus ship after 20 steps
-    my_scenario.THESEUS(thes, delay=20)
+    (T,U)=my_scenario.THESEUS(T, delay=20)
 
     # Merge two of the original communities after 30 steps
-    absorbing = my_scenario.MERGE([to_merge, absorb], absorb.label(), delay=30)
+    B = my_scenario.MERGE([A, B], B.label(), delay=30)
 
     # Split a community of size 20 in 2 communities of size 15 and 5
-    (split_large, splitted1) = my_scenario.SPLIT(to_split, ["to_split", "splitted1"], [15, 5], delay=75)
+    (C, C1) = my_scenario.SPLIT(C, ["C", "C1"], [15, 5], delay=75)
 
     # Split again the largest one, 40 steps after the end of the first split
-    (splitted1, splitted2) = my_scenario.SPLIT(split_large, ["to_split", "splitted2"], [10, 5], delay=40)
+    (C1, C2) = my_scenario.SPLIT(C, ["C", "C2"], [10, 5], delay=40)
 
     # Merge the smallest community created by the split, and the one created by the first merge
-    my_scenario.MERGE([splitted2, absorbing], absorbing.label(), delay=20)
+    my_scenario.MERGE([C2, B], B.label(), delay=20)
 
     # Make a new community appear with 5 nodes, disappear and reappear twice, grow by 5 nodes and disappear
-    born = my_scenario.BIRTH(5, t=25, name="resurgent_grow")
-    born = my_scenario.RESURGENCE(born, delay=10)
-    born = my_scenario.RESURGENCE(born, delay=10)
-    born = my_scenario.RESURGENCE(born, delay=10)
+    R = my_scenario.BIRTH(5, t=25, label="R")
+    R = my_scenario.RESURGENCE(R, delay=10)
+    R = my_scenario.RESURGENCE(R, delay=10)
+    R = my_scenario.RESURGENCE(R, delay=10)
 
     # Make the resurgent community grow by 5 nodes 4 timesteps after being ready
-    born = my_scenario.GROW_ITERATIVE(born, 5, delay=4)
+    R = my_scenario.GROW_ITERATIVE(R, 5, delay=4)
 
     # Kill the community grown above, 10 steps after the end of the addition of the last node
-    my_scenario.DEATH(born, delay=10)
+    my_scenario.DEATH(R, delay=10)
 
     (dyn_graph, dyn_com) = my_scenario.run()
     dyn_graph_sn = dyn_graph.to_DynGraphSN(slices=1)

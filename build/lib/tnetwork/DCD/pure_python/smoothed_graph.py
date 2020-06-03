@@ -75,7 +75,7 @@ def _smoothed_graph(dyn_graph,alpha):
     return coms
 
 
-def smoothed_graph(dynNetSN, alpha=0.9,match_function=jaccard, **kwargs):
+def smoothed_graph(dynNetSN, alpha=0.9,match_function=jaccard,threshold=0.3,  **kwargs):
     """
     Smoothed graph approach
 
@@ -103,10 +103,10 @@ def smoothed_graph(dynNetSN, alpha=0.9,match_function=jaccard, **kwargs):
     matching_method = None
     if match_function != None:
         def matching_method(x):
-            x.create_standard_event_graph(**kwargs)
+            x.create_standard_event_graph(threshold=threshold, score=match_function)
             x._relabel_coms_from_continue_events(typedEvents=False, rename=False)
             return x
 
     def detection_method(x):
         return _smoothed_graph(x,alpha)
-    return DCD_algorithm(dynNetSN, detection=detection_method, label_attribution=matching_method)
+    return DCD_algorithm(dynNetSN, "smoothed_graph",detection=detection_method, label_attribution=matching_method,**kwargs)
