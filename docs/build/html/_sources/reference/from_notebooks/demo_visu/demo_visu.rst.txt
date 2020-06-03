@@ -11,12 +11,12 @@ community structure (longitudinal visualization)
 If tnerwork library is not installed, you need to install it, for
 instance using the following command
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     #%%capture #avoid printing output
     #!pip install --upgrade git+https://github.com/Yquetzal/tnetwork.git
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     import tnetwork as tn
     import seaborn as sns
@@ -27,7 +27,7 @@ instance using the following command
 Let’s start with a toy example generated using tnetwork generator (see
 the corresponding documentation for details)
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     my_scenario = tn.ComScenario()
     [com1,com2] = my_scenario.INITIALIZE([6,6],["c1","c2"])
@@ -65,7 +65,7 @@ larger ones.
 Let’s start by plotting the networks in timestep 1 (ts=1). First, using
 matplotlib, the default option.
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     tn.plot_as_graph(generated_network_IG,ts=1,width=300,height=200)
 
@@ -89,7 +89,7 @@ matplotlib, the default option.
 Then, using bokeh and the ``auto_show`` option. It won’t work in google
 colab, see a solution below.
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     tn.plot_as_graph(generated_network_IG,ts=1,width=600,height=300,bokeh=True,auto_show=True)
 
@@ -153,7 +153,7 @@ One can plot in a new window (and/or in a file) by ignoring the
 auto_show option, and instead receiving a figure, that we can manipulate
 as usual with bokeh
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     from bokeh.plotting import figure, output_file, show
     fig = tn.plot_as_graph(generated_network_IG,ts=1,width=600,height=300,bokeh=True)
@@ -164,7 +164,7 @@ Instead of plotting a single graph, we can plot several ones in a single
 call. Note that in this case, the position of nodes is common to all
 plots, and is decided based on the cumulated network
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     from bokeh.plotting import figure, output_file, show
     fig = tn.plot_as_graph(generated_network_IG,ts=[1,30,60,80,generated_network_IG.end()-1],width=200,height=300)
@@ -185,7 +185,7 @@ can plot them too. Note that the same function accepts snapshots and
 interval graphs, but both the graph and the community structure must
 have the same format (SN or IG)
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     from bokeh.plotting import figure, output_file, show
     fig = tn.plot_as_graph(generated_network_IG,generated_comunities_IG,ts=[1,30,60,80,generated_network_IG.end()-1],auto_show=True,width=200,height=300)
@@ -206,7 +206,7 @@ the y axis.
 It is possible to plot only a dynamic graphs, without communities. White
 means that the node is not present or has no edges
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     plot = tn.plot_longitudinal(generated_network_IG,height=300)
 
@@ -218,7 +218,7 @@ means that the node is not present or has no edges
 
 Or only communities, without a graph:
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     plot = tn.plot_longitudinal(communities=generated_comunities_IG,height=300)
 
@@ -230,7 +230,7 @@ Or only communities, without a graph:
 Or both on the same graph. The grey color always corresponds to nodes
 whithout communities. Other colors corresponds to communities
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     plot = tn.plot_longitudinal(generated_network_IG,communities=generated_comunities_IG,height=300)
 
@@ -242,7 +242,7 @@ whithout communities. Other colors corresponds to communities
 It is possible to plot only a subset of nodes, and/or to plot them in a
 particular order
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     plot = tn.plot_longitudinal(generated_network_IG,communities=generated_comunities_IG,height=300,nodes=["n_t_0000_0008","n_t_0000_0002"])
 
@@ -260,11 +260,11 @@ dates on the x axis : ``to_datetime``
 
 We give an example using the sociopatterns dataset
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     sociopatterns = tn.DynGraphSN.graph_socioPatterns2012()
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     #It takes a few seconds
     to_plot_SN = tn.plot_longitudinal(sociopatterns,height=500,to_datetime=True)
@@ -276,7 +276,7 @@ By default, snapshots last until the next snapshot. If snapshots have a
 fix duration, there is a parameter to indicate this duration :
 ``sn_duration``
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     #in sociopatterns, there is an observed snapshot every 20 seconds.
     to_plot_SN = tn.plot_longitudinal(sociopatterns,height=500,to_datetime=True,sn_duration=20)
@@ -294,11 +294,11 @@ By adding the parameter ``bokeh=True``, you can obtain a bokeh plot
 exactly like for the cross-section graphs, with or without the
 ``auto_show`` option.
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     tn.plot_longitudinal(generated_network_IG,communities=generated_comunities_IG,height=300,bokeh=True,auto_show=True)
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     from bokeh.plotting import figure, output_file, show
     fig = tn.plot_longitudinal(sociopatterns,bokeh=True)

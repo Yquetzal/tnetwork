@@ -4,12 +4,12 @@ Dynamic Communities detection and evaluation
 If tnerwork library is not installed, you need to install it, for
 instance using the following command
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     #%%capture #avoid printing output
     #!pip install --upgrade git+https://github.com/Yquetzal/tnetwork.git
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     %load_ext autoreload
     %autoreload 2
@@ -27,7 +27,7 @@ generator provided in the library. We generate a simple ship of Theseus
 scenario. Report to the corresponding tutorial to fully understand the
 generation part if needed.
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     my_scenario = tn.ComScenario(alpha=0.8,random_noise=0.1)
     [com1,com2] = my_scenario.INITIALIZE([6,6],["c1","c2"])
@@ -55,7 +55,7 @@ generation part if needed.
 
 Let’s look at the graph at different stages. There are no communities.
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     last_time = generated_network_IG.end()
     print(last_time)
@@ -75,7 +75,7 @@ Let’s look at the graph at different stages. There are no communities.
 Algorithms for community detection are located in the tnetwork.DCD
 package
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     import tnetwork.DCD as DCD
 
@@ -89,14 +89,14 @@ the doc for more details.
 Without particular parameters, it uses the louvain method and the
 jaccard coefficient.
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     com_iterative = DCD.iterative_match(generated_network_SN)
 
 The static algorithm, the similarity function and the threashold to
 consider similar can be changed
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     custom_match_function = lambda x,y: len(x&y)/max(len(x),len(y))
     com_custom = DCD.iterative_match(generated_network_SN,match_function=custom_match_function,CDalgo=nx.community.greedy_modularity_communities,threshold=0.5)
@@ -112,7 +112,7 @@ several timestamps, we plot graphs at those timestamps while ensuring:
 -  That the same color in different plots means that nodes belong to the
    same dynamic communities
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     last_time = generated_network_IG.end()
     times_to_plot = [0,int(last_time/3),int(last_time/3*2),last_time-1]
@@ -129,7 +129,7 @@ correspond to communities. Grey means that a node corresponds to no
 community, white that the node is not present in the graph (or has no
 edges)
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     to_plot = tn.plot_longitudinal(generated_network_SN,com_iterative,height=200)
 
@@ -146,7 +146,7 @@ but between any snapshot, constituting a survival graph on which a
 community detection algorithm detects communities of communities =>
 Dynamic communities
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     com_survival = DCD.label_smoothing(generated_network_SN)
     plot = tn.plot_longitudinal(generated_network_SN,com_survival,height=200)
@@ -173,7 +173,7 @@ of having each node in its own community as in usual Louvain.
 It has the same options as iterative match, since only the community
 detection process at each step changes, not the matching
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     com_smoothed = DCD.smoothed_louvain(generated_network_SN)
     plot = tn.plot_longitudinal(generated_network_SN,com_smoothed,height=200)
@@ -197,7 +197,7 @@ previous step. (An edge with a small weight is added between any pair of
 nodes that where in the same community previously. This weight is
 determined by a parameter ``alpha``)
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     com_smoothed_graph = DCD.smoothed_graph(generated_network_SN)
     plot = tn.plot_longitudinal(generated_network_SN,com_smoothed_graph,height=200)
@@ -221,7 +221,7 @@ input the list of nodes of both communities, while the community
 algorithm must follow the signature of networkx community detection
 algorithms
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     custom_match_function = lambda x,y: len(x&y)/max(len(x),len(y))
     com_custom2 = DCD.iterative_match(generated_network_SN,match_function=custom_match_function,CDalgo=nx.community.greedy_modularity_communities)
@@ -242,7 +242,7 @@ approach is that it yiealds overlapping communities.
 Be careful, the visualization is not currently adapted to overlapping
 clusters…
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     com_CPM = DCD.rollingCPM(generated_network_SN,k=3)
     plot = tn.plot_longitudinal(generated_network_SN,com_CPM,height=200)
@@ -266,7 +266,7 @@ community evalutation implemented in tnetwork.
 For all evaluations below, no conclusion should be drawn about the
 quality of algorithms… .
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     #Visualization
     plot = tn.plot_longitudinal(communities=generated_comunities_IG,height=200,sn_duration=1)
@@ -290,7 +290,7 @@ therefore tends to lesser the scores. \* The result migth or might not
 be computable at each step depending on the quality function used (e.g.,
 modularity requires a complete partition of the networks to be computed)
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     quality_ref,sizes_ref = DCD.quality_at_each_step(generated_communities_SN,generated_network_SN)
     quality_iter,sizes_iter = DCD.quality_at_each_step(com_iterative,generated_network_SN)
@@ -334,7 +334,7 @@ by the size of the network \* etc.
 Since the process is the same for all later functions, we won’t repeat
 it for the others in this tutorial
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     print("iterative=", np.average(quality_iter),"weighted:", np.average(quality_iter,weights=sizes_iter))
     print("survival=", np.average(quality_survival),"weighted:", np.average(quality_survival,weights=sizes_survival))
@@ -369,7 +369,7 @@ have a community in the ground truth at time t, the score of the
 proposed solution will depends only on those 5 nodes, and the
 affiliations of the 5 others is ignored
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     quality_iter,sizes = DCD.similarity_at_each_step(generated_communities_SN,com_iterative)
     quality_survival,sizes = DCD.similarity_at_each_step(generated_communities_SN,com_survival)
@@ -410,7 +410,7 @@ have a score of zero. \* The score does not depends at all on the
 quality of the solution, i.e., having all nodes in the same partition at
 every step would obtain a perfect score of 1
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     quality_ref,sizes_ref = DCD.consecutive_sn_similarity(generated_communities_SN)
     quality_iter,sizes_iter = DCD.consecutive_sn_similarity(com_iterative)
@@ -460,7 +460,7 @@ steps \* Similar to step by step similarity, only (node,time) couples
 with a known affiliation in the reference partition are used, others are
 ignored
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     quality_iter = DCD.longitudinal_similarity(generated_communities_SN,com_iterative)
     quality_survival = DCD.longitudinal_similarity(generated_communities_SN,com_survival)
@@ -499,7 +499,7 @@ to few communities
 
 For all 3 scores, higher is better.
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     print("iterative: SM-P" ,DCD.SM_P(com_iterative), "SM-N:",DCD.SM_N(com_iterative), " SM-L:",DCD.SM_L(com_iterative))
     print("survival: SM-P ",DCD.SM_P(com_survival), "SM-N:",DCD.SM_N(com_survival), " SM-L:",DCD.SM_L(com_survival))

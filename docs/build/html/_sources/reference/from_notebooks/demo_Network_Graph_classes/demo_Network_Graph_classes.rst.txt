@@ -20,12 +20,12 @@ Table of Contents
 If tnerwork library is not installed, you need to install it, for
 instance using the following command
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     #%%capture #avoid printing output
     #!pip install --upgrade git+https://github.com/Yquetzal/tnetwork.git
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     import tnetwork as tn
 
@@ -40,7 +40,7 @@ Using a snapshot representation
 snapshots (SN). By default, **each snapshot last until the next**. The
 last snapshot has a duration equal to the min of all the snapshots.
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     dg_sn = tn.DynGraphSN()
     dg_sn
@@ -62,7 +62,7 @@ Note the similarity between the functions used.
 Both graphs are very similar if we consider that the snapshots of
 ``dg_sn`` have a duration of 1.
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     dg_ig = tn.DynGraphIG()
     
@@ -82,7 +82,7 @@ class, and are printed as [start,end[. Therefore, 2 snapshots of
 duration 1 at times 1 and 2 code a situation similar to an interval
 [1,3[
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     print(dg_sn.graph_at_time(2).edges)
     print(dg_ig.graph_at_time(2).edges)
@@ -98,7 +98,7 @@ duration 1 at times 1 and 2 code a situation similar to an interval
     [('b', 'd')]
 
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     print(dg_sn.node_presence())
     print(dg_ig.node_presence())
@@ -118,7 +118,7 @@ representation.
 
 See the notebook on visualization to see more possibilities.
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     plot = tn.plot_longitudinal(dg_sn,height=200)
     plot = tn.plot_longitudinal(dg_ig,height=200)
@@ -134,7 +134,7 @@ See the notebook on visualization to see more possibilities.
 
 It is also possible to plot the graph at any given time.
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     plot = tn.plot_as_graph(dg_sn,ts=2,auto_show=True,width=300,height=300)
     plot = tn.plot_as_graph(dg_ig,ts=[1.5,2.5,3.3],auto_show=True,width=200,height=200)
@@ -158,7 +158,7 @@ representation, using a snapshot lenght of 1.
 
 We check that both graphs are now similar
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     converted_to_IG = dg_sn.to_DynGraphIG(sn_duration=1)
     print(converted_to_IG.node_presence())
@@ -174,7 +174,7 @@ We check that both graphs are now similar
 Reciprocally, we transform the interval graph into a snapshot
 representation and check the similarity
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     converted_to_SN = dg_ig.to_DynGraphSN(slices=1)
     print(converted_to_SN.node_presence())
@@ -195,7 +195,7 @@ Slicing
 
 One can conserve only a chosen period using the slice function
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     sliced_SN = dg_sn.slice(2,4) #Keep only the snapshots from 2 to 4
     sliced_IG = dg_ig.slice(1.5,3.5) #keep only what happens between 1.5 and 3.5 in the interval graph
@@ -224,7 +224,7 @@ Creating cumulated graphs
 It can be useful to create cumulated weighted graphs to summarize the
 presence of nodes and edges over a period
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     import networkx as nx
     %matplotlib inline
@@ -243,7 +243,7 @@ presence of nodes and edges over a period
 
 Graphs can also be cumulated only over a specific period
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     g_cumulated = dg_sn.cumulated_graph([1,2]) # create a static graph cumulating snapshots 
     g_cumulated = dg_ig.cumulated_graph((1,3))
@@ -260,7 +260,7 @@ snapshots covering larger periods.
 Do exemplify this usage, we use a dataset from the sociopatterns project
 (http://www.sociopatterns.org) that can be loaded in a single command
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     sociopatterns = tn.DynGraphSN.graph_socioPatterns2012()
 
@@ -268,7 +268,7 @@ For this original network loaded as a snapshot representation, we print
 the number of snapshots and the first and last dates (the dataset covers
 9 days, including a week-end with no activity)
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     from datetime import datetime
     all_times = sociopatterns.snapshots_timesteps()
@@ -282,7 +282,7 @@ the number of snapshots and the first and last dates (the dataset covers
     first date: 2012-11-19 05:36:20  laste date: 2012-11-27 16:14:40
 
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     #Be careful, the plot takes a few seconds to draw. 
     to_plot_SN = tn.plot_longitudinal(sociopatterns,height=500,sn_duration=20,to_datetime=True)
@@ -298,11 +298,11 @@ call this function, the simplest one is using a string such as “day”,
 “hour”, “month”, etc. Note how the beginning of the first snapshot is
 now on midnight of the day on which the first observation was made
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     sociopatterns_Day = sociopatterns.aggregate_time_period("day")
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     
     all_times = sociopatterns_Day.snapshots_timesteps()
@@ -316,7 +316,7 @@ now on midnight of the day on which the first observation was made
     first date: 2012-11-19 00:00:00  laste date: 2012-11-27 00:00:00
 
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     to_plot_SN = tn.plot_longitudinal(sociopatterns_Day,height=800,to_datetime=True,sn_duration=24*60*60)
 
@@ -331,11 +331,11 @@ other parameters, such as overlapping windows. Note how, this time, the
 first snapshot starts exactly at the time of the first observation in
 the original data
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     sociopatterns_hour_window = sociopatterns.aggregate_sliding_window(bin_size=60*60)
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     all_times = sociopatterns_hour_window.snapshots_timesteps()
     print("# snapshots:",len(all_times))
@@ -348,7 +348,7 @@ the original data
     first date: 2012-11-19 05:36:20  laste date: 2012-11-27 15:36:20
 
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     plot =tn.plot_longitudinal(sociopatterns_hour_window,height=800,to_datetime=True,sn_duration=60*60)
 
