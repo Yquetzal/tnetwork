@@ -11,9 +11,6 @@ from tnetwork.dyn_community.communities_dyn import DynCommunities
 import numpy as np
 from sklearn.decomposition import PCA
 
-import matplotlib.pyplot as plt
-
-
 class DynCommunitiesSN(DynCommunities):
     """
     Dynamic communities as sequences of snapshots

@@ -66,19 +66,19 @@ class Community(_AbstractStructure):
 
     """
 
-    def __init__(self,comScenario,name=None):
+    def __init__(self, comScenario, label=None):
         """
         Initialize a community
         :param comScenario: current Scenario class this community will belong to.
-        :param name: the name of the community. If None, the ID is used as name
+        :param label: the name of the community. If None, the ID is used as name
         """
 
-        self._name=name
+        self._label=label
         self._comScenar = comScenario
 
-        if self._name==None:
+        if self._label==None:
             # generate a unique name
-            self._name=comScenario._get_new_ID(prefix="COM")
+            self._label=comScenario._get_new_ID(prefix="COM")
 
         self._nodes = set() #type: {str}
 
@@ -128,7 +128,7 @@ class Community(_AbstractStructure):
         return self._comScenar.nb_edges_for_a_community_size(nbNodes)
 
     def label(self):
-        return self._name
+        return self._label
 
     def _intern_edges(self, variant="deterministic"):
         """
@@ -224,7 +224,7 @@ class _Operation(_AbstractStructure):
 
         #Create new clusters with zero nodes with appropriate names
         for comName in self._afterNames:
-            self._afterCommunities.append(Community(comScen, name=comName))
+            self._afterCommunities.append(Community(comScen, label=comName))
 
 
         for com in self._beforeCommunities:

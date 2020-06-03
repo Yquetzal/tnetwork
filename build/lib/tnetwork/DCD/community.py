@@ -28,7 +28,7 @@ class _AbstractStructure():
         """
         pass
 
-    def name(self):
+    def label(self):
         """
         Get the name (label) of this structure
         :return: name
@@ -66,19 +66,19 @@ class Community(_AbstractStructure):
 
     """
 
-    def __init__(self,comScenario,name=None):
+    def __init__(self, comScenario, label=None):
         """
         Initialize a community
         :param comScenario: current Scenario class this community will belong to.
-        :param name: the name of the community. If None, the ID is used as name
+        :param label: the name of the community. If None, the ID is used as name
         """
 
-        self._name=name
+        self._label=label
         self._comScenar = comScenario
 
-        if self._name==None:
+        if self._label==None:
             # generate a unique name
-            self._name=comScenario._get_new_ID(prefix="COM")
+            self._label=comScenario._get_new_ID(prefix="COM")
 
         self._nodes = set() #type: {str}
 
@@ -127,8 +127,8 @@ class Community(_AbstractStructure):
 
         return self._comScenar.nb_edges_for_a_community_size(nbNodes)
 
-    def name(self):
-        return self._name
+    def label(self):
+        return self._label
 
     def _intern_edges(self, variant="deterministic"):
         """
@@ -151,7 +151,7 @@ class Community(_AbstractStructure):
         return chosenEdges
 
     def __repr__(self):
-        return "(" + self.name() + ":n=" + str(len(self._nodes)) + ",m=" + str(len(self._intern_edges())) + ")"#+str(id(self))
+        return "(" + self.label() + ":n=" + str(len(self._nodes)) + ",m=" + str(len(self._intern_edges())) + ")"#+str(id(self))
 
 
     def __str__(self):
@@ -224,7 +224,7 @@ class _Operation(_AbstractStructure):
 
         #Create new clusters with zero nodes with appropriate names
         for comName in self._afterNames:
-            self._afterCommunities.append(Community(comScen, name=comName))
+            self._afterCommunities.append(Community(comScen, label=comName))
 
 
         for com in self._beforeCommunities:
@@ -356,15 +356,15 @@ class _Operation(_AbstractStructure):
     def _intern_pairs(self):
         return self._internPairs
 
-    def name(self):
+    def label(self):
         return str([c.label() for c in self._beforeCommunities]) + "=>" + str(self._afterNames)
 
     def nodes(self):
         return self._nodes
 
     def __repr__(self):
-        return self.name()
+        return self.label()
 
 
     def __str__(self):
-        return self.name()
+        return self.label()
