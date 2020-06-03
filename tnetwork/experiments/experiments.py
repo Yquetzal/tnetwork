@@ -4,17 +4,11 @@ def _get_return(function, x, y, return_var):
     return_var.append(function(x, elapsed_time=y))
 
 from tnetwork.DCD.analytics.dynamic_partition import *
-#from nf1 import NF1
 from sklearn.metrics import adjusted_rand_score,f1_score
 import pandas as pd
 
 import os
 import numpy as np
-
-#from tnetwork.DCD.externals.dynamo import dynamo
-#from tnetwork.DCD.externals.dynmoga import dynmoga
-from tnetwork.DCD.externals.MuchaOriginal import transversal_network_mucha_original
-from matlab import engine
 import pickle
 
 
