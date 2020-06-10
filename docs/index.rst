@@ -29,9 +29,10 @@ Documentation
     :hidden:
 
     installing.rst
-    reference/from_notebooks/demo_intro/demo_intro.rst
-    reference/tutorials.rst
+    notebooks/demo_intro.ipynb
+    tutorials.rst
     documentation.rst
+
 
 
 

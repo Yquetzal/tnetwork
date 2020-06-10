@@ -25,7 +25,9 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -79,8 +81,8 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference/from_notebooks/demo_intro/demo_intro.html">Quick Start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference/tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_intro.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a></li>
 </ul>
 
@@ -146,7 +148,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="tnetwork-network-community-library">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="tnetwork-network-community-library">
 <h1>tnetwork - Network Community Library<a class="headerlink" href="#tnetwork-network-community-library" title="Permalink to this headline">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">tnetwork</span></code> is a Python software package to manipulate temporal networks.</p>
 <table class="docutils align-default">
@@ -164,7 +190,7 @@
 <td><p><strong>GitHub</strong></p></td>
 <td><p><strong>pypl</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>2020-06-03</p></td>
+<tr class="row-even"><td><p>2020-06-10</p></td>
 <td><p>3.x</p></td>
 <td><p><a class="reference external" href="http://cazabetremy.fr">Rémy Cazabet</a></p></td>
 <td><p><a class="reference external" href="https://github.com/Yquetzal/tnetwork">Source</a></p></td>

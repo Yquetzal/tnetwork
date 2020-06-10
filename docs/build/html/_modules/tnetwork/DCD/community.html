@@ -25,7 +25,9 @@
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -78,8 +80,8 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../reference/from_notebooks/demo_intro/demo_intro.html">Quick Start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../reference/tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/demo_intro.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
 </ul>
 
@@ -212,19 +214,19 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comScenario</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comScenario</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a community</span>
 <span class="sd">        :param comScenario: current Scenario class this community will belong to.</span>
-<span class="sd">        :param name: the name of the community. If None, the ID is used as name</span>
+<span class="sd">        :param label: the name of the community. If None, the ID is used as name</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_label</span><span class="o">=</span><span class="n">label</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_comScenar</span> <span class="o">=</span> <span class="n">comScenario</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
             <span class="c1"># generate a unique name</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">=</span><span class="n">comScenario</span><span class="o">.</span><span class="n">_get_new_ID</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;COM&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_label</span><span class="o">=</span><span class="n">comScenario</span><span class="o">.</span><span class="n">_get_new_ID</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;COM&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span> <span class="c1">#type: {str}</span>
 
@@ -274,7 +276,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_comScenar</span><span class="o">.</span><span class="n">nb_edges_for_a_community_size</span><span class="p">(</span><span class="n">nbNodes</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Community.label"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DCD.community.Community.label.html#tnetwork.DCD.community.Community.label">[docs]</a>    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span></div>
 
     <span class="k">def</span> <span class="nf">_intern_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variant</span><span class="o">=</span><span class="s2">&quot;deterministic&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -370,7 +372,7 @@
 
         <span class="c1">#Create new clusters with zero nodes with appropriate names</span>
         <span class="k">for</span> <span class="n">comName</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_afterNames</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_afterCommunities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Community</span><span class="p">(</span><span class="n">comScen</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">comName</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_afterCommunities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Community</span><span class="p">(</span><span class="n">comScen</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">comName</span><span class="p">))</span>
 
 
         <span class="k">for</span> <span class="n">com</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beforeCommunities</span><span class="p">:</span>
