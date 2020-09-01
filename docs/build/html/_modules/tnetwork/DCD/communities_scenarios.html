@@ -26,7 +26,7 @@
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -36,6 +36,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -439,12 +440,10 @@
             <span class="n">nb_edges_original</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
 
             <span class="n">edges_to_randomize</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_noise</span><span class="o">*</span><span class="n">nb_edges_original</span><span class="p">)</span>
-            <span class="c1">#print(edges_to_randomize)</span>
             <span class="k">if</span> <span class="n">edges_to_randomize</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">nb_edges_original</span><span class="p">,</span> <span class="n">edges_to_randomize</span><span class="p">)</span>
 
                 <span class="c1">#ee = np.array(edges)</span>
-                <span class="c1">#print(ee)</span>
                 <span class="c1">#to_remove_random = set(ee[idx])</span>
                 <span class="n">to_remove_random</span> <span class="o">=</span> <span class="p">{</span><span class="nb">list</span><span class="p">(</span><span class="n">edges</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">}</span>
                 <span class="n">edges</span> <span class="o">=</span> <span class="n">edges</span> <span class="o">-</span> <span class="n">to_remove_random</span>
@@ -506,19 +505,15 @@
 
     <span class="k">def</span> <span class="nf">_local_formats_to_dyn_structures</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">to_return_graph</span> <span class="o">=</span> <span class="n">dn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">()</span>
-        <span class="c1">#print(self._dyn_graph_nodes)</span>
         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_nodes</span><span class="p">:</span>
             <span class="n">intv</span> <span class="o">=</span> <span class="n">Intervals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_nodes</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
-            <span class="c1">#print(n,intv)</span>
             <span class="n">to_return_graph</span><span class="o">.</span><span class="n">add_node_presence</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">intv</span><span class="p">)</span>
-        <span class="c1">#print(nx.get_node_attributes(to_return._graph,&quot;t&quot;))</span>
 
 
         <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_edges</span><span class="p">:</span>
             <span class="p">[</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="n">intv</span> <span class="o">=</span> <span class="n">Intervals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dyn_graph_local_edges</span><span class="p">[</span><span class="n">e</span><span class="p">])</span>
             <span class="n">to_return_graph</span><span class="o">.</span><span class="n">_add_interaction_safe</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,</span><span class="n">intv</span><span class="p">)</span>
-        <span class="c1">#print(to_return.node_presence())</span>
 
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_com_local</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dyn_com_local</span><span class="p">[</span><span class="n">c</span><span class="p">]:</span>
@@ -589,7 +584,6 @@
         <span class="n">dyn_graph</span><span class="p">,</span><span class="n">dyn_com</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_formats_to_dyn_structures</span><span class="p">()</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
         <span class="n">bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nb_events</span><span class="p">)</span>
-        <span class="c1">#print(nb_events)</span>
         <span class="k">return</span><span class="p">(</span><span class="n">dyn_graph</span><span class="p">,</span> <span class="n">dyn_com</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ComScenario.INITIALIZE"><a class="viewcode-back" href="../../../reference/generated/tnetwork.ComScenario.INITIALIZE.html#tnetwork.ComScenario.INITIALIZE">[docs]</a>    <span class="k">def</span> <span class="nf">INITIALIZE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sizes</span><span class="p">:[</span><span class="nb">int</span><span class="p">],</span> <span class="n">labels</span><span class="p">:[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

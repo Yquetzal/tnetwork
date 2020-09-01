@@ -1,4 +1,4 @@
-tnetwork.ComScenario.DEATH
+﻿tnetwork.ComScenario.DEATH
 ==========================
 
 .. currentmodule:: tnetwork

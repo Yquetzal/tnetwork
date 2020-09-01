@@ -1,4 +1,4 @@
-tnetwork.DynCommunitiesSN.automatic\_node\_order
+﻿tnetwork.DynCommunitiesSN.automatic\_node\_order
 ================================================
 
 .. currentmodule:: tnetwork

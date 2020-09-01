@@ -1,4 +1,4 @@
-tnetwork.DCD.label\_smoothing
+﻿tnetwork.DCD.label\_smoothing
 =============================
 
 .. currentmodule:: tnetwork.DCD

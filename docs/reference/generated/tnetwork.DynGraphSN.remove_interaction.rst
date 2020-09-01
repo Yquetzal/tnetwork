@@ -1,4 +1,4 @@
-tnetwork.DynGraphSN.remove\_interaction
+﻿tnetwork.DynGraphSN.remove\_interaction
 =======================================
 
 .. currentmodule:: tnetwork

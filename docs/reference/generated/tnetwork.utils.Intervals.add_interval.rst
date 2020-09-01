@@ -1,4 +1,4 @@
-tnetwork.utils.Intervals.add\_interval
+﻿tnetwork.utils.Intervals.add\_interval
 ======================================
 
 .. currentmodule:: tnetwork.utils

@@ -1,4 +1,4 @@
-tnetwork.ComScenario.\_\_init\_\_
+﻿tnetwork.ComScenario.\_\_init\_\_
 =================================
 
 .. currentmodule:: tnetwork

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Read/Write &mdash; tnetwork  documentation</title>
+  <title>Read/Write/Load &mdash; tnetwork  documentation</title>
   
 
   
@@ -26,7 +26,7 @@
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
@@ -36,10 +36,11 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="tnetwork.write_snapshots" href="iof/tnetwork.write_snapshots.html" />
-    <link rel="prev" title="tnetwork.DynCommunitiesIG.nodes_ordered_by_com" href="generated/tnetwork.DynCommunitiesIG.nodes_ordered_by_com.html" /> 
+    <link rel="next" title="tnetwork.graph_socioPatterns2012" href="iof/tnetwork.graph_socioPatterns2012.html" />
+    <link rel="prev" title="tnetwork.DynGraphLS.write_interactions" href="generated/tnetwork.DynGraphLS.write_interactions.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,12 +86,21 @@
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/demo_intro.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Documentation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="dyn_communities.html">Dynamic Communities Classes</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Read/Write</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dyn_graph.html">Dynamic Network Classes</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Read/Write/Load</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#simple-example">Simple example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#load-example-graphs">Load example graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.graph_socioPatterns2012.html">tnetwork.graph_socioPatterns2012</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.graph_socioPatterns_Hospital.html">tnetwork.graph_socioPatterns_Hospital</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.graph_socioPatterns_Primary_School.html">tnetwork.graph_socioPatterns_Primary_School</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iof/tnetwork.graph_GOT.html">tnetwork.graph_GOT</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#read-write-graphs">Read/Write graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#read-write-generic">Read/Write Generic</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#read-write-snapshot-graphs">Read/Write snapshot graphs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#read-write-interval-graphs">Read/Write interval graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#read-write-link-streams">Read/Write Link Streams</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#read-write-communities">Read/Write Communities</a><ul>
@@ -100,12 +110,12 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="dyn_graph.html">Dynamic Network Classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Intervals.html">Intervals Class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="DCD.html">Dynamic Community Detection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vizu.html">Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dyn_communities.html">Dynamic Communities Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DCD.html">Dynamic Community Detection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generation.html">Benchmark Generator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DC_evaluation.html">Evaluation of Dynamic Communities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Intervals.html">Intervals Class</a></li>
 </ul>
 </li>
 </ul>
@@ -155,7 +165,7 @@
         
           <li><a href="../documentation.html">Documentation</a> &raquo;</li>
         
-      <li>Read/Write</li>
+      <li>Read/Write/Load</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -198,9 +208,9 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="read-write">
-<h1>Read/Write<a class="headerlink" href="#read-write" title="Permalink to this headline">¶</a></h1>
-<p>Functions to read and write dynamic graphs and snapshot_affiliations.</p>
+<div class="section" id="read-write-load">
+<h1>Read/Write/Load<a class="headerlink" href="#read-write-load" title="Permalink to this headline">¶</a></h1>
+<p>Functions to read, write and load dynamic graphs.</p>
 <div class="section" id="simple-example">
 <h2>Simple example<a class="headerlink" href="#simple-example" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">tn</span>
@@ -209,8 +219,49 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="load-example-graphs">
+<h2>Load example graphs<a class="headerlink" href="#load-example-graphs" title="Permalink to this headline">¶</a></h2>
+<p>A few dynamic graphs are already included in the library and can be loaded in one command in the chosen format</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="iof/tnetwork.graph_socioPatterns2012.html#tnetwork.graph_socioPatterns2012" title="tnetwork.graph_socioPatterns2012"><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_socioPatterns2012</span></code></a>([format])</p></td>
+<td><p>Function that return the graph of interactions between students in 2012, from the SocioPatterns project.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iof/tnetwork.graph_socioPatterns_Hospital.html#tnetwork.graph_socioPatterns_Hospital" title="tnetwork.graph_socioPatterns_Hospital"><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_socioPatterns_Hospital</span></code></a>([format])</p></td>
+<td><p>Function that return the graph of interactions in the hospital of Lyon between patients and medical staff, from the SocioPatterns project.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iof/tnetwork.graph_socioPatterns_Primary_School.html#tnetwork.graph_socioPatterns_Primary_School" title="tnetwork.graph_socioPatterns_Primary_School"><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_socioPatterns_Primary_School</span></code></a>([format])</p></td>
+<td><p>Function that return the graph of interactions between children and teachers, from the SocioPatterns project.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iof/tnetwork.graph_GOT.html#tnetwork.graph_GOT" title="tnetwork.graph_GOT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_GOT</span></code></a>()</p></td>
+<td><p>Return Game of Thrones temporal network</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section" id="read-write-graphs">
 <h2>Read/Write graphs<a class="headerlink" href="#read-write-graphs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="read-write-generic">
+<h3>Read/Write Generic<a class="headerlink" href="#read-write-generic" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="iof/tnetwork.read_interactions.html#tnetwork.read_interactions" title="tnetwork.read_interactions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_interactions</span></code></a>(file[, frequency, format, …])</p></td>
+<td><p>Read link stream data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iof/tnetwork.from_pandas_interaction_list.html#tnetwork.from_pandas_interaction_list" title="tnetwork.from_pandas_interaction_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_pandas_interaction_list</span></code></a>(interactions, …)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section" id="read-write-snapshot-graphs">
 <h3>Read/Write snapshot graphs<a class="headerlink" href="#read-write-snapshot-graphs" title="Permalink to this headline">¶</a></h3>
 <table class="longtable docutils align-default">
@@ -219,14 +270,14 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="iof/tnetwork.write_snapshots.html#tnetwork.write_snapshots" title="tnetwork.write_snapshots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_snapshots</span></code></a>(dynGraph, outputDir[, format])</p></td>
-<td><p>Write one file per snapshot</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iof/tnetwork.read_interactions.html#tnetwork.read_interactions" title="tnetwork.read_interactions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_interactions</span></code></a>(file[, frequency, format, …])</p></td>
+<td><p>Read link stream data</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="iof/tnetwork.read_snapshots.html#tnetwork.read_snapshots" title="tnetwork.read_snapshots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_snapshots</span></code></a>(inputDir[, format])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="iof/tnetwork.read_snapshots.html#tnetwork.read_snapshots" title="tnetwork.read_snapshots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_snapshots</span></code></a>(inputDir[, format, …])</p></td>
 <td><p>Read as one file per snapshot</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="iof/tnetwork.read_graph_link_stream.html#tnetwork.read_graph_link_stream" title="tnetwork.read_graph_link_stream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_graph_link_stream</span></code></a>(inputFile)</p></td>
-<td><p>Format used by SOCIOPATTERN</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iof/tnetwork.write_snapshots.html#tnetwork.write_snapshots" title="tnetwork.write_snapshots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_snapshots</span></code></a>(dynGraph, outputDir[, format])</p></td>
+<td><p>Write one file per snapshot</p></td>
 </tr>
 </tbody>
 </table>
@@ -239,14 +290,44 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="iof/tnetwork.write_IG.html#tnetwork.write_IG" title="tnetwork.write_IG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_IG</span></code></a>(theDynGraph, fileOutput)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iof/tnetwork.read_interactions.html#tnetwork.read_interactions" title="tnetwork.read_interactions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_interactions</span></code></a>(file[, frequency, format, …])</p></td>
+<td><p>Read link stream data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iof/tnetwork.read_period_lists.html#tnetwork.read_period_lists" title="tnetwork.read_period_lists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_period_lists</span></code></a>(file_address)</p></td>
+<td><p>Read as list of periods</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iof/tnetwork.write_as_IG.html#tnetwork.write_as_IG" title="tnetwork.write_as_IG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_as_IG</span></code></a>(graph, filename)</p></td>
+<td><p>Write a corresponding json file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iof/tnetwork.write_period_lists.html#tnetwork.write_period_lists" title="tnetwork.write_period_lists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_period_lists</span></code></a>(theDynGraph, fileOutput)</p></td>
 <td><p>Write as list of periods</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="iof/tnetwork.write_ordered_changes.html#tnetwork.write_ordered_changes" title="tnetwork.write_ordered_changes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_ordered_changes</span></code></a>(dynNet, fileOutput[, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iof/tnetwork.write_ordered_changes.html#tnetwork.write_ordered_changes" title="tnetwork.write_ordered_changes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_ordered_changes</span></code></a>(dynNet, fileOutput[, …])</p></td>
 <td><p>Write as list of successive changes</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="iof/tnetwork.read_IG.html#tnetwork.read_IG" title="tnetwork.read_IG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_IG</span></code></a>(file_address)</p></td>
-<td><p>Read as list of periods</p></td>
+</tbody>
+</table>
+</div>
+<div class="section" id="read-write-link-streams">
+<h3>Read/Write Link Streams<a class="headerlink" href="#read-write-link-streams" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="iof/tnetwork.read_interactions.html#tnetwork.read_interactions" title="tnetwork.read_interactions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_interactions</span></code></a>(file[, frequency, format, …])</p></td>
+<td><p>Read link stream data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iof/tnetwork.read_LS.html#tnetwork.read_LS" title="tnetwork.read_LS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_LS</span></code></a>(filename)</p></td>
+<td><p>Read TS json format</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iof/tnetwork.write_as_LS.html#tnetwork.write_as_LS" title="tnetwork.write_as_LS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_as_LS</span></code></a>(graph, filename)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param filename</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
 </tbody>
 </table>
@@ -296,10 +377,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="iof/tnetwork.write_snapshots.html" class="btn btn-neutral float-right" title="tnetwork.write_snapshots" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="iof/tnetwork.graph_socioPatterns2012.html" class="btn btn-neutral float-right" title="tnetwork.graph_socioPatterns2012" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="generated/tnetwork.DynCommunitiesIG.nodes_ordered_by_com.html" class="btn btn-neutral float-left" title="tnetwork.DynCommunitiesIG.nodes_ordered_by_com" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="generated/tnetwork.DynGraphLS.write_interactions.html" class="btn btn-neutral float-left" title="tnetwork.DynGraphLS.write_interactions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

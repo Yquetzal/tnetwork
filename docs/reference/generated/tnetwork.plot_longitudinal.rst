@@ -1,4 +1,4 @@
-tnetwork.plot\_longitudinal
+﻿tnetwork.plot\_longitudinal
 ===========================
 
 .. currentmodule:: tnetwork

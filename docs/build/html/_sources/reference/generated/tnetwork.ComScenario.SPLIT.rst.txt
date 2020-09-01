@@ -1,4 +1,4 @@
-tnetwork.ComScenario.SPLIT
+﻿tnetwork.ComScenario.SPLIT
 ==========================
 
 .. currentmodule:: tnetwork

@@ -11,6 +11,7 @@ from tnetwork.DCD.analytics import *
 
 from tnetwork.DCD.communities_scenarios import ComScenario, generate_toy_random_network,generate_simple_random_graph
 from tnetwork.DCD.benchmarking import DCD_benchmark,run_algos_on_graph
+from tnetwork.DCD.benchmarks import *
 
 #methods_intern = ["label_smoothing", "smoothed_graph", "iterative_match", "smoothed_louvain", "rollingCPM","MSSCD"]
 #generation = ["ComScenario","generate_multi_temporal_scale","generate_toy_random_network","generate_simple_random_graph"]

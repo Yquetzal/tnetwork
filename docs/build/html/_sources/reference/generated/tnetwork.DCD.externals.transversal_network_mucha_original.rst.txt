@@ -1,4 +1,4 @@
-tnetwork.DCD.externals.transversal\_network\_mucha\_original
+﻿tnetwork.DCD.externals.transversal\_network\_mucha\_original
 ============================================================
 
 .. currentmodule:: tnetwork.DCD.externals

@@ -1,8 +1,8 @@
-************
-Read/Write
-************
+*****************
+Read/Write/Load
+*****************
 
-Functions to read and write dynamic graphs and snapshot_affiliations.
+Functions to read, write and load dynamic graphs.
 
 --------------------------
 Simple example
@@ -15,11 +15,30 @@ Simple example
 
 .. currentmodule:: tnetwork
 
+--------------------------
+Load example graphs
+--------------------------
+A few dynamic graphs are already included in the library and can be loaded in one command in the chosen format
+
+.. autosummary::
+    :toctree: iof/
+
+    graph_socioPatterns2012
+    graph_socioPatterns_Hospital
+    graph_socioPatterns_Primary_School
+    graph_GOT
 
 --------------------------
 Read/Write graphs
 --------------------------
 
+Read/Write Generic
+---------------------------
+.. autosummary::
+    :toctree: iof/
+
+    read_interactions
+    from_pandas_interaction_list
 
 Read/Write snapshot graphs
 ---------------------------
@@ -27,9 +46,9 @@ Read/Write snapshot graphs
 .. autosummary::
     :toctree: iof/
 
-    write_snapshots
+    read_interactions
     read_snapshots
-    read_graph_link_stream
+    write_snapshots
 
 Read/Write interval graphs
 ------------------------------
@@ -38,10 +57,22 @@ Read/Write interval graphs
 .. autosummary::
     :toctree: iof/
 
-    write_IG
+    read_interactions
+    read_period_lists
+    write_as_IG
+    write_period_lists
     write_ordered_changes
-    read_IG
 
+Read/Write Link Streams
+------------------------------
+
+
+.. autosummary::
+    :toctree: iof/
+
+    read_interactions
+    read_LS
+    write_as_LS
 
 --------------------------
 Read/Write Communities

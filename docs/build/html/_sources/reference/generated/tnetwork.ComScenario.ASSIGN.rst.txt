@@ -1,4 +1,4 @@
-tnetwork.ComScenario.ASSIGN
+﻿tnetwork.ComScenario.ASSIGN
 ===========================
 
 .. currentmodule:: tnetwork

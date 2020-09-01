@@ -26,7 +26,7 @@
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -36,6 +36,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -436,7 +437,7 @@
 
 <span class="sd">        :return: list of pairs</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span></div>
 
     <span class="k">def</span> <span class="nf">_merge_overlapping_intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval1</span><span class="p">,</span> <span class="n">interval2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -504,17 +505,17 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">to_return</span><span class="o">=</span><span class="p">{}</span>
         <span class="n">sorted_slices</span> <span class="o">=</span> <span class="n">sortedcontainers</span><span class="o">.</span><span class="n">SortedList</span><span class="p">(</span><span class="n">slices</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">period</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
-            <span class="n">bins</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sorted_slices</span><span class="o">.</span><span class="n">irange</span><span class="p">(</span><span class="n">period</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">period</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">inclusive</span><span class="o">=</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="kc">True</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">period</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span> <span class="c1"># for each period of the current interval</span>
+            <span class="n">bins</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sorted_slices</span><span class="o">.</span><span class="n">irange</span><span class="p">(</span><span class="n">period</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">period</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">inclusive</span><span class="o">=</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="kc">True</span><span class="p">)))</span> <span class="c1">#Get concerned slices</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
                 <span class="n">to_return</span><span class="p">[</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">=</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">period</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&lt;</span><span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">period</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&lt;</span><span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
                 <span class="n">i_bin_before</span> <span class="o">=</span> <span class="n">sorted_slices</span><span class="o">.</span><span class="n">bisect_left</span><span class="p">(</span><span class="n">period</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
                 <span class="n">bin_before</span> <span class="o">=</span> <span class="n">sorted_slices</span><span class="p">[</span><span class="n">i_bin_before</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                 <span class="n">to_return</span><span class="p">[</span><span class="n">bin_before</span><span class="p">]</span><span class="o">=</span><span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">period</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="n">period</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="n">bins</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">period</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="n">bins</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
                 <span class="c1">#i_bin_after = sorted_slices.bisect_right(period[1])</span>
                 <span class="c1">#bin_after = sorted_slices[i_bin_after]</span>
                 <span class="c1">#print(period[1],bins[-1],bin_after)</span>
@@ -540,7 +541,26 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span><span class="n">Intervals</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span><span class="o">==</span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">interv</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span></div>
-    <span class="fm">__repr__</span> <span class="o">=</span> <span class="fm">__str__</span></div>
+    <span class="fm">__repr__</span> <span class="o">=</span> <span class="fm">__str__</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_time_list</span><span class="p">(</span><span class="n">atimelist</span><span class="p">,</span><span class="n">interval</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param timelist: list of sorted observation time</span>
+<span class="sd">        :param interval: duration between intervals</span>
+<span class="sd">        :return: an interval</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">all_periods</span><span class="o">=</span> <span class="p">[]</span>
+        <span class="n">current_interval</span><span class="o">=</span><span class="p">[</span><span class="n">atimelist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">atimelist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">interval</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">atimelist</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">t</span><span class="o">==</span><span class="n">current_interval</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">current_interval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">t</span><span class="o">+</span><span class="n">interval</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">all_periods</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_interval</span><span class="p">)</span>
+                <span class="n">current_interval</span><span class="o">=</span><span class="p">[</span><span class="n">t</span><span class="p">,</span><span class="n">t</span><span class="o">+</span><span class="n">interval</span><span class="p">]</span>
+        <span class="n">all_periods</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_interval</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Intervals</span><span class="p">(</span><span class="n">all_periods</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

@@ -1,4 +1,4 @@
-tnetwork.write\_snapshots
+﻿tnetwork.write\_snapshots
 =========================
 
 .. currentmodule:: tnetwork

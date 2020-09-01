@@ -1,4 +1,4 @@
-tnetwork.ComScenario.MERGE
+﻿tnetwork.ComScenario.MERGE
 ==========================
 
 .. currentmodule:: tnetwork

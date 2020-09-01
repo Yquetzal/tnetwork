@@ -26,7 +26,7 @@
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
@@ -36,6 +36,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="tnetwork.DynGraphSN.add_interaction" href="tnetwork.DynGraphSN.add_interaction.html" />
@@ -85,10 +86,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_intro.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../documentation.html">Documentation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../dyn_communities.html">Dynamic Communities Classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readwrite.html">Read/Write</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../dyn_graph.html">Dynamic Network Classes</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../dyn_graph.html#sequences-of-snapshots">Sequences of snapshots</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../dyn_graph.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dyn_graph.html#shared-methods">Shared methods</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../dyn_graph.html#id1">Sequences of snapshots</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="../dyn_graph.html#adding-and-removing-nodes-and-edges">Adding and removing nodes and edges</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../dyn_graph.html#accessing-the-graph">Accessing the graph</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../dyn_graph.html#conversion-to-different-formats">Conversion to different formats</a></li>
@@ -97,13 +98,16 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../dyn_graph.html#interval-graphs">Interval graphs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dyn_graph.html#id6">Link Streams</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Intervals.html">Intervals Class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../DCD.html">Dynamic Community Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readwrite.html">Read/Write/Load</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../vizu.html">Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dyn_communities.html">Dynamic Communities Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCD.html">Dynamic Community Detection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generation.html">Benchmark Generator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../DC_evaluation.html">Evaluation of Dynamic Communities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Intervals.html">Intervals Class</a></li>
 </ul>
 </li>
 </ul>
@@ -203,7 +207,8 @@
 <dl class="py method">
 <dt id="tnetwork.DynGraphSN.add_nodes_presence_from">
 <code class="sig-prename descclassname">DynGraphSN.</code><code class="sig-name descname">add_nodes_presence_from</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nodes</span></em>, <em class="sig-param"><span class="n">times</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tnetwork/dyn_graph/dyn_graph_sn.html#DynGraphSN.add_nodes_presence_from"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tnetwork.DynGraphSN.add_nodes_presence_from" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add interactions between nodes for times</p>
+<dd><p>Add nodes for times</p>
+<p>For each node in nodes, add it for each time in times.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

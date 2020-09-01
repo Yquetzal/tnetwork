@@ -1,4 +1,4 @@
-tnetwork.DynGraphSN.snapshots\_timesteps
+﻿tnetwork.DynGraphSN.snapshots\_timesteps
 ========================================
 
 .. currentmodule:: tnetwork

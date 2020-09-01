@@ -1,4 +1,4 @@
-tnetwork.DCD.analytics.dynamic\_partition.quality\_at\_each\_step
+﻿tnetwork.DCD.analytics.dynamic\_partition.quality\_at\_each\_step
 =================================================================
 
 .. currentmodule:: tnetwork.DCD.analytics.dynamic_partition

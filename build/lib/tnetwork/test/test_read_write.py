@@ -33,13 +33,13 @@ class ReadWriteTestCase(unittest.TestCase):
         dg_sg = dg.to_DynGraphIG()
 
         print("printing file")
-        dn.write_IG(dg_sg, "testFile")
+        dn.write_period_lists(dg_sg, "testFile")
 
         print("reading file")
 
-        reconstructed = dn.read_IG("testFile")
+        reconstructed = dn.read_period_lists("testFile")
 
-        self.assertEqual(reconstructed.interactions(), dg_sg.interactions())
+        self.assertEqual(reconstructed.interactions_intervals(), dg_sg.interactions_intervals())
 
 
 if __name__ == '__main__':

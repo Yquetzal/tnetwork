@@ -1,4 +1,4 @@
-tnetwork.DynGraphIG.add\_interactions\_from
+﻿tnetwork.DynGraphIG.add\_interactions\_from
 ===========================================
 
 .. currentmodule:: tnetwork

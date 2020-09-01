@@ -1,4 +1,4 @@
-tnetwork.DynGraphSN.last\_snapshot
+﻿tnetwork.DynGraphSN.last\_snapshot
 ==================================
 
 .. currentmodule:: tnetwork

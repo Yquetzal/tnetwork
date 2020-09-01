@@ -1,11 +1,12 @@
 import tnetwork as tn
 import sortedcontainers
 from tnetwork.utils import write_list_of_list
+import json
 
-__all__ = ["write_IG", "read_IG", "write_ordered_changes"]
+__all__ = ["write_period_lists", "read_period_lists", "write_ordered_changes", "write_as_IG"]
 
 
-def write_IG(theDynGraph:tn.DynGraphIG, fileOutput:str):
+def write_period_lists(theDynGraph:tn.DynGraphIG, fileOutput:str):
     """
     Write as list of periods
 
@@ -35,7 +36,7 @@ def write_IG(theDynGraph:tn.DynGraphIG, fileOutput:str):
             toAdd += [str(interv[0])+":"+str(interv[1])]
         toWrite.append(toAdd)
 
-    for ((n1,n2),intervs) in theDynGraph.interactions().items():
+    for ((n1,n2),intervs) in theDynGraph.interactions_intervals().items():
         toAdd = ["E", n1, n2]
         for interv in intervs.periods():
             toAdd += [str(interv[0])+":"+str(interv[1])]
@@ -44,7 +45,7 @@ def write_IG(theDynGraph:tn.DynGraphIG, fileOutput:str):
     write_list_of_list(toWrite,fileOutput,sep="\t")
 
 
-def read_IG(file_address:str):
+def read_period_lists(file_address:str):
     """
     Read as list of periods
 
@@ -161,3 +162,19 @@ def write_ordered_changes(dynNet:tn.DynGraphIG, fileOutput, dateEveryLine=False,
 
     tn.write_list_of_list(toWrite, fileOutput, separator="\t")
 
+def write_as_IG( graph, filename):
+    """
+    Write a corresponding json file
+
+    :param filename:
+    :return:
+    """
+    nodes = list(graph._graph.nodes())
+    dict_nodes = {n: i for i, n in enumerate(nodes)}
+    times = list(graph.change_times())
+    dict_times = {t: i for i, t in enumerate(times)}
+
+    interactions = graph.edge_presence()
+    interactions = {str((dict_nodes[e[0]], dict_nodes[e[1]])): [[dict_times[p[0]],dict_times[p[1]]] for p in ts] for e, ts in
+                    interactions.items()}
+    json.dump({"nodes": nodes, "times": times, "interactions": interactions}, open(filename, 'w'))

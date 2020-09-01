@@ -26,7 +26,7 @@
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
@@ -36,10 +36,11 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="tnetwork.read_snapshots" href="tnetwork.read_snapshots.html" />
-    <link rel="prev" title="Read/Write" href="../readwrite.html" /> 
+    <link rel="next" title="tnetwork.read_period_lists" href="tnetwork.read_period_lists.html" />
+    <link rel="prev" title="tnetwork.read_snapshots" href="tnetwork.read_snapshots.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,23 +86,26 @@
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_intro.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../documentation.html">Documentation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../dyn_communities.html">Dynamic Communities Classes</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../readwrite.html">Read/Write</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../dyn_graph.html">Dynamic Network Classes</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../readwrite.html">Read/Write/Load</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../readwrite.html#simple-example">Simple example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../readwrite.html#load-example-graphs">Load example graphs</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../readwrite.html#read-write-graphs">Read/Write graphs</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../readwrite.html#read-write-generic">Read/Write Generic</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="../readwrite.html#read-write-snapshot-graphs">Read/Write snapshot graphs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../readwrite.html#read-write-interval-graphs">Read/Write interval graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../readwrite.html#read-write-link-streams">Read/Write Link Streams</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../readwrite.html#read-write-communities">Read/Write Communities</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../dyn_graph.html">Dynamic Network Classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Intervals.html">Intervals Class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../DCD.html">Dynamic Community Detection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../vizu.html">Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dyn_communities.html">Dynamic Communities Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DCD.html">Dynamic Community Detection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generation.html">Benchmark Generator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../DC_evaluation.html">Evaluation of Dynamic Communities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Intervals.html">Intervals Class</a></li>
 </ul>
 </li>
 </ul>
@@ -151,7 +155,7 @@
         
           <li><a href="../../documentation.html">Documentation</a> &raquo;</li>
         
-          <li><a href="../readwrite.html">Read/Write</a> &raquo;</li>
+          <li><a href="../readwrite.html">Read/Write/Load</a> &raquo;</li>
         
       <li>tnetwork.write_snapshots</li>
     
@@ -224,10 +228,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tnetwork.read_snapshots.html" class="btn btn-neutral float-right" title="tnetwork.read_snapshots" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tnetwork.read_period_lists.html" class="btn btn-neutral float-right" title="tnetwork.read_period_lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../readwrite.html" class="btn btn-neutral float-left" title="Read/Write" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tnetwork.read_snapshots.html" class="btn btn-neutral float-left" title="tnetwork.read_snapshots" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

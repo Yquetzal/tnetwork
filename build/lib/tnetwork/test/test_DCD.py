@@ -8,7 +8,7 @@ class DCDTestCase(unittest.TestCase):
 
 
     def test_simple_matching(self):
-        dg = tn.DynGraphSN.graph_socioPatterns2012()
+        dg = tn.graph_socioPatterns2012(tn.DynGraphSN)
         dg = dg.aggregate_sliding_window(60*60*24)
 
         coms = DCD.iterative_match(dg)
@@ -17,7 +17,7 @@ class DCDTestCase(unittest.TestCase):
         shutil.rmtree("testDir")
 
     def test_survival_graph(self):
-        dg = tn.DynGraphSN.graph_socioPatterns2012()
+        dg = tn.graph_socioPatterns2012(tn.DynGraphSN)
         dg = dg.aggregate_sliding_window(60 * 60 * 24)
 
         coms = DCD.label_smoothing(dg)
@@ -27,7 +27,7 @@ class DCDTestCase(unittest.TestCase):
 
 
     def test_k_cliques(self):
-        dg = tn.DynGraphSN.graph_socioPatterns2012()
+        dg = tn.graph_socioPatterns2012(tn.DynGraphSN)
         dg = dg.aggregate_sliding_window(60 * 60 * 24)
 
         coms = DCD.rollingCPM(dg)
@@ -36,7 +36,7 @@ class DCDTestCase(unittest.TestCase):
         shutil.rmtree("testDir")
 
     def test_dynamo(self):
-        dg = tn.DynGraphSN.graph_socioPatterns2012()
+        dg = tn.graph_socioPatterns2012(tn.DynGraphSN)
         dg = dg.aggregate_time_period("day")
 
         coms = DCDextern.dynamo(dg)
@@ -45,7 +45,7 @@ class DCDTestCase(unittest.TestCase):
         shutil.rmtree("testDir")
 
     def test_mucha(self):
-        dg = tn.DynGraphSN.graph_socioPatterns2012()
+        dg = tn.graph_socioPatterns2012(tn.DynGraphSN)
         dg = dg.aggregate_sliding_window(60 * 60 * 24)
 
         coms = DCDextern.transversal_network_mucha_original(dg)

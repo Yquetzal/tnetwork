@@ -1,4 +1,4 @@
-tnetwork.ComScenario.GROW\_ITERATIVE
+﻿tnetwork.ComScenario.GROW\_ITERATIVE
 ====================================
 
 .. currentmodule:: tnetwork

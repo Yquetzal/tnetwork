@@ -1,4 +1,4 @@
-tnetwork.read\_snapshots
+﻿tnetwork.read\_snapshots
 ========================
 
 .. currentmodule:: tnetwork

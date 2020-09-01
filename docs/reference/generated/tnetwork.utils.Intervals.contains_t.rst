@@ -1,4 +1,4 @@
-tnetwork.utils.Intervals.contains\_t
+﻿tnetwork.utils.Intervals.contains\_t
 ====================================
 
 .. currentmodule:: tnetwork.utils

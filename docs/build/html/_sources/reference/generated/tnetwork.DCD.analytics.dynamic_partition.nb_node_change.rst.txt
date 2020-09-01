@@ -1,4 +1,4 @@
-tnetwork.DCD.analytics.dynamic\_partition.nb\_node\_change
+﻿tnetwork.DCD.analytics.dynamic\_partition.nb\_node\_change
 ==========================================================
 
 .. currentmodule:: tnetwork.DCD.analytics.dynamic_partition

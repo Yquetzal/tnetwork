@@ -1,4 +1,4 @@
-tnetwork.ComScenario.RESURGENCE
+﻿tnetwork.ComScenario.RESURGENCE
 ===============================
 
 .. currentmodule:: tnetwork

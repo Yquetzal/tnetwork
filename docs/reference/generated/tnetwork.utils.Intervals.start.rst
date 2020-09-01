@@ -1,4 +1,4 @@
-tnetwork.utils.Intervals.start
+﻿tnetwork.utils.Intervals.start
 ==============================
 
 .. currentmodule:: tnetwork.utils

@@ -1,4 +1,4 @@
-tnetwork.ComScenario.INITIALIZE
+﻿tnetwork.ComScenario.INITIALIZE
 ===============================
 
 .. currentmodule:: tnetwork

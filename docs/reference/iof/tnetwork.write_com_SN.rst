@@ -1,4 +1,4 @@
-tnetwork.write\_com\_SN
+﻿tnetwork.write\_com\_SN
 =======================
 
 .. currentmodule:: tnetwork

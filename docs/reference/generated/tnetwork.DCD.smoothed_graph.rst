@@ -1,4 +1,4 @@
-tnetwork.DCD.smoothed\_graph
+﻿tnetwork.DCD.smoothed\_graph
 ============================
 
 .. currentmodule:: tnetwork.DCD

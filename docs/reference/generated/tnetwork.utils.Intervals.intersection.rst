@@ -1,4 +1,4 @@
-tnetwork.utils.Intervals.intersection
+﻿tnetwork.utils.Intervals.intersection
 =====================================
 
 .. currentmodule:: tnetwork.utils

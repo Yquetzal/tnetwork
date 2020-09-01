@@ -1,4 +1,4 @@
-tnetwork.DynGraphIG.cumulated\_graph
+﻿tnetwork.DynGraphIG.cumulated\_graph
 ====================================
 
 .. currentmodule:: tnetwork

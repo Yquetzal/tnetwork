@@ -1,4 +1,4 @@
-tnetwork.DCD.iterative\_match
+﻿tnetwork.DCD.iterative\_match
 =============================
 
 .. currentmodule:: tnetwork.DCD

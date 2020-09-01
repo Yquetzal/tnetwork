@@ -1,4 +1,4 @@
-tnetwork.DCD.community.Community.nodes
+﻿tnetwork.DCD.community.Community.nodes
 ======================================
 
 .. currentmodule:: tnetwork.DCD.community

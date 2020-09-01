@@ -26,7 +26,7 @@
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -36,6 +36,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -149,11 +150,12 @@
 <span></span><span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">tn</span>
 <span class="kn">import</span> <span class="nn">sortedcontainers</span>
 <span class="kn">from</span> <span class="nn">tnetwork.utils</span> <span class="kn">import</span> <span class="n">write_list_of_list</span>
+<span class="kn">import</span> <span class="nn">json</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;write_IG&quot;</span><span class="p">,</span> <span class="s2">&quot;read_IG&quot;</span><span class="p">,</span> <span class="s2">&quot;write_ordered_changes&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;write_period_lists&quot;</span><span class="p">,</span> <span class="s2">&quot;read_period_lists&quot;</span><span class="p">,</span> <span class="s2">&quot;write_ordered_changes&quot;</span><span class="p">,</span> <span class="s2">&quot;write_as_IG&quot;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="write_IG"><a class="viewcode-back" href="../../../reference/iof/tnetwork.write_IG.html#tnetwork.write_IG">[docs]</a><span class="k">def</span> <span class="nf">write_IG</span><span class="p">(</span><span class="n">theDynGraph</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">,</span> <span class="n">fileOutput</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="write_period_lists"><a class="viewcode-back" href="../../../reference/iof/tnetwork.write_period_lists.html#tnetwork.write_period_lists">[docs]</a><span class="k">def</span> <span class="nf">write_period_lists</span><span class="p">(</span><span class="n">theDynGraph</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">,</span> <span class="n">fileOutput</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write as list of periods</span>
 
@@ -183,7 +185,7 @@
             <span class="n">toAdd</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">interv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;:&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">interv</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
         <span class="n">toWrite</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">toAdd</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="p">((</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">),</span><span class="n">intervs</span><span class="p">)</span> <span class="ow">in</span> <span class="n">theDynGraph</span><span class="o">.</span><span class="n">interactions</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">for</span> <span class="p">((</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">),</span><span class="n">intervs</span><span class="p">)</span> <span class="ow">in</span> <span class="n">theDynGraph</span><span class="o">.</span><span class="n">interactions_intervals</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">toAdd</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">interv</span> <span class="ow">in</span> <span class="n">intervs</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
             <span class="n">toAdd</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">interv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;:&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">interv</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
@@ -192,7 +194,7 @@
     <span class="n">write_list_of_list</span><span class="p">(</span><span class="n">toWrite</span><span class="p">,</span><span class="n">fileOutput</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="read_IG"><a class="viewcode-back" href="../../../reference/iof/tnetwork.read_IG.html#tnetwork.read_IG">[docs]</a><span class="k">def</span> <span class="nf">read_IG</span><span class="p">(</span><span class="n">file_address</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="read_period_lists"><a class="viewcode-back" href="../../../reference/iof/tnetwork.read_period_lists.html#tnetwork.read_period_lists">[docs]</a><span class="k">def</span> <span class="nf">read_period_lists</span><span class="p">(</span><span class="n">file_address</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read as list of periods</span>
 
@@ -309,6 +311,22 @@
 
     <span class="n">tn</span><span class="o">.</span><span class="n">write_list_of_list</span><span class="p">(</span><span class="n">toWrite</span><span class="p">,</span> <span class="n">fileOutput</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="write_as_IG"><a class="viewcode-back" href="../../../reference/iof/tnetwork.write_as_IG.html#tnetwork.write_as_IG">[docs]</a><span class="k">def</span> <span class="nf">write_as_IG</span><span class="p">(</span> <span class="n">graph</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write a corresponding json file</span>
+
+<span class="sd">    :param filename:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="n">dict_nodes</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodes</span><span class="p">)}</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">change_times</span><span class="p">())</span>
+    <span class="n">dict_times</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">times</span><span class="p">)}</span>
+
+    <span class="n">interactions</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">edge_presence</span><span class="p">()</span>
+    <span class="n">interactions</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">((</span><span class="n">dict_nodes</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">dict_nodes</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]])):</span> <span class="p">[[</span><span class="n">dict_times</span><span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span><span class="n">dict_times</span><span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]]]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ts</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">ts</span> <span class="ow">in</span>
+                    <span class="n">interactions</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="s2">&quot;nodes&quot;</span><span class="p">:</span> <span class="n">nodes</span><span class="p">,</span> <span class="s2">&quot;times&quot;</span><span class="p">:</span> <span class="n">times</span><span class="p">,</span> <span class="s2">&quot;interactions&quot;</span><span class="p">:</span> <span class="n">interactions</span><span class="p">},</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">))</span></div>
 </pre></div>
 
            </div>

@@ -1,4 +1,4 @@
-tnetwork.DCD.externals.estrangement\_confinement
+﻿tnetwork.DCD.externals.estrangement\_confinement
 ================================================
 
 .. currentmodule:: tnetwork.DCD.externals

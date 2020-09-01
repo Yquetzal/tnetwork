@@ -26,7 +26,7 @@
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -36,6 +36,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -153,6 +154,7 @@
 <span class="kn">from</span> <span class="nn">tnetwork.utils.intervals</span> <span class="kn">import</span> <span class="n">Intervals</span>
 <span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">tn</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span>
 
 <div class="viewcode-block" id="DynGraphIG"><a class="viewcode-back" href="../../../reference/dyn_graph.html#tnetwork.DynGraphIG">[docs]</a><span class="k">class</span> <span class="nc">DynGraphIG</span><span class="p">(</span><span class="n">DynGraph</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -166,7 +168,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DynGraphIG.__init__"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.__init__.html#tnetwork.DynGraphIG.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">frequency</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Instanciate a dynamic graph</span>
 
@@ -174,21 +176,50 @@
 <span class="sd">        (for instance, to study activity during a whole year, the graph might start on January 1st at 00:00 while</span>
 <span class="sd">        the first recorded activity occurs in the afternoon or on another day)</span>
 
-<span class="sd">        :param start: set a start time, by default will be the first time of the added snapshot_affiliations</span>
-<span class="sd">        :param end: set an end time, by default will be the last time of the added snapshot_affiliations</span>
+<span class="sd">        :param start: set a start time, by default will be the first time of the added affiliations</span>
+<span class="sd">        :param end: set an end time, by default will be the last time of the added affiliations</span>
+<span class="sd">        :param edges: data to initialize the dynamic graph, dictionary {(n1,n2):time}. Keys are edges, time is Intervals object</span>
+<span class="sd">        :param nodes: data to initialize the dynamic graph, dictionary {n:time}. Keys are ndoes, time is Intervals object</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_start</span><span class="o">=</span><span class="n">start</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_end</span><span class="o">=</span><span class="n">end</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span><span class="p">(</span><span class="n">frequency</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">start</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_start</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span>
         <span class="k">if</span> <span class="n">end</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_end</span><span class="o">=-</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">nodes</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">nx</span><span class="o">.</span><span class="n">set_node_attributes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">,</span><span class="n">nodes</span><span class="p">,</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">end</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">times</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodes</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">end</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodes</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+                <span class="k">if</span> <span class="n">start</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">end</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_end</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+                    <span class="n">end</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span>
+        <span class="k">if</span> <span class="n">edges</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">add_weighted_edges_from</span><span class="p">([(</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">edges</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+            <span class="c1">#nx.set_edge_attributes(self._graph,edges,&quot;t&quot;)</span>
+            <span class="k">if</span> <span class="n">start</span><span class="o">==</span><span class="kc">None</span> <span class="ow">or</span> <span class="n">end</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">start</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">end</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">times</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">edges</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">end</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">edges</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+                    <span class="k">if</span> <span class="n">start</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">end</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_end</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">times</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end</span>
+
+<div class="viewcode-block" id="DynGraphIG.start"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.start.html#tnetwork.DynGraphIG.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span></div>
+
+<div class="viewcode-block" id="DynGraphIG.end"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.end.html#tnetwork.DynGraphIG.end">[docs]</a>    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end</span></div>
 
 <div class="viewcode-block" id="DynGraphIG.node_presence"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.node_presence.html#tnetwork.DynGraphIG.node_presence">[docs]</a>    <span class="k">def</span> <span class="nf">node_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -223,9 +254,9 @@
 <span class="sd">        :param time: pair (start,end) or Intervals</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">Intervals</span><span class="p">):</span>
             <span class="n">time</span><span class="o">=</span> <span class="n">Intervals</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">add_node_presence</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_node_presence</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
 
@@ -306,22 +337,30 @@
 
 <div class="viewcode-block" id="DynGraphIG.add_interactions_from"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.add_interactions_from.html#tnetwork.DynGraphIG.add_interactions_from">[docs]</a>    <span class="k">def</span> <span class="nf">add_interactions_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodePairs</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add interactions between provided pairs for the provided periods</span>
+<span class="sd">       Add interactions between provided pairs for the provided periods</span>
 
-<span class="sd">        :param nodePairs: a node pair, or a list of node pairs</span>
-<span class="sd">        :param times: a pair of time step of the form (start,stop), or a list of pair of time step of same length as nodePairs</span>
+<span class="sd">        Add each provided nodePair at each provided time</span>
+
+<span class="sd">        :param nodePairs: list of pairs of nodes, or a single pair of nodes as a tuple or set</span>
+<span class="sd">        :param times: a single time or a list of times, as pair (start,end) or an Interval Object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="nb">tuple</span><span class="p">):</span> <span class="c1">#means it is a single pair, not list of pairs</span>
-            <span class="n">nodePairs</span><span class="o">=</span><span class="p">[</span><span class="n">nodePairs</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">):</span> <span class="c1">#means it is a single pair, not list of pairs</span>
-            <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">times</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">)</span>
+        <span class="n">list_element_example</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">list_element_example</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">list_element_example</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">nodePairs</span> <span class="o">=</span> <span class="p">[</span><span class="n">nodePairs</span><span class="p">]</span>
+
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">times</span><span class="p">,</span><span class="n">Iterable</span><span class="p">):</span> <span class="c1">#Single Interval object</span>
+            <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">times</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1">#single interaval as a pair or multiple things</span>
+            <span class="n">list_element_example</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">times</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">list_element_example</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span> <span class="c1">#if an element of a list is an int, it&#39;s a single pair</span>
+                <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">times</span><span class="p">]</span>
 
 
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">nodePair</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">):</span>
-            <span class="c1">#if nodePair==(&#39;1170&#39;, &#39;1644&#39;):</span>
-            <span class="c1">#    print(nodePair,times[i])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_interaction</span><span class="p">(</span><span class="n">nodePair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nodePair</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">])</span></div>
+            <span class="n">np</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nodePair</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_interaction</span><span class="p">(</span><span class="n">np</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">times</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DynGraphIG.add_node_presence"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.add_node_presence.html#tnetwork.DynGraphIG.add_node_presence">[docs]</a>    <span class="k">def</span> <span class="nf">add_node_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -330,7 +369,6 @@
 <span class="sd">        :param n: node</span>
 <span class="sd">        :param time: a period, couple (start, stop) or an interval</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">Intervals</span><span class="p">):</span>
             <span class="n">time</span><span class="o">=</span> <span class="n">Intervals</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
 
@@ -350,19 +388,22 @@
 <span class="sd">        :param nodes: list of nodes, or a single node</span>
 <span class="sd">        :param times: list of times defined as couple (start, stop) , of same length as node, or a single time</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
-            <span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
-                <span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="n">Iterable</span><span class="p">):</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">nodes</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">):</span> <span class="c1">#means it is a single pair, not list of pairs</span>
-            <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">times</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">times</span><span class="p">,</span><span class="n">Iterable</span><span class="p">):</span> <span class="c1">#Single Interval object</span>
+            <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">times</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1">#single interaval as a pair or multiple things</span>
+            <span class="n">list_element_example</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">times</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">list_element_example</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span> <span class="c1">#if an element of a list is an int, it&#39;s a single pair</span>
+                <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">times</span><span class="p">]</span>
 
 
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodes</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_node_presence</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">])</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_node_presence</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">times</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">remove_node_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">node</span><span class="p">,</span><span class="n">time</span><span class="p">):</span>
+<div class="viewcode-block" id="DynGraphIG.remove_node_presence"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.remove_node_presence.html#tnetwork.DynGraphIG.remove_node_presence">[docs]</a>    <span class="k">def</span> <span class="nf">remove_node_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">node</span><span class="p">,</span><span class="n">time</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove node and its interactions over the period</span>
 
@@ -374,19 +415,21 @@
 
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">has_node</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">time</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">()[</span><span class="n">node</span><span class="p">][</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">()[</span><span class="n">node</span><span class="p">][</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">time</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">()[</span><span class="n">node</span><span class="p">][</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">duration</span><span class="p">()</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="ow">in</span> <span class="n">time</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end</span> <span class="ow">in</span> <span class="n">time</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="ow">in</span> <span class="n">time</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end</span> <span class="ow">in</span> <span class="n">time</span> <span class="ow">or</span> <span class="n">time</span><span class="o">.</span><span class="n">end</span><span class="p">()</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">_end</span><span class="p">:</span>
                 <span class="n">new_max</span> <span class="o">=</span> <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span>
                 <span class="n">new_min</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span>
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_presence</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="n">new_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">new_max</span><span class="p">,</span><span class="n">v</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
-                    <span class="n">new_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">new_min</span><span class="p">,</span><span class="n">v</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+                    <span class="n">new_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">new_max</span><span class="p">,</span><span class="n">v</span><span class="o">.</span><span class="n">end</span><span class="p">())</span>
+                    <span class="n">new_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">new_min</span><span class="p">,</span><span class="n">v</span><span class="o">.</span><span class="n">start</span><span class="p">())</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">=</span> <span class="n">new_min</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_end</span> <span class="o">=</span> <span class="n">new_max</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_end</span> <span class="o">=</span> <span class="n">new_max</span></div>
 
-    <span class="k">def</span> <span class="nf">remove_interaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">time</span><span class="p">):</span>
+<div class="viewcode-block" id="DynGraphIG.remove_interaction"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.remove_interaction.html#tnetwork.DynGraphIG.remove_interaction">[docs]</a>    <span class="k">def</span> <span class="nf">remove_interaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">time</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove an interaction between nodes u and v at time time</span>
 
@@ -397,37 +440,67 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">time</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;t&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">time</span></div>
 
-    <span class="k">def</span> <span class="nf">remove_interactions_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodePairs</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
+<div class="viewcode-block" id="DynGraphIG.remove_interactions_from"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.remove_interactions_from.html#tnetwork.DynGraphIG.remove_interactions_from">[docs]</a>    <span class="k">def</span> <span class="nf">remove_interactions_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodePairs</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove interactions between provided pairs for the provided periods</span>
 
-<span class="sd">        :param nodePairs: a node pair, or a list of node pairs</span>
+<span class="sd">        :param nodePairs: a list of node pairs</span>
 <span class="sd">        :param times: a pair of time step of the form (start,stop), or a list of pair of time step of same length as nodePairs</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="nb">tuple</span><span class="p">):</span> <span class="c1">#means it is a single pair, not list of pairs</span>
-            <span class="n">nodePairs</span><span class="o">=</span><span class="p">[</span><span class="n">nodePairs</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">):</span> <span class="c1">#means it is a single pair, not list of pairs</span>
+        <span class="c1">#if not isinstance(nodePairs[0],tuple): #means it is a single pair, not list of pairs</span>
+        <span class="c1">#    nodePairs=[nodePairs]*len(times)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">):</span>
             <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">times</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">nodePair</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodePairs</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">remove_interaction</span><span class="p">(</span><span class="n">nodePair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nodePair</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">remove_interaction</span><span class="p">(</span><span class="n">nodePair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nodePair</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="DynGraphIG.interactions"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.interactions.html#tnetwork.DynGraphIG.interactions">[docs]</a>    <span class="k">def</span> <span class="nf">interactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">edges</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DynGraphIG.interactions_intervals"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.interactions_intervals.html#tnetwork.DynGraphIG.interactions_intervals">[docs]</a>    <span class="k">def</span> <span class="nf">interactions_intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the periods of interactions for each pair of nodes with at least an interaction</span>
 
 <span class="sd">        :param edges: the list of edges to get interactions for, all by default</span>
 <span class="sd">        :return: dictionary, keys : pair of nodes, values : an interval object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+
         <span class="n">es</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">get_edge_attributes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">,</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+        <span class="n">es</span> <span class="o">=</span> <span class="p">{</span><span class="nb">frozenset</span><span class="p">(</span><span class="n">k</span><span class="p">):</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">es</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="k">if</span> <span class="n">edges</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">es</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">list_element_example</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">edges</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">list_element_example</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">list_element_example</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">edges</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">es</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">}</span></div>
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="nb">frozenset</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">]</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">es</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">}</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">edges</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">edges</span></div>
+
+<div class="viewcode-block" id="DynGraphIG.edge_presence"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.edge_presence.html#tnetwork.DynGraphIG.edge_presence">[docs]</a>    <span class="k">def</span> <span class="nf">edge_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">as_intervals</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">         Return the periods of interactions for each pair of nodes with at least an interaction</span>
+
+<span class="sd">         :param edges: the list of edges to get interactions for, all by default</span>
+<span class="sd">         :return: dictionary, keys : pair of nodes, values : an interval object</span>
+<span class="sd">         &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">as_intervals</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions_intervals</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+
+        <span class="n">to_return</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions_intervals</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_return</span><span class="p">,</span><span class="n">Intervals</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">to_return</span><span class="o">.</span><span class="n">periods</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span><span class="n">pres</span><span class="o">.</span><span class="n">periods</span><span class="p">()</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">pres</span> <span class="ow">in</span> <span class="n">to_return</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+
+        <span class="c1">#return self.interactions_intervals(edges)</span>
 
 <div class="viewcode-block" id="DynGraphIG.change_times"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.change_times.html#tnetwork.DynGraphIG.change_times">[docs]</a>    <span class="k">def</span> <span class="nf">change_times</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -437,7 +510,7 @@
 <span class="sd">        :return: list of int</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">to_return</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">e</span><span class="p">,</span><span class="n">interv</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">e</span><span class="p">,</span><span class="n">interv</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions_intervals</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">period</span> <span class="ow">in</span> <span class="n">interv</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
                 <span class="n">to_return</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">period</span><span class="p">)</span>
 
@@ -449,7 +522,7 @@
 
 
 
-    <span class="k">def</span> <span class="nf">slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">):</span>
+<div class="viewcode-block" id="DynGraphIG.slice"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.slice.html#tnetwork.DynGraphIG.slice">[docs]</a>    <span class="k">def</span> <span class="nf">slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Keep only the selected period</span>
 
@@ -461,13 +534,19 @@
         <span class="n">to_return</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">()</span>
         <span class="n">slice_time</span> <span class="o">=</span> <span class="n">Intervals</span><span class="p">((</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">presence</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_presence</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">to_return</span><span class="o">.</span><span class="n">add_node_presence</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">slice_time</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">presence</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">e</span><span class="p">,</span><span class="n">presence</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">to_return</span><span class="o">.</span><span class="n">add_interaction</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">slice_time</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">presence</span><span class="p">))</span>
+            <span class="n">duration</span> <span class="o">=</span> <span class="n">slice_time</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">presence</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">duration</span><span class="o">.</span><span class="n">duration</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">to_return</span><span class="o">.</span><span class="n">add_node_presence</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">duration</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">to_return</span>
+        <span class="k">for</span> <span class="n">e</span><span class="p">,</span><span class="n">presence</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions_intervals</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">el</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="n">duration</span> <span class="o">=</span> <span class="n">slice_time</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">presence</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">duration</span><span class="o">.</span><span class="n">duration</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">to_return</span><span class="o">.</span><span class="n">add_interaction</span><span class="p">(</span><span class="n">el</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">el</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">duration</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DynGraphIG.to_DynGraphSN"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.to_DynGraphSN.html#tnetwork.DynGraphIG.to_DynGraphSN">[docs]</a>    <span class="k">def</span> <span class="nf">to_DynGraphSN</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">slices</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">to_return</span></div>
+
+<div class="viewcode-block" id="DynGraphIG.to_DynGraphSN"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.to_DynGraphSN.html#tnetwork.DynGraphIG.to_DynGraphSN">[docs]</a>    <span class="k">def</span> <span class="nf">to_DynGraphSN</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">slices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">discard_empty</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert to a snapshot representation.</span>
 
@@ -476,31 +555,34 @@
 <span class="sd">        - None, snapshot_affiliations are created such as a new snapshot is created at every node/edge change,</span>
 <span class="sd">        - an integer, snapshot_affiliations are created using a sliding window</span>
 <span class="sd">        - a list of periods, represented as pairs (start, end), each period yielding a snapshot</span>
+<span class="sd">        :param discard_empty: if True, the returned dynamic network won&#39;t have empty snapshots</span>
 
 <span class="sd">        :return: a dynamic graph represented as snapshot_affiliations, the weight of nodes/edges correspond to their presence time during the snapshot</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dgSN</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">slices</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
-            <span class="n">times</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_times</span><span class="p">()</span>
-            <span class="n">slices</span> <span class="o">=</span> <span class="p">[(</span><span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+            <span class="n">freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span><span class="p">()</span>
+            <span class="n">slices</span> <span class="o">=</span> <span class="n">freq</span>
+            <span class="c1">#times = self.change_times()</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">slices</span><span class="p">,</span><span class="nb">int</span><span class="p">):</span>
             <span class="n">duration</span> <span class="o">=</span> <span class="n">slices</span>
+            <span class="n">dgSN</span><span class="o">.</span><span class="n">frequency</span><span class="p">(</span><span class="n">slices</span><span class="p">)</span>
+
             <span class="n">slices</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span>
             <span class="n">end</span> <span class="o">=</span> <span class="n">start</span><span class="o">+</span><span class="n">duration</span>
+            <span class="n">slices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">))</span>
             <span class="k">while</span><span class="p">(</span><span class="n">end</span><span class="o">&lt;=</span><span class="bp">self</span><span class="o">.</span><span class="n">_end</span><span class="p">):</span>
-                <span class="n">end</span> <span class="o">=</span> <span class="n">start</span><span class="o">+</span><span class="n">duration</span>
-                <span class="n">slices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">))</span>
                 <span class="n">start</span><span class="o">=</span><span class="n">end</span>
-                <span class="n">end</span> <span class="o">=</span> <span class="n">end</span><span class="o">+</span><span class="n">duration</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">start</span><span class="o">+</span><span class="n">duration</span>
+                <span class="n">slices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">))</span>
 
         <span class="k">for</span> <span class="n">ts</span> <span class="ow">in</span> <span class="n">slices</span><span class="p">:</span>
             <span class="n">dgSN</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="n">ts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">graphSN</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">())</span>
 
         <span class="n">sorted_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">slices</span><span class="p">]</span>
-        <span class="c1">#print(self.node_presence())</span>
         <span class="n">to_add</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">interv</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_presence</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -511,12 +593,16 @@
             <span class="n">dgSN</span><span class="o">.</span><span class="n">snapshots</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">to_add</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
 
         <span class="n">to_add</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">e</span><span class="p">,</span><span class="n">interv</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">e</span><span class="p">,</span><span class="n">interv</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions_intervals</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">elist</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="n">intersection</span> <span class="o">=</span> <span class="n">interv</span><span class="o">.</span><span class="n">_discretize</span><span class="p">(</span><span class="n">sorted_times</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">duration</span> <span class="ow">in</span> <span class="n">intersection</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">to_add</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">t</span><span class="p">,[])</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">],{</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span><span class="n">duration</span><span class="p">}))</span>
+                <span class="n">to_add</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">t</span><span class="p">,[])</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">elist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">elist</span><span class="p">[</span><span class="mi">1</span><span class="p">],{</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span><span class="n">duration</span><span class="p">}))</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">to_add</span><span class="p">:</span>
             <span class="n">dgSN</span><span class="o">.</span><span class="n">snapshots</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">to_add</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">discard_empty</span><span class="p">:</span>
+            <span class="n">dgSN</span><span class="o">.</span><span class="n">discard_empty_snapshots</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">dgSN</span></div>
 
@@ -568,7 +654,7 @@
     <span class="c1">#</span>
     <span class="c1">#     return dgSN</span>
 
-    <span class="k">def</span> <span class="nf">code_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DynGraphIG.code_length"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.code_length.html#tnetwork.DynGraphIG.code_length">[docs]</a>    <span class="k">def</span> <span class="nf">code_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="n">total_code</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="c1">#nb_nodes = len(self._graph.nodes())</span>
@@ -587,10 +673,10 @@
 
         <span class="n">nb_unique_edges</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
         <span class="n">nb_periods</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">e</span><span class="p">,</span><span class="n">ts</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">e</span><span class="p">,</span><span class="n">ts</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions_intervals</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">nb_periods</span><span class="o">+=</span><span class="nb">len</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">periods</span><span class="p">())</span>
-        <span class="c1">#time_encoding = np.log2(nb_time)</span>
-        <span class="n">time_encoding</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">nb_periods</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">time_encoding</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">nb_time</span><span class="p">)</span>
+        <span class="c1">#time_encoding = np.log2(nb_periods*2)</span>
 
         <span class="c1">#(N1,N2)_(T1,T2)_(T3,T4)_STOP_(N2,N3)</span>
 
@@ -598,6 +684,17 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ig: &quot;</span><span class="p">,</span><span class="n">edge_encoding</span><span class="p">,</span><span class="n">time_encoding</span><span class="p">,</span><span class="n">nb_unique_edges</span><span class="p">,</span><span class="n">nb_periods</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">total_code</span></div>
+
+<div class="viewcode-block" id="DynGraphIG.write_interactions"><a class="viewcode-back" href="../../../reference/generated/tnetwork.DynGraphIG.write_interactions.html#tnetwork.DynGraphIG.write_interactions">[docs]</a>    <span class="k">def</span> <span class="nf">write_interactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write a file with interactions</span>
+
+<span class="sd">        Write interactions in the corresponding json format</span>
+
+<span class="sd">        :param filename:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tn</span><span class="o">.</span><span class="n">write_as_IG</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filename</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

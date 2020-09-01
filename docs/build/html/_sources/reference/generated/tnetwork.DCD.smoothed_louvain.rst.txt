@@ -1,4 +1,4 @@
-tnetwork.DCD.smoothed\_louvain
+﻿tnetwork.DCD.smoothed\_louvain
 ==============================
 
 .. currentmodule:: tnetwork.DCD

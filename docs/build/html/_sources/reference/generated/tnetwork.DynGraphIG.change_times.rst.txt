@@ -1,4 +1,4 @@
-tnetwork.DynGraphIG.change\_times
+﻿tnetwork.DynGraphIG.change\_times
 =================================
 
 .. currentmodule:: tnetwork

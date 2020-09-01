@@ -1,4 +1,4 @@
-tnetwork.generate\_toy\_random\_network
+﻿tnetwork.generate\_toy\_random\_network
 =======================================
 
 .. currentmodule:: tnetwork

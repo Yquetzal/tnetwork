@@ -1,4 +1,4 @@
-tnetwork.DynGraphSN.to\_tensor
+﻿tnetwork.DynGraphSN.to\_tensor
 ==============================
 
 .. currentmodule:: tnetwork

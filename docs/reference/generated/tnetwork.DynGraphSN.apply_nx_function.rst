@@ -1,4 +1,4 @@
-tnetwork.DynGraphSN.apply\_nx\_function
+﻿tnetwork.DynGraphSN.apply\_nx\_function
 =======================================
 
 .. currentmodule:: tnetwork

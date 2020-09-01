@@ -15,50 +15,83 @@ from matplotlib.dates import AutoDateFormatter, AutoDateLocator, date2num
 
 import math
 
-def _ig_graph2CDS(dynamic_net:tn.DynGraphIG, coms:tn.DynCommunitiesIG=None, to_datetime=False):
-
-    forData = []
-
+def _add_node_periods(dynamic_net:tn.DynGraphIG,forData):
     for n,periods in dynamic_net.node_presence().items():
-        for (start,end) in periods.periods():
-            forData.append([start, n, "no", end-start])
+        if periods!=None:
+            for (start,end) in periods.periods():
+                forData.append([start, n, "no", end-start])
 
-    if coms != None:
-        for n,belongings in coms.affiliations().items():
-            for com,periods in belongings.items():
-                for (start,end) in periods.periods():
-                    forData.append([start, str(n), com, end - start])
-    data = pd.DataFrame(columns=["time", "node", "com","duration"], data=forData)
+def _add_communities_periods(coms:tn.DynCommunitiesIG,forData):
+    for n, belongings in coms.affiliations().items():
+        for com, periods in belongings.items():
+            for (start, end) in periods.periods():
+                forData.append([start, str(n), com, end - start])
 
-
-
-
-    # pick a color for each community
+def _create_com_colormap(data):
     allComs = sorted(list(set(data["com"])))
     if "no" in allComs:
         allComs.remove("no")
     colorMap = {}
     colorMap["no"] = "gainsboro"
     for i, c in enumerate(allComs):
-        #if c=="no":
-        #    colorMap[c]="gainsboro"
-        #else:
         colorMap[c] = myPalette[i % 40]
     data["color"] = [colorMap[c] for c in data["com"]]
+    return data
 
-    CDS = bokeh.models.ColumnDataSource(data)
-    CDS.add(np.array([str(data["time"][i]) + "|" + str(n) for i, n in enumerate(data["node"])]), "index")
+def _handle_time(CDS,to_datetime):
+    CDS.add(np.array([str(CDS.data["time"][i]) + "|" + str(n) for i, n in enumerate(CDS.data["node"])]), "index")
 
-    if to_datetime!=False:
+    if to_datetime != False:
         CDS.data["time"] = [to_datetime(x) for x in CDS.data["time"]]
         CDS.data["duration"] = [timedelta(seconds=int(x)) for x in CDS.data["duration"]]
-
     return CDS
 
+def _ig_graph2CDS(dynamic_net:tn.DynGraphIG, coms:tn.DynCommunitiesIG=None, to_datetime=False):
+    forData = []
+    _add_node_periods(dynamic_net,forData)
+
+
+    if coms != None:
+        _add_communities_periods(coms,forData)
+
+    data = pd.DataFrame(columns=["time", "node", "com","duration"], data=forData)
+
+    # pick a color for each community
+    data = _create_com_colormap(data)
+
+    CDS = bokeh.models.ColumnDataSource(data)
+
+    CDS = _handle_time(CDS,to_datetime)
+    return CDS
+
+def _ls_graph2CDS(dynamic_net:tn.DynGraphLS, coms:tn.DynCommunitiesIG=None, to_datetime=False):
+
+    frequency = dynamic_net.frequency()
+    forData = []
+    _add_node_periods(dynamic_net,forData)
+    if len(forData)==0:
+        for n,times in dynamic_net.nodes_interactions().items():
+            for t in times:
+                forData.append([t, str(n), "black", frequency])
+
+
+    if coms != None:
+        _add_communities_periods(coms,forData)
+
+
+
+    data = pd.DataFrame(columns=["time", "node", "com","duration"], data=forData)
+
+    # pick a color for each community
+    data = _create_com_colormap(data)
+
+    CDS = bokeh.models.ColumnDataSource(data)
+
+    CDS = _handle_time(CDS,to_datetime)
+    return CDS
 
 def _sn_graph2CDS(dynamic_net, coms=None, to_datetime=False,ts=None):
-    #if coms==None:
-    #    allComs=["no"]
+
     allComs=[]
     if coms!=None:
         allComs = sorted(list(coms.communities().keys()))
@@ -106,21 +139,20 @@ def _sn_graph2CDS(dynamic_net, coms=None, to_datetime=False,ts=None):
 
 
     # pick a color for each community
-    colorMap = {}
-    colorMap["no"]="gainsboro"
-    for i, c in enumerate(allComs):
-        #if c=="no":
-        #    colorMap[c]="gainsboro"
-        #else:
-        colorMap[c] = myPalette[i % 40]
-    data["color"] = [colorMap[c] for c in data["com"]]
+    # colorMap = {}
+    # colorMap["no"]="gainsboro"
+    # for i, c in enumerate(allComs):
+    #     colorMap[c] = myPalette[i % 40]
+    # data["color"] = [colorMap[c] for c in data["com"]]
+    data = _create_com_colormap(data)
 
     CDS = bokeh.models.ColumnDataSource(data)
-    CDS.add(np.array([str(data["time"][i]) + "|" + str(n) for i, n in enumerate(data["node"])]), "index")
-
-    if to_datetime!=False:
-        CDS.data["time"] = [to_datetime(x) for x in CDS.data["time"]]
-        CDS.data["duration"] = [timedelta(seconds=int(x)) for x in CDS.data["duration"]]
+    CDS = _handle_time(CDS, to_datetime)
+    # CDS.add(np.array([str(data["time"][i]) + "|" + str(n) for i, n in enumerate(data["node"])]), "index")
+    #
+    # if to_datetime!=False:
+    #     CDS.data["time"] = [to_datetime(x) for x in CDS.data["time"]]
+    #     CDS.data["duration"] = [timedelta(seconds=int(x)) for x in CDS.data["duration"]]
 
     return CDS
 
@@ -313,7 +345,6 @@ def plot_as_graph(dynamic_graph, communities=None, ts=None, width=800, height=60
     if isinstance(dynamic_graph,tn.DynGraphIG):
         temp_graph_sn = tn.DynGraphSN()
         for t in ts:
-            #print(t)
             temp_graph_sn.add_snapshot(t, dynamic_graph.graph_at_time(t))
         if communities!=None:
             temp_coms_sn = tn.DynCommunitiesSN()
@@ -366,7 +397,6 @@ def _plot_longitudinal_pyplot(CDS,nodes,to_datetime,width,height):
             rect = Rectangle(( start_x,node2y[CDS.data["node"][i]]), width=slot_width, height=0.9,color=CDS.data["color"][i],edgecolor=None)
 
             periods.append(rect)
-
     pc = PatchCollection(periods,match_original=True)
 
     # Add collection to axes
@@ -405,9 +435,6 @@ def _plot_longitudinal_bokeh(CDS,nodes,to_datetime,width,height,auto_show):
     # ht.point_policy="follow_mouse"
 
     x_column = "time_shift"
-    # print(CDS.data["duration"],len(CDS.data["duration"]))
-    # print(CDS.data["time"],len(CDS.data["time"]))
-    # print(CDS.data["time_shift"])
 
     x_axis_type = "auto"
     if to_datetime != False:
@@ -450,18 +477,23 @@ def plot_longitudinal(dynamic_graph=None,communities=None, sn_duration=None,to_d
 
     :param dynamic_graph: DynGraphSN or DynGraphIG
     :param communities: dynamic snapshot_affiliations, DynCommunitiesSN or DynCommunitiesIG
-    :param sn_duration: the duration of a snapshot, as int or timedelta. If none, inferred automatically as lasting until next snpashot
+    :param sn_duration: the duration of a snapshot, as int or timedelta. If none, default is the network frequency
     :param to_datetime: one of True/False/function. If True, step IDs are converted to dates using datetime.utcfromtimestamp. If a function, should take a step ID and return a datetime object.
     :param nodes: If none, plot all nodes in lexicographic order. If a list of nodes, plot only those nodes, in that order
     :param width: width of the figure
     :param height: height of the figure
     """
 
+
     if dynamic_graph==None:
         if isinstance(communities,tn.DynCommunitiesSN):
             dynamic_graph = tn.DynGraphSN()
         else:
             dynamic_graph = tn.DynGraphIG()
+
+    if sn_duration==None and not isinstance(dynamic_graph,tn.DynCommunitiesIG):
+        sn_duration = dynamic_graph.frequency()
+
     if to_datetime==True:
         to_datetime=datetime.utcfromtimestamp
         if sn_duration!=None and not isinstance(sn_duration,timedelta):
@@ -477,12 +509,16 @@ def plot_longitudinal(dynamic_graph=None,communities=None, sn_duration=None,to_d
             t = t + list(communities.snapshots.keys())
             t = sorted(list(set(t)))
         CDS = _sn_graph2CDS(dynamic_graph, communities, to_datetime=to_datetime,ts=t)
-    else:
+    elif isinstance(dynamic_graph,tn.DynGraphIG):
         if communities == None:
             communities = tn.DynCommunitiesIG()
         CDS = _ig_graph2CDS(dynamic_graph, communities, to_datetime=to_datetime)
+    elif isinstance(dynamic_graph,tn.DynGraphLS):
+        if communities == None:
+            communities = tn.DynCommunitiesIG()
+        CDS = _ls_graph2CDS(dynamic_graph, communities, to_datetime=to_datetime)
 
-    if isinstance(dynamic_graph,tn.DynGraphSN) and sn_duration!=None:
+    if isinstance(dynamic_graph,tn.DynGraphSN):# or isinstance(dynamic_graph,tn.DynGraphLS) and sn_duration!=None:
         CDS.data["duration"] = [sn_duration]*len(CDS.data["time"])
 
 
@@ -499,7 +535,9 @@ def plot_longitudinal(dynamic_graph=None,communities=None, sn_duration=None,to_d
 
     if nodes==None:
         nodes = sorted(list(set(CDS.data["node"])))
-        nodes = [str(x) for x in nodes]
+
+    nodes = [str(x) for x in nodes]
+
 
     #return _plot_longitudinal_bokeh(CDS,nodes,to_datetime,width,height,auto_show)
     if bokeh:
@@ -509,27 +547,27 @@ def plot_longitudinal(dynamic_graph=None,communities=None, sn_duration=None,to_d
 
 
 
-def plot_longitudinal_sn_clusters(dynamic_graph,clusters,level=None, **kwargs):
-    """
-    A longitudinal view of snapshot clusters
-
-    Snapshot clusters are a way to represent periods of the dynamic graphs similar in some way. It is similar to dynamic snapshot_communities,
-    but all nodes of a snapshot belongs always to the same "community".
-
-    Optional parameters (kwargs) are the same as for plot_longitudinal.
-
-    :param dynamic_graph:  DynGraphSN or DynGraphIG
-    :param clusters: clusters as a set of set of partitions ID. Can also be a hierarchical partitioning, represented as a list of clusters. The level to display is in this case decided by the level parameter
-    :param level: if clusters is a hierarchical clustering, the level to display
-    """
-    if level!=None: #single level
-        clusters = clusters[level]
-    coms = tn.DynCommunitiesSN()
-    for i,cl in enumerate(clusters): #cl: a cluster
-        for t in cl:
-            coms.add_community(t, nodes=dynamic_graph.snapshot_affiliations(t).nodes, id=i)
-    if isinstance(dynamic_graph, tn.DynGraphIG):
-        coms = coms.to_DynCommunitiesIG()
-    return plot_longitudinal(dynamic_graph,communities=coms, **kwargs)
-
-
+# def plot_longitudinal_sn_clusters(dynamic_graph,clusters,level=None, **kwargs):
+#     """
+#     A longitudinal view of snapshot clusters
+#
+#     Snapshot clusters are a way to represent periods of the dynamic graphs similar in some way. It is similar to dynamic snapshot_communities,
+#     but all nodes of a snapshot belongs always to the same "community".
+#
+#     Optional parameters (kwargs) are the same as for plot_longitudinal.
+#
+#     :param dynamic_graph:  DynGraphSN or DynGraphIG
+#     :param clusters: clusters as a set of set of partitions ID. Can also be a hierarchical partitioning, represented as a list of clusters. The level to display is in this case decided by the level parameter
+#     :param level: if clusters is a hierarchical clustering, the level to display
+#     """
+#     if level!=None: #single level
+#         clusters = clusters[level]
+#     coms = tn.DynCommunitiesSN()
+#     for i,cl in enumerate(clusters): #cl: a cluster
+#         for t in cl:
+#             coms.add_community(t, nodes=dynamic_graph.snapshot_affiliations(t).nodes, id=i)
+#     if isinstance(dynamic_graph, tn.DynGraphIG):
+#         coms = coms.to_DynCommunitiesIG()
+#     return plot_longitudinal(dynamic_graph,communities=coms, **kwargs)
+#
+#

@@ -1,4 +1,4 @@
-tnetwork.DynCommunitiesSN.to\_DynCommunitiesIG
+﻿tnetwork.DynCommunitiesSN.to\_DynCommunitiesIG
 ==============================================
 
 .. currentmodule:: tnetwork

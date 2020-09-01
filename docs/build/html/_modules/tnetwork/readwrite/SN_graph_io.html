@@ -26,7 +26,7 @@
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -36,6 +36,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -148,11 +149,14 @@
   <h1>Source code for tnetwork.readwrite.SN_graph_io</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">from</span> <span class="nn">tnetwork</span> <span class="kn">import</span> <span class="n">DynGraphSN</span>
+<span class="kn">from</span> <span class="nn">tnetwork.dyn_graph.encodings</span> <span class="kn">import</span> <span class="n">code_length_LS</span><span class="p">,</span><span class="n">code_length_SN_E</span><span class="p">,</span><span class="n">code_length_SN_M</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">dn</span>
+<span class="kn">import</span> <span class="nn">tnetwork</span> <span class="k">as</span> <span class="nn">tn</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">json</span>
 
 <span class="kn">import</span> <span class="nn">bidict</span>
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;read_snapshots&quot;</span><span class="p">,</span> <span class="s2">&quot;write_snapshots&quot;</span><span class="p">,</span> <span class="s2">&quot;write_snapshots_single_file&quot;</span><span class="p">,</span> <span class="s2">&quot;read_graph_link_stream&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;read_snapshots&quot;</span><span class="p">,</span> <span class="s2">&quot;write_snapshots&quot;</span><span class="p">,</span> <span class="s2">&quot;write_snapshots_single_file&quot;</span><span class="p">,</span><span class="s2">&quot;write_as_SN_E&quot;</span><span class="p">]</span>
 
 <span class="k">def</span> <span class="nf">_detectAutomaticallyFormat</span><span class="p">(</span><span class="n">networkFile</span><span class="p">):</span>
     <span class="nb">format</span> <span class="o">=</span> <span class="n">networkFile</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
@@ -182,8 +186,8 @@
         <span class="n">nx</span><span class="o">.</span><span class="n">write_pajek</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.pajek&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">out_name</span><span class="p">))</span>
     <span class="k">elif</span> <span class="n">out_format</span> <span class="o">==</span> <span class="s1">&#39;ncol&#39;</span><span class="p">:</span>
             <span class="n">nx</span><span class="o">.</span><span class="n">write_edgelist</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.ncol&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">out_name</span><span class="p">),</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">out_format</span> <span class="o">==</span> <span class="s1">&#39;graphML&#39;</span><span class="p">:</span>
-        <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">write_graphml</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.graphML&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">out_name</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">out_format</span> <span class="o">==</span> <span class="s1">&#39;graphML&#39;</span> <span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">write_graphml</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.graphml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">out_name</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;UNKNOWN FORMAT &quot;</span> <span class="o">+</span> <span class="n">out_format</span><span class="p">)</span>
 
@@ -206,7 +210,7 @@
         <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_gexf</span><span class="p">(</span><span class="n">in_name</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">in_format</span> <span class="o">==</span> <span class="s1">&#39;gml&#39;</span><span class="p">:</span>
         <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_gml</span><span class="p">(</span><span class="n">in_name</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">in_format</span> <span class="o">==</span> <span class="s1">&#39;graphML&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">in_format</span> <span class="o">==</span> <span class="s1">&#39;graphML&#39;</span> <span class="ow">or</span> <span class="n">in_format</span> <span class="o">==</span> <span class="s1">&#39;graphml&#39;</span><span class="p">:</span>
         <span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_graphml</span><span class="p">(</span><span class="n">in_name</span><span class="p">)</span>
         <span class="n">nodesInfo</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">get_node_attributes</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="s2">&quot;label&quot;</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
@@ -221,7 +225,7 @@
     <span class="k">return</span> <span class="n">g</span>
 
 
-<div class="viewcode-block" id="read_snapshots"><a class="viewcode-back" href="../../../reference/iof/tnetwork.read_snapshots.html#tnetwork.read_snapshots">[docs]</a><span class="k">def</span> <span class="nf">read_snapshots</span><span class="p">(</span><span class="n">inputDir</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DynGraphSN</span><span class="p">:</span>
+<div class="viewcode-block" id="read_snapshots"><a class="viewcode-back" href="../../../reference/iof/tnetwork.read_snapshots.html#tnetwork.read_snapshots">[docs]</a><span class="k">def</span> <span class="nf">read_snapshots</span><span class="p">(</span><span class="n">inputDir</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">frequency</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DynGraphSN</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read as one file per snapshot</span>
 <span class="sd">    </span>
@@ -234,7 +238,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 
-    <span class="n">anSnGraph</span> <span class="o">=</span> <span class="n">dn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">()</span>
+    <span class="n">anSnGraph</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">(</span><span class="n">frequency</span><span class="o">=</span><span class="n">frequency</span><span class="p">)</span>
     <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">inputDir</span><span class="p">)</span>
     <span class="n">visibleFiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span> <span class="k">if</span> <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;.&quot;</span><span class="p">]</span>
 
@@ -243,7 +247,7 @@
 
     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">visibleFiles</span><span class="p">:</span>
         <span class="n">g</span> <span class="o">=</span> <span class="n">_read_network_file</span><span class="p">(</span><span class="n">inputDir</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">f</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>  <span class="c1"># type:nx.Graph</span>
-        <span class="n">anSnGraph</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">g</span><span class="p">)</span>
+        <span class="n">anSnGraph</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">):]),</span> <span class="n">g</span><span class="p">)</span>
 
 
     <span class="k">return</span> <span class="n">anSnGraph</span></div>
@@ -324,39 +328,58 @@
     <span class="k">return</span> <span class="n">coms</span>
 
 
-<div class="viewcode-block" id="read_graph_link_stream"><a class="viewcode-back" href="../../../reference/iof/tnetwork.read_graph_link_stream.html#tnetwork.read_graph_link_stream">[docs]</a><span class="k">def</span> <span class="nf">read_graph_link_stream</span><span class="p">(</span><span class="n">inputFile</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DynGraphSN</span><span class="p">:</span>
+<span class="c1"># def read_graph_link_stream(inputFile:str) -&gt; DynGraphSN:</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Format used by SOCIOPATTERN</span>
+<span class="c1">#</span>
+<span class="c1">#     This format is a variation of snapshot_affiliations, in which all snapshot_affiliations are in a single file, adapted for occasional observations</span>
+<span class="c1">#     at a high framerate (each SN is not really meaningful).</span>
+<span class="c1">#</span>
+<span class="c1">#     Format:</span>
+<span class="c1">#     ::</span>
+<span class="c1">#</span>
+<span class="c1">#         DATE1	N1	N2</span>
+<span class="c1">#         DATE1	N2	N3</span>
+<span class="c1">#         DATE2	N1	N2</span>
+<span class="c1">#         DATE3	N1	N2</span>
+<span class="c1">#         DATE3	N2	N4</span>
+<span class="c1">#         DATE3	N5	N2</span>
+<span class="c1">#</span>
+<span class="c1">#     :param inputFile: address of the file to read</span>
+<span class="c1">#     :return: DynGraphSN</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     # theDynGraph = DynGraphSN()</span>
+<span class="c1">#     # f = open(inputFile)</span>
+<span class="c1">#     #</span>
+<span class="c1">#     # for l in f:</span>
+<span class="c1">#     #     l = l.split(&quot;\t&quot;)</span>
+<span class="c1">#     #     date = int(l[0])</span>
+<span class="c1">#     #     n1 = l[1]</span>
+<span class="c1">#     #     n2 = l[2]</span>
+<span class="c1">#     #     theDynGraph.add_interaction(n1,n2,date)</span>
+<span class="c1">#     # return theDynGraph</span>
+<span class="c1">#     return read_link_stream(inputFile,time_first_column=True)</span>
+
+
+
+
+
+<span class="k">def</span> <span class="nf">write_as_SN_E</span><span class="p">(</span> <span class="n">graph</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Format used by SOCIOPATTERN</span>
 
-<span class="sd">    This format is a variation of snapshot_affiliations, in which all snapshot_affiliations are in a single file, adapted for occasional observations</span>
-<span class="sd">    at a high framerate (each SN is not really meaningful).</span>
-
-<span class="sd">    Format:</span>
-<span class="sd">    ::</span>
-
-<span class="sd">        DATE1	N1	N2</span>
-<span class="sd">        DATE1	N2	N3</span>
-<span class="sd">        DATE2	N1	N2</span>
-<span class="sd">        DATE3	N1	N2</span>
-<span class="sd">        DATE3	N2	N4</span>
-<span class="sd">        DATE3	N5	N2</span>
-
-<span class="sd">    :param inputFile: address of the file to read</span>
-<span class="sd">    :return: DynGraphSN</span>
+<span class="sd">    :param filename:</span>
+<span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">theDynGraph</span> <span class="o">=</span> <span class="n">DynGraphSN</span><span class="p">()</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">cumulated_graph</span><span class="p">()</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="n">dict_nodes</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodes</span><span class="p">)}</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">change_times</span><span class="p">())</span>
+    <span class="n">dict_times</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">times</span><span class="p">)}</span>
 
-    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">date</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">n1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">n2</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-        <span class="n">theDynGraph</span><span class="o">.</span><span class="n">add_interaction</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,</span><span class="n">date</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">theDynGraph</span></div>
-
-
-
+    <span class="n">interactions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">g</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">snapshots</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">renamed</span> <span class="o">=</span> <span class="p">[[</span> <span class="n">dict_nodes</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span><span class="n">dict_nodes</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]]]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">edges</span><span class="p">()]</span>
+        <span class="n">interactions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">renamed</span><span class="p">)</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="s2">&quot;nodes&quot;</span><span class="p">:</span> <span class="n">nodes</span><span class="p">,</span> <span class="s2">&quot;times&quot;</span><span class="p">:</span> <span class="n">times</span><span class="p">,</span> <span class="s2">&quot;interactions&quot;</span><span class="p">:</span> <span class="n">interactions</span><span class="p">},</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">))</span>
 
 
 </pre></div>

@@ -1,4 +1,4 @@
-tnetwork.DynCommunitiesSN.communities\_duration
+﻿tnetwork.DynCommunitiesSN.communities\_duration
 ===============================================
 
 .. currentmodule:: tnetwork

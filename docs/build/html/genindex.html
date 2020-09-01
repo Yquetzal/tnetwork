@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -27,7 +26,7 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
@@ -37,6 +36,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -156,6 +156,7 @@
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
@@ -179,14 +180,20 @@
 </li>
       <li><a href="reference/generated/tnetwork.utils.Intervals.__eq__.html#tnetwork.utils.Intervals.__eq__">__eq__() (tnetwork.utils.Intervals method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.ComScenario.__init__.html#tnetwork.ComScenario.__init__">__init__() (tnetwork.ComScenario method)</a>
 
       <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.__init__.html#tnetwork.DynGraphIG.__init__">(tnetwork.DynGraphIG method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.__init__.html#tnetwork.DynGraphLS.__init__">(tnetwork.DynGraphLS method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphSN.__init__.html#tnetwork.DynGraphSN.__init__">(tnetwork.DynGraphSN method)</a>
+</li>
         <li><a href="reference/generated/tnetwork.utils.Intervals.__init__.html#tnetwork.utils.Intervals.__init__">(tnetwork.utils.Intervals method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.utils.Intervals.__sub__.html#tnetwork.utils.Intervals.__sub__">__sub__() (tnetwork.utils.Intervals method)</a>
 </li>
   </ul></td>
@@ -205,34 +212,52 @@
 </li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesSN.add_community.html#tnetwork.DynCommunitiesSN.add_community">add_community() (tnetwork.DynCommunitiesSN method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DynGraphIG.add_interaction.html#tnetwork.DynGraphIG.add_interaction">add_interaction() (tnetwork.DynGraphIG method)</a>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.add_interaction.html#tnetwork.dyn_graph.dyn_graph.DynGraph.add_interaction">add_interaction() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
 
       <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.add_interaction.html#tnetwork.DynGraphIG.add_interaction">(tnetwork.DynGraphIG method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.add_interaction.html#tnetwork.DynGraphLS.add_interaction">(tnetwork.DynGraphLS method)</a>
+</li>
         <li><a href="reference/generated/tnetwork.DynGraphSN.add_interaction.html#tnetwork.DynGraphSN.add_interaction">(tnetwork.DynGraphSN method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/generated/tnetwork.DynGraphIG.add_interactions_from.html#tnetwork.DynGraphIG.add_interactions_from">add_interactions_from() (tnetwork.DynGraphIG method)</a>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.add_interactions_from.html#tnetwork.dyn_graph.dyn_graph.DynGraph.add_interactions_from">add_interactions_from() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
 
       <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.add_interactions_from.html#tnetwork.DynGraphIG.add_interactions_from">(tnetwork.DynGraphIG method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.add_interactions_from.html#tnetwork.DynGraphLS.add_interactions_from">(tnetwork.DynGraphLS method)</a>
+</li>
         <li><a href="reference/generated/tnetwork.DynGraphSN.add_interactions_from.html#tnetwork.DynGraphSN.add_interactions_from">(tnetwork.DynGraphSN method)</a>
 </li>
       </ul></li>
       <li><a href="reference/generated/tnetwork.utils.Intervals.add_interval.html#tnetwork.utils.Intervals.add_interval">add_interval() (tnetwork.utils.Intervals method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DynGraphIG.add_node_presence.html#tnetwork.DynGraphIG.add_node_presence">add_node_presence() (tnetwork.DynGraphIG method)</a>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.add_node_presence.html#tnetwork.dyn_graph.dyn_graph.DynGraph.add_node_presence">add_node_presence() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
 
       <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.add_node_presence.html#tnetwork.DynGraphIG.add_node_presence">(tnetwork.DynGraphIG method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.add_node_presence.html#tnetwork.DynGraphLS.add_node_presence">(tnetwork.DynGraphLS method)</a>
+</li>
         <li><a href="reference/generated/tnetwork.DynGraphSN.add_node_presence.html#tnetwork.DynGraphSN.add_node_presence">(tnetwork.DynGraphSN method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/tnetwork.DynGraphIG.add_nodes_presence_from.html#tnetwork.DynGraphIG.add_nodes_presence_from">add_nodes_presence_from() (tnetwork.DynGraphIG method)</a>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.add_nodes_presence_from.html#tnetwork.dyn_graph.dyn_graph.DynGraph.add_nodes_presence_from">add_nodes_presence_from() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
 
       <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.add_nodes_presence_from.html#tnetwork.DynGraphIG.add_nodes_presence_from">(tnetwork.DynGraphIG method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.add_nodes_presence_from.html#tnetwork.DynGraphLS.add_nodes_presence_from">(tnetwork.DynGraphLS method)</a>
+</li>
         <li><a href="reference/generated/tnetwork.DynGraphSN.add_nodes_presence_from.html#tnetwork.DynGraphSN.add_nodes_presence_from">(tnetwork.DynGraphSN method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/generated/tnetwork.DynGraphSN.add_snapshot.html#tnetwork.DynGraphSN.add_snapshot">add_snapshot() (tnetwork.DynGraphSN method)</a>
+</li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesIG.affiliations.html#tnetwork.DynCommunitiesIG.affiliations">affiliations() (tnetwork.DynCommunitiesIG method)</a>
 
       <ul>
@@ -245,8 +270,14 @@
         <li><a href="reference/generated/tnetwork.DynCommunitiesSN.affiliations_durations.html#tnetwork.DynCommunitiesSN.affiliations_durations">(tnetwork.DynCommunitiesSN method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/generated/tnetwork.DynGraphSN.aggregate_sliding_window.html#tnetwork.DynGraphSN.aggregate_sliding_window">aggregate_sliding_window() (tnetwork.DynGraphSN method)</a>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.aggregate_sliding_window.html#tnetwork.dyn_graph.dyn_graph.DynGraph.aggregate_sliding_window">aggregate_sliding_window() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.aggregate_sliding_window.html#tnetwork.DynGraphLS.aggregate_sliding_window">(tnetwork.DynGraphLS method)</a>
 </li>
+        <li><a href="reference/generated/tnetwork.DynGraphSN.aggregate_sliding_window.html#tnetwork.DynGraphSN.aggregate_sliding_window">(tnetwork.DynGraphSN method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.aggregate_time_period.html#tnetwork.DynGraphSN.aggregate_time_period">aggregate_time_period() (tnetwork.DynGraphSN method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.apply_nx_function.html#tnetwork.DynGraphSN.apply_nx_function">apply_nx_function() (tnetwork.DynGraphSN method)</a>
@@ -269,8 +300,24 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/tnetwork.DynGraphIG.change_times.html#tnetwork.DynGraphIG.change_times">change_times() (tnetwork.DynGraphIG method)</a>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.change_times.html#tnetwork.dyn_graph.dyn_graph.DynGraph.change_times">change_times() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.change_times.html#tnetwork.DynGraphIG.change_times">(tnetwork.DynGraphIG method)</a>
 </li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.change_times.html#tnetwork.DynGraphLS.change_times">(tnetwork.DynGraphLS method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphSN.change_times.html#tnetwork.DynGraphSN.change_times">(tnetwork.DynGraphSN method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/tnetwork.DynGraphIG.code_length.html#tnetwork.DynGraphIG.code_length">code_length() (tnetwork.DynGraphIG method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.code_length.html#tnetwork.DynGraphLS.code_length">(tnetwork.DynGraphLS method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphSN.code_length.html#tnetwork.DynGraphSN.code_length">(tnetwork.DynGraphSN method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesIG.communities.html#tnetwork.DynCommunitiesIG.communities">communities() (tnetwork.DynCommunitiesIG method)</a>
 
       <ul>
@@ -279,12 +326,12 @@
       </ul></li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesSN.communities_duration.html#tnetwork.DynCommunitiesSN.communities_duration">communities_duration() (tnetwork.DynCommunitiesSN method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generation.html#tnetwork.DCD.community.Community">Community (class in tnetwork.DCD.community)</a>
 </li>
       <li><a href="reference/generation.html#tnetwork.ComScenario">ComScenario (class in tnetwork)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DCD.analytics.dynamic_partition.consecutive_sn_similarity.html#tnetwork.DCD.analytics.dynamic_partition.consecutive_sn_similarity">consecutive_sn_similarity() (in module tnetwork.DCD.analytics.dynamic_partition)</a>
 </li>
       <li><a href="reference/generated/tnetwork.utils.Intervals.contains.html#tnetwork.utils.Intervals.contains">contains() (tnetwork.utils.Intervals method)</a>
@@ -293,9 +340,13 @@
 </li>
       <li><a href="reference/generated/tnetwork.ComScenario.CONTINUE.html#tnetwork.ComScenario.CONTINUE">CONTINUE() (tnetwork.ComScenario method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DynGraphIG.cumulated_graph.html#tnetwork.DynGraphIG.cumulated_graph">cumulated_graph() (tnetwork.DynGraphIG method)</a>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.cumulated_graph.html#tnetwork.dyn_graph.dyn_graph.DynGraph.cumulated_graph">cumulated_graph() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
 
       <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.cumulated_graph.html#tnetwork.DynGraphIG.cumulated_graph">(tnetwork.DynGraphIG method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.cumulated_graph.html#tnetwork.DynGraphLS.cumulated_graph">(tnetwork.DynGraphLS method)</a>
+</li>
         <li><a href="reference/generated/tnetwork.DynGraphSN.cumulated_graph.html#tnetwork.DynGraphSN.cumulated_graph">(tnetwork.DynGraphSN method)</a>
 </li>
       </ul></li>
@@ -309,6 +360,8 @@
 </li>
       <li><a href="reference/generated/tnetwork.ComScenario.DEATH.html#tnetwork.ComScenario.DEATH">DEATH() (tnetwork.ComScenario method)</a>
 </li>
+      <li><a href="reference/generated/tnetwork.DynGraphSN.discard_empty_snapshots.html#tnetwork.DynGraphSN.discard_empty_snapshots">discard_empty_snapshots() (tnetwork.DynGraphSN method)</a>
+</li>
       <li><a href="reference/generated/tnetwork.utils.Intervals.duration.html#tnetwork.utils.Intervals.duration">duration() (tnetwork.utils.Intervals method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DCD.externals.dynamo.html#tnetwork.DCD.externals.dynamo">dynamo() (in module tnetwork.DCD.externals)</a>
@@ -321,6 +374,8 @@
 </li>
       <li><a href="reference/dyn_graph.html#tnetwork.DynGraphIG">DynGraphIG (class in tnetwork)</a>
 </li>
+      <li><a href="reference/dyn_graph.html#tnetwork.DynGraphLS">DynGraphLS (class in tnetwork)</a>
+</li>
       <li><a href="reference/dyn_graph.html#tnetwork.DynGraphSN">DynGraphSN (class in tnetwork)</a>
 </li>
   </ul></td>
@@ -329,13 +384,49 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/tnetwork.utils.Intervals.end.html#tnetwork.utils.Intervals.end">end() (tnetwork.utils.Intervals method)</a>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.edge_presence.html#tnetwork.dyn_graph.dyn_graph.DynGraph.edge_presence">edge_presence() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.edge_presence.html#tnetwork.DynGraphIG.edge_presence">(tnetwork.DynGraphIG method)</a>
 </li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.edge_presence.html#tnetwork.DynGraphLS.edge_presence">(tnetwork.DynGraphLS method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphSN.edge_presence.html#tnetwork.DynGraphSN.edge_presence">(tnetwork.DynGraphSN method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.end.html#tnetwork.dyn_graph.dyn_graph.DynGraph.end">end() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.end.html#tnetwork.DynGraphIG.end">(tnetwork.DynGraphIG method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.end.html#tnetwork.DynGraphLS.end">(tnetwork.DynGraphLS method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphSN.end.html#tnetwork.DynGraphSN.end">(tnetwork.DynGraphSN method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.utils.Intervals.end.html#tnetwork.utils.Intervals.end">(tnetwork.utils.Intervals method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DCD.analytics.dynamic_partition.entropy_by_node.html#tnetwork.DCD.analytics.dynamic_partition.entropy_by_node">entropy_by_node() (in module tnetwork.DCD.analytics.dynamic_partition)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DCD.externals.estrangement_confinement.html#tnetwork.DCD.externals.estrangement_confinement">estrangement_confinement() (in module tnetwork.DCD.externals)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.frequency.html#tnetwork.dyn_graph.dyn_graph.DynGraph.frequency">frequency() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphSN.frequency.html#tnetwork.DynGraphSN.frequency">(tnetwork.DynGraphSN method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/iof/tnetwork.from_pandas_interaction_list.html#tnetwork.from_pandas_interaction_list">from_pandas_interaction_list() (in module tnetwork)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -349,14 +440,26 @@
 </li>
       <li><a href="reference/generated/tnetwork.generate_toy_random_network.html#tnetwork.generate_toy_random_network">generate_toy_random_network() (in module tnetwork)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/tnetwork.DynGraphIG.graph_at_time.html#tnetwork.DynGraphIG.graph_at_time">graph_at_time() (tnetwork.DynGraphIG method)</a>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.graph_at_time.html#tnetwork.dyn_graph.dyn_graph.DynGraph.graph_at_time">graph_at_time() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
 
       <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.graph_at_time.html#tnetwork.DynGraphIG.graph_at_time">(tnetwork.DynGraphIG method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.graph_at_time.html#tnetwork.DynGraphLS.graph_at_time">(tnetwork.DynGraphLS method)</a>
+</li>
         <li><a href="reference/generated/tnetwork.DynGraphSN.graph_at_time.html#tnetwork.DynGraphSN.graph_at_time">(tnetwork.DynGraphSN method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/iof/tnetwork.graph_GOT.html#tnetwork.graph_GOT">graph_GOT() (in module tnetwork)</a>
+</li>
+      <li><a href="reference/iof/tnetwork.graph_socioPatterns2012.html#tnetwork.graph_socioPatterns2012">graph_socioPatterns2012() (in module tnetwork)</a>
+</li>
+      <li><a href="reference/iof/tnetwork.graph_socioPatterns_Hospital.html#tnetwork.graph_socioPatterns_Hospital">graph_socioPatterns_Hospital() (in module tnetwork)</a>
+</li>
+      <li><a href="reference/iof/tnetwork.graph_socioPatterns_Primary_School.html#tnetwork.graph_socioPatterns_Primary_School">graph_socioPatterns_Primary_School() (in module tnetwork)</a>
+</li>
       <li><a href="reference/generated/tnetwork.ComScenario.GROW_ITERATIVE.html#tnetwork.ComScenario.GROW_ITERATIVE">GROW_ITERATIVE() (tnetwork.ComScenario method)</a>
 </li>
   </ul></td>
@@ -367,10 +470,18 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.ComScenario.INITIALIZE.html#tnetwork.ComScenario.INITIALIZE">INITIALIZE() (tnetwork.ComScenario method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DynGraphIG.interactions.html#tnetwork.DynGraphIG.interactions">interactions() (tnetwork.DynGraphIG method)</a>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.interactions.html#tnetwork.dyn_graph.dyn_graph.DynGraph.interactions">interactions() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.interactions.html#tnetwork.DynGraphIG.interactions">(tnetwork.DynGraphIG method)</a>
 </li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.interactions.html#tnetwork.DynGraphLS.interactions">(tnetwork.DynGraphLS method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/tnetwork.DynGraphIG.interactions_intervals.html#tnetwork.DynGraphIG.interactions_intervals">interactions_intervals() (tnetwork.DynGraphIG method)</a>
+</li>
       <li><a href="reference/generated/tnetwork.utils.Intervals.intersection.html#tnetwork.utils.Intervals.intersection">intersection() (tnetwork.utils.Intervals method)</a>
 </li>
       <li><a href="reference/Intervals.html#tnetwork.utils.Intervals">Intervals (class in tnetwork.utils)</a>
@@ -420,6 +531,8 @@
       <li><a href="reference/generated/tnetwork.DynGraphIG.node_presence.html#tnetwork.DynGraphIG.node_presence">node_presence() (tnetwork.DynGraphIG method)</a>
 
       <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.node_presence.html#tnetwork.DynGraphLS.node_presence">(tnetwork.DynGraphLS method)</a>
+</li>
         <li><a href="reference/generated/tnetwork.DynGraphSN.node_presence.html#tnetwork.DynGraphSN.node_presence">(tnetwork.DynGraphSN method)</a>
 </li>
       </ul></li>
@@ -461,9 +574,11 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/iof/tnetwork.read_graph_link_stream.html#tnetwork.read_graph_link_stream">read_graph_link_stream() (in module tnetwork)</a>
+      <li><a href="reference/iof/tnetwork.read_interactions.html#tnetwork.read_interactions">read_interactions() (in module tnetwork)</a>
 </li>
-      <li><a href="reference/iof/tnetwork.read_IG.html#tnetwork.read_IG">read_IG() (in module tnetwork)</a>
+      <li><a href="reference/iof/tnetwork.read_LS.html#tnetwork.read_LS">read_LS() (in module tnetwork)</a>
+</li>
+      <li><a href="reference/iof/tnetwork.read_period_lists.html#tnetwork.read_period_lists">read_period_lists() (in module tnetwork)</a>
 </li>
       <li><a href="reference/iof/tnetwork.read_SN_by_com.html#tnetwork.read_SN_by_com">read_SN_by_com() (in module tnetwork)</a>
 </li>
@@ -471,13 +586,39 @@
 </li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesIG.remove_affiliation.html#tnetwork.DynCommunitiesIG.remove_affiliation">remove_affiliation() (tnetwork.DynCommunitiesIG method)</a>
 </li>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.remove_interaction.html#tnetwork.dyn_graph.dyn_graph.DynGraph.remove_interaction">remove_interaction() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.remove_interaction.html#tnetwork.DynGraphIG.remove_interaction">(tnetwork.DynGraphIG method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.remove_interaction.html#tnetwork.DynGraphLS.remove_interaction">(tnetwork.DynGraphLS method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphSN.remove_interaction.html#tnetwork.DynGraphSN.remove_interaction">(tnetwork.DynGraphSN method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.remove_interactions_from.html#tnetwork.dyn_graph.dyn_graph.DynGraph.remove_interactions_from">remove_interactions_from() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.remove_interactions_from.html#tnetwork.DynGraphIG.remove_interactions_from">(tnetwork.DynGraphIG method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.remove_interactions_from.html#tnetwork.DynGraphLS.remove_interactions_from">(tnetwork.DynGraphLS method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html#tnetwork.DynGraphSN.remove_interactions_from">(tnetwork.DynGraphSN method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/tnetwork.DynGraphSN.remove_interaction.html#tnetwork.DynGraphSN.remove_interaction">remove_interaction() (tnetwork.DynGraphSN method)</a>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.remove_node_presence.html#tnetwork.dyn_graph.dyn_graph.DynGraph.remove_node_presence">remove_node_presence() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.remove_node_presence.html#tnetwork.DynGraphIG.remove_node_presence">(tnetwork.DynGraphIG method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DynGraphSN.remove_interactions_from.html#tnetwork.DynGraphSN.remove_interactions_from">remove_interactions_from() (tnetwork.DynGraphSN method)</a>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.remove_node_presence.html#tnetwork.DynGraphLS.remove_node_presence">(tnetwork.DynGraphLS method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.DynGraphSN.remove_node_presence.html#tnetwork.DynGraphSN.remove_node_presence">remove_node_presence() (tnetwork.DynGraphSN method)</a>
+        <li><a href="reference/generated/tnetwork.DynGraphSN.remove_node_presence.html#tnetwork.DynGraphSN.remove_node_presence">(tnetwork.DynGraphSN method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/tnetwork.DynGraphSN.remove_snapshot.html#tnetwork.DynGraphSN.remove_snapshot">remove_snapshot() (tnetwork.DynGraphSN method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.ComScenario.RESURGENCE.html#tnetwork.ComScenario.RESURGENCE">RESURGENCE() (tnetwork.ComScenario method)</a>
 </li>
@@ -497,6 +638,16 @@
 </li>
       <li><a href="reference/generated/tnetwork.DCD.analytics.dynamic_partition.similarity_at_each_step.html#tnetwork.DCD.analytics.dynamic_partition.similarity_at_each_step">similarity_at_each_step() (in module tnetwork.DCD.analytics.dynamic_partition)</a>
 </li>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.slice.html#tnetwork.dyn_graph.dyn_graph.DynGraph.slice">slice() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.slice.html#tnetwork.DynGraphIG.slice">(tnetwork.DynGraphIG method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.slice.html#tnetwork.DynGraphLS.slice">(tnetwork.DynGraphLS method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphSN.slice.html#tnetwork.DynGraphSN.slice">(tnetwork.DynGraphSN method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/generated/tnetwork.DCD.analytics.dynamic_partition.SM_L.html#tnetwork.DCD.analytics.dynamic_partition.SM_L">SM_L() (in module tnetwork.DCD.analytics.dynamic_partition)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DCD.analytics.dynamic_partition.SM_N.html#tnetwork.DCD.analytics.dynamic_partition.SM_N">SM_N() (in module tnetwork.DCD.analytics.dynamic_partition)</a>
@@ -505,13 +656,15 @@
 </li>
       <li><a href="reference/generated/tnetwork.DCD.smoothed_graph.html#tnetwork.DCD.smoothed_graph">smoothed_graph() (in module tnetwork.DCD)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DCD.smoothed_louvain.html#tnetwork.DCD.smoothed_louvain">smoothed_louvain() (in module tnetwork.DCD)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesSN.snapshot_affiliations.html#tnetwork.DynCommunitiesSN.snapshot_affiliations">snapshot_affiliations() (tnetwork.DynCommunitiesSN method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DynCommunitiesSN.snapshot_communities.html#tnetwork.DynCommunitiesSN.snapshot_communities">snapshot_communities() (tnetwork.DynCommunitiesSN method)</a>
+</li>
+      <li><a href="reference/generated/tnetwork.DynGraphSN.snapshots.html#tnetwork.DynGraphSN.snapshots">snapshots() (tnetwork.DynGraphSN method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DynCommunitiesSN.snapshots_timesteps.html#tnetwork.DynCommunitiesSN.snapshots_timesteps">snapshots_timesteps() (tnetwork.DynCommunitiesSN method)</a>
 
@@ -521,8 +674,28 @@
       </ul></li>
       <li><a href="reference/generated/tnetwork.ComScenario.SPLIT.html#tnetwork.ComScenario.SPLIT">SPLIT() (tnetwork.ComScenario method)</a>
 </li>
-      <li><a href="reference/generated/tnetwork.utils.Intervals.start.html#tnetwork.utils.Intervals.start">start() (tnetwork.utils.Intervals method)</a>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.start.html#tnetwork.dyn_graph.dyn_graph.DynGraph.start">start() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.start.html#tnetwork.DynGraphIG.start">(tnetwork.DynGraphIG method)</a>
 </li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.start.html#tnetwork.DynGraphLS.start">(tnetwork.DynGraphLS method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphSN.start.html#tnetwork.DynGraphSN.start">(tnetwork.DynGraphSN method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.utils.Intervals.start.html#tnetwork.utils.Intervals.start">(tnetwork.utils.Intervals method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.summary.html#tnetwork.dyn_graph.dyn_graph.DynGraph.summary">summary() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.summary.html#tnetwork.DynGraphIG.summary">(tnetwork.DynGraphIG method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.summary.html#tnetwork.DynGraphLS.summary">(tnetwork.DynGraphLS method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphSN.summary.html#tnetwork.DynGraphSN.summary">(tnetwork.DynGraphSN method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -535,10 +708,16 @@
 </li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.to_DynGraphIG.html#tnetwork.DynGraphSN.to_DynGraphIG">to_DynGraphIG() (tnetwork.DynGraphSN method)</a>
 </li>
+      <li><a href="reference/generated/tnetwork.DynGraphSN.to_DynGraphLS.html#tnetwork.DynGraphSN.to_DynGraphLS">to_DynGraphLS() (tnetwork.DynGraphSN method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/tnetwork.DynGraphIG.to_DynGraphSN.html#tnetwork.DynGraphIG.to_DynGraphSN">to_DynGraphSN() (tnetwork.DynGraphIG method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.to_DynGraphSN.html#tnetwork.DynGraphLS.to_DynGraphSN">(tnetwork.DynGraphLS method)</a>
 </li>
+      </ul></li>
       <li><a href="reference/generated/tnetwork.DynGraphSN.to_tensor.html#tnetwork.DynGraphSN.to_tensor">to_tensor() (tnetwork.DynGraphSN method)</a>
 </li>
       <li><a href="reference/generated/tnetwork.DCD.externals.transversal_network_leidenalg.html#tnetwork.DCD.externals.transversal_network_leidenalg">transversal_network_leidenalg() (in module tnetwork.DCD.externals)</a>
@@ -559,15 +738,29 @@
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/iof/tnetwork.write_as_IG.html#tnetwork.write_as_IG">write_as_IG() (in module tnetwork)</a>
+</li>
+      <li><a href="reference/iof/tnetwork.write_as_LS.html#tnetwork.write_as_LS">write_as_LS() (in module tnetwork)</a>
+</li>
       <li><a href="reference/iof/tnetwork.write_com_SN.html#tnetwork.write_com_SN">write_com_SN() (in module tnetwork)</a>
 </li>
-      <li><a href="reference/iof/tnetwork.write_IG.html#tnetwork.write_IG">write_IG() (in module tnetwork)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/iof/tnetwork.write_IGC.html#tnetwork.write_IGC">write_IGC() (in module tnetwork)</a>
 </li>
+      <li><a href="reference/generated/tnetwork.dyn_graph.dyn_graph.DynGraph.write_interactions.html#tnetwork.dyn_graph.dyn_graph.DynGraph.write_interactions">write_interactions() (tnetwork.dyn_graph.dyn_graph.DynGraph method)</a>
+
+      <ul>
+        <li><a href="reference/generated/tnetwork.DynGraphIG.write_interactions.html#tnetwork.DynGraphIG.write_interactions">(tnetwork.DynGraphIG method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphLS.write_interactions.html#tnetwork.DynGraphLS.write_interactions">(tnetwork.DynGraphLS method)</a>
+</li>
+        <li><a href="reference/generated/tnetwork.DynGraphSN.write_interactions.html#tnetwork.DynGraphSN.write_interactions">(tnetwork.DynGraphSN method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/iof/tnetwork.write_ordered_changes.html#tnetwork.write_ordered_changes">write_ordered_changes() (in module tnetwork)</a>
+</li>
+      <li><a href="reference/iof/tnetwork.write_period_lists.html#tnetwork.write_period_lists">write_period_lists() (in module tnetwork)</a>
 </li>
       <li><a href="reference/iof/tnetwork.write_snapshots.html#tnetwork.write_snapshots">write_snapshots() (in module tnetwork)</a>
 </li>

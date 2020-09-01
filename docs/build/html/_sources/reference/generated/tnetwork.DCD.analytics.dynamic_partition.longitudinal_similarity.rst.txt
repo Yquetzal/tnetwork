@@ -1,4 +1,4 @@
-tnetwork.DCD.analytics.dynamic\_partition.longitudinal\_similarity
+﻿tnetwork.DCD.analytics.dynamic\_partition.longitudinal\_similarity
 ==================================================================
 
 .. currentmodule:: tnetwork.DCD.analytics.dynamic_partition

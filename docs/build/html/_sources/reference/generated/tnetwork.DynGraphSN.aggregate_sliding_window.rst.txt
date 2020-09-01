@@ -1,4 +1,4 @@
-tnetwork.DynGraphSN.aggregate\_sliding\_window
+﻿tnetwork.DynGraphSN.aggregate\_sliding\_window
 ==============================================
 
 .. currentmodule:: tnetwork

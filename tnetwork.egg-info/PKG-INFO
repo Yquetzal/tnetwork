@@ -1,7 +1,7 @@
 Metadata-Version: 1.1
 Name: tnetwork
-Version: 0.1
-Summary: tempoal network libary
+Version: 1.0
+Summary: temporal network libary
 Home-page: https://github.com/Yquetzal/tnetwork
 Author: Remy Cazabet
 Author-email: remy.cazabet@gmail.com
@@ -9,7 +9,7 @@ License: BSD-Clause-2
 Description: UNKNOWN
 Keywords: network-science temporal-networks community-detection
 Platform: UNKNOWN
-Classifier: Development Status :: 3 - Alpha
+Classifier: Development Status :: 4 - Beta
 Classifier: Intended Audience :: Developers
 Classifier: Topic :: Software Development :: Build Tools
 Classifier: License :: OSI Approved :: BSD License

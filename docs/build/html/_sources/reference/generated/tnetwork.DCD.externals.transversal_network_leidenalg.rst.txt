@@ -1,4 +1,4 @@
-tnetwork.DCD.externals.transversal\_network\_leidenalg
+﻿tnetwork.DCD.externals.transversal\_network\_leidenalg
 ======================================================
 
 .. currentmodule:: tnetwork.DCD.externals

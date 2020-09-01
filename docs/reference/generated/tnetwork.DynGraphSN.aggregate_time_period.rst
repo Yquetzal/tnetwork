@@ -1,4 +1,4 @@
-tnetwork.DynGraphSN.aggregate\_time\_period
+﻿tnetwork.DynGraphSN.aggregate\_time\_period
 ===========================================
 
 .. currentmodule:: tnetwork

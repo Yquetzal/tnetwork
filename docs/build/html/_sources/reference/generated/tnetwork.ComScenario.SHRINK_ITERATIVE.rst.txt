@@ -1,4 +1,4 @@
-tnetwork.ComScenario.SHRINK\_ITERATIVE
+﻿tnetwork.ComScenario.SHRINK\_ITERATIVE
 ======================================
 
 .. currentmodule:: tnetwork

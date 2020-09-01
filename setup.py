@@ -40,9 +40,9 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 
 setup(name='tnetwork',
-      version='0.1',
+      version='1.0',
       license='BSD-Clause-2',
-      description='tempoal network libary',
+      description='temporal network libary',
       url='https://github.com/Yquetzal/tnetwork',
       author='Remy Cazabet',
       author_email='remy.cazabet@gmail.com',
@@ -51,7 +51,7 @@ setup(name='tnetwork',
           #   3 - Alpha
           #   4 - Beta
           #   5 - Production/Stable
-          'Development Status :: 3 - Alpha',
+          'Development Status :: 4 - Beta',
 
           # Indicate who your project is intended for
           'Intended Audience :: Developers',

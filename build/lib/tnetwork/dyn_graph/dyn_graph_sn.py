@@ -4,7 +4,6 @@ from collections.abc import Iterable
 import networkx as nx
 from copy import deepcopy
 import bidict
-import pkg_resources
 import numpy as np
 
 import tnetwork as tn
@@ -12,6 +11,7 @@ import numbers
 from tnetwork.dyn_graph.dyn_graph import DynGraph
 
 from datetime import datetime, timezone
+from tnetwork.dyn_graph.encodings import code_length_SN_M,code_length_SN_E
 
 class DynGraphSN(DynGraph):
     """
@@ -25,14 +25,16 @@ class DynGraphSN(DynGraph):
     """
 
 
-    def __init__(self, data=None):
+    def __init__(self, data=None,frequency=1):
         """
         Instanciate a new graph, with or without initial data
 
         :param data: can be a dictionary {time step:graph} or a list of graph, in which sase time steps are integers starting at 0
+        :param frequency: minimal time difference between two observations. Default: 1
         """
 
         self._snapshots = sortedcontainers.SortedDict()
+        self.frequency(frequency)
         if data!=None:
             if isinstance(data,dict):
                 self._snapshots = sortedcontainers.SortedDict(data)
@@ -59,55 +61,7 @@ class DynGraphSN(DynGraph):
         """
         return self.snapshots_timesteps()[-1]
 
-    @staticmethod
-    def graph_socioPatterns2012():
-        """
-        Function that return the graph of interactions between students in 2012, from the SocioPatterns project.
-        >>> dg = DynGraphSN.graph_socioPatterns2012()
 
-        :return:
-        """
-
-        resource_package = __name__
-        resource_path = '/'.join(('toy_data', 'thiers_2012.csv'))
-        fileLocation = pkg_resources.resource_filename(resource_package, resource_path)
-
-
-        dg = tn.read_graph_link_stream(fileLocation)
-        return dg
-
-    # function to add to dyn_graph_sn.py
-    @staticmethod
-    def graph_socioPatterns_Primary_School():
-        """
-        Function that return the graph of interactions between children and teachers, from the SocioPatterns project.
-        >>> dg = DynGraphSN.graph_socioPatterns_Primary_School()
-
-        :return:
-        """
-
-        resource_package = __name__
-        resource_path = '/'.join(('toy_data', 'Primary_School.csv'))
-        fileLocation = pkg_resources.resource_filename(resource_package, resource_path)
-
-        dg = tn.read_graph_link_stream(fileLocation)
-        return dg
-
-    @staticmethod
-    def graph_socioPatterns_Hospital():
-        """
-        Function that return the graph of interactions in the hospital of Lyon between patients and medical staff, from the SocioPatterns project.
-        >>> dg = DynGraphSN.graph_socioPatterns_Hospital()
-
-        :return:
-        """
-
-        resource_package = __name__
-        resource_path = '/'.join(('toy_data', 'Contacts_Hospital.csv'))
-        fileLocation = pkg_resources.resource_filename(resource_package, resource_path)
-
-        dg = tn.read_graph_link_stream(fileLocation)
-        return dg
 
     def add_node_presence(self, n, time):
         """
@@ -123,22 +77,23 @@ class DynGraphSN(DynGraph):
 
     def add_nodes_presence_from(self, nodes,times):
         """
-        Add interactions between nodes for times
+        Add nodes for times
+
+        For each node in nodes, add it for each time in times.
 
         :param nodes: list of nodes, or a single node
         :param times: list of times of same length as node, or a single time
         """
-        if not isinstance(nodes,list):
-            nodes = list([nodes])
-            if len(nodes)==1:
-                nodes=nodes*len(times)
+        if not isinstance(nodes,Iterable):
+            nodes = [nodes]
 
-        if isinstance(times, numbers.Number): #means it is a single time, not list of times
-            times = [times]*len(nodes)
+        if not isinstance(times, Iterable): #means it is a single time, not list of times
+            times = [times]
 
 
         for i,node in enumerate(nodes):
-            self.add_node_presence(node, times[i])
+            for t in times:
+                self.add_node_presence(node, t)
 
     def remove_node_presence(self, n, time):
         """
@@ -165,24 +120,25 @@ class DynGraphSN(DynGraph):
         """
         Add interactions between the provided node pairs for the provided times.
 
-        If one the two parameters is a single element,
-        will add the node pair at all provided time steps, or all the node pairs at the provided time step.
+        Add each provided nodePair at each provided time
 
-        :param nodePairs: list of pairs of nodes, or a single pair of nodes
-        :param times: list of times for this node, or a single time
+        :param nodePairs: list of pairs of nodes, or a single pair of nodes as a tuple or set
+        :param times: list of times as integer or a single integer
         """
         #note: could be optimized
 
-        if len(nodePairs)==2 and (isinstance(nodePairs[0],str) or not isinstance(nodePairs[0],Iterable)):
-            nodePairs = [nodePairs]*len(times)
-        if not isinstance(times,Iterable):
-            times = [times]*len(nodePairs)
+        #if len(nodePairs)==2 and (isinstance(nodePairs[0],str) or not isinstance(nodePairs[0],Iterable)):
+        list_element_example = list(nodePairs)[0]
+        if not isinstance(list_element_example, Iterable) or isinstance(list_element_example,str):
+            nodePairs = [nodePairs]
 
-        for i,nodePair in enumerate(nodePairs):
-            t = times[i]
+        if not isinstance(times,Iterable):
+            times = [times]
+
+        for t in times:
             if not t in self._snapshots:
                 self.add_snapshot(t)
-            self.apply_nx_function(nx.Graph.add_edge,start=t,stop=t,u_of_edge=nodePair[0],v_of_edge=nodePair[1])
+            self.apply_nx_function(nx.Graph.add_edges_from,start=t,stop=t,ebunch_to_add=nodePairs)
 
 
 
@@ -218,10 +174,11 @@ class DynGraphSN(DynGraph):
         if not isinstance(times,Iterable):
             times = [times]*len(nodePairs)
 
-        for i,nodePair in enumerate(nodePairs):
-            t = times[i]
+        for t in times:
+            print("-------",t)
+            self.apply_nx_function(nx.Graph.remove_edges_from,start=t,stop=t,ebunch=nodePairs)
 
-            self.apply_nx_function(nx.Graph.remove_edge,start=t,stop=t,u=nodePair[0],v=nodePair[1])
+
 
     def graph_at_time(self,t):
         """
@@ -249,8 +206,14 @@ class DynGraphSN(DynGraph):
             graphSN=nx.Graph()
         self._snapshots[t]=graphSN
 
+    def remove_snapshot(self, t):
+        """
+        Remove a snapshot
 
-
+        :param t: the time at which to remove a snapshot
+        :return:
+        """
+        del self._snapshots[t]
 
     def snapshots_timesteps(self):
         """
@@ -290,49 +253,96 @@ class DynGraphSN(DynGraph):
 
         return to_return
 
-    def to_DynGraphIG(self, sn_duration, convert_time_to_integer=False):
+    def to_DynGraphIG(self):
         """
         Convert the graph into a DynGraph_IG.
 
-        By default, snapshots last from their time ID to the time ID of the next snapshot.
-        Be careful, for the last snaphsot, we cannot know his duration, therefore, if sn_duration is not provided, it has a default duration equal to the min
-        of all durations
+            ##Can be optimized !
 
-        :param sn_duration: duration of sns, None for automatic behavior
-        :param convert_time_to_integer: if True, use the snapshot order in the list of SN rather than its time step
         :return:
         """
-        toReturn = tn.DynGraphIG()
+        sn_duration=self.frequency()
+
+        by_edges = dict()
+        by_nodes = dict()
+        for t,g in self.snapshots().items():
+            for e in g.edges():
+                by_edges.setdefault(frozenset(e),[]).append(t)
+            for n in g.nodes():
+                by_nodes.setdefault(n,[]).append(t)
+
+        by_edges = {tuple(e):tn.Intervals.from_time_list(v,sn_duration) for e,v in by_edges.items()}
+        by_nodes = {n:tn.Intervals.from_time_list(v,sn_duration) for n,v in by_nodes.items()}
+        return tn.DynGraphIG(start=min(self.snapshots_timesteps()),end=max(self.snapshots_timesteps())+sn_duration,edges=by_edges,nodes=by_nodes,frequency=sn_duration)
+
+    def to_DynGraphLS(self):
+        """
+        Convert to a linkstream
+
+        Currently, conserve only edges
+        :return:
+        """
+        sn_duration = self.frequency()
+
+        by_edges = dict()
+        by_nodes = dict()
+
+        for t, g in self.snapshots().items():
+            for e in g.edges():
+                by_edges.setdefault(frozenset(e), []).append(t)
+            for n in g.nodes():
+                by_nodes.setdefault(n, []).append(t)
+
+        by_edges = {tuple(e): v for e, v in by_edges.items()}
+        by_nodes = {n: tn.Intervals.from_time_list(v, sn_duration) for n, v in by_nodes.items()}
+        return tn.DynGraphLS(start=min(self.snapshots_timesteps()),end=max(self.snapshots_timesteps())+sn_duration,edges=by_edges,nodes=by_nodes,frequency=sn_duration)
 
 
-        for i in range(len(self._snapshots)):
-            if convert_time_to_integer:
-                current_t=i
-                tNext=i+1
-            else:
-                current_t = self._snapshots.peekitem(i)[0]
-
-                if sn_duration!=None:
-                    tNext = current_t+sn_duration
-
-                else:
-                    if i<len(self._snapshots)-1:
-                        tNext=self._snapshots.peekitem(i + 1)[0]
-                    else:
-                        #computing the min duration to choose as duration of the last period
-                        dates = self.snapshots_timesteps()
-
-                        minDuration = min([dates[i + 1] - dates[i] for i in range(len(dates) - 1)])
-                        tNext = current_t+minDuration
-
-            if (len(self._snapshots.peekitem(i)[1].nodes()))>0:
-                toReturn.add_nodes_presence_from(self._snapshots.peekitem(i)[1].nodes(), (current_t, tNext))
-
-                if len(list(self._snapshots.peekitem(i)[1].edges()))>0:
-                    toReturn.add_interactions_from(list(self._snapshots.peekitem(i)[1].edges()), (current_t, tNext) )
-
-
-        return toReturn
+    # def to_DynGraphIG(self, sn_duration, convert_time_to_integer=False):
+    #     """
+    #     Convert the graph into a DynGraph_IG.
+    #
+    #     ##Can be optimized !
+    #
+    #     By default, snapshots last from their time ID to the time ID of the next snapshot.
+    #     Be careful, for the last snaphsot, we cannot know his duration, therefore, if sn_duration is not provided, it has a default duration equal to the min
+    #     of all durations
+    #
+    #     :param sn_duration: duration of sns, None for automatic behavior
+    #     :param convert_time_to_integer: if True, use the snapshot order in the list of SN rather than its time step
+    #     :return:
+    #     """
+    #     toReturn = tn.DynGraphIG()
+    #
+    #
+    #     for i in range(len(self._snapshots)):
+    #         if convert_time_to_integer:
+    #             current_t=i
+    #             tNext=i+1
+    #         else:
+    #             current_t = self._snapshots.peekitem(i)[0]
+    #
+    #             if sn_duration!=None:
+    #                 tNext = current_t+sn_duration
+    #
+    #             else:
+    #                 if i<len(self._snapshots)-1:
+    #                     tNext=self._snapshots.peekitem(i + 1)[0]
+    #                 else:
+    #                     #computing the min duration to choose as duration of the last period
+    #                     dates = self.snapshots_timesteps()
+    #
+    #                     minDuration = min([dates[i + 1] - dates[i] for i in range(len(dates) - 1)])
+    #                     tNext = current_t+minDuration
+    #
+    #         if (len(self._snapshots.peekitem(i)[1].nodes()))>0:
+    #             toReturn.add_nodes_presence_from(self._snapshots.peekitem(i)[1].nodes(), (current_t, tNext))
+    #
+    #             if len(list(self._snapshots.peekitem(i)[1].edges()))>0:
+    #                 toReturn.add_interactions_from(list(self._snapshots.peekitem(i)[1].edges()), (current_t, tNext) )
+    #
+    #
+    #     return toReturn
 
     def _combine_weighted_graphs(self,graphList, weight=1.0):
         """
@@ -399,6 +409,14 @@ class DynGraphSN(DynGraph):
                 to_return.add_snapshot(t,self._snapshots[t])
         return to_return
 
+    def change_times(self):
+        """
+        Times of non-empty snapshots
+
+        :return: list of times
+        """
+        return [t for t,g in self.snapshots().items() if len(g.edges()) > 0]
+
     def aggregate_sliding_window(self, bin_size=None, shift=None, t_start=None, t_end=None,weighted=True):
         """
         Return a new dynamic graph without modifying the original one, aggregated using sliding windows of the desired size. If Shift is not provided or equal to bin_size, windows are non overlapping.
@@ -430,7 +448,7 @@ class DynGraphSN(DynGraph):
         for t in range(t_start, t_end, shift):
             bins.append((t, t + bin_size))
 
-        toReturn = DynGraphSN()
+        toReturn = DynGraphSN(frequency=bin_size)
         for (binStart,binEnd) in bins:
             keys = self.snapshots().irange(binStart, binEnd, inclusive=(True, False))
             keys = list(keys)
@@ -438,9 +456,15 @@ class DynGraphSN(DynGraph):
                 if weighted:
                     toReturn.add_snapshot(binStart, self._combine_weighted_graphs([self._snapshots[k] for k in keys]))
                 else:
-                    toReturn.add_snapshot(binStart,nx.compose_all([self._snapshots[k] for k in keys]))
+                    all_edges = [list(self._snapshots[k].edges()) for k in keys]
+                    all_edges = list(set([e for edge_list in all_edges for e in edge_list ]))
+                    toReturn.add_snapshot(binStart,nx.Graph(all_edges))
+                    #toReturn.add_snapshot(binStart,nx.compose_all([self._snapshots[k] for k in keys]))
+
             else:
                 toReturn.add_snapshot(binStart)
+
+        toReturn.discard_empty_snapshots()
         return toReturn
 
     def _get_monday_from_calendar_week(self, year, calendar_week):
@@ -502,7 +526,8 @@ class DynGraphSN(DynGraph):
             if not new_t in to_return.snapshots():
                 to_return.add_snapshot(new_t, g)
             to_return._snapshots[new_t]=self._combine_weighted_graphs([to_return.snapshots(new_t),self.snapshots(t)])
-
+        to_return.frequency(to_return.snapshots_timesteps()[1]-to_return.snapshots_timesteps()[0])
+        to_return.discard_empty_snapshots()
         return to_return
 
     def snapshots(self, t=None):
@@ -549,6 +574,47 @@ class DynGraphSN(DynGraph):
         if nodes!=None and len(nodes)==1:
             return toReturn[list(nodes)[0]]
         return toReturn
+
+    def edge_presence(self, edges=None):
+        """
+        Presence time of edges
+
+         Several usages:
+
+        * If edges==None (default), return a dict for each edge, its existing times
+        * If edges is a set of edges, return interval of presence of those edges as a dictionary
+
+        :param edges: list of edges
+        :return: a dictionary, key:edge(pair), value: list of time steps
+        """
+
+        if edges!=None:
+            list_element_example = list(edges)[0]
+            if not isinstance(list_element_example, Iterable) or isinstance(list_element_example, str):
+                edges = [edges]
+
+        toReturn = {}
+        for (SNt, g) in self.snapshots().items():
+            if edges == None:
+                edges_this_step = g.edges()
+            else:
+                edges_this_step = g.edges() & edges
+            for e in edges_this_step:
+                ef = frozenset([e[0],e[1]])
+                toReturn.setdefault(ef, [])
+                toReturn[ef].append(SNt)
+
+        if edges != None:
+            to_return2 = {}
+            for e in edges:
+                e2=frozenset(e)
+                to_return2[e2]=toReturn[e2]
+            if len(to_return2)==1:
+                return list(to_return2.values())[0]
+            return to_return2
+
+        return toReturn
+
 
     def to_tensor(self,always_all_nodes=True):
         """
@@ -607,7 +673,6 @@ class DynGraphSN(DynGraph):
         for g in self.snapshots().values():
             all_nodes.update(set(g.nodes))
         nodes_dict = {v: (i+nodes_start_at) for i, v in enumerate(all_nodes)}
-        print(nodes_dict)
 
         for i,g in enumerate(self.snapshots().values()):
             to_return.add_snapshot(i+time_start_at,nx.relabel_nodes(g, nodes_dict))
@@ -618,51 +683,168 @@ class DynGraphSN(DynGraph):
 
         return to_return,nodes_dict_inv,time_dict
 
-    def code_length(self,as_ls=False):
-        if as_ls:
-            return self.code_length_ls()
-        else:
-            return self.code_length_sn()
+    def code_length(self,as_matrix=True,as_edgelist=True):
+        to_return =[]
+        to_return.append(code_length_SN_M(self))
+        to_return.append(code_length_SN_E(self))
 
-    def code_length_sn(self):
-        """
-        Time info should not be repeated
-        2 versions:
-        - edges are little repeated => each interaction encoded explicitly
-        - edges are strongly repeated => matrix form
-        :return:
-        """
-        #we ignore the code of edges identical for all
-        g_cumulated = self.cumulated_graph()
-        node_encoding = np.log2(len(g_cumulated.nodes()))
-        edge_encoding = node_encoding*2
-        time_encoding =  np.log2(len(self.snapshots()))# +1 for stop
-        nb_time = len([x for x in self.snapshots().values() if len(x.edges())>0])
-        nb_unique_edges = len(g_cumulated.edges())
-        nb_interactions = sum([len(x.edges()) for x in self.snapshots().values()])
+        return tuple(to_return)
+    # def code_length(self,as_ls=False):
+    #     if as_ls:
+    #         return self.code_length_ls()
+    #     else:
+    #         return self.code_length_sn()
 
-        #if "matrix_form":
-        #matrix form
-        total_code_matrix = nb_unique_edges*nb_time+edge_encoding*nb_unique_edges+time_encoding*nb_time
-        print("sn_m: ",edge_encoding,time_encoding,nb_unique_edges,nb_time)
-        #else:
-        print("sn_e: ",edge_encoding,time_encoding,nb_interactions,nb_time)
-        #T1_(N1,N2)_(N3,N4)_STOP_T2_...
-        total_code_edges = nb_interactions*edge_encoding + nb_time*time_encoding + nb_time*edge_encoding
-        return total_code_matrix,total_code_edges
+    # def code_length_sn(self):
+    #     """
+    #     Time info should not be repeated
+    #     2 versions:
+    #     - edges are little repeated => each interaction encoded explicitly
+    #     - edges are strongly repeated => matrix form
+    #     :return:
+    #     """
+    #     #we ignore the code of edges identical for all
+    #     g_cumulated = self.cumulated_graph()
+    #     node_encoding = np.log2(len(g_cumulated.nodes()))
+    #     edge_encoding = node_encoding*2
+    #     nb_time = len([x for x in self.snapshots().values() if len(x.edges())>0])
+    #     time_encoding =  np.log2(nb_time)# +1 for stop
+    #
+    #     nb_unique_edges = len(g_cumulated.edges())
+    #     nb_interactions = sum([len(x.edges()) for x in self.snapshots().values()])
+    #
+    #     #if "matrix_form":
+    #     #matrix form
+    #     total_code_matrix = nb_unique_edges*nb_time+edge_encoding*nb_unique_edges+time_encoding*nb_time
+    #     print("sn_m: ",edge_encoding,time_encoding,nb_unique_edges,nb_time)
+    #     #else:
+    #     print("sn_e: ",edge_encoding,time_encoding,nb_interactions,nb_time)
+    #     #T1_(N1,N2)_(N3,N4)_STOP_T2_...
+    #     total_code_edges = nb_interactions*edge_encoding + nb_time*time_encoding + nb_time*edge_encoding
+    #     return total_code_matrix,total_code_edges
 
-    def code_length_ls(self):
+    # def _compute_encoding_properties(self):
+    #
+    #     nb_nodes = len(g_cumulated.nodes())
+    #     nb_time = len([x for x in self.snapshots().values() if len(x.edges()) > 0])
+    #     #time_encoding = np.log2(len(self.snapshots()))  # +1 for stop
+    #     nb_unique_edges = len(g_cumulated.edges())
+    #     nb_interactions = sum([len(x.edges()) for x in self.snapshots().values()])
+    #     return(nb_nodes,nb_unique_edges,nb_interactions,nb_time)
+
+
+
+    def code_length_update(self):
         g_cumulated = self.cumulated_graph()
         node_encoding = np.log2(len(g_cumulated.nodes()))
         edge_encoding = node_encoding * 2
         nb_time = len([x for x in self.snapshots().values() if len(x.edges()) > 0])
-        #time_encoding = np.log2(len(self.snapshots()))  # +1 for stop
         nb_unique_edges = len(g_cumulated.edges())
-        nb_interactions = sum([len(x.edges()) for x in self.snapshots().values()])
-        #time_encoding = np.log2(nb_time)
-        time_encoding = np.log2(nb_interactions)
-        #(N1,N2)_T1_T2_STOP_(N2,N3)
-        total_code = edge_encoding*nb_unique_edges + nb_interactions*time_encoding + time_encoding*nb_unique_edges
-        print("ls: ",edge_encoding,time_encoding,nb_unique_edges,nb_interactions)
+        #nb_interactions = sum([len(x.edges()) for x in self.snapshots().values()])
+        nb_changes = 0
+        ordered_graphs = list(self.snapshots().values())
+        for i,g in enumerate(ordered_graphs):
+            if i==0:
+                nb_changes+=len(g.edges())
+            else:
+                #modified_edges = nx.symmetric_difference(ordered_graphs[i-1],ordered_graphs[i])
+                some_edges_1 = {tuple(sorted(edge)) for edge in ordered_graphs[i-1].edges()}
+                some_edges_2 = {tuple(sorted(edge)) for edge in ordered_graphs[i].edges()}
+                changes= some_edges_1.symmetric_difference(some_edges_2)
 
-        return total_code
+
+                nb_changes+=len(changes)
+
+        time_encoding = np.log2(nb_time)
+
+        #T1_(N1,N2)_(N3,N4)_STOP_T2_CHANGE...
+        total_code_edges = nb_changes*edge_encoding + nb_time*time_encoding + nb_time*edge_encoding
+        print("updates: ",edge_encoding,time_encoding,nb_changes,nb_unique_edges)
+
+        return total_code_edges
+
+    def stability(self):
+        """
+        Fraction of successive edge appearances that are in adjacent snasphots
+        :return:
+        """
+        times = self.snapshots_timesteps()
+        edge_presence = self.edge_presence()
+        successions = 0
+        adjacent=0
+        for n,presences in edge_presence.items():
+            successions += len(presences)-1
+            for i in range(len(presences)-1):
+                if times.index(presences[i])==times.index(presences[i+1])-1:
+                    adjacent+=1
+        print(adjacent,successions)
+        if successions==0:
+            return 1
+        return adjacent/successions
+
+    def synchronicity(self):
+        """
+        Fraction of edges life that appear
+
+        Careful, naive version currently !!!
+
+        for each edge, over its period of existence
+        for each other edge, how many appearance, thus how many simultaneous possible
+        and how many effective
+
+        -Must take into account that nodes exist over period: if their lifetime do not overlap they are not supposed to be
+        synchronous
+        -Must take into account that
+
+
+
+        :return:
+        """
+
+        # times = self.snapshots_timesteps()
+        # edge_presence = self.edge_presence()
+        # active = 0
+        # sn_during_life = 0
+        # for n, presences in edge_presence.items():
+        #     active += len(presences)
+        #     sn_during_life += times.index(presences[-1])- times.index(presences[0])+1
+        # print(active, sn_during_life)
+        # return active / sn_during_life
+
+
+
+        times = self.snapshots_timesteps()
+        non_zero = [t for t in times if len(self.snapshots(t).edges())>0]
+
+        edge_presence = self.edge_presence()
+        nb_different_edges = len(edge_presence)
+
+        total_interactions = sum([len(x) for x in edge_presence.values()])
+        avg_inter_by_sn = total_interactions/len(non_zero)
+        #max_possible_inter_by_sn = nb_different_edges
+        max_possible_inter_by_sn=total_interactions/max([len(x) for x in edge_presence.values()])
+        print("synchro",avg_inter_by_sn,max_possible_inter_by_sn)
+        return avg_inter_by_sn/max_possible_inter_by_sn
+
+    def write_interactions(self,filename):
+        """
+        Write interactions in a file
+
+        Write in corresponding json format
+
+        :param filename:
+        :return:
+        """
+        tn.write_as_SN_E(self,filename)
+
+    def discard_empty_snapshots(self):
+        """
+        Discard snapshots with no edges
+
+        """
+        to_remove=[]
+        for t,g in self.snapshots().items():
+            if len(g.edges())==0 and len(g.nodes())==0:
+                to_remove.append(t)
+        for t in to_remove:
+            self.remove_snapshot(t)

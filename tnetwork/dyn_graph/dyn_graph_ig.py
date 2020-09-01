@@ -5,6 +5,7 @@ from tnetwork.dyn_graph.dyn_graph import DynGraph
 from tnetwork.utils.intervals import Intervals
 import tnetwork as tn
 import numpy as np
+from collections.abc import Iterable
 
 class DynGraphIG(DynGraph):
     """
@@ -18,7 +19,7 @@ class DynGraphIG(DynGraph):
     """
 
 
-    def __init__(self, start=None,end=None):
+    def __init__(self,edges=None, nodes=None,  start=None,end=None,frequency=1):
         """
         Instanciate a dynamic graph
 
@@ -26,15 +27,44 @@ class DynGraphIG(DynGraph):
         (for instance, to study activity during a whole year, the graph might start on January 1st at 00:00 while
         the first recorded activity occurs in the afternoon or on another day)
 
-        :param start: set a start time, by default will be the first time of the added snapshot_affiliations
-        :param end: set an end time, by default will be the last time of the added snapshot_affiliations
+        :param start: set a start time, by default will be the first time of the added affiliations
+        :param end: set an end time, by default will be the last time of the added affiliations
+        :param edges: data to initialize the dynamic graph, dictionary {(n1,n2):time}. Keys are edges, time is Intervals object
+        :param nodes: data to initialize the dynamic graph, dictionary {n:time}. Keys are ndoes, time is Intervals object
+
         """
+        self._start=start
+        self._end=end
+        self.frequency(frequency)
         if start==None:
             self._start=math.inf
         if end==None:
             self._end=-math.inf
 
         self._graph = nx.Graph()
+        if nodes!=None:
+            self._graph.add_nodes_from(nodes.keys())
+            nx.set_node_attributes(self._graph,nodes,"t")
+            if start == None or end == None:
+                times = set([x.start() for x in nodes.values()] + [x.end() for x in nodes.values()])
+                if start == None:
+                    self._start = min(times)
+                    start = min(times)
+                if end == None:
+                    self._end = max(times)
+                    end = max(times)
+
+        if edges!=None:
+            self._graph.add_weighted_edges_from([(k[0],k[1],v) for k,v in edges.items()],"t")
+            #nx.set_edge_attributes(self._graph,edges,"t")
+            if start==None or end==None:
+                if start == None or end == None:
+                    times = set([x.start() for x in edges.values()] + [x.end() for x in edges.values()])
+                    if start == None:
+                        self._start = min(times)
+                    if end == None:
+                        self._end = max(times)
+
 
     def start(self):
         return self._start
@@ -75,9 +105,9 @@ class DynGraphIG(DynGraph):
         :param time: pair (start,end) or Intervals
         :return:
         """
-
         if not isinstance(time,Intervals):
             time= Intervals(time)
+
         self.add_node_presence(u, time)
         self.add_node_presence(v, time)
 
@@ -158,22 +188,30 @@ class DynGraphIG(DynGraph):
 
     def add_interactions_from(self, nodePairs, times):
         """
-        Add interactions between provided pairs for the provided periods
+       Add interactions between provided pairs for the provided periods
 
-        :param nodePairs: a node pair, or a list of node pairs
-        :param times: a pair of time step of the form (start,stop), or a list of pair of time step of same length as nodePairs
+        Add each provided nodePair at each provided time
+
+        :param nodePairs: list of pairs of nodes, or a single pair of nodes as a tuple or set
+        :param times: a single time or a list of times, as pair (start,end) or an Interval Object
         """
-        if not isinstance(nodePairs[0],tuple): #means it is a single pair, not list of pairs
-            nodePairs=[nodePairs]*len(times)
 
-        if not isinstance(times[0], tuple): #means it is a single pair, not list of pairs
-            times = [times]*len(nodePairs)
+        list_element_example = list(nodePairs)[0]
+        if not isinstance(list_element_example, Iterable) or isinstance(list_element_example, str):
+            nodePairs = [nodePairs]
+
+
+        if not isinstance(times,Iterable): #Single Interval object
+            times = [times]
+        else: #single interaval as a pair or multiple things
+            list_element_example = list(times)[0]
+            if not isinstance(list_element_example, Iterable): #if an element of a list is an int, it's a single pair
+                times = [times]
 
 
         for i,nodePair in enumerate(nodePairs):
-            #if nodePair==('1170', '1644'):
-            #    print(nodePair,times[i])
-            self.add_interaction(nodePair[0], nodePair[1], times[i])
+            np = list(nodePair)
+            self.add_interaction(np[0], np[1], times)
 
     def add_node_presence(self, n, time):
         """
@@ -182,7 +220,6 @@ class DynGraphIG(DynGraph):
         :param n: node
         :param time: a period, couple (start, stop) or an interval
         """
-
         if not isinstance(time,Intervals):
             time= Intervals(time)
 
@@ -202,17 +239,20 @@ class DynGraphIG(DynGraph):
         :param nodes: list of nodes, or a single node
         :param times: list of times defined as couple (start, stop) , of same length as node, or a single time
         """
-        if not isinstance(nodes,list):
-            nodes = list(nodes)
-            if len(nodes)==1:
-                nodes=nodes*len(times)
+        if not isinstance(nodes,Iterable):
+            nodes = [nodes]
 
-        if not isinstance(times[0], tuple): #means it is a single pair, not list of pairs
-            times = [times]*len(nodes)
+
+        if not isinstance(times,Iterable): #Single Interval object
+            times = [times]
+        else: #single interaval as a pair or multiple things
+            list_element_example = list(times)[0]
+            if not isinstance(list_element_example, Iterable): #if an element of a list is an int, it's a single pair
+                times = [times]
 
 
         for i,node in enumerate(nodes):
-            self.add_node_presence(node, times[i])
+            self.add_node_presence(node, times)
 
     def remove_node_presence(self,node,time):
         """
@@ -226,14 +266,16 @@ class DynGraphIG(DynGraph):
 
 
         if self._graph.has_node(node):
-            self._graph.node[node]["t"]= self._graph.node[node]["t"]-time
+            self._graph.nodes()[node]["t"]= self._graph.nodes()[node]["t"]-time
+            if self._graph.nodes()[node]["t"].duration()==0:
+                self._graph.remove_node(node)
 
-            if self._start in time or self._end in time:
+            if self._start in time or self._end in time or time.end()==self._end:
                 new_max = -math.inf
                 new_min = math.inf
                 for k,v in self.node_presence().items():
-                    new_max = max(new_max,v.end)
-                    new_min = min(new_min,v.start)
+                    new_max = max(new_max,v.end())
+                    new_min = min(new_min,v.start())
 
                 self._start = new_min
                 self._end = new_max
@@ -255,31 +297,61 @@ class DynGraphIG(DynGraph):
         """
         Remove interactions between provided pairs for the provided periods
 
-        :param nodePairs: a node pair, or a list of node pairs
+        :param nodePairs: a list of node pairs
         :param times: a pair of time step of the form (start,stop), or a list of pair of time step of same length as nodePairs
         """
-        if not isinstance(nodePairs[0],tuple): #means it is a single pair, not list of pairs
-            nodePairs=[nodePairs]*len(times)
 
-        if not isinstance(times[0], tuple): #means it is a single pair, not list of pairs
+        #if not isinstance(nodePairs[0],tuple): #means it is a single pair, not list of pairs
+        #    nodePairs=[nodePairs]*len(times)
+
+        if not isinstance(times[0], tuple):
             times = [times]*len(nodePairs)
 
         for i, nodePair in enumerate(nodePairs):
             self.remove_interaction(nodePair[0], nodePair[1], times[i])
 
 
-    def interactions(self,edges=None):
+    def interactions_intervals(self, edges=None):
         """
         Return the periods of interactions for each pair of nodes with at least an interaction
 
         :param edges: the list of edges to get interactions for, all by default
         :return: dictionary, keys : pair of nodes, values : an interval object
         """
+
+
         es = nx.get_edge_attributes(self._graph,"t")
+        es = {frozenset(k):v for k,v in es.items()}
         if edges==None:
             return es
+        else:
+            list_element_example = list(edges)[0]
+            if not isinstance(list_element_example, Iterable) or isinstance(list_element_example, str):
+                edges = [edges]
 
-        return {k:v for k,v in es.items() if k in edges}
+        edges = [frozenset(e) for e in edges]
+        edges = {k:v for k,v in es.items() if k in edges}
+        if len(edges)==1:
+            return list(edges.values())[0]
+        return edges
+
+    def edge_presence(self, edges=None,as_intervals=False):
+        """
+         Return the periods of interactions for each pair of nodes with at least an interaction
+
+         :param edges: the list of edges to get interactions for, all by default
+         :return: dictionary, keys : pair of nodes, values : an interval object
+         """
+        if as_intervals:
+            return self.interactions_intervals(edges)
+
+        to_return = self.interactions_intervals(edges)
+        if isinstance(to_return,Intervals):
+            return to_return.periods()
+
+        return {n:pres.periods() for n,pres in to_return.items()}
+
+        #return self.interactions_intervals(edges)
 
     def change_times(self) ->[int]:
         """
@@ -289,7 +361,7 @@ class DynGraphIG(DynGraph):
         :return: list of int
         """
         to_return = set()
-        for e,interv in self.interactions().items():
+        for e,interv in self.interactions_intervals().items():
             for period in interv.periods():
                 to_return.update(period)
 
@@ -313,13 +385,19 @@ class DynGraphIG(DynGraph):
         to_return = tn.DynGraphIG()
         slice_time = Intervals((start,end))
         for n,presence in self.node_presence().items():
-            to_return.add_node_presence(n,slice_time.intersection(presence))
-        for e,presence in self.interactions().items():
-            to_return.add_interaction(e[0],e[1],slice_time.intersection(presence))
+            duration = slice_time.intersection(presence)
+            if duration.duration()>0:
+                to_return.add_node_presence(n,duration)
+
+        for e,presence in self.interactions_intervals().items():
+            el = list(e)
+            duration = slice_time.intersection(presence)
+            if duration.duration()>0:
+                to_return.add_interaction(el[0],el[1],duration)
 
         return to_return
 
-    def to_DynGraphSN(self,slices=None):
+    def to_DynGraphSN(self,slices=None,discard_empty=True):
         """
         Convert to a snapshot representation.
 
@@ -328,31 +406,34 @@ class DynGraphIG(DynGraph):
         - None, snapshot_affiliations are created such as a new snapshot is created at every node/edge change,
         - an integer, snapshot_affiliations are created using a sliding window
         - a list of periods, represented as pairs (start, end), each period yielding a snapshot
+        :param discard_empty: if True, the returned dynamic network won't have empty snapshots
 
         :return: a dynamic graph represented as snapshot_affiliations, the weight of nodes/edges correspond to their presence time during the snapshot
 
         """
         dgSN = tn.DynGraphSN()
         if slices==None:
-            times = self.change_times()
-            slices = [(times[i],times[i+1]) for i in range(len(times)-1)]
+            freq = self.frequency()
+            slices = freq
+            #times = self.change_times()
 
         if isinstance(slices,int):
             duration = slices
+            dgSN.frequency(slices)
+
             slices = []
             start = self._start
             end = start+duration
+            slices.append((start, end))
             while(end<=self._end):
-                end = start+duration
-                slices.append((start,end))
                 start=end
-                end = end+duration
+                end = start+duration
+                slices.append((start, end))
 
         for ts in slices:
             dgSN.add_snapshot(t=ts[0],graphSN=nx.Graph())
 
         sorted_times = [x[0] for x in slices]
-        #print(self.node_presence())
         to_add = {}
 
         for n,interv in self.node_presence().items():
@@ -363,12 +444,16 @@ class DynGraphIG(DynGraph):
             dgSN.snapshots(t).add_nodes_from(to_add[t])
 
         to_add = {}
-        for e,interv in self.interactions().items():
+        for e,interv in self.interactions_intervals().items():
+            elist=list(e)
             intersection = interv._discretize(sorted_times)
             for t,duration in intersection.items():
-                to_add.setdefault(t,[]).append((e[0],e[1],{"weight":duration}))
+                to_add.setdefault(t,[]).append((elist[0],elist[1],{"weight":duration}))
         for t in to_add:
             dgSN.snapshots(t).add_edges_from(to_add[t])
+
+        if discard_empty:
+            dgSN.discard_empty_snapshots()
 
         return dgSN
 
@@ -439,10 +524,10 @@ class DynGraphIG(DynGraph):
 
         nb_unique_edges = len(self._graph.edges())
         nb_periods = 0
-        for e,ts in self.interactions().items():
+        for e,ts in self.interactions_intervals().items():
             nb_periods+=len(ts.periods())
-        #time_encoding = np.log2(nb_time)
-        time_encoding = np.log2(nb_periods*2)
+        time_encoding = np.log2(nb_time)
+        #time_encoding = np.log2(nb_periods*2)
 
         #(N1,N2)_(T1,T2)_(T3,T4)_STOP_(N2,N3)
 
@@ -450,3 +535,14 @@ class DynGraphIG(DynGraph):
         print("ig: ",edge_encoding,time_encoding,nb_unique_edges,nb_periods)
 
         return total_code
+
+    def write_interactions(self,filename):
+        """
+        Write a file with interactions
+
+        Write interactions in the corresponding json format
+
+        :param filename:
+        :return:
+        """
+        tn.write_as_IG(self,filename)

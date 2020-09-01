@@ -1,4 +1,4 @@
-tnetwork.plot\_as\_graph
+﻿tnetwork.plot\_as\_graph
 ========================
 
 .. currentmodule:: tnetwork

@@ -288,7 +288,7 @@ class Intervals:
 
         :return: list of pairs
         """
-        return list(self.interv.values())
+        return [tuple(a) for a in self.interv.values()]
 
     def _merge_overlapping_intervals(self, interval1, interval2):
         """
@@ -356,17 +356,17 @@ class Intervals:
         """
         to_return={}
         sorted_slices = sortedcontainers.SortedList(slices)
-        for period in self.periods():
-            bins = list(sorted_slices.irange(period[0],period[1],inclusive=(True,True)))
+        for period in self.periods(): # for each period of the current interval
+            bins = list(sorted_slices.irange(period[0],period[1],inclusive=(True,True))) #Get concerned slices
             for i in range(len(bins)-1):
                 to_return[bins[i]]=bins[i+1]-bins[i]
-            if period[0]<bins[0]:
+            if len(bins)>0 and period[0]<bins[0]:
                 i_bin_before = sorted_slices.bisect_left(period[0])
 
                 bin_before = sorted_slices[i_bin_before-1]
                 to_return[bin_before]=bins[0]-period[0]
 
-            if period[1]>bins[-1]:
+            if len(bins)>0 and period[1]>bins[-1]:
                 #i_bin_after = sorted_slices.bisect_right(period[1])
                 #bin_after = sorted_slices[i_bin_after]
                 #print(period[1],bins[-1],bin_after)
@@ -393,3 +393,22 @@ class Intervals:
             return False
         return [x for x in self.interv.values()]==[x for x in other.interv.values()]
     __repr__ = __str__
+
+    @staticmethod
+    def from_time_list(atimelist,interval):
+        """
+
+        :param timelist: list of sorted observation time
+        :param interval: duration between intervals
+        :return: an interval
+        """
+        all_periods= []
+        current_interval=[atimelist[0],atimelist[0]+interval]
+        for t in atimelist:
+            if t==current_interval[1]:
+                current_interval[1]=t+interval
+            else:
+                all_periods.append(current_interval)
+                current_interval=[t,t+interval]
+        all_periods.append(current_interval)
+        return Intervals(all_periods)

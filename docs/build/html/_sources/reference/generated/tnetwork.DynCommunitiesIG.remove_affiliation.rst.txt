@@ -1,4 +1,4 @@
-tnetwork.DynCommunitiesIG.remove\_affiliation
+﻿tnetwork.DynCommunitiesIG.remove\_affiliation
 =============================================
 
 .. currentmodule:: tnetwork

@@ -1,4 +1,4 @@
-tnetwork.DCD.community.Community.label
+﻿tnetwork.DCD.community.Community.label
 ======================================
 
 .. currentmodule:: tnetwork.DCD.community

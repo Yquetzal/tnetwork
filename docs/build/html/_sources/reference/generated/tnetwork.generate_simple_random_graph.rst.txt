@@ -1,4 +1,4 @@
-tnetwork.generate\_simple\_random\_graph
+﻿tnetwork.generate\_simple\_random\_graph
 ========================================
 
 .. currentmodule:: tnetwork

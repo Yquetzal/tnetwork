@@ -1,10 +1,13 @@
 import networkx as nx
 from tnetwork import DynGraphSN
+from tnetwork.dyn_graph.encodings import code_length_LS,code_length_SN_E,code_length_SN_M
 import os
-import tnetwork as dn
+import tnetwork as tn
+import pandas as pd
+import json
 
 import bidict
-__all__ = ["read_snapshots", "write_snapshots", "write_snapshots_single_file", "read_graph_link_stream"]
+__all__ = ["read_snapshots", "write_snapshots", "write_snapshots_single_file","write_as_SN_E"]
 
 def _detectAutomaticallyFormat(networkFile):
     format = networkFile.split(".")[1]
@@ -34,8 +37,8 @@ def _write_network_file(graph, out_name, out_format=None, data=False,weight=Fals
         nx.write_pajek(graph, "%s.pajek" % (out_name))
     elif out_format == 'ncol':
             nx.write_edgelist(graph, "%s.ncol" % (out_name), delimiter='\t',data=weight)
-    elif out_format == 'graphML':
-        g = nx.write_graphml(graph, "%s.graphML" % (out_name))
+    elif out_format == 'graphML' :
+        g = nx.write_graphml(graph, "%s.graphml" % (out_name))
     else:
         raise Exception("UNKNOWN FORMAT " + out_format)
 
@@ -58,7 +61,7 @@ def _read_network_file(in_name, in_format="", directed=False):
         g = nx.read_gexf(in_name)
     elif in_format == 'gml':
         g = nx.read_gml(in_name)
-    elif in_format == 'graphML':
+    elif in_format == 'graphML' or in_format == 'graphml':
         g = nx.read_graphml(in_name)
         nodesInfo = g.nodes(data=True)
         if len(nx.get_node_attributes(g,"label"))>0:
@@ -73,7 +76,7 @@ def _read_network_file(in_name, in_format="", directed=False):
     return g
 
 
-def read_snapshots(inputDir:str, format=None) -> DynGraphSN:
+def read_snapshots(inputDir:str, format=None,frequency=1,prefix="") -> DynGraphSN:
     """
     Read as one file per snapshot
     
@@ -86,7 +89,7 @@ def read_snapshots(inputDir:str, format=None) -> DynGraphSN:
     """
 
 
-    anSnGraph = dn.DynGraphSN()
+    anSnGraph = tn.DynGraphSN(frequency=frequency)
     files = os.listdir(inputDir)
     visibleFiles = [f for f in files if f[0] != "."]
 
@@ -95,7 +98,7 @@ def read_snapshots(inputDir:str, format=None) -> DynGraphSN:
 
     for f in visibleFiles:
         g = _read_network_file(inputDir + "/" + f, format)  # type:nx.Graph
-        anSnGraph.add_snapshot(int(os.path.splitext(f)[0]), g)
+        anSnGraph.add_snapshot(int(os.path.splitext(f)[0][len(prefix):]), g)
 
 
     return anSnGraph
@@ -176,38 +179,57 @@ def _readStaticSNByCom(inputFile, commentsChar="#", nodeSeparator=" ", nodeInBra
     return coms
 
 
-def read_graph_link_stream(inputFile:str) -> DynGraphSN:
+# def read_graph_link_stream(inputFile:str) -> DynGraphSN:
+#     """
+#     Format used by SOCIOPATTERN
+#
+#     This format is a variation of snapshot_affiliations, in which all snapshot_affiliations are in a single file, adapted for occasional observations
+#     at a high framerate (each SN is not really meaningful).
+#
+#     Format:
+#     ::
+#
+#         DATE1	N1	N2
+#         DATE1	N2	N3
+#         DATE2	N1	N2
+#         DATE3	N1	N2
+#         DATE3	N2	N4
+#         DATE3	N5	N2
+#
+#     :param inputFile: address of the file to read
+#     :return: DynGraphSN
+#     """
+#     # theDynGraph = DynGraphSN()
+#     # f = open(inputFile)
+#     #
+#     # for l in f:
+#     #     l = l.split("\t")
+#     #     date = int(l[0])
+#     #     n1 = l[1]
+#     #     n2 = l[2]
+#     #     theDynGraph.add_interaction(n1,n2,date)
+#     # return theDynGraph
+#     return read_link_stream(inputFile,time_first_column=True)
+
+
+
+
+
+def write_as_SN_E( graph:tn.DynGraphSN, filename):
     """
-    Format used by SOCIOPATTERN
 
-    This format is a variation of snapshot_affiliations, in which all snapshot_affiliations are in a single file, adapted for occasional observations
-    at a high framerate (each SN is not really meaningful).
-
-    Format:
-    ::
-
-        DATE1	N1	N2
-        DATE1	N2	N3
-        DATE2	N1	N2
-        DATE3	N1	N2
-        DATE3	N2	N4
-        DATE3	N5	N2
-
-    :param inputFile: address of the file to read
-    :return: DynGraphSN
+    :param filename:
+    :return:
     """
-    theDynGraph = DynGraphSN()
-    f = open(inputFile)
+    nodes = list(graph.cumulated_graph().nodes())
+    dict_nodes = {n: i for i, n in enumerate(nodes)}
+    times = list(graph.change_times())
+    dict_times = {t: i for i, t in enumerate(times)}
 
-    for l in f:
-        l = l.split("\t")
-        date = int(l[0])
-        n1 = l[1]
-        n2 = l[2]
-        theDynGraph.add_interaction(n1,n2,date)
-    return theDynGraph
-
-
-
+    interactions = []
+    for t,g in graph.snapshots().items():
+        renamed = [[ dict_nodes[e[0]],dict_nodes[e[1]]] for e in g.edges()]
+        interactions.append(renamed)
+    json.dump({"nodes": nodes, "times": times, "interactions": interactions}, open(filename, 'w'))
 
 

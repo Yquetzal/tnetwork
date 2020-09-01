@@ -1,4 +1,4 @@
-tnetwork.DCD.community.Community.nb\_intern\_edges
+﻿tnetwork.DCD.community.Community.nb\_intern\_edges
 ==================================================
 
 .. currentmodule:: tnetwork.DCD.community

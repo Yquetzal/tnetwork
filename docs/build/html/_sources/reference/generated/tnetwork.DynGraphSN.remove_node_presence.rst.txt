@@ -1,4 +1,4 @@
-tnetwork.DynGraphSN.remove\_node\_presence
+﻿tnetwork.DynGraphSN.remove\_node\_presence
 ==========================================
 
 .. currentmodule:: tnetwork

@@ -1,4 +1,4 @@
-tnetwork.DynCommunitiesSN.snapshot\_affiliations
+﻿tnetwork.DynCommunitiesSN.snapshot\_affiliations
 ================================================
 
 .. currentmodule:: tnetwork

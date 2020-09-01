@@ -1,4 +1,4 @@
-tnetwork.DynGraphIG.graph\_at\_time
+﻿tnetwork.DynGraphIG.graph\_at\_time
 ===================================
 
 .. currentmodule:: tnetwork

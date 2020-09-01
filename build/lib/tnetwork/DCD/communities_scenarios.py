@@ -291,12 +291,10 @@ class ComScenario():
             nb_edges_original = len(edges)
 
             edges_to_randomize = int(self.random_noise*nb_edges_original)
-            #print(edges_to_randomize)
             if edges_to_randomize > 0:
                 idx = np.random.choice(nb_edges_original, edges_to_randomize)
 
                 #ee = np.array(edges)
-                #print(ee)
                 #to_remove_random = set(ee[idx])
                 to_remove_random = {list(edges)[i] for i in idx}
                 edges = edges - to_remove_random
@@ -358,19 +356,15 @@ class ComScenario():
 
     def _local_formats_to_dyn_structures(self):
         to_return_graph = dn.DynGraphIG()
-        #print(self._dyn_graph_nodes)
         for n in self._dyn_graph_local_nodes:
             intv = Intervals(self._dyn_graph_local_nodes[n])
-            #print(n,intv)
             to_return_graph.add_node_presence(n,intv)
-        #print(nx.get_node_attributes(to_return._graph,"t"))
 
 
         for e in self._dyn_graph_local_edges:
             [n1,n2] = list(e)
             intv = Intervals(self._dyn_graph_local_edges[e])
             to_return_graph._add_interaction_safe(n1,n2,intv)
-        #print(to_return.node_presence())
 
         for c in self._dyn_com_local:
             for n in self._dyn_com_local[c]:
@@ -441,7 +435,6 @@ class ComScenario():
         dyn_graph,dyn_com = self._local_formats_to_dyn_structures()
         time.sleep(0.1)
         bar.update(nb_events)
-        #print(nb_events)
         return(dyn_graph, dyn_com)
 
     def INITIALIZE(self, sizes:[int], labels:[str]=None):

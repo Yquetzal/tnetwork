@@ -1,4 +1,4 @@
-tnetwork.ComScenario.CONTINUE
+﻿tnetwork.ComScenario.CONTINUE
 =============================
 
 .. currentmodule:: tnetwork

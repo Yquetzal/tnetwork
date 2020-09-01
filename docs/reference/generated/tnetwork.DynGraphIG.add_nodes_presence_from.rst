@@ -1,4 +1,4 @@
-tnetwork.DynGraphIG.add\_nodes\_presence\_from
+﻿tnetwork.DynGraphIG.add\_nodes\_presence\_from
 ==============================================
 
 .. currentmodule:: tnetwork

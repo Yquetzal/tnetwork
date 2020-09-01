@@ -26,7 +26,7 @@
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -36,6 +36,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -163,50 +164,83 @@
 
 <span class="kn">import</span> <span class="nn">math</span>
 
-<span class="k">def</span> <span class="nf">_ig_graph2CDS</span><span class="p">(</span><span class="n">dynamic_net</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">,</span> <span class="n">coms</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesIG</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_datetime</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-
-    <span class="n">forData</span> <span class="o">=</span> <span class="p">[]</span>
-
+<span class="k">def</span> <span class="nf">_add_node_periods</span><span class="p">(</span><span class="n">dynamic_net</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">,</span><span class="n">forData</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">periods</span> <span class="ow">in</span> <span class="n">dynamic_net</span><span class="o">.</span><span class="n">node_presence</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">)</span> <span class="ow">in</span> <span class="n">periods</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
-            <span class="n">forData</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="s2">&quot;no&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">periods</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">)</span> <span class="ow">in</span> <span class="n">periods</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
+                <span class="n">forData</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="s2">&quot;no&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">])</span>
 
-    <span class="k">if</span> <span class="n">coms</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">belongings</span> <span class="ow">in</span> <span class="n">coms</span><span class="o">.</span><span class="n">affiliations</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">for</span> <span class="n">com</span><span class="p">,</span><span class="n">periods</span> <span class="ow">in</span> <span class="n">belongings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="k">for</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">)</span> <span class="ow">in</span> <span class="n">periods</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
-                    <span class="n">forData</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">com</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">])</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;node&quot;</span><span class="p">,</span> <span class="s2">&quot;com&quot;</span><span class="p">,</span><span class="s2">&quot;duration&quot;</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">forData</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_add_communities_periods</span><span class="p">(</span><span class="n">coms</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesIG</span><span class="p">,</span><span class="n">forData</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">belongings</span> <span class="ow">in</span> <span class="n">coms</span><span class="o">.</span><span class="n">affiliations</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">com</span><span class="p">,</span> <span class="n">periods</span> <span class="ow">in</span> <span class="n">belongings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span> <span class="ow">in</span> <span class="n">periods</span><span class="o">.</span><span class="n">periods</span><span class="p">():</span>
+                <span class="n">forData</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">com</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">])</span>
 
-
-
-
-    <span class="c1"># pick a color for each community</span>
+<span class="k">def</span> <span class="nf">_create_com_colormap</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="n">allComs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;com&quot;</span><span class="p">])))</span>
     <span class="k">if</span> <span class="s2">&quot;no&quot;</span> <span class="ow">in</span> <span class="n">allComs</span><span class="p">:</span>
         <span class="n">allComs</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;no&quot;</span><span class="p">)</span>
     <span class="n">colorMap</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">colorMap</span><span class="p">[</span><span class="s2">&quot;no&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;gainsboro&quot;</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">allComs</span><span class="p">):</span>
-        <span class="c1">#if c==&quot;no&quot;:</span>
-        <span class="c1">#    colorMap[c]=&quot;gainsboro&quot;</span>
-        <span class="c1">#else:</span>
         <span class="n">colorMap</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">myPalette</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">40</span><span class="p">]</span>
     <span class="n">data</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">colorMap</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;com&quot;</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">data</span>
 
-    <span class="n">CDS</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">ColumnDataSource</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-    <span class="n">CDS</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;|&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;node&quot;</span><span class="p">])]),</span> <span class="s2">&quot;index&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_handle_time</span><span class="p">(</span><span class="n">CDS</span><span class="p">,</span><span class="n">to_datetime</span><span class="p">):</span>
+    <span class="n">CDS</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;|&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;node&quot;</span><span class="p">])]),</span> <span class="s2">&quot;index&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">to_datetime</span><span class="o">!=</span><span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">to_datetime</span> <span class="o">!=</span> <span class="kc">False</span><span class="p">:</span>
         <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]]</span>
         <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]]</span>
-
     <span class="k">return</span> <span class="n">CDS</span>
 
+<span class="k">def</span> <span class="nf">_ig_graph2CDS</span><span class="p">(</span><span class="n">dynamic_net</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">,</span> <span class="n">coms</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesIG</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_datetime</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">forData</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">_add_node_periods</span><span class="p">(</span><span class="n">dynamic_net</span><span class="p">,</span><span class="n">forData</span><span class="p">)</span>
+
+
+    <span class="k">if</span> <span class="n">coms</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_add_communities_periods</span><span class="p">(</span><span class="n">coms</span><span class="p">,</span><span class="n">forData</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;node&quot;</span><span class="p">,</span> <span class="s2">&quot;com&quot;</span><span class="p">,</span><span class="s2">&quot;duration&quot;</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">forData</span><span class="p">)</span>
+
+    <span class="c1"># pick a color for each community</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">_create_com_colormap</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">CDS</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">ColumnDataSource</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">CDS</span> <span class="o">=</span> <span class="n">_handle_time</span><span class="p">(</span><span class="n">CDS</span><span class="p">,</span><span class="n">to_datetime</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">CDS</span>
+
+<span class="k">def</span> <span class="nf">_ls_graph2CDS</span><span class="p">(</span><span class="n">dynamic_net</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphLS</span><span class="p">,</span> <span class="n">coms</span><span class="p">:</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesIG</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_datetime</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+    <span class="n">frequency</span> <span class="o">=</span> <span class="n">dynamic_net</span><span class="o">.</span><span class="n">frequency</span><span class="p">()</span>
+    <span class="n">forData</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">_add_node_periods</span><span class="p">(</span><span class="n">dynamic_net</span><span class="p">,</span><span class="n">forData</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">forData</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">times</span> <span class="ow">in</span> <span class="n">dynamic_net</span><span class="o">.</span><span class="n">nodes_interactions</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">times</span><span class="p">:</span>
+                <span class="n">forData</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">frequency</span><span class="p">])</span>
+
+
+    <span class="k">if</span> <span class="n">coms</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_add_communities_periods</span><span class="p">(</span><span class="n">coms</span><span class="p">,</span><span class="n">forData</span><span class="p">)</span>
+
+
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;node&quot;</span><span class="p">,</span> <span class="s2">&quot;com&quot;</span><span class="p">,</span><span class="s2">&quot;duration&quot;</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">forData</span><span class="p">)</span>
+
+    <span class="c1"># pick a color for each community</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">_create_com_colormap</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">CDS</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">ColumnDataSource</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">CDS</span> <span class="o">=</span> <span class="n">_handle_time</span><span class="p">(</span><span class="n">CDS</span><span class="p">,</span><span class="n">to_datetime</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">CDS</span>
 
 <span class="k">def</span> <span class="nf">_sn_graph2CDS</span><span class="p">(</span><span class="n">dynamic_net</span><span class="p">,</span> <span class="n">coms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_datetime</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="c1">#if coms==None:</span>
-    <span class="c1">#    allComs=[&quot;no&quot;]</span>
+
     <span class="n">allComs</span><span class="o">=</span><span class="p">[]</span>
     <span class="k">if</span> <span class="n">coms</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
         <span class="n">allComs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">coms</span><span class="o">.</span><span class="n">communities</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
@@ -254,21 +288,20 @@
 
 
     <span class="c1"># pick a color for each community</span>
-    <span class="n">colorMap</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">colorMap</span><span class="p">[</span><span class="s2">&quot;no&quot;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;gainsboro&quot;</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">allComs</span><span class="p">):</span>
-        <span class="c1">#if c==&quot;no&quot;:</span>
-        <span class="c1">#    colorMap[c]=&quot;gainsboro&quot;</span>
-        <span class="c1">#else:</span>
-        <span class="n">colorMap</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">myPalette</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">40</span><span class="p">]</span>
-    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">colorMap</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;com&quot;</span><span class="p">]]</span>
+    <span class="c1"># colorMap = {}</span>
+    <span class="c1"># colorMap[&quot;no&quot;]=&quot;gainsboro&quot;</span>
+    <span class="c1"># for i, c in enumerate(allComs):</span>
+    <span class="c1">#     colorMap[c] = myPalette[i % 40]</span>
+    <span class="c1"># data[&quot;color&quot;] = [colorMap[c] for c in data[&quot;com&quot;]]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">_create_com_colormap</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
     <span class="n">CDS</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">ColumnDataSource</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-    <span class="n">CDS</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;|&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;node&quot;</span><span class="p">])]),</span> <span class="s2">&quot;index&quot;</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">to_datetime</span><span class="o">!=</span><span class="kc">False</span><span class="p">:</span>
-        <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]]</span>
-        <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]]</span>
+    <span class="n">CDS</span> <span class="o">=</span> <span class="n">_handle_time</span><span class="p">(</span><span class="n">CDS</span><span class="p">,</span> <span class="n">to_datetime</span><span class="p">)</span>
+    <span class="c1"># CDS.add(np.array([str(data[&quot;time&quot;][i]) + &quot;|&quot; + str(n) for i, n in enumerate(data[&quot;node&quot;])]), &quot;index&quot;)</span>
+    <span class="c1">#</span>
+    <span class="c1"># if to_datetime!=False:</span>
+    <span class="c1">#     CDS.data[&quot;time&quot;] = [to_datetime(x) for x in CDS.data[&quot;time&quot;]]</span>
+    <span class="c1">#     CDS.data[&quot;duration&quot;] = [timedelta(seconds=int(x)) for x in CDS.data[&quot;duration&quot;]]</span>
 
     <span class="k">return</span> <span class="n">CDS</span>
 
@@ -461,7 +494,6 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">):</span>
         <span class="n">temp_graph_sn</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ts</span><span class="p">:</span>
-            <span class="c1">#print(t)</span>
             <span class="n">temp_graph_sn</span><span class="o">.</span><span class="n">add_snapshot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">dynamic_graph</span><span class="o">.</span><span class="n">graph_at_time</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">communities</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
             <span class="n">temp_coms_sn</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">()</span>
@@ -514,7 +546,6 @@
             <span class="n">rect</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">((</span> <span class="n">start_x</span><span class="p">,</span><span class="n">node2y</span><span class="p">[</span><span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;node&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]]),</span> <span class="n">width</span><span class="o">=</span><span class="n">slot_width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span><span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
             <span class="n">periods</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
-
     <span class="n">pc</span> <span class="o">=</span> <span class="n">PatchCollection</span><span class="p">(</span><span class="n">periods</span><span class="p">,</span><span class="n">match_original</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># Add collection to axes</span>
@@ -553,9 +584,6 @@
     <span class="c1"># ht.point_policy=&quot;follow_mouse&quot;</span>
 
     <span class="n">x_column</span> <span class="o">=</span> <span class="s2">&quot;time_shift&quot;</span>
-    <span class="c1"># print(CDS.data[&quot;duration&quot;],len(CDS.data[&quot;duration&quot;]))</span>
-    <span class="c1"># print(CDS.data[&quot;time&quot;],len(CDS.data[&quot;time&quot;]))</span>
-    <span class="c1"># print(CDS.data[&quot;time_shift&quot;])</span>
 
     <span class="n">x_axis_type</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span>
     <span class="k">if</span> <span class="n">to_datetime</span> <span class="o">!=</span> <span class="kc">False</span><span class="p">:</span>
@@ -598,18 +626,23 @@
 
 <span class="sd">    :param dynamic_graph: DynGraphSN or DynGraphIG</span>
 <span class="sd">    :param communities: dynamic snapshot_affiliations, DynCommunitiesSN or DynCommunitiesIG</span>
-<span class="sd">    :param sn_duration: the duration of a snapshot, as int or timedelta. If none, inferred automatically as lasting until next snpashot</span>
+<span class="sd">    :param sn_duration: the duration of a snapshot, as int or timedelta. If none, default is the network frequency</span>
 <span class="sd">    :param to_datetime: one of True/False/function. If True, step IDs are converted to dates using datetime.utcfromtimestamp. If a function, should take a step ID and return a datetime object.</span>
 <span class="sd">    :param nodes: If none, plot all nodes in lexicographic order. If a list of nodes, plot only those nodes, in that order</span>
 <span class="sd">    :param width: width of the figure</span>
 <span class="sd">    :param height: height of the figure</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+
     <span class="k">if</span> <span class="n">dynamic_graph</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">communities</span><span class="p">,</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">):</span>
             <span class="n">dynamic_graph</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">dynamic_graph</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">sn_duration</span><span class="o">==</span><span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesIG</span><span class="p">):</span>
+        <span class="n">sn_duration</span> <span class="o">=</span> <span class="n">dynamic_graph</span><span class="o">.</span><span class="n">frequency</span><span class="p">()</span>
+
     <span class="k">if</span> <span class="n">to_datetime</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
         <span class="n">to_datetime</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span>
         <span class="k">if</span> <span class="n">sn_duration</span><span class="o">!=</span><span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sn_duration</span><span class="p">,</span><span class="n">timedelta</span><span class="p">):</span>
@@ -625,12 +658,16 @@
             <span class="n">t</span> <span class="o">=</span> <span class="n">t</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">communities</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
             <span class="n">t</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
         <span class="n">CDS</span> <span class="o">=</span> <span class="n">_sn_graph2CDS</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span> <span class="n">communities</span><span class="p">,</span> <span class="n">to_datetime</span><span class="o">=</span><span class="n">to_datetime</span><span class="p">,</span><span class="n">ts</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">communities</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">communities</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesIG</span><span class="p">()</span>
         <span class="n">CDS</span> <span class="o">=</span> <span class="n">_ig_graph2CDS</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span> <span class="n">communities</span><span class="p">,</span> <span class="n">to_datetime</span><span class="o">=</span><span class="n">to_datetime</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphLS</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">communities</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">communities</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesIG</span><span class="p">()</span>
+        <span class="n">CDS</span> <span class="o">=</span> <span class="n">_ls_graph2CDS</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span> <span class="n">communities</span><span class="p">,</span> <span class="n">to_datetime</span><span class="o">=</span><span class="n">to_datetime</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">)</span> <span class="ow">and</span> <span class="n">sn_duration</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">tn</span><span class="o">.</span><span class="n">DynGraphSN</span><span class="p">):</span><span class="c1"># or isinstance(dynamic_graph,tn.DynGraphLS) and sn_duration!=None:</span>
         <span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sn_duration</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
 
 
@@ -647,7 +684,9 @@
 
     <span class="k">if</span> <span class="n">nodes</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
         <span class="n">nodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">CDS</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;node&quot;</span><span class="p">])))</span>
-        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
+
+    <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
+
 
     <span class="c1">#return _plot_longitudinal_bokeh(CDS,nodes,to_datetime,width,height,auto_show)</span>
     <span class="k">if</span> <span class="n">bokeh</span><span class="p">:</span>
@@ -657,30 +696,30 @@
 
 
 
-<span class="k">def</span> <span class="nf">plot_longitudinal_sn_clusters</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">clusters</span><span class="p">,</span><span class="n">level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A longitudinal view of snapshot clusters</span>
-
-<span class="sd">    Snapshot clusters are a way to represent periods of the dynamic graphs similar in some way. It is similar to dynamic snapshot_communities,</span>
-<span class="sd">    but all nodes of a snapshot belongs always to the same &quot;community&quot;.</span>
-
-<span class="sd">    Optional parameters (kwargs) are the same as for plot_longitudinal.</span>
-
-<span class="sd">    :param dynamic_graph:  DynGraphSN or DynGraphIG</span>
-<span class="sd">    :param clusters: clusters as a set of set of partitions ID. Can also be a hierarchical partitioning, represented as a list of clusters. The level to display is in this case decided by the level parameter</span>
-<span class="sd">    :param level: if clusters is a hierarchical clustering, the level to display</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">level</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span> <span class="c1">#single level</span>
-        <span class="n">clusters</span> <span class="o">=</span> <span class="n">clusters</span><span class="p">[</span><span class="n">level</span><span class="p">]</span>
-    <span class="n">coms</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynCommunitiesSN</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">cl</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">clusters</span><span class="p">):</span> <span class="c1">#cl: a cluster</span>
-        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">cl</span><span class="p">:</span>
-            <span class="n">coms</span><span class="o">.</span><span class="n">add_community</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">dynamic_graph</span><span class="o">.</span><span class="n">snapshot_affiliations</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span> <span class="n">tn</span><span class="o">.</span><span class="n">DynGraphIG</span><span class="p">):</span>
-        <span class="n">coms</span> <span class="o">=</span> <span class="n">coms</span><span class="o">.</span><span class="n">to_DynCommunitiesIG</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">plot_longitudinal</span><span class="p">(</span><span class="n">dynamic_graph</span><span class="p">,</span><span class="n">communities</span><span class="o">=</span><span class="n">coms</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-
+<span class="c1"># def plot_longitudinal_sn_clusters(dynamic_graph,clusters,level=None, **kwargs):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     A longitudinal view of snapshot clusters</span>
+<span class="c1">#</span>
+<span class="c1">#     Snapshot clusters are a way to represent periods of the dynamic graphs similar in some way. It is similar to dynamic snapshot_communities,</span>
+<span class="c1">#     but all nodes of a snapshot belongs always to the same &quot;community&quot;.</span>
+<span class="c1">#</span>
+<span class="c1">#     Optional parameters (kwargs) are the same as for plot_longitudinal.</span>
+<span class="c1">#</span>
+<span class="c1">#     :param dynamic_graph:  DynGraphSN or DynGraphIG</span>
+<span class="c1">#     :param clusters: clusters as a set of set of partitions ID. Can also be a hierarchical partitioning, represented as a list of clusters. The level to display is in this case decided by the level parameter</span>
+<span class="c1">#     :param level: if clusters is a hierarchical clustering, the level to display</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     if level!=None: #single level</span>
+<span class="c1">#         clusters = clusters[level]</span>
+<span class="c1">#     coms = tn.DynCommunitiesSN()</span>
+<span class="c1">#     for i,cl in enumerate(clusters): #cl: a cluster</span>
+<span class="c1">#         for t in cl:</span>
+<span class="c1">#             coms.add_community(t, nodes=dynamic_graph.snapshot_affiliations(t).nodes, id=i)</span>
+<span class="c1">#     if isinstance(dynamic_graph, tn.DynGraphIG):</span>
+<span class="c1">#         coms = coms.to_DynCommunitiesIG()</span>
+<span class="c1">#     return plot_longitudinal(dynamic_graph,communities=coms, **kwargs)</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
 </pre></div>
 
            </div>
