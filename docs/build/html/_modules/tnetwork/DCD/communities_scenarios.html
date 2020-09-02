@@ -36,7 +36,6 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -551,8 +550,9 @@
                     <span class="n">lockingComs</span><span class="o">=</span> <span class="nb">set</span><span class="p">()</span> <span class="c1">#IDs of events/coms used as triggers</span>
 
                     <span class="k">if</span> <span class="n">action</span><span class="p">[</span><span class="s2">&quot;triggers&quot;</span><span class="p">]</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span> <span class="c1">#if there are triggers</span>
-                        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s2">&quot;triggers&quot;</span><span class="p">])</span> <span class="ow">is</span> <span class="n">Community</span><span class="p">:</span> <span class="c1">#(put in right format)</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s2">&quot;triggers&quot;</span><span class="p">],</span><span class="n">Community</span><span class="p">):</span> <span class="c1">#(put in right format)</span>
                             <span class="n">action</span><span class="p">[</span><span class="s2">&quot;triggers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">action</span><span class="p">[</span><span class="s2">&quot;triggers&quot;</span><span class="p">]}</span>
+
                         <span class="n">lockingComs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s2">&quot;triggers&quot;</span><span class="p">])</span>
 
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span> <span class="n">affectedComs</span> <span class="o">-</span> <span class="n">readycoms</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span> <span class="c1">#if all necessay coms are ready</span>
