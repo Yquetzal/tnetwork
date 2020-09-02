@@ -402,8 +402,9 @@ class ComScenario():
                     lockingComs= set() #IDs of events/coms used as triggers
 
                     if action["triggers"]!=None: #if there are triggers
-                        if type(action["triggers"]) is Community: #(put in right format)
+                        if isinstance(action["triggers"],Community): #(put in right format)
                             action["triggers"] = {action["triggers"]}
+
                         lockingComs.update(action["triggers"])
 
                     if len( affectedComs - readycoms)==0: #if all necessay coms are ready
