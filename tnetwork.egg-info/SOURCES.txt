@@ -131,6 +131,7 @@ tnetwork/test/test_intervals.py
 tnetwork/test/test_read_write.py
 tnetwork/utils/__init__.py
 tnetwork/utils/community_utils.py
+tnetwork/utils/figpy.py
 tnetwork/utils/intervals.py
 tnetwork/utils/read_write.py
 tnetwork/utils/_bidict/__init__.py
