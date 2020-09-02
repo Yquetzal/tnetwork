@@ -3,12 +3,16 @@
 tnetwork is a simple library to manipulate temporal networks and dynamic communities
 ## Installation
 
-To install the library, use pip:
+To install the latest (develoopment) version of the library, use:
 
 ```bash
-pip install git+https://github.com/Yquetzal/tnetwork.git
+pip install --upgrade git+https://github.com/Yquetzal/tnetwork.git
 ```
 
+to install the latest stable version, you can use:
+```bash
+pip install --upgrade tnetwork
+```
 
 ## Documentation
 The documentation is available here:
