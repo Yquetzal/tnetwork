@@ -121,8 +121,8 @@ def read_socioPatterns_Primary_School_com():
                      names=["t", "n1", "n2", "n1_class", "n2_class"])
     coms = {}
     for index, row in df.iterrows():
-        coms[str(row["n1"])] = row["n1_class"]
-        coms[str(row["n2"])] = row["n2_class"]
+        coms[row["n1"]] = row["n1_class"]
+        coms[row["n2"]] = row["n2_class"]
     return coms
 def read_socioPatterns_Hospital():
     resource_package = __name__
