@@ -22,3 +22,5 @@ https://tnetwork.readthedocs.io/en/latest/
 
 ``tnetwork`` is an active project, any contribution is welcome!
 
+## Funding
+tNetwork is a library partially supported by The Project BITUNAM (ANR-18-CE23-0004)
